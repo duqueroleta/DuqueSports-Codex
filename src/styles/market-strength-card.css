@@ -42,9 +42,21 @@
   gap: 8px;
 }
 
+.market-strength-actions > strong {
+  align-self: start;
+  padding: 7px 9px;
+  border: 1px solid rgba(32, 246, 164, 0.22);
+  border-radius: 999px;
+  color: var(--color-neon);
+  background: rgba(32, 246, 164, 0.08);
+  font-size: 0.78rem;
+  box-shadow: 0 0 22px rgba(32, 246, 164, 0.09);
+}
+
 .market-strength-top span,
 .market-strength-score span,
-.market-strength-details span {
+.market-strength-details span,
+.market-strength-recommendation span {
   color: var(--color-graphite);
   font-size: 0.76rem;
   font-weight: 850;
@@ -55,16 +67,6 @@
   margin: 7px 0 0;
   font-size: 1.16rem;
   line-height: 1.18;
-}
-
-.market-strength-top > strong {
-  align-self: start;
-  padding: 7px 9px;
-  border: 1px solid rgba(32, 246, 164, 0.22);
-  border-radius: 999px;
-  color: var(--color-neon);
-  background: rgba(32, 246, 164, 0.08);
-  font-size: 0.78rem;
 }
 
 .market-strength-bar {
@@ -95,6 +97,14 @@
   line-height: 0.9;
 }
 
+.market-strength-insight {
+  min-width: 0;
+  margin: -4px 0 0;
+  color: #aeb8c5;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
 .market-strength-details {
   display: grid;
   gap: 9px;
@@ -111,4 +121,29 @@
 .market-strength-details strong {
   color: var(--color-white);
   text-align: right;
+}
+
+.market-strength-recommendation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(217, 180, 91, 0.18);
+  border-radius: var(--radius-md);
+  background: rgba(217, 180, 91, 0.07);
+}
+
+.market-strength-recommendation strong {
+  color: var(--color-gold-soft);
+  text-align: right;
+}
+
+@media (max-width: 420px) {
+  .market-strength-recommendation {
+    display: grid;
+  }
+
+  .market-strength-recommendation strong {
+    text-align: left;
+  }
 }

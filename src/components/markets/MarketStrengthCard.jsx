@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
 import '../../styles/market-strength-card.css';
 
-function MarketStrengthCard({ market }) {
+function MarketStrengthCard({ market, rank }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('market', market.id);
+  const recommendation = market.risk === 'Alto' ? 'Aguardar confirmacao' : 'Prioridade de analise';
 
   function handleFavoriteClick(event) {
     event.preventDefault();
@@ -16,7 +17,7 @@ function MarketStrengthCard({ market }) {
     <Link className="market-strength-card" to={`/mercados/${market.id}`}>
       <div className="market-strength-top">
         <div>
-          <span>Mercado</span>
+          <span>#{rank} Mercado</span>
           <h3>{market.name}</h3>
         </div>
         <div className="market-strength-actions">
@@ -33,14 +34,16 @@ function MarketStrengthCard({ market }) {
         </div>
       </div>
 
-      <div className="market-strength-bar" aria-label={`Força ${market.strength}%`}>
+      <div className="market-strength-bar" aria-label={`Forca ${market.strength}%`}>
         <span style={{ width: `${market.strength}%` }} />
       </div>
 
       <div className="market-strength-score">
-        <span>Força IA</span>
+        <span>Forca IA</span>
         <strong>{market.strength}%</strong>
       </div>
+
+      <p className="market-strength-insight">{market.insight}</p>
 
       <div className="market-strength-details">
         <div>
@@ -48,13 +51,18 @@ function MarketStrengthCard({ market }) {
           <strong>{market.risk}</strong>
         </div>
         <div>
-          <span>Odd média</span>
+          <span>Odd media</span>
           <strong>{market.averageOdd}</strong>
         </div>
         <div>
           <span>Auditoria</span>
           <strong>{market.audit}</strong>
         </div>
+      </div>
+
+      <div className="market-strength-recommendation">
+        <span>Leitura Duque</span>
+        <strong>{recommendation}</strong>
       </div>
     </Link>
   );

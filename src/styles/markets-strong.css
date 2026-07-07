@@ -1,10 +1,70 @@
 .strong-markets {
   width: min(1240px, calc(100% - clamp(36px, 8vw, 104px)));
   margin: 28px auto 18px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(217, 180, 91, 0.12), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.022)),
+    rgba(7, 13, 22, 0.58);
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(20px);
+}
+
+.strong-markets-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 22px;
+  align-items: end;
+  margin-bottom: 18px;
 }
 
 .strong-markets-heading {
-  margin-bottom: 16px;
+  margin-bottom: 0;
+}
+
+.strong-markets-summary {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(217, 180, 91, 0.13), rgba(32, 246, 164, 0.055)),
+    rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.strong-markets-summary > span {
+  color: var(--color-neon);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.strong-markets-summary > strong {
+  color: var(--color-white);
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 1.04;
+}
+
+.strong-markets-summary div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.strong-markets-summary p {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+  color: #aeb8c5;
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 
 .strong-markets-grid {
@@ -14,6 +74,10 @@
 }
 
 @media (max-width: 1180px) {
+  .strong-markets-header {
+    grid-template-columns: 1fr;
+  }
+
   .strong-markets-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -22,6 +86,11 @@
 @media (max-width: 620px) {
   .strong-markets {
     width: calc(100% - 24px);
+    padding: 16px;
+  }
+
+  .strong-markets-summary div {
+    grid-template-columns: 1fr;
   }
 
   .strong-markets-grid {
