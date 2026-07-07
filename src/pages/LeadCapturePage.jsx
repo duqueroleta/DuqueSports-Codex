@@ -26,9 +26,9 @@ function LeadCapturePage() {
     setIsSubmitting(true);
 
     try {
-      await submitLead(formData);
+      const result = await submitLead(formData);
       setSubmitted(true);
-      showToast('Você entrou na lista VIP.');
+      showToast(result.mode === 'duplicate' ? 'Este e-mail já está na lista VIP.' : 'Você entrou na lista VIP.');
     } catch {
       setSubmitted(true);
       showToast('Cadastro salvo localmente. Integração externa indisponível no momento.');
@@ -80,7 +80,7 @@ function LeadCapturePage() {
             <div className="lead-success">
               <span>Cadastro confirmado</span>
               <strong>Você está na lista VIP.</strong>
-              <p>Em breve você receberá novidades e análises gratuitas do DUQUE Sports AI.</p>
+              <p>Se este e-mail já estava cadastrado, mantivemos apenas uma inscrição ativa.</p>
             </div>
           ) : (
             <>

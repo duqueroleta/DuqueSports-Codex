@@ -55,6 +55,8 @@ Exemplo de variavel:
 VITE_LEADS_ENDPOINT=https://seu-endpoint-de-leads.com/webhook
 ```
 
+Para evitar duplicidade direto na planilha, o Apps Script deve retornar `{ duplicate: true }` quando o e-mail ja existir.
+
 ## Funcionalidades
 
 - Home premium com Hero, Duque Score, recomendação IA, mercados principais e status do sistema
