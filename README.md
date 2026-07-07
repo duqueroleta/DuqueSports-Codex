@@ -37,7 +37,15 @@ O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas d
 
 ### Captacao de leads
 
-O formulario da Lista VIP usa `VITE_LEADS_ENDPOINT` quando essa variavel estiver configurada na Vercel.
+O formulario da Lista VIP envia os dados para um Google Apps Script conectado a uma planilha.
+
+Endpoint configurado:
+
+```bash
+https://script.google.com/macros/s/AKfycbyoW36jLXME_tvvWhR_eTtI-Z8F9pwiaZPaQb78U_mB0XIUM7GNwKCBn1VZbCbCmi4SrA/exec
+```
+
+Tambem e possivel sobrescrever o endpoint usando `VITE_LEADS_ENDPOINT` na Vercel.
 
 Sem essa variavel, os leads sao salvos localmente no navegador em `localStorage`, o que e util apenas para testes.
 

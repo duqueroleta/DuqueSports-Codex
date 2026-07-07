@@ -1,4 +1,6 @@
 const LEADS_STORAGE_KEY = 'duque.leads';
+const GOOGLE_SHEETS_LEADS_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbyoW36jLXME_tvvWhR_eTtI-Z8F9pwiaZPaQb78U_mB0XIUM7GNwKCBn1VZbCbCmi4SrA/exec';
 
 function getStoredLeads() {
   try {
@@ -19,7 +21,7 @@ async function submitLead(leadData) {
     createdAt: new Date().toISOString(),
     source: 'duque-sports-ai',
   };
-  const endpoint = import.meta.env.VITE_LEADS_ENDPOINT;
+  const endpoint = import.meta.env.VITE_LEADS_ENDPOINT || GOOGLE_SHEETS_LEADS_ENDPOINT;
 
   if (!endpoint) {
     saveLeadLocally(lead);
@@ -29,7 +31,7 @@ async function submitLead(leadData) {
   const response = await fetch(endpoint, {
     body: JSON.stringify(lead),
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain;charset=utf-8',
     },
     method: 'POST',
   });
