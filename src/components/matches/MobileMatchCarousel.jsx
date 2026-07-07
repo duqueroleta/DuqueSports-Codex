@@ -15,6 +15,16 @@ function getInitials(teamName) {
     .toUpperCase();
 }
 
+function getMatchBackground(match) {
+  const [primary, secondary, tertiary] = match.colors || ['#d9b45b', '#20f6a4', '#07111c'];
+
+  return {
+    '--match-primary': primary,
+    '--match-secondary': secondary,
+    '--match-tertiary': tertiary,
+  };
+}
+
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
   const carouselRef = useRef(null);
@@ -53,10 +63,10 @@ function MobileMatchCarousel() {
         <div className="mobile-carousel-track" ref={carouselRef}>
           {matches.map((match) => (
             <article className="mobile-match-slide" key={match.id}>
-              <div className="mobile-match-card">
+              <div className="mobile-match-card" style={getMatchBackground(match)}>
                 <div className="mobile-match-kicker">
+                  <strong>Melhor oportunidade</strong>
                   <span>{match.league}</span>
-                  <strong>{match.status}</strong>
                 </div>
 
                 <div className="mobile-match-teams">
@@ -95,6 +105,18 @@ function MobileMatchCarousel() {
                   <span>Mercado indicado</span>
                   <strong>{match.signal}</strong>
                   <small>Odd media {match.odds}</small>
+                </div>
+
+                <div className="mobile-probability-strip" aria-label="Probabilidades principais">
+                  {match.probabilities.map((probability) => (
+                    <div key={probability.label}>
+                      <span>{probability.label}</span>
+                      <strong>{probability.value}%</strong>
+                      <small>
+                        <i style={{ width: `${probability.value}%` }} />
+                      </small>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="mobile-match-actions">
