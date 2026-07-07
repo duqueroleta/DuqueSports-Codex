@@ -130,6 +130,11 @@
   color-scheme: dark;
 }
 
+.lead-form select option {
+  color: #07111c;
+  background: #f7fbff;
+}
+
 .lead-form button {
   min-height: 52px;
   margin-top: 4px;
