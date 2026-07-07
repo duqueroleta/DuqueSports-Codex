@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import AppFooter from './AppFooter.jsx';
 import FloatingLeadCta from '../lead/FloatingLeadCta.jsx';
 import Sidebar from '../sidebar/Sidebar.jsx';
 import Topbar from '../topbar/Topbar.jsx';
@@ -14,6 +15,7 @@ function AppLayout() {
       <div className="app-content" id="main-content">
         <Topbar />
         <Outlet />
+        <AppFooter />
       </div>
       <FloatingLeadCta />
     </div>

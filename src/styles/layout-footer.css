@@ -1,0 +1,43 @@
+.app-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
+  gap: 18px;
+  width: min(1240px, calc(100% - clamp(36px, 8vw, 104px)));
+  margin: 28px auto 38px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: #9faaba;
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(16px);
+}
+
+.app-footer strong {
+  color: var(--color-white);
+  font-size: 0.95rem;
+}
+
+.app-footer p {
+  margin: 6px 0 0;
+  color: #9faaba;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.app-footer > p {
+  align-self: end;
+  margin: 0;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .app-footer {
+    grid-template-columns: 1fr;
+    width: calc(100% - 24px);
+    margin-bottom: 112px;
+  }
+
+  .app-footer > p {
+    text-align: left;
+  }
+}
