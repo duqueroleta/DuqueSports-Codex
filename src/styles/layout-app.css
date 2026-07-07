@@ -1,0 +1,39 @@
+.app-layout {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.app-content {
+  min-width: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 100;
+  transform: translateY(-160%);
+  padding: 10px 12px;
+  border: 1px solid rgba(217, 180, 91, 0.32);
+  border-radius: 12px;
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-gold-soft), var(--color-gold));
+  box-shadow: var(--shadow-premium);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (max-width: 1080px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .app-content {
+    padding-bottom: 86px;
+  }
+}

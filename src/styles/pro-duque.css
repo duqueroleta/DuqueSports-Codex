@@ -1,0 +1,117 @@
+.duque-pro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  width: min(1240px, calc(100% - clamp(36px, 8vw, 104px)));
+  margin: 28px auto 18px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(217, 180, 91, 0.18), transparent 34%),
+    radial-gradient(circle at 85% 45%, rgba(32, 246, 164, 0.14), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+    rgba(12, 18, 28, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 24px 70px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(20px);
+}
+
+.duque-pro-content {
+  min-width: 0;
+}
+
+.duque-pro-kicker {
+  display: inline-flex;
+  padding: 9px 12px;
+  border: 1px solid rgba(217, 180, 91, 0.32);
+  border-radius: 999px;
+  color: var(--color-gold-soft);
+  background: rgba(217, 180, 91, 0.09);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+}
+
+.duque-pro h2 {
+  max-width: 760px;
+  margin: 22px 0 0;
+  font-size: clamp(2rem, 4vw, 3.85rem);
+  line-height: 0.98;
+}
+
+.duque-pro-content p {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: #aeb8c5;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.duque-pro-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.duque-pro-panel {
+  align-self: stretch;
+  display: grid;
+  align-content: end;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(217, 180, 91, 0.14), rgba(255, 255, 255, 0.04)),
+    rgba(5, 7, 11, 0.38);
+}
+
+.duque-pro-panel span {
+  color: var(--color-neon);
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.duque-pro-panel strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.55rem;
+}
+
+.duque-pro-panel p {
+  margin: 12px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.duque-pro-panel button {
+  min-height: 50px;
+  margin-top: 24px;
+  border: 0;
+  border-radius: 16px;
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-gold-soft), var(--color-gold));
+  box-shadow: 0 14px 30px rgba(217, 180, 91, 0.22);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+@media (max-width: 980px) {
+  .duque-pro {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .duque-pro {
+    width: calc(100% - 24px);
+  }
+
+  .duque-pro-features {
+    grid-template-columns: 1fr;
+  }
+}

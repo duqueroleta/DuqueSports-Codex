@@ -1,0 +1,58 @@
+const audits = [
+  {
+    id: 1,
+    match: 'Barcelona x Atlético Madrid',
+    market: 'Ambas marcam',
+    odd: '1.64',
+    result: 'Green',
+    accuracy: '91%',
+    trust: 'Elite',
+  },
+  {
+    id: 2,
+    match: 'Arsenal x Liverpool',
+    market: 'Over 2.5',
+    odd: '1.78',
+    result: 'Pendente',
+    accuracy: '82%',
+    trust: 'Alta',
+  },
+  {
+    id: 3,
+    match: 'Inter x Milan',
+    market: 'Under 3.5',
+    odd: '1.42',
+    result: 'Green',
+    accuracy: '76%',
+    trust: 'Estável',
+  },
+  {
+    id: 4,
+    match: 'Benfica x Porto',
+    market: 'Escanteios +8.5',
+    odd: '1.86',
+    result: 'Red',
+    accuracy: '68%',
+    trust: 'Revisar',
+  },
+  {
+    id: 5,
+    match: 'Bayern x Dortmund',
+    market: 'Over 3.5',
+    odd: '1.91',
+    result: 'Green',
+    accuracy: '80%',
+    trust: 'Alta',
+  },
+  {
+    id: 6,
+    match: 'PSG x Monaco',
+    market: 'PSG vence',
+    odd: '1.69',
+    result: 'Pendente',
+    accuracy: '85%',
+    trust: 'Alta',
+  },
+];
+
+export { audits };

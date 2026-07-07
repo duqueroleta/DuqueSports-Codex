@@ -1,0 +1,26 @@
+.pro-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.pro-feature span {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-neon);
+  box-shadow: 0 0 18px rgba(32, 246, 164, 0.45);
+}
+
+.pro-feature strong {
+  min-width: 0;
+  color: var(--color-white);
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
