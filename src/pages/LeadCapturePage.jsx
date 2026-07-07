@@ -4,6 +4,7 @@ import { getLeadCount, submitLead } from '../services/leadsService.js';
 import '../styles/page-lead-capture.css';
 
 const profileOptions = ['Apostador', 'Trader esportivo', 'Analista', 'Curioso'];
+const leadTrustItems = ['Sem custo', 'Dados mockados nesta fase', 'Novidades por prioridade'];
 
 function LeadCapturePage() {
   const [formData, setFormData] = useState({
@@ -30,10 +31,10 @@ function LeadCapturePage() {
       const result = await submitLead(formData);
       setSubmitted(true);
       setLeadCount(getLeadCount());
-      showToast(result.mode === 'duplicate' ? 'Este e-mail já está na lista VIP.' : 'Você entrou na lista VIP.');
+      showToast(result.mode === 'duplicate' ? 'Este e-mail ja esta na lista VIP.' : 'Voce entrou na lista VIP.');
     } catch {
       setSubmitted(true);
-      showToast('Cadastro salvo localmente. Integração externa indisponível no momento.');
+      showToast('Cadastro salvo localmente. Integracao externa indisponivel no momento.');
     } finally {
       setIsSubmitting(false);
     }
@@ -44,17 +45,23 @@ function LeadCapturePage() {
       <section className="lead-hero" aria-labelledby="lead-title">
         <div>
           <span>Acesso gratuito</span>
-          <h1 id="lead-title">Receba análises gratuitas do DUQUE Sports AI</h1>
+          <h1 id="lead-title">Receba analises gratuitas do DUQUE Sports AI</h1>
           <p>
-            Entre na lista VIP para acompanhar sinais, mercados fortes e leituras estatísticas
-            antes das próximas atualizações públicas.
+            Entre na lista VIP para acompanhar sinais, mercados fortes e leituras estatisticas
+            antes das proximas atualizacoes publicas.
           </p>
+          <div className="lead-trust-list" aria-label="Diferenciais da lista VIP">
+            {leadTrustItems.map((item) => (
+              <strong key={item}>{item}</strong>
+            ))}
+          </div>
         </div>
 
         <aside className="lead-summary">
           <span>Lista VIP</span>
           <strong>{leadCount}+</strong>
           <p>analistas acompanhando o acesso gratuito</p>
+          <small>Entrada aberta para validacao do produto</small>
         </aside>
       </section>
 
@@ -62,8 +69,8 @@ function LeadCapturePage() {
         <div className="lead-benefits">
           <article>
             <span>01</span>
-            <strong>Análises priorizadas</strong>
-            <p>Receba leituras de jogos e mercados com maior potencial estatístico.</p>
+            <strong>Analises priorizadas</strong>
+            <p>Receba leituras de jogos e mercados com maior potencial estatistico.</p>
           </article>
           <article>
             <span>02</span>
@@ -73,7 +80,7 @@ function LeadCapturePage() {
           <article>
             <span>03</span>
             <strong>Acesso antecipado</strong>
-            <p>Participe da evolução do produto antes da abertura completa ao público.</p>
+            <p>Participe da evolucao do produto antes da abertura completa ao publico.</p>
           </article>
         </div>
 
@@ -81,11 +88,16 @@ function LeadCapturePage() {
           {submitted ? (
             <div className="lead-success">
               <span>Cadastro confirmado</span>
-              <strong>Você está na lista VIP.</strong>
-              <p>Se este e-mail já estava cadastrado, mantivemos apenas uma inscrição ativa.</p>
+              <strong>Voce esta na lista VIP.</strong>
+              <p>Se este e-mail ja estava cadastrado, mantivemos apenas uma inscricao ativa.</p>
             </div>
           ) : (
             <>
+              <div className="lead-form-intro">
+                <span>Entrada em 30 segundos</span>
+                <strong>Cadastre-se gratuitamente</strong>
+                <p>Use um e-mail real para receber as proximas atualizacoes do DUQUE Sports AI.</p>
+              </div>
               <label>
                 Nome
                 <input name="name" onChange={updateField} required type="text" value={formData.name} />
