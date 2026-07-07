@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getMatchById } from '../services/matchesService.js';
 import '../styles/page-detail.css';
@@ -73,6 +74,17 @@ function MatchDetailPage() {
           <h1 id="match-detail-title">
             {match.home} x {match.away}
           </h1>
+          <div className="detail-teams-strip" aria-label="Times da partida">
+            <span>
+              <TeamCrest size="large" teamName={match.home} />
+              <strong>{match.home}</strong>
+            </span>
+            <i>x</i>
+            <span>
+              <TeamCrest size="large" teamName={match.away} />
+              <strong>{match.away}</strong>
+            </span>
+          </div>
           <p>{match.insight}</p>
         </div>
 

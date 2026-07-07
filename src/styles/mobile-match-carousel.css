@@ -151,26 +151,6 @@
     text-align: center;
   }
 
-  .mobile-team-crest {
-    display: grid;
-    place-items: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    color: #07111c;
-    background:
-      linear-gradient(180deg, var(--match-primary) 0 48%, var(--color-gold-soft) 49% 100%);
-    box-shadow: 0 16px 34px color-mix(in srgb, var(--match-primary) 26%, transparent);
-    font-size: 1rem;
-    font-weight: 950;
-  }
-
-  .mobile-team-crest-away {
-    background:
-      linear-gradient(180deg, var(--match-secondary) 0 48%, var(--color-white) 49% 100%);
-    box-shadow: 0 16px 34px color-mix(in srgb, var(--match-secondary) 26%, transparent);
-  }
-
   .mobile-match-teams strong {
     max-width: 112px;
     color: var(--color-white);
@@ -396,12 +376,6 @@
   .mobile-match-card {
     gap: 9px;
     padding: 12px;
-  }
-
-  .mobile-team-crest {
-    width: 50px;
-    height: 50px;
-    font-size: 0.82rem;
   }
 
   .mobile-match-teams {

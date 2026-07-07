@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import TeamCrest from '../teams/TeamCrest.jsx';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
 import '../../styles/match-card.css';
 
@@ -36,9 +37,15 @@ function MatchCard({ match }) {
       </div>
 
       <div className="match-teams">
-        <span>{match.home}</span>
+        <span>
+          <TeamCrest size="small" teamName={match.home} />
+          {match.home}
+        </span>
         <strong>{match.score}</strong>
-        <span>{match.away}</span>
+        <span>
+          {match.away}
+          <TeamCrest size="small" teamName={match.away} />
+        </span>
       </div>
 
       <div className="match-signal">

@@ -1,20 +1,12 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
+import TeamCrest from '../teams/TeamCrest.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import '../../styles/mobile-match-carousel.css';
 
 const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
-
-function getInitials(teamName) {
-  return teamName
-    .split(' ')
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 3)
-    .toUpperCase();
-}
 
 function getMatchBackground(match) {
   const [primary, secondary, tertiary] = match.colors || ['#d9b45b', '#20f6a4', '#07111c'];
@@ -77,7 +69,7 @@ function MobileMatchCarousel() {
 
                 <div className="mobile-match-teams">
                   <div>
-                    <span className="mobile-team-crest">{getInitials(match.home)}</span>
+                    <TeamCrest teamName={match.home} />
                     <strong>{match.home}</strong>
                     <small>Mandante</small>
                   </div>
@@ -89,7 +81,7 @@ function MobileMatchCarousel() {
                   </div>
 
                   <div>
-                    <span className="mobile-team-crest mobile-team-crest-away">{getInitials(match.away)}</span>
+                    <TeamCrest teamName={match.away} />
                     <strong>{match.away}</strong>
                     <small>Visitante</small>
                   </div>

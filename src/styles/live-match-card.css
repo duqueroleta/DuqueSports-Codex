@@ -57,12 +57,16 @@
 }
 
 .live-score span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: var(--color-white);
   font-size: 1.08rem;
   font-weight: 880;
 }
 
 .live-score span:last-child {
+  justify-content: flex-end;
   text-align: right;
 }
 
@@ -162,6 +166,7 @@
 
   .live-score span,
   .live-score span:last-child {
+    justify-content: flex-start;
     text-align: left;
   }
 

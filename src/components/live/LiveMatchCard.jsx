@@ -1,3 +1,4 @@
+import TeamCrest from '../teams/TeamCrest.jsx';
 import '../../styles/live-match-card.css';
 
 function getMatchStage(minute) {
@@ -27,9 +28,15 @@ function LiveMatchCard({ match }) {
       </div>
 
       <div className="live-score">
-        <span>{match.home}</span>
+        <span>
+          <TeamCrest size="small" teamName={match.home} />
+          {match.home}
+        </span>
         <strong>{match.score}</strong>
-        <span>{match.away}</span>
+        <span>
+          {match.away}
+          <TeamCrest size="small" teamName={match.away} />
+        </span>
       </div>
 
       <div className="live-context">

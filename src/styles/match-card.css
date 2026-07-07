@@ -88,6 +88,9 @@
 }
 
 .match-teams span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
   color: var(--color-white);
   font-size: 1.05rem;
@@ -95,6 +98,7 @@
 }
 
 .match-teams span:last-child {
+  justify-content: flex-end;
   text-align: right;
 }
 
@@ -196,6 +200,7 @@
 
   .match-teams span,
   .match-teams span:last-child {
+    justify-content: flex-start;
     text-align: left;
   }
 
