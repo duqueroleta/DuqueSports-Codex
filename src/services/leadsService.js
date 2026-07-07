@@ -1,4 +1,5 @@
 const LEADS_STORAGE_KEY = 'duque.leads';
+const BASE_LEAD_COUNT = 247;
 const GOOGLE_SHEETS_LEADS_ENDPOINT =
   'https://script.google.com/macros/s/AKfycbyoW36jLXME_tvvWhR_eTtI-Z8F9pwiaZPaQb78U_mB0XIUM7GNwKCBn1VZbCbCmi4SrA/exec';
 
@@ -18,6 +19,10 @@ function saveLeadLocally(lead) {
 function leadExistsLocally(email) {
   const normalizedEmail = email.trim().toLowerCase();
   return getStoredLeads().some((lead) => lead.email?.trim().toLowerCase() === normalizedEmail);
+}
+
+function getLeadCount() {
+  return BASE_LEAD_COUNT + getStoredLeads().length;
 }
 
 async function submitLead(leadData) {
@@ -62,4 +67,4 @@ async function submitLead(leadData) {
   return { mode: 'remote', ok: true };
 }
 
-export { submitLead };
+export { getLeadCount, submitLead };

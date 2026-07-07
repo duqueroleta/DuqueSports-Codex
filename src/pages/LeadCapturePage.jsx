@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useToast } from '../context/ToastContext.jsx';
-import { submitLead } from '../services/leadsService.js';
+import { getLeadCount, submitLead } from '../services/leadsService.js';
 import '../styles/page-lead-capture.css';
 
 const profileOptions = ['Apostador', 'Trader esportivo', 'Analista', 'Curioso'];
@@ -14,6 +14,7 @@ function LeadCapturePage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [leadCount, setLeadCount] = useState(() => getLeadCount());
   const { showToast } = useToast();
 
   function updateField(event) {
@@ -28,6 +29,7 @@ function LeadCapturePage() {
     try {
       const result = await submitLead(formData);
       setSubmitted(true);
+      setLeadCount(getLeadCount());
       showToast(result.mode === 'duplicate' ? 'Este e-mail já está na lista VIP.' : 'Você entrou na lista VIP.');
     } catch {
       setSubmitted(true);
@@ -51,8 +53,8 @@ function LeadCapturePage() {
 
         <aside className="lead-summary">
           <span>Lista VIP</span>
-          <strong>Free</strong>
-          <p>acesso gratuito para primeiros usuários</p>
+          <strong>{leadCount}+</strong>
+          <p>analistas acompanhando o acesso gratuito</p>
         </aside>
       </section>
 
