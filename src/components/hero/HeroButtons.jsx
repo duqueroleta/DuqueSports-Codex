@@ -1,14 +1,15 @@
+import { Link } from 'react-router-dom';
 import '../../styles/hero-buttons.css';
 
 function HeroButtons() {
   return (
     <div className="hero-actions">
-      <button className="hero-button hero-button-primary" type="button">
-        Ver análise completa
-      </button>
-      <button className="hero-button hero-button-secondary" type="button">
-        Favoritar jogo
-      </button>
+      <Link className="hero-button hero-button-primary" to="/lista-vip">
+        Entrar na lista VIP
+      </Link>
+      <Link className="hero-button hero-button-secondary" to="/jogos">
+        Ver análises gratuitas
+      </Link>
     </div>
   );
 }

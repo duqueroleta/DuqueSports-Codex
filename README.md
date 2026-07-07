@@ -38,6 +38,7 @@ O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas d
 ## Funcionalidades
 
 - Home premium com Hero, Duque Score, recomendação IA, mercados principais e status do sistema
+- Página gratuita de Lista VIP para captação de leads
 - Páginas dedicadas para Jogos, Mercados, Auditorias, Ao Vivo, Dados, Favoritos, Perfil e Análises
 - Detalhes de jogos e mercados por rota dinâmica
 - Busca global persistente
@@ -53,6 +54,7 @@ O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas d
 ## Rotas
 
 - `/` - Home
+- `/lista-vip` - Lista VIP e captação de leads
 - `/jogos` - Jogos monitorados
 - `/jogos/:matchId` - Detalhe do jogo
 - `/mercados` - Ranking de mercados

@@ -3,6 +3,7 @@ import '../../styles/sidebar.css';
 
 const navItems = [
   { label: 'Home', path: '/', code: 'HM' },
+  { label: 'Lista VIP', path: '/lista-vip', code: 'VIP' },
   { label: 'Jogos', path: '/jogos', code: 'JG' },
   { label: 'Mercados', path: '/mercados', code: 'MK' },
   { label: 'Auditorias', path: '/auditorias', code: 'AU' },

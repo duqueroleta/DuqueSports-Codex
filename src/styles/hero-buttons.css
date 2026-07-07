@@ -6,12 +6,16 @@
 }
 
 .hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 50px;
   padding: 0 20px;
   border: 0;
   border-radius: 16px;
   cursor: pointer;
   font-weight: 850;
+  text-decoration: none;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,

@@ -5,6 +5,7 @@ import AuditsPage from './pages/AuditsPage.jsx';
 import DataPage from './pages/DataPage.jsx';
 import FavoritesPage from './pages/FavoritesPage.jsx';
 import HomePage from './pages/HomePage.jsx';
+import LeadCapturePage from './pages/LeadCapturePage.jsx';
 import LivePage from './pages/LivePage.jsx';
 import MarketDetailPage from './pages/MarketDetailPage.jsx';
 import MarketsPage from './pages/MarketsPage.jsx';
@@ -17,6 +18,7 @@ function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/lista-vip" element={<LeadCapturePage />} />
         <Route path="/jogos" element={<MatchesPage />} />
         <Route path="/jogos/:matchId" element={<MatchDetailPage />} />
         <Route path="/mercados" element={<MarketsPage />} />
