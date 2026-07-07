@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">DUQUE Sports AI</title>
+  <desc id="desc">Analise preditiva gratuita para futebol com inteligencia artificial.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#05070b"/>
+      <stop offset="0.52" stop-color="#08111d"/>
+      <stop offset="1" stop-color="#05070b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f4da91"/>
+      <stop offset="1" stop-color="#d9b45b"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#20f6a4"/>
+      <stop offset="1" stop-color="#f4da91"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.125 0 0 0 0 0.965 0 0 0 0 0.643 0 0 0 0.8 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1018" cy="122" r="230" fill="#20f6a4" opacity="0.11"/>
+  <circle cx="104" cy="540" r="270" fill="#d9b45b" opacity="0.1"/>
+  <rect x="70" y="62" width="1060" height="506" rx="44" fill="#101824" opacity="0.78" stroke="#ffffff" stroke-opacity="0.12"/>
+
+  <rect x="104" y="96" width="78" height="78" rx="22" fill="url(#gold)"/>
+  <path d="M132 120h18c18 0 31 12 31 30s-13 30-31 30h-18v-60Zm18 42c7.5 0 12.5-4.7 12.5-12s-5-12-12.5-12h-3v24h3Z" fill="#07111c"/>
+
+  <text x="206" y="130" fill="#f7fbff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="4">DUQUE SPORTS AI</text>
+  <text x="206" y="166" fill="#20f6a4" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">LISTA VIP GRATUITA</text>
+
+  <text x="104" y="282" fill="#f7fbff" font-family="Inter, Arial, sans-serif" font-size="70" font-weight="900">
+    <tspan x="104" dy="0">Analise preditiva</tspan>
+    <tspan x="104" dy="78">de elite para futebol</tspan>
+  </text>
+  <text x="108" y="458" fill="#aeb8c5" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">
+    <tspan x="108" dy="0">Sinais, auditorias e mercados fortes</tspan>
+    <tspan x="108" dy="40">com inteligencia artificial.</tspan>
+  </text>
+
+  <g transform="translate(818 214)" filter="url(#glow)">
+    <circle cx="116" cy="116" r="104" fill="#111a28" stroke="url(#neon)" stroke-width="12"/>
+    <circle cx="116" cy="116" r="82" fill="#0b1320" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="116" y="96" text-anchor="middle" fill="#f4da91" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="900">DUQUE SCORE</text>
+    <text x="116" y="158" text-anchor="middle" fill="#f7fbff" font-family="Inter, Arial, sans-serif" font-size="74" font-weight="900">87</text>
+    <text x="116" y="188" text-anchor="middle" fill="#20f6a4" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">confianca alta</text>
+  </g>
+
+  <rect x="104" y="506" width="218" height="50" rx="25" fill="#20f6a4" fill-opacity="0.12" stroke="#20f6a4" stroke-opacity="0.34"/>
+  <text x="132" y="539" fill="#20f6a4" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900">Acesso gratuito</text>
+  <rect x="340" y="506" width="390" height="50" rx="25" fill="#d9b45b" fill-opacity="0.12" stroke="#d9b45b" stroke-opacity="0.34"/>
+  <text x="368" y="539" fill="#f4da91" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="900">duque-sports-codex.vercel.app</text>
+</svg>
