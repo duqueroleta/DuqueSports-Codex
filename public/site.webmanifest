@@ -1,0 +1,16 @@
+{
+  "name": "DUQUE Sports AI",
+  "short_name": "DUQUE AI",
+  "description": "Análise estatística premium de futebol com inteligência artificial, auditoria de sinais e radar de mercados.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070b",
+  "theme_color": "#05070b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}

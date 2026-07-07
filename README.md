@@ -48,6 +48,7 @@ O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas d
 - Toasts para ações importantes
 - Painel dev para simular falhas de serviços em ambiente de desenvolvimento
 - Layout responsivo para desktop, tablet e mobile
+- Metadados de deploy, favicon e manifest para identidade do app
 
 ## Rotas
 
