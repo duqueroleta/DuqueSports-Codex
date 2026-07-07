@@ -1,0 +1,67 @@
+.competition-rail {
+  min-width: 0;
+}
+
+.competition-rail-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 0 8px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.competition-rail-track::-webkit-scrollbar {
+  display: none;
+}
+
+.competition-pill {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 3px;
+  min-width: 118px;
+  min-height: 54px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #dce5ee;
+  background: rgba(255, 255, 255, 0.055);
+  cursor: pointer;
+  scroll-snap-align: start;
+  text-align: left;
+}
+
+.competition-pill span {
+  font-size: 0.78rem;
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.competition-pill small {
+  color: #8f9baa;
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.competition-pill-active {
+  border-color: rgba(217, 180, 91, 0.5);
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-gold-soft), var(--color-gold));
+  box-shadow: 0 14px 30px rgba(217, 180, 91, 0.16);
+}
+
+.competition-pill-active small {
+  color: rgba(7, 17, 28, 0.72);
+}
+
+@media (max-width: 760px) {
+  .competition-rail-track {
+    padding-inline: 12px;
+  }
+
+  .competition-pill {
+    min-width: 132px;
+    min-height: 52px;
+    border-radius: 14px;
+  }
+}

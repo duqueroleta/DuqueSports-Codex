@@ -1,5 +1,6 @@
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/CompetitionRail.jsx';
 import MatchCard from '../components/matches/MatchCard.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -36,11 +37,22 @@ function filterMatches(match, filter) {
 
 function MatchesPage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.matches', 'Todos');
+  const [activeCompetition, setActiveCompetition] = usePersistentState(
+    'duque.filters.matches.competition',
+    ALL_COMPETITIONS,
+  );
   const { searchTerm } = useSearch();
   const { data: matches, error, isLoading, retry } = useAsyncData(getMatches, []);
   const filteredMatches = matches.filter(
-    (match) => filterMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm),
+    (match) => {
+      const matchesCompetition = activeCompetition === ALL_COMPETITIONS || match.league === activeCompetition;
+
+      return matchesCompetition && filterMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm);
+    },
   );
+  const averageConfidence = filteredMatches.length
+    ? Math.round(filteredMatches.reduce((total, match) => total + match.confidence, 0) / filteredMatches.length)
+    : 0;
 
   return (
     <main className="matches-page">
@@ -55,10 +67,12 @@ function MatchesPage() {
 
         <aside className="matches-page-summary">
           <span>Confiança média</span>
-          <strong>78%</strong>
-          <p>6 jogos priorizados hoje</p>
+          <strong>{averageConfidence}%</strong>
+          <p>{filteredMatches.length} jogos priorizados hoje</p>
         </aside>
       </section>
+
+      <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
       <section className="matches-toolbar" aria-label="Filtros de jogos">
         {filters.map((filter) => (

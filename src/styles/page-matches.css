@@ -71,7 +71,12 @@
   flex-wrap: wrap;
   gap: 10px;
   width: min(1240px, 100%);
-  margin: 18px auto;
+  margin: 14px auto 18px;
+}
+
+.matches-page > .competition-rail {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
 }
 
 .matches-toolbar button {

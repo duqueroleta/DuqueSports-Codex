@@ -24,9 +24,9 @@ const liveMatches = [
   {
     id: 3,
     minute: 52,
-    league: 'Eredivisie',
-    home: 'Ajax',
-    away: 'PSV',
+    league: 'Libertadores',
+    home: 'Palmeiras',
+    away: 'Boca Juniors',
     score: '0 - 0',
     pressure: 69,
     signal: 'Escanteios +9.5',

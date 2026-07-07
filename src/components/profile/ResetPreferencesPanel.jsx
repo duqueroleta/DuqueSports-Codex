@@ -6,6 +6,7 @@ import '../../styles/reset-preferences.css';
 
 const preferenceKeys = [
   'duque.filters.matches',
+  'duque.filters.matches.competition',
   'duque.filters.markets',
   'duque.filters.audits',
   'duque.filters.live',

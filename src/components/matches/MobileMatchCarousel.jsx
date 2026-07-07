@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import '../../styles/mobile-match-carousel.css';
@@ -27,7 +28,11 @@ function getMatchBackground(match) {
 
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
+  const [activeCompetition, setActiveCompetition] = useState(ALL_COMPETITIONS);
   const carouselRef = useRef(null);
+  const visibleMatches = activeCompetition === ALL_COMPETITIONS
+    ? matches
+    : matches.filter((match) => match.league === activeCompetition);
 
   function moveCarousel(direction) {
     const carousel = carouselRef.current;
@@ -47,8 +52,9 @@ function MobileMatchCarousel() {
       <div className="mobile-carousel-heading">
         <span>Duque Score</span>
         <h1 id="mobile-match-carousel-title">Jogos em destaque</h1>
-        <p>Arraste para navegar entre partidas e toque para abrir a analise completa ou o bilhete.</p>
       </div>
+
+      <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
       <div className="mobile-carousel-shell">
         <button
@@ -61,7 +67,7 @@ function MobileMatchCarousel() {
         </button>
 
         <div className="mobile-carousel-track" ref={carouselRef}>
-          {matches.map((match) => (
+          {visibleMatches.map((match) => (
             <article className="mobile-match-slide" key={match.id}>
               <div className="mobile-match-card" style={getMatchBackground(match)}>
                 <div className="mobile-match-kicker">
