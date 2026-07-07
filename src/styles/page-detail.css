@@ -15,6 +15,8 @@
 .detail-hero > div,
 .detail-score-panel,
 .detail-card,
+.detail-probabilities article,
+.detail-action-panel,
 .detail-empty {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
@@ -79,14 +81,58 @@
 
 .detail-score-panel strong {
   margin-top: 14px;
-  color: var(--color-gold-soft);
+  color: var(--color-neon);
   font-size: 4rem;
   line-height: 0.9;
 }
 
+.detail-probabilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+}
+
+.detail-probabilities article {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+}
+
+.detail-probabilities span {
+  color: var(--color-graphite);
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.detail-probabilities strong {
+  color: var(--color-white);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.detail-probabilities div {
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.detail-probabilities i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
+  box-shadow: 0 0 18px rgba(32, 246, 164, 0.25);
+}
+
 .detail-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   width: min(1240px, 100%);
   margin: 18px auto 0;
@@ -113,8 +159,60 @@
   display: block;
   margin-top: 24px;
   color: var(--color-white);
-  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-size: clamp(1.35rem, 2.6vw, 2.15rem);
   line-height: 1;
+}
+
+.detail-card-compact strong {
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.15;
+}
+
+.detail-action-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 16px;
+  align-items: center;
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 20px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.14), transparent 42%),
+    rgba(12, 18, 28, 0.76);
+}
+
+.detail-action-panel span {
+  color: var(--color-neon);
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.detail-action-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: 1.35rem;
+}
+
+.detail-action-panel p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.detail-action-panel a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border-radius: 16px;
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
+  box-shadow: 0 14px 30px rgba(32, 246, 164, 0.18);
+  font-weight: 950;
+  text-decoration: none;
 }
 
 .detail-empty {
@@ -134,7 +232,49 @@
   }
 
   .detail-hero,
-  .detail-grid {
+  .detail-grid,
+  .detail-action-panel {
     grid-template-columns: 1fr;
+  }
+
+  .detail-hero h1,
+  .detail-empty h1 {
+    font-size: clamp(2rem, 11vw, 3.3rem);
+  }
+
+  .detail-score-panel {
+    min-height: 168px;
+  }
+
+  .detail-probabilities {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card strong {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .detail-probabilities {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .detail-probabilities article {
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .detail-probabilities span {
+    font-size: 0.66rem;
+  }
+
+  .detail-probabilities strong {
+    font-size: 1.2rem;
+  }
+
+  .detail-action-panel {
+    margin-bottom: 12px;
   }
 }
