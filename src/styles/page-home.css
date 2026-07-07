@@ -2,3 +2,16 @@
   min-height: 100vh;
   overflow: hidden;
 }
+
+@media (max-width: 760px) {
+  .home-page > .hero-section,
+  .home-page > .today-matches,
+  .home-page > .strong-markets,
+  .home-page > .latest-audits,
+  .home-page > .global-stats,
+  .home-page > .system-status,
+  .home-page > .duque-pro,
+  .home-page > .preview-sections {
+    display: none;
+  }
+}
