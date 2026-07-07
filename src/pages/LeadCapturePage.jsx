@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useToast } from '../context/ToastContext.jsx';
+import { submitLead } from '../services/leadsService.js';
 import '../styles/page-lead-capture.css';
 
 const profileOptions = ['Apostador', 'Trader esportivo', 'Analista', 'Curioso'];
-const LEADS_STORAGE_KEY = 'duque.leads';
 
 function LeadCapturePage() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ function LeadCapturePage() {
     whatsapp: '',
     profile: profileOptions[0],
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { showToast } = useToast();
 
@@ -20,18 +21,20 @@ function LeadCapturePage() {
     setFormData((currentData) => ({ ...currentData, [name]: value }));
   }
 
-  function saveLead(event) {
+  async function saveLead(event) {
     event.preventDefault();
+    setIsSubmitting(true);
 
-    const storedLeads = JSON.parse(window.localStorage.getItem(LEADS_STORAGE_KEY) || '[]');
-    const lead = {
-      ...formData,
-      createdAt: new Date().toISOString(),
-    };
-
-    window.localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify([...storedLeads, lead]));
-    setSubmitted(true);
-    showToast('Você entrou na lista VIP.');
+    try {
+      await submitLead(formData);
+      setSubmitted(true);
+      showToast('Você entrou na lista VIP.');
+    } catch {
+      setSubmitted(true);
+      showToast('Cadastro salvo localmente. Integração externa indisponível no momento.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -103,7 +106,9 @@ function LeadCapturePage() {
                   ))}
                 </select>
               </label>
-              <button type="submit">Entrar na lista VIP</button>
+              <button disabled={isSubmitting} type="submit">
+                {isSubmitting ? 'Enviando cadastro...' : 'Entrar na lista VIP'}
+              </button>
             </>
           )}
         </form>

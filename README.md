@@ -35,6 +35,18 @@ Configuração recomendada:
 
 O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas do React Router funcionem ao acessar URLs diretamente, como `/jogos` ou `/mercados/1`.
 
+### Captacao de leads
+
+O formulario da Lista VIP usa `VITE_LEADS_ENDPOINT` quando essa variavel estiver configurada na Vercel.
+
+Sem essa variavel, os leads sao salvos localmente no navegador em `localStorage`, o que e util apenas para testes.
+
+Exemplo de variavel:
+
+```bash
+VITE_LEADS_ENDPOINT=https://seu-endpoint-de-leads.com/webhook
+```
+
 ## Funcionalidades
 
 - Home premium com Hero, Duque Score, recomendação IA, mercados principais e status do sistema
