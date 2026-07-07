@@ -7,7 +7,7 @@ const navItems = [
   { label: 'Jogos', path: '/jogos', code: 'JG' },
   { label: 'Mercados', path: '/mercados', code: 'MK' },
   { label: 'Auditorias', path: '/auditorias', code: 'AU' },
-  { label: 'Análises', path: '/analises', code: 'AN' },
+  { label: 'Analises', path: '/analises', code: 'AN' },
   { label: 'Favoritos', path: '/favoritos', code: 'FV' },
   { label: 'Ao Vivo', path: '/ao-vivo', code: 'LV' },
   { label: 'Dados', path: '/dados', code: 'DT' },
@@ -16,7 +16,7 @@ const navItems = [
 
 function Sidebar() {
   return (
-    <aside className="sidebar" aria-label="Navegação principal">
+    <aside className="sidebar" aria-label="Navegacao principal">
       <div className="sidebar-brand">
         <div className="sidebar-logo" aria-hidden="true">
           D
@@ -41,9 +41,9 @@ function Sidebar() {
       </nav>
 
       <div className="sidebar-pro">
-        <span>DUQUE PRO</span>
-        <strong>Precisão avançada</strong>
-        <p>Modelos premium, auditoria de sinais e leitura de volatilidade.</p>
+        <span>LISTA VIP</span>
+        <strong>Acesso gratuito</strong>
+        <p>Receba novidades, auditorias e novas leituras estatisticas do DUQUE.</p>
       </div>
     </aside>
   );
