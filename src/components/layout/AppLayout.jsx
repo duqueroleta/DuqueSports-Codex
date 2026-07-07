@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import FloatingLeadCta from '../lead/FloatingLeadCta.jsx';
 import Sidebar from '../sidebar/Sidebar.jsx';
 import Topbar from '../topbar/Topbar.jsx';
 import '../../styles/layout-app.css';
@@ -14,6 +15,7 @@ function AppLayout() {
         <Topbar />
         <Outlet />
       </div>
+      <FloatingLeadCta />
     </div>
   );
 }

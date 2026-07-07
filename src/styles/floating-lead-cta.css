@@ -1,0 +1,52 @@
+.floating-lead-cta {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 45;
+  display: grid;
+  gap: 3px;
+  min-width: 230px;
+  padding: 13px 16px;
+  border: 1px solid rgba(217, 180, 91, 0.28);
+  border-radius: 18px;
+  color: inherit;
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.13), transparent 44%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.045)),
+    rgba(12, 18, 28, 0.86);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 20px 54px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  backdrop-filter: blur(18px);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.floating-lead-cta:hover {
+  transform: translateY(-2px);
+  border-color: rgba(217, 180, 91, 0.44);
+}
+
+.floating-lead-cta span {
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.floating-lead-cta strong {
+  color: var(--color-white);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1080px) {
+  .floating-lead-cta {
+    right: 14px;
+    bottom: 86px;
+    left: 14px;
+    min-width: 0;
+    text-align: center;
+  }
+}
