@@ -40,7 +40,7 @@ function SystemStatus() {
         <span>Operação</span>
         <div>
           <h2 id="system-status-title">Status do Sistema</h2>
-          <p>Saúde dos serviços de dados que alimentam a experiência DUQUE Sports AI.</p>
+          <p>Saúde dos serviços de dados que alimentam a experiência Duque Score.</p>
         </div>
       </div>
 

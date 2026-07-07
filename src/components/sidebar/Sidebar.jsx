@@ -23,7 +23,7 @@ function Sidebar() {
         </div>
         <div>
           <strong>DUQUE</strong>
-          <span>Sports AI</span>
+          <span>Score</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ function Sidebar() {
       <div className="sidebar-pro">
         <span>LISTA VIP</span>
         <strong>Acesso gratuito</strong>
-        <p>Receba novidades, auditorias e novas leituras estatisticas do DUQUE.</p>
+        <p>Receba novidades, auditorias e novas leituras estatisticas do Duque Score.</p>
       </div>
     </aside>
   );

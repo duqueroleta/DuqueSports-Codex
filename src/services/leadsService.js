@@ -34,7 +34,7 @@ async function submitLead(leadData) {
     ...leadData,
     email: leadData.email.trim().toLowerCase(),
     createdAt: new Date().toISOString(),
-    source: 'duque-sports-ai',
+    source: 'duque-score',
   };
   const endpoint = import.meta.env.VITE_LEADS_ENDPOINT || GOOGLE_SHEETS_LEADS_ENDPOINT;
 

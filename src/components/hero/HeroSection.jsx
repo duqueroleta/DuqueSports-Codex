@@ -31,7 +31,7 @@ function HeroSection() {
       <div className="hero-ambient hero-ambient-two" />
 
       <div className="hero-shell">
-        <div className="hero-kicker">DUQUE SPORTS AI</div>
+        <div className="hero-kicker">Duque Score</div>
         <div className="hero-heading-row">
           <div>
             <h1 id="hero-title">Análise preditiva de elite para futebol</h1>

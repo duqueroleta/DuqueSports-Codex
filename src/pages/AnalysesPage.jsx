@@ -1,7 +1,7 @@
 import SecondaryPageShell from '../components/secondary/SecondaryPageShell.jsx';
 
 const analysisMetrics = [
-  { label: 'Analises geradas', value: '246', description: 'Relatorios estatisticos processados pelo motor DUQUE.' },
+  { label: 'Analises geradas', value: '246', description: 'Relatorios estatisticos processados pelo motor Duque Score.' },
   { label: 'Alta confianca', value: '64', description: 'Analises acima do limiar interno de seguranca.' },
   { label: 'Tempo medio', value: '1.8s', description: 'Velocidade media de leitura estatistica.' },
   { label: 'Revisoes', value: '21', description: 'Casos enviados para auditoria interna.' },

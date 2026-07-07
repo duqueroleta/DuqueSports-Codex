@@ -1,4 +1,4 @@
-# DUQUE Sports AI
+# Duque Score
 
 Aplicativo premium de análise estatística de futebol com foco em leitura preditiva, sinais de mercado, auditoria de recomendações e experiência visual de alto nível.
 

@@ -45,7 +45,7 @@ function LeadCapturePage() {
       <section className="lead-hero" aria-labelledby="lead-title">
         <div>
           <span>Acesso gratuito</span>
-          <h1 id="lead-title">Receba analises gratuitas do DUQUE Sports AI</h1>
+          <h1 id="lead-title">Receba analises gratuitas do Duque Score</h1>
           <p>
             Entre na lista VIP para acompanhar sinais, mercados fortes e leituras estatisticas
             antes das proximas atualizacoes publicas.
@@ -96,7 +96,7 @@ function LeadCapturePage() {
               <div className="lead-form-intro">
                 <span>Entrada em 30 segundos</span>
                 <strong>Cadastre-se gratuitamente</strong>
-                <p>Use um e-mail real para receber as proximas atualizacoes do DUQUE Sports AI.</p>
+                <p>Use um e-mail real para receber as proximas atualizacoes do Duque Score.</p>
               </div>
               <label>
                 Nome

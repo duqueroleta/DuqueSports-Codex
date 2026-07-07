@@ -49,11 +49,11 @@ function GlobalStats() {
         <div className="section-heading global-stats-heading">
           <span>Inteligencia do sistema</span>
           <h2 id="global-stats-title">Estatisticas Globais</h2>
-          <p>Indicadores consolidados para acompanhar desempenho, escala e precisao do motor DUQUE.</p>
+          <p>Indicadores consolidados para acompanhar desempenho, escala e precisao do motor Duque Score.</p>
         </div>
 
-        <aside className="global-stats-summary" aria-label="Resumo do motor DUQUE">
-          <span>Motor DUQUE</span>
+        <aside className="global-stats-summary" aria-label="Resumo do motor Duque Score">
+          <span>Motor Duque Score</span>
           <strong>12.840 sinais auditados</strong>
           <p>Modelo gratuito em fase de captacao, com leitura estatistica, auditoria e ranking de mercados.</p>
         </aside>

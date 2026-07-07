@@ -17,7 +17,7 @@ function DuquePro() {
     <section className="duque-pro" aria-labelledby="duque-pro-title">
       <div className="duque-pro-content">
         <span className="duque-pro-kicker">ACESSO GRATUITO VIP</span>
-        <h2 id="duque-pro-title">Entre na lista e acompanhe a evolucao do DUQUE Sports AI</h2>
+        <h2 id="duque-pro-title">Entre na lista e acompanhe a evolucao do Duque Score</h2>
         <p>
           O projeto esta aberto gratuitamente para captar usuarios, validar demanda real e entregar
           analises estatisticas cada vez melhores para futebol.

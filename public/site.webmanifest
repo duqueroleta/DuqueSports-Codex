@@ -1,6 +1,6 @@
 {
-  "name": "DUQUE Sports AI",
-  "short_name": "DUQUE AI",
+  "name": "Duque Score",
+  "short_name": "Duque Score",
   "description": "Analise estatistica gratuita de futebol com inteligencia artificial, auditoria de sinais e radar de mercados.",
   "start_url": "/",
   "display": "standalone",

@@ -14,7 +14,7 @@ function ProfilePage() {
     <SecondaryPageShell
       eyebrow="Conta do analista"
       title="Perfil operacional"
-      description="Preferencias, acesso gratuito e indicadores pessoais do analista dentro do DUQUE Sports AI."
+      description="Preferencias, acesso gratuito e indicadores pessoais do analista dentro do Duque Score."
       summary={{ label: 'Nivel atual', value: 'VIP', description: 'acesso gratuito habilitado' }}
       metrics={profileMetrics}
     >

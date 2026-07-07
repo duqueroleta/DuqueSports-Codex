@@ -19,7 +19,7 @@ function PreviewSections() {
     <section className="preview-sections" aria-label="Mapa gratuito do produto">
       <div className="preview-sections-heading">
         <span>Produto gratuito</span>
-        <h2>Explore o ecossistema DUQUE Sports AI</h2>
+        <h2>Explore o ecossistema Duque Score</h2>
       </div>
 
       <div className="preview-sections-grid">

@@ -76,7 +76,7 @@ function MarketDetailPage() {
         <article className="detail-card">
           <span>Tendência</span>
           <strong>{market.trend}</strong>
-          <p>Movimento recente do mercado dentro do radar DUQUE.</p>
+          <p>Movimento recente do mercado dentro do radar Duque Score.</p>
         </article>
       </section>
     </main>

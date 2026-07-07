@@ -49,7 +49,7 @@ function DataPage() {
           <span>Camada técnica</span>
           <h1 id="data-page-title">Dados, cobertura e integridade estatística</h1>
           <p>
-            Visão das bases que alimentam o DUQUE Sports AI, com qualidade, atualização e
+            Visão das bases que alimentam o Duque Score, com qualidade, atualização e
             rastreabilidade operacional.
           </p>
         </div>

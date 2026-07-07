@@ -4,7 +4,7 @@ function AppFooter() {
   return (
     <footer className="app-footer">
       <div>
-        <strong>DUQUE Sports AI</strong>
+        <strong>Duque Score</strong>
         <p>Analises estatisticas gratuitas para estudo de jogos, mercados e sinais de futebol.</p>
       </div>
       <p>
