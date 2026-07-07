@@ -1,7 +1,10 @@
 .stat-card {
   position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
   min-width: 0;
-  min-height: 178px;
+  min-height: 210px;
   overflow: hidden;
   padding: 20px;
   border: 1px solid var(--color-line);
@@ -13,6 +16,11 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 18px 46px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(18px);
+}
+
+.stat-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .stat-card::after {
@@ -38,16 +46,29 @@
   background: var(--color-white);
 }
 
-.stat-card span {
+.stat-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.stat-card span,
+.stat-card small {
   color: var(--color-graphite);
   font-size: 0.78rem;
   font-weight: 950;
   text-transform: uppercase;
 }
 
+.stat-card small {
+  max-width: 112px;
+  color: var(--color-gold-soft);
+  text-align: right;
+}
+
 .stat-card strong {
   display: block;
-  margin-top: 28px;
   color: var(--color-white);
   font-size: clamp(2.15rem, 4vw, 3.15rem);
   line-height: 0.9;
@@ -63,8 +84,35 @@
 
 .stat-card p {
   max-width: 220px;
-  margin: 14px 0 0;
+  margin: 0;
   color: #aeb8c5;
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+.stat-card-progress {
+  align-self: end;
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stat-card-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-gold-soft), var(--color-neon));
+  box-shadow: 0 0 18px rgba(32, 246, 164, 0.25);
+}
+
+@media (max-width: 420px) {
+  .stat-card-top {
+    display: grid;
+  }
+
+  .stat-card small {
+    max-width: none;
+    text-align: left;
+  }
 }

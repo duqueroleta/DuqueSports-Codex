@@ -1,46 +1,62 @@
 import StatCard from './StatCard.jsx';
+import { getLeadCount } from '../../services/leadsService.js';
 import '../../styles/stats-global.css';
 
-const stats = [
-  {
-    id: 1,
-    label: 'Taxa de acerto',
-    value: '78.4%',
-    detail: '+6.2% nos últimos 30 dias',
-    tone: 'neon',
-  },
-  {
-    id: 2,
-    label: 'ROI projetado',
-    value: '+18.7%',
-    detail: 'baseado em gestão de stake padrão',
-    tone: 'gold',
-  },
-  {
-    id: 3,
-    label: 'Sinais analisados',
-    value: '12.840',
-    detail: 'amostra validada pelo modelo',
-    tone: 'white',
-  },
-  {
-    id: 4,
-    label: 'Mercados rastreados',
-    value: '146',
-    detail: 'pré-jogo e ao vivo',
-    tone: 'neon',
-  },
-];
-
 function GlobalStats() {
+  const leadCount = getLeadCount();
+  const stats = [
+    {
+      id: 1,
+      label: 'Taxa de acerto',
+      value: '78.4%',
+      detail: '+6.2% nos ultimos 30 dias',
+      tone: 'neon',
+      progress: 78,
+      trend: 'alta controlada',
+    },
+    {
+      id: 2,
+      label: 'ROI projetado',
+      value: '+18.7%',
+      detail: 'baseado em gestao de stake padrao',
+      tone: 'gold',
+      progress: 64,
+      trend: 'modelo validado',
+    },
+    {
+      id: 3,
+      label: 'Sinais analisados',
+      value: '12.840',
+      detail: 'amostra validada pelo modelo',
+      tone: 'white',
+      progress: 88,
+      trend: 'escala ativa',
+    },
+    {
+      id: 4,
+      label: 'Lista VIP',
+      value: `${leadCount}+`,
+      detail: 'usuarios acompanhando o acesso gratuito',
+      tone: 'neon',
+      progress: 72,
+      trend: 'captacao aberta',
+    },
+  ];
+
   return (
     <section className="global-stats" aria-labelledby="global-stats-title">
-      <div className="section-heading global-stats-heading">
-        <span>Inteligência do sistema</span>
-        <div>
-          <h2 id="global-stats-title">Estatísticas Globais</h2>
-          <p>Indicadores consolidados para acompanhar desempenho, escala e precisão do motor DUQUE.</p>
+      <div className="global-stats-header">
+        <div className="section-heading global-stats-heading">
+          <span>Inteligencia do sistema</span>
+          <h2 id="global-stats-title">Estatisticas Globais</h2>
+          <p>Indicadores consolidados para acompanhar desempenho, escala e precisao do motor DUQUE.</p>
         </div>
+
+        <aside className="global-stats-summary" aria-label="Resumo do motor DUQUE">
+          <span>Motor DUQUE</span>
+          <strong>12.840 sinais auditados</strong>
+          <p>Modelo gratuito em fase de captacao, com leitura estatistica, auditoria e ranking de mercados.</p>
+        </aside>
       </div>
 
       <div className="global-stats-grid">
