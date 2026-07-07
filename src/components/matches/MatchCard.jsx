@@ -51,6 +51,12 @@ function MatchCard({ match }) {
         </div>
       </div>
 
+      <div className="match-confidence-track" aria-label={`Confianca da IA em ${match.confidence}%`}>
+        <span style={{ width: `${match.confidence}%` }} />
+      </div>
+
+      <p className="match-insight">{match.insight}</p>
+
       <div className="match-meta">
         <strong>Odd {match.odds}</strong>
         {match.metrics.map((metric) => (
