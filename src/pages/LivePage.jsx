@@ -8,19 +8,19 @@ import { getLiveMatches } from '../services/liveService.js';
 import '../styles/page-live.css';
 import { itemMatchesSearch } from '../utils/search.js';
 
-const filters = ['Todos', 'Pressão alta', 'Gols', 'Escanteios', 'Segundo tempo'];
+const filters = ['Todos', 'Pressao alta', 'Gols', 'Escanteios', 'Segundo tempo'];
 
 function filterLiveMatches(match, filter) {
   if (filter === 'Todos') {
     return true;
   }
 
-  if (filter === 'Pressão alta') {
+  if (filter === 'Pressao alta') {
     return match.pressure >= 78;
   }
 
   if (filter === 'Gols') {
-    return match.signal.includes('gol') || match.signal.includes('Over');
+    return match.signal.toLowerCase().includes('gol') || match.signal.includes('Over');
   }
 
   if (filter === 'Escanteios') {
@@ -41,23 +41,34 @@ function LivePage() {
   const filteredMatches = liveMatches.filter(
     (match) => filterLiveMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm),
   );
+  const highPressureCount = liveMatches.filter((match) => match.pressure >= 78).length;
+  const averagePressure = liveMatches.length
+    ? Math.round(liveMatches.reduce((total, match) => total + match.pressure, 0) / liveMatches.length)
+    : 0;
 
   return (
     <main className="live-page">
       <section className="live-page-hero" aria-labelledby="live-page-title">
         <div>
           <span>Monitor live</span>
-          <h1 id="live-page-title">Sinais ao vivo com leitura de pressão</h1>
+          <h1 id="live-page-title">Sinais ao vivo com leitura de pressao</h1>
           <p>
             Monitoramento de jogos em andamento com minuto, placar, intensidade ofensiva e
-            alertas estatísticos em tempo real.
+            alertas estatisticos em tempo real.
           </p>
+
+          <div className="live-page-metrics" aria-label="Resumo do monitor ao vivo">
+            <strong>{liveMatches.length} jogos live</strong>
+            <strong>{averagePressure}% pressao media</strong>
+            <strong>{filteredMatches.length} no filtro atual</strong>
+          </div>
         </div>
 
         <aside className="live-page-summary">
           <span>Alertas ativos</span>
-          <strong>3</strong>
+          <strong>{highPressureCount}</strong>
           <p>jogos em zona de oportunidade</p>
+          <small>Atualizacao simulada em tempo real</small>
         </aside>
       </section>
 
