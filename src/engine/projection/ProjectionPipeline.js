@@ -1,5 +1,7 @@
 import { ENGINE_VERSION } from '../core/contracts.js';
 import { runDataQuality } from '../data-quality/DataQualityEngine.js';
+import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
+import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
 import { runRecencyEngine } from '../preprocessing/RecencyEngine.js';
 
@@ -52,11 +54,18 @@ function runProjectionPipeline(matchInput) {
   const awayRecency = runRecencyEngine(matchInput.awayTeam);
   const homeAdjusted = runOpponentStrengthEngine(homeRecency, matchInput.homeTeam.opponentTier);
   const awayAdjusted = runOpponentStrengthEngine(awayRecency, matchInput.awayTeam.opponentTier);
+  const featureStore = buildFeatureStoreSnapshot({
+    matchId: matchInput.id,
+    homeAdjusted,
+    awayAdjusted,
+  });
   const knockoutModifier = matchInput.context.isKnockout ? 0.94 : 1;
   const venueHomeModifier = matchInput.context.isNeutralVenue ? 1 : 1.06;
   const venueAwayModifier = matchInput.context.isNeutralVenue ? 1 : 0.97;
-  const expectedHomeGoals = Number((homeAdjusted.metrics.xg * venueHomeModifier * knockoutModifier).toFixed(2));
-  const expectedAwayGoals = Number((awayAdjusted.metrics.xg * venueAwayModifier * knockoutModifier).toFixed(2));
+  const homeAdjustedXg = getTeamFeatureValue(featureStore, 'home', 'adjusted_xg');
+  const awayAdjustedXg = getTeamFeatureValue(featureStore, 'away', 'adjusted_xg');
+  const expectedHomeGoals = Number((homeAdjustedXg * venueHomeModifier * knockoutModifier).toFixed(2));
+  const expectedAwayGoals = Number((awayAdjustedXg * venueAwayModifier * knockoutModifier).toFixed(2));
   const confidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
 
   return {
@@ -69,12 +78,15 @@ function runProjectionPipeline(matchInput) {
     probabilities: buildProbabilities(expectedHomeGoals, expectedAwayGoals),
     explanation: [
       `Data Quality approved with score ${dataQuality.score}.`,
-      `${matchInput.homeTeam.name} recency xG adjusted to ${homeAdjusted.metrics.xg}.`,
-      `${matchInput.awayTeam.name} recency xG adjusted to ${awayAdjusted.metrics.xg}.`,
+      `Feature Store registered ${featureStore.catalogSize} official feature definitions.`,
+      `${matchInput.homeTeam.name} adjusted xG stored as ${homeAdjustedXg}.`,
+      `${matchInput.awayTeam.name} adjusted xG stored as ${awayAdjustedXg}.`,
+      `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
     ],
     trace: {
       dataQuality,
+      featureStore,
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
     },

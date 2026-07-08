@@ -138,6 +138,14 @@ function MatchDetailPage() {
               <span>Over 2.5</span>
               <strong>{engineProjection.probabilities.over25}%</strong>
             </article>
+            <article>
+              <span>Features</span>
+              <strong>{engineProjection.trace.featureStore.catalogSize}</strong>
+            </article>
+            <article>
+              <span>Dif. xG</span>
+              <strong>{engineProjection.trace.featureStore.features.match[0].value}</strong>
+            </article>
           </div>
         </section>
       ) : null}
