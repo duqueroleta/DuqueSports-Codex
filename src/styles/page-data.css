@@ -13,7 +13,8 @@
 }
 
 .data-page-hero > div,
-.data-page-summary {
+.data-page-summary,
+.executive-dashboard {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
   background:
@@ -74,9 +75,76 @@
   margin: 18px auto 0;
 }
 
+.executive-dashboard {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.14), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+}
+
+.executive-dashboard-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+.executive-dashboard-header aside {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(32, 246, 164, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.executive-dashboard span {
+  color: var(--color-neon);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.executive-dashboard strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.25rem, 2.3vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.executive-dashboard p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.executive-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.executive-dashboard-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
 @media (max-width: 1180px) {
-  .data-source-grid {
+  .data-source-grid,
+  .executive-dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .executive-dashboard-header {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -86,7 +154,8 @@
   }
 
   .data-page-hero,
-  .data-source-grid {
+  .data-source-grid,
+  .executive-dashboard-grid {
     grid-template-columns: 1fr;
   }
 }

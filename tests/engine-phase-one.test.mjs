@@ -6,6 +6,7 @@ import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService 
 import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailIntelligenceService.js';
 import { runMarketAuditService } from '../src/engine/batch/MarketAuditService.js';
 import { runMarketAuditDashboardService } from '../src/engine/batch/MarketAuditDashboardService.js';
+import { runExecutiveDashboardService } from '../src/engine/batch/ExecutiveDashboardService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -126,5 +127,10 @@ const auditDashboard = runMarketAuditDashboardService({ markets, opportunities: 
 assert.equal(auditDashboard.model, 'market-audit-dashboard-v1', 'Market audit dashboard should expose its model');
 assert.equal(auditDashboard.marketAudits.length, markets.length, 'Market audit dashboard should audit every market');
 assert.ok(auditDashboard.averageHitRate >= 42, 'Market audit dashboard should expose average hit rate');
+const executiveDashboard = runExecutiveDashboardService({ matches, markets, batchAnalysis });
 
-console.log('DUQUE Engine Phase 1-12 tests passed');
+assert.equal(executiveDashboard.model, 'executive-dashboard-service-v1', 'Executive dashboard should expose its model');
+assert.equal(executiveDashboard.totals.matches, matches.length, 'Executive dashboard should count matches');
+assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executive dashboard should count audited markets');
+
+console.log('DUQUE Engine Phase 1-13 tests passed');
