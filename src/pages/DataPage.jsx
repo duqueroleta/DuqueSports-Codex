@@ -3,6 +3,11 @@ import { useSearch } from '../context/SearchContext.jsx';
 import { markets } from '../data/markets.js';
 import { matches } from '../data/matches.js';
 import { runExecutiveDashboardService } from '../engine/batch/ExecutiveDashboardService.js';
+import {
+  getEngineSnapshotById,
+  getEngineSnapshotHistory,
+  saveEngineSnapshot,
+} from '../engine/snapshot/EngineSnapshotRepository.js';
 import { runEngineSnapshotService } from '../engine/snapshot/EngineSnapshotService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -53,6 +58,9 @@ function DataPage() {
   const engineSnapshot = batchAnalysis && executiveDashboard
     ? runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard })
     : null;
+  const persistedSnapshot = engineSnapshot ? saveEngineSnapshot(engineSnapshot) : null;
+  const snapshotHistory = getEngineSnapshotHistory();
+  const recoveredSnapshot = persistedSnapshot ? getEngineSnapshotById(persistedSnapshot.snapshotId) : null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -154,6 +162,41 @@ function DataPage() {
               <span>Top auditoria</span>
               <strong>{engineSnapshot.auditSummary[0]?.marketName ?? 'Sem snapshot'}</strong>
               <p>{engineSnapshot.auditSummary[0]?.stabilityScore ?? 0} estabilidade</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {persistedSnapshot ? (
+        <section className="snapshot-persistence-panel" aria-label="Persistencia local de snapshots">
+          <div className="snapshot-persistence-header">
+            <div>
+              <span>Persistencia local</span>
+              <strong>{snapshotHistory.length} snapshot salvo</strong>
+              <p>Historico em memoria pronto para futura troca por banco de dados.</p>
+            </div>
+            <aside>
+              <span>Recuperacao por ID</span>
+              <strong>{recoveredSnapshot ? 'Ativa' : 'Indisponivel'}</strong>
+              <p>{persistedSnapshot.snapshotId}</p>
+            </aside>
+          </div>
+
+          <div className="snapshot-persistence-grid">
+            <article>
+              <span>Ultima versao</span>
+              <strong>{persistedSnapshot.engineVersion}</strong>
+              <p>{persistedSnapshot.scope}</p>
+            </article>
+            <article>
+              <span>Historico</span>
+              <strong>{snapshotHistory.length}</strong>
+              <p>registros em memoria</p>
+            </article>
+            <article>
+              <span>Consulta</span>
+              <strong>{recoveredSnapshot?.topOpportunities.length ?? 0}</strong>
+              <p>oportunidades recuperadas</p>
             </article>
           </div>
         </section>

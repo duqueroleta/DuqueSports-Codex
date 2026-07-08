@@ -7,6 +7,12 @@ import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailInt
 import { runMarketAuditService } from '../src/engine/batch/MarketAuditService.js';
 import { runMarketAuditDashboardService } from '../src/engine/batch/MarketAuditDashboardService.js';
 import { runExecutiveDashboardService } from '../src/engine/batch/ExecutiveDashboardService.js';
+import {
+  getEngineSnapshotById,
+  getEngineSnapshotHistory,
+  resetEngineSnapshotRepository,
+  saveEngineSnapshot,
+} from '../src/engine/snapshot/EngineSnapshotRepository.js';
 import { runEngineSnapshotService } from '../src/engine/snapshot/EngineSnapshotService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
@@ -136,7 +142,15 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-14'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-15'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
+resetEngineSnapshotRepository();
+const savedSnapshot = saveEngineSnapshot(engineSnapshot);
+const recoveredSnapshot = getEngineSnapshotById(engineSnapshot.snapshotId);
+const snapshotHistory = getEngineSnapshotHistory();
 
-console.log('DUQUE Engine Phase 1-14 tests passed');
+assert.equal(savedSnapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot repository should save snapshots by ID');
+assert.equal(recoveredSnapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot repository should recover snapshots by ID');
+assert.equal(snapshotHistory.length, 1, 'Snapshot repository should expose memory history');
+
+console.log('DUQUE Engine Phase 1-15 tests passed');
