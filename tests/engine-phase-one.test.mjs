@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
+import { markets } from '../src/data/markets.js';
 import { matches } from '../src/data/matches.js';
 import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../src/engine/batch/BatchFilters.js';
 import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../src/engine/batch/MarketRankingService.js';
+import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailIntelligenceService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -91,5 +93,19 @@ const filteredMarketRanking = filterMarketRankings(marketRanking.rankings, ALL_M
 assert.equal(marketRanking.model, 'market-ranking-service-v1', 'Market Ranking Service should expose its model');
 assert.ok(marketRanking.rankings.length > 0, 'Market Ranking Service should expose market rankings');
 assert.equal(filteredMarketRanking.length, marketRanking.rankings.length, 'All competitions filter should preserve market rankings');
+const marketDetailIntelligence = runMarketDetailIntelligence({
+  market: markets[0],
+  opportunities: batchAnalysis.opportunities,
+});
 
-console.log('DUQUE Engine Phase 1-9 tests passed');
+assert.equal(
+  marketDetailIntelligence.model,
+  'market-detail-intelligence-v1',
+  'Market Detail Intelligence should expose its model',
+);
+assert.ok(
+  marketDetailIntelligence.summary.relatedGames >= 0,
+  'Market Detail Intelligence should expose related games count',
+);
+
+console.log('DUQUE Engine Phase 1-10 tests passed');
