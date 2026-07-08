@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { matches } from '../src/data/matches.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
+import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../src/engine/data-quality/DataQualityEngine.js';
 import { FEATURE_CATALOG } from '../src/engine/feature-store/featureCatalog.js';
@@ -67,4 +68,14 @@ assert.ok(Math.abs(totalsMarket - 100) <= 0.2, 'Poisson totals market should sum
 assert.ok(Math.abs(calibratedOneXTwoTotal - 100) <= 0.2, 'Calibrated 1X2 probabilities should sum to 100');
 assert.ok(Math.abs(calibratedTotalsMarket - 100) <= 0.2, 'Calibrated totals market should sum to 100');
 
-console.log('DUQUE Engine Phase 1-6 tests passed');
+const batchAnalysis = runBatchAnalysis(matches);
+
+assert.equal(batchAnalysis.model, 'batch-analysis-service-v1', 'Batch Analysis Service should expose its model');
+assert.equal(batchAnalysis.analyzedMatches, matches.length, 'Batch Analysis Service should process every mock match');
+assert.equal(batchAnalysis.topOpportunities.length, 5, 'Batch Analysis Service should expose top five opportunities');
+assert.ok(
+  batchAnalysis.topOpportunities[0].opportunityScore >= batchAnalysis.topOpportunities[1].opportunityScore,
+  'Batch Analysis Service should sort opportunities by score',
+);
+
+console.log('DUQUE Engine Phase 1-7 tests passed');

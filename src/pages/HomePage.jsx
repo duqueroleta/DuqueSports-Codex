@@ -3,6 +3,7 @@ import HeroSection from '../components/hero/HeroSection.jsx';
 import StrongMarkets from '../components/markets/StrongMarkets.jsx';
 import MobileMatchCarousel from '../components/matches/MobileMatchCarousel.jsx';
 import TodayMatches from '../components/matches/TodayMatches.jsx';
+import BestOpportunities from '../components/opportunities/BestOpportunities.jsx';
 import DuquePro from '../components/pro/DuquePro.jsx';
 import PreviewSections from '../components/sections/PreviewSections.jsx';
 import GlobalStats from '../components/stats/GlobalStats.jsx';
@@ -13,6 +14,7 @@ function HomePage() {
   return (
     <main className="home-page">
       <MobileMatchCarousel />
+      <BestOpportunities />
       <HeroSection />
       <TodayMatches />
       <StrongMarkets />

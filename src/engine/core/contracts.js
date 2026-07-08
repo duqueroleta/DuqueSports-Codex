@@ -41,6 +41,6 @@
  * @property {string[]} explanation
  */
 
-const ENGINE_VERSION = 'duque-score-engine-v1.phase-6';
+const ENGINE_VERSION = 'duque-score-engine-v1.phase-7';
 
 export { ENGINE_VERSION };
