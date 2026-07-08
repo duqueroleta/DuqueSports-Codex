@@ -3,6 +3,7 @@ import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
+import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
 import { getMatchById } from '../services/matchesService.js';
 import { getMatchVisualStyle } from '../utils/matchVisuals.js';
 import '../styles/page-detail.css';
@@ -32,6 +33,11 @@ function getAnalysisBlocks(match) {
 function MatchDetailPage() {
   const { matchId } = useParams();
   const { data: match, error, isLoading, retry } = useAsyncData(() => getMatchById(matchId), [matchId], null);
+  const { data: engineProjection } = useAsyncData(
+    () => getEngineProjectionByMatchId(matchId),
+    [matchId],
+    null,
+  );
 
   if (isLoading) {
     return (
@@ -107,6 +113,34 @@ function MatchDetailPage() {
           </article>
         ))}
       </section>
+
+      {engineProjection && !engineProjection.blocked ? (
+        <section className="engine-projection-panel" aria-label="DUQUE Sports AI Engine v1 fase 1">
+          <div>
+            <span>Engine v1 • Fase 1</span>
+            <strong>Pipeline estatístico ativo</strong>
+            <p>{engineProjection.explanation[0]}</p>
+          </div>
+          <div className="engine-projection-metrics">
+            <article>
+              <span>Data Quality</span>
+              <strong>{engineProjection.dataQualityScore}</strong>
+            </article>
+            <article>
+              <span>xG mandante</span>
+              <strong>{engineProjection.expectedHomeGoals}</strong>
+            </article>
+            <article>
+              <span>xG visitante</span>
+              <strong>{engineProjection.expectedAwayGoals}</strong>
+            </article>
+            <article>
+              <span>Over 2.5</span>
+              <strong>{engineProjection.probabilities.over25}%</strong>
+            </article>
+          </div>
+        </section>
+      ) : null}
 
       <section className="detail-grid" aria-label="Analise completa do jogo">
         <article className="detail-card detail-card-highlight">
