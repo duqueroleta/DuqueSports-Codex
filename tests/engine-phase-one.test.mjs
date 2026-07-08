@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { matches } from '../src/data/matches.js';
 import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../src/engine/batch/BatchFilters.js';
+import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../src/engine/batch/MarketRankingService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -84,5 +85,11 @@ const eliteOpportunities = filterBatchOpportunities(batchAnalysis.opportunities,
 assert.ok(batchFilterOptions.tiers.includes(ALL_TIERS), 'Batch filters should expose all tiers option');
 assert.ok(batchFilterOptions.markets.includes(ALL_MARKETS), 'Batch filters should expose all markets option');
 assert.ok(eliteOpportunities.every((opportunity) => opportunity.tier === 'Elite'), 'Batch tier filter should narrow opportunities');
+const marketRanking = runMarketRankingService(batchAnalysis.opportunities);
+const filteredMarketRanking = filterMarketRankings(marketRanking.rankings, ALL_MARKET_COMPETITIONS);
 
-console.log('DUQUE Engine Phase 1-8 tests passed');
+assert.equal(marketRanking.model, 'market-ranking-service-v1', 'Market Ranking Service should expose its model');
+assert.ok(marketRanking.rankings.length > 0, 'Market Ranking Service should expose market rankings');
+assert.equal(filteredMarketRanking.length, marketRanking.rankings.length, 'All competitions filter should preserve market rankings');
+
+console.log('DUQUE Engine Phase 1-9 tests passed');
