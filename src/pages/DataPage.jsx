@@ -241,6 +241,11 @@ function DataPage() {
               <strong>{importedSnapshotEnvelope.compatibility.status}</strong>
               <p>{importedSnapshotEnvelope.compatibility.migrationRequired ? 'migracao necessaria' : 'sem migracao'}</p>
             </article>
+            <article>
+              <span>Migracao</span>
+              <strong>{importedSnapshotEnvelope.migration.migrated ? 'Aplicada' : 'Nao requerida'}</strong>
+              <p>{importedSnapshotEnvelope.migration.registryVersion}</p>
+            </article>
           </div>
         </section>
       ) : null}

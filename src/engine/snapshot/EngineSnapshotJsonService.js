@@ -2,6 +2,7 @@ import {
   assessEngineSnapshotCompatibility,
   validateEngineSnapshotSchema,
 } from './EngineSnapshotSchemaService.js';
+import { migrateEngineSnapshotToCurrentVersion } from './EngineSnapshotMigrationService.js';
 
 const SNAPSHOT_JSON_FORMAT = 'duque-engine-snapshot-json-v1';
 
@@ -62,14 +63,16 @@ function importEngineSnapshotFromJson(jsonPayload) {
 
   assertSnapshotContract(envelope.snapshot);
 
-  const compatibility = assessEngineSnapshotCompatibility(envelope.snapshot);
+  const migration = migrateEngineSnapshotToCurrentVersion(envelope.snapshot);
+  const compatibility = assessEngineSnapshotCompatibility(migration.snapshot);
 
   return {
     format: envelope.format,
     exportedAt: envelope.exportedAt,
     compatibility,
+    migration,
     schemaValidation: compatibility.schemaValidation,
-    snapshot: cloneJson(envelope.snapshot),
+    snapshot: cloneJson(migration.snapshot),
   };
 }
 

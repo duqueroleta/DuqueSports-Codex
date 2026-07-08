@@ -22,6 +22,7 @@ import {
   assessEngineSnapshotCompatibility,
   validateEngineSnapshotSchema,
 } from '../src/engine/snapshot/EngineSnapshotSchemaService.js';
+import { migrateEngineSnapshotToCurrentVersion } from '../src/engine/snapshot/EngineSnapshotMigrationService.js';
 import { runEngineSnapshotService } from '../src/engine/snapshot/EngineSnapshotService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
@@ -151,10 +152,16 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-17'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-18'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
+const legacySnapshot = {
+  ...engineSnapshot,
+  engineVersion: 'duque-score-engine-v1.phase-16',
+  snapshotId: engineSnapshot.snapshotId.replace('phase-18', 'phase-16'),
+};
+const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
 const savedSnapshot = saveEngineSnapshot(engineSnapshot);
 const recoveredSnapshot = getEngineSnapshotById(engineSnapshot.snapshotId);
@@ -168,9 +175,16 @@ assert.equal(snapshotHistory.length, 1, 'Snapshot repository should expose memor
 assert.equal(snapshotSchemaValidation.valid, true, 'Snapshot schema should be valid');
 assert.equal(snapshotCompatibility.compatible, true, 'Snapshot should be compatible with current engine');
 assert.equal(snapshotCompatibility.migrationRequired, false, 'Current snapshot should not require migration');
+assert.equal(migratedLegacySnapshot.migrated, true, 'Legacy snapshot should be migrated');
+assert.equal(
+  migratedLegacySnapshot.snapshot.engineVersion,
+  engineSnapshot.engineVersion,
+  'Legacy snapshot migration should update engine version',
+);
 assert.equal(importedSnapshotEnvelope.format, SNAPSHOT_JSON_FORMAT, 'Snapshot JSON should expose its format');
 assert.equal(importedSnapshotEnvelope.schemaValidation.valid, true, 'Imported Snapshot JSON should include schema validation');
 assert.equal(importedSnapshotEnvelope.compatibility.status, 'current', 'Imported Snapshot JSON should be current');
+assert.equal(importedSnapshotEnvelope.migration.reason, 'already-current', 'Imported current snapshot should skip migration');
 assert.equal(importedSnapshotEnvelope.snapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot JSON should preserve snapshot ID');
 assert.equal(
   importedSnapshotEnvelope.snapshot.engineVersion,
@@ -178,4 +192,4 @@ assert.equal(
   'Snapshot JSON should preserve engine version',
 );
 
-console.log('DUQUE Engine Phase 1-17 tests passed');
+console.log('DUQUE Engine Phase 1-18 tests passed');
