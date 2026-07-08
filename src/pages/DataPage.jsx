@@ -3,6 +3,7 @@ import { useSearch } from '../context/SearchContext.jsx';
 import { markets } from '../data/markets.js';
 import { matches } from '../data/matches.js';
 import { runExecutiveDashboardService } from '../engine/batch/ExecutiveDashboardService.js';
+import { runEngineSnapshotService } from '../engine/snapshot/EngineSnapshotService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import '../styles/page-data.css';
@@ -48,6 +49,9 @@ function DataPage() {
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
   const executiveDashboard = batchAnalysis
     ? runExecutiveDashboardService({ matches, markets, batchAnalysis })
+    : null;
+  const engineSnapshot = batchAnalysis && executiveDashboard
+    ? runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard })
     : null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
@@ -115,6 +119,41 @@ function DataPage() {
               <span>Auditoria</span>
               <strong>{executiveDashboard.quality.averageAuditHitRate}%</strong>
               <p>{executiveDashboard.quality.averageStability} estabilidade media</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {engineSnapshot ? (
+        <section className="engine-snapshot-panel" aria-label="Snapshot do estado do engine">
+          <div className="engine-snapshot-header">
+            <div>
+              <span>Engine Snapshot</span>
+              <strong>{engineSnapshot.engineVersion}</strong>
+              <p>{engineSnapshot.snapshotId}</p>
+            </div>
+            <aside>
+              <span>Escopo</span>
+              <strong>{engineSnapshot.scope}</strong>
+              <p>{engineSnapshot.createdAt}</p>
+            </aside>
+          </div>
+
+          <div className="engine-snapshot-grid">
+            <article>
+              <span>Top oportunidade</span>
+              <strong>{engineSnapshot.topOpportunities[0]?.label ?? 'Sem snapshot'}</strong>
+              <p>{engineSnapshot.topOpportunities[0]?.opportunityScore ?? 0} score</p>
+            </article>
+            <article>
+              <span>Top mercado</span>
+              <strong>{engineSnapshot.topMarkets[0]?.marketName ?? 'Sem snapshot'}</strong>
+              <p>{engineSnapshot.topMarkets[0]?.averageScore ?? 0} score medio</p>
+            </article>
+            <article>
+              <span>Top auditoria</span>
+              <strong>{engineSnapshot.auditSummary[0]?.marketName ?? 'Sem snapshot'}</strong>
+              <p>{engineSnapshot.auditSummary[0]?.stabilityScore ?? 0} estabilidade</p>
             </article>
           </div>
         </section>

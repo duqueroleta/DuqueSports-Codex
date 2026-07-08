@@ -7,6 +7,7 @@ import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailInt
 import { runMarketAuditService } from '../src/engine/batch/MarketAuditService.js';
 import { runMarketAuditDashboardService } from '../src/engine/batch/MarketAuditDashboardService.js';
 import { runExecutiveDashboardService } from '../src/engine/batch/ExecutiveDashboardService.js';
+import { runEngineSnapshotService } from '../src/engine/snapshot/EngineSnapshotService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -132,5 +133,10 @@ const executiveDashboard = runExecutiveDashboardService({ matches, markets, batc
 assert.equal(executiveDashboard.model, 'executive-dashboard-service-v1', 'Executive dashboard should expose its model');
 assert.equal(executiveDashboard.totals.matches, matches.length, 'Executive dashboard should count matches');
 assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executive dashboard should count audited markets');
+const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
-console.log('DUQUE Engine Phase 1-13 tests passed');
+assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-14'), 'Engine snapshot should include engine version');
+assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
+
+console.log('DUQUE Engine Phase 1-14 tests passed');
