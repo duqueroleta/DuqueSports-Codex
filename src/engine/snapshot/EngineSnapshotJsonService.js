@@ -1,3 +1,8 @@
+import {
+  assessEngineSnapshotCompatibility,
+  validateEngineSnapshotSchema,
+} from './EngineSnapshotSchemaService.js';
+
 const SNAPSHOT_JSON_FORMAT = 'duque-engine-snapshot-json-v1';
 
 function cloneJson(value) {
@@ -15,6 +20,12 @@ function assertSnapshotContract(snapshot) {
 
   if (snapshot.model !== 'engine-snapshot-service-v1') {
     throw new Error('Snapshot JSON invalido: modelo de snapshot nao reconhecido.');
+  }
+
+  const schemaValidation = validateEngineSnapshotSchema(snapshot);
+
+  if (!schemaValidation.valid) {
+    throw new Error(`Snapshot JSON invalido: ${schemaValidation.errors.join(', ')}`);
   }
 }
 
@@ -51,9 +62,13 @@ function importEngineSnapshotFromJson(jsonPayload) {
 
   assertSnapshotContract(envelope.snapshot);
 
+  const compatibility = assessEngineSnapshotCompatibility(envelope.snapshot);
+
   return {
     format: envelope.format,
     exportedAt: envelope.exportedAt,
+    compatibility,
+    schemaValidation: compatibility.schemaValidation,
     snapshot: cloneJson(envelope.snapshot),
   };
 }

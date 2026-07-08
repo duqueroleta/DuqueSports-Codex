@@ -232,14 +232,14 @@ function DataPage() {
               <p>snapshot pronto para transporte</p>
             </article>
             <article>
-              <span>Importado</span>
-              <strong>Valido</strong>
-              <p>{importedSnapshotEnvelope.exportedAt}</p>
+              <span>Schema</span>
+              <strong>{importedSnapshotEnvelope.schemaValidation.valid ? 'Valido' : 'Invalido'}</strong>
+              <p>{importedSnapshotEnvelope.schemaValidation.schemaVersion}</p>
             </article>
             <article>
-              <span>Versao</span>
-              <strong>{importedSnapshotEnvelope.snapshot.engineVersion}</strong>
-              <p>{importedSnapshotEnvelope.snapshot.scope}</p>
+              <span>Compatibilidade</span>
+              <strong>{importedSnapshotEnvelope.compatibility.status}</strong>
+              <p>{importedSnapshotEnvelope.compatibility.migrationRequired ? 'migracao necessaria' : 'sem migracao'}</p>
             </article>
           </div>
         </section>
