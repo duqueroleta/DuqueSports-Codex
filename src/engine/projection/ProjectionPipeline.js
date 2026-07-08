@@ -1,6 +1,7 @@
 import { ENGINE_VERSION } from '../core/contracts.js';
 import { runProbabilityCalibrationEngine } from '../calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../data-quality/DataQualityEngine.js';
+import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
@@ -58,6 +59,16 @@ function runProjectionPipeline(matchInput) {
     dataQualityScore: dataQuality.score,
     confidence,
   });
+  const aiExplanation = runExplanationEngine({
+    matchInput,
+    expectedHomeGoals,
+    expectedAwayGoals,
+    probabilities: calibration.probabilities,
+    dataQuality,
+    featureStore,
+    poisson,
+    calibration,
+  });
 
   return {
     matchId: matchInput.id,
@@ -67,6 +78,7 @@ function runProjectionPipeline(matchInput) {
     expectedAwayGoals,
     confidence,
     probabilities: calibration.probabilities,
+    aiExplanation,
     explanation: [
       `Data Quality approved with score ${dataQuality.score}.`,
       `Feature Store registered ${featureStore.catalogSize} official feature definitions.`,
@@ -84,6 +96,7 @@ function runProjectionPipeline(matchInput) {
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
       statistical: { poisson },
       calibration,
+      explainability: aiExplanation,
     },
   };
 }

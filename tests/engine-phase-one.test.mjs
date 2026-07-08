@@ -42,6 +42,10 @@ assert.ok(
   projection.trace.calibration.reliability >= 0.35 && projection.trace.calibration.reliability <= 0.92,
   'Calibration reliability should stay within defined bounds',
 );
+assert.equal(projection.trace.explainability.model, 'explanation-engine-v1', 'Projection should use the Explanation Engine');
+assert.equal(projection.aiExplanation.model, 'explanation-engine-v1', 'Projection should expose AI explanation');
+assert.ok(projection.aiExplanation.keyDrivers.length >= 3, 'AI explanation should expose key drivers');
+assert.ok(projection.aiExplanation.riskFlags.length >= 1, 'AI explanation should expose risk flags');
 
 const poisson = runPoissonEngine({ homeLambda: 1.8, awayLambda: 1.1 });
 const oneXTwoTotal = poisson.probabilities.homeWin + poisson.probabilities.draw + poisson.probabilities.awayWin;
@@ -59,4 +63,4 @@ assert.ok(Math.abs(totalsMarket - 100) <= 0.2, 'Poisson totals market should sum
 assert.ok(Math.abs(calibratedOneXTwoTotal - 100) <= 0.2, 'Calibrated 1X2 probabilities should sum to 100');
 assert.ok(Math.abs(calibratedTotalsMarket - 100) <= 0.2, 'Calibrated totals market should sum to 100');
 
-console.log('DUQUE Engine Phase 1-4 tests passed');
+console.log('DUQUE Engine Phase 1-5 tests passed');

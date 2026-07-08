@@ -36,9 +36,10 @@
  * @property {number} expectedAwayGoals
  * @property {number} confidence
  * @property {{homeWin:number, draw:number, awayWin:number, over25:number, under25:number, btts:number}} probabilities
+ * @property {Object} aiExplanation
  * @property {string[]} explanation
  */
 
-const ENGINE_VERSION = 'duque-score-engine-v1.phase-4';
+const ENGINE_VERSION = 'duque-score-engine-v1.phase-5';
 
 export { ENGINE_VERSION };

@@ -32,6 +32,7 @@
 .detail-card,
 .detail-probabilities article,
 .engine-projection-panel,
+.ai-explanation-panel,
 .detail-action-panel,
 .detail-empty {
   border: 1px solid var(--color-line);
@@ -258,6 +259,58 @@
   line-height: 1;
 }
 
+.ai-explanation-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: 14px;
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, rgba(217, 180, 91, 0.14), transparent 42%),
+    rgba(12, 18, 28, 0.76);
+}
+
+.ai-explanation-panel span {
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.ai-explanation-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.ai-explanation-panel p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.ai-explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ai-explanation-grid article {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.ai-explanation-risk {
+  border-color: rgba(217, 180, 91, 0.26);
+}
+
 .detail-grid-loading {
   margin-top: 0;
 }
@@ -354,6 +407,7 @@
   .detail-hero,
   .detail-grid,
   .engine-projection-panel,
+  .ai-explanation-panel,
   .detail-action-panel {
     grid-template-columns: 1fr;
   }
@@ -382,6 +436,10 @@
 
   .engine-projection-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-explanation-grid {
+    grid-template-columns: 1fr;
   }
 
   .detail-card strong {

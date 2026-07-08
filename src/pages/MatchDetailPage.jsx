@@ -115,10 +115,10 @@ function MatchDetailPage() {
       </section>
 
       {engineProjection && !engineProjection.blocked ? (
-        <section className="engine-projection-panel" aria-label="DUQUE Score Engine v1 fase 4">
+        <section className="engine-projection-panel" aria-label="DUQUE Score Engine v1 fase 5">
           <div>
             <span>Engine v1 • Fase 4</span>
-            <strong>Poisson calibrado ativo</strong>
+            <strong>IA explicavel ativa</strong>
             <p>{engineProjection.explanation[6]}</p>
           </div>
           <div className="engine-projection-metrics">
@@ -157,6 +157,28 @@ function MatchDetailPage() {
                 -
                 {engineProjection.trace.statistical.poisson.correctScore.awayGoals}
               </strong>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {engineProjection?.aiExplanation ? (
+        <section className="ai-explanation-panel" aria-label="Explicacao da IA">
+          <div className="ai-explanation-main">
+            <span>Explicabilidade IA</span>
+            <strong>{engineProjection.aiExplanation.headline}</strong>
+            <p>{engineProjection.aiExplanation.verdict}</p>
+          </div>
+          <div className="ai-explanation-grid">
+            {engineProjection.aiExplanation.keyDrivers.slice(0, 3).map((driver) => (
+              <article key={driver}>
+                <span>Fator</span>
+                <p>{driver}</p>
+              </article>
+            ))}
+            <article className="ai-explanation-risk">
+              <span>Risco</span>
+              <p>{engineProjection.aiExplanation.riskFlags[0]}</p>
             </article>
           </div>
         </section>
