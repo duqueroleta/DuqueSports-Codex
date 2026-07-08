@@ -4,6 +4,7 @@ import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter
 import { runDataQuality } from '../src/engine/data-quality/DataQualityEngine.js';
 import { FEATURE_CATALOG } from '../src/engine/feature-store/featureCatalog.js';
 import { runProjectionPipeline } from '../src/engine/projection/ProjectionPipeline.js';
+import { runPoissonEngine } from '../src/engine/statistical/PoissonEngine.js';
 
 const sampleMatch = matches[0];
 const engineInput = adaptMatchToEngineInput(sampleMatch);
@@ -16,6 +17,7 @@ assert.ok(projection.expectedHomeGoals > 0, 'Expected home goals should be posit
 assert.ok(projection.expectedAwayGoals > 0, 'Expected away goals should be positive');
 assert.ok(projection.confidence >= 0 && projection.confidence <= 100, 'Confidence should stay within 0-100');
 assert.ok(projection.probabilities.over25 >= 1 && projection.probabilities.over25 <= 98, 'Over 2.5 probability should be calibrated');
+assert.ok(projection.probabilities.btts >= 1 && projection.probabilities.btts <= 98, 'BTTS probability should be calibrated');
 assert.equal(projection.trace.recency.home.sampleSize, 5, 'Recency Engine should use five recent matches');
 assert.equal(FEATURE_CATALOG.length, 6, 'Feature catalog should expose six phase-two features');
 assert.equal(projection.trace.featureStore.valid, true, 'Feature Store snapshot should be valid');
@@ -28,5 +30,18 @@ assert.ok(
   projection.trace.featureStore.features.match.some((feature) => feature.featureId === 'xg_differential'),
   'Feature Store should register match xg_differential',
 );
+assert.equal(projection.trace.statistical.poisson.model, 'poisson-goals-v1', 'Projection should use Poisson statistical core');
+assert.ok(projection.trace.statistical.poisson.matrix.length > 0, 'Poisson Engine should expose a score matrix');
+assert.ok(
+  projection.trace.statistical.poisson.correctScore.probability > 0,
+  'Poisson Engine should expose the most likely scoreline',
+);
 
-console.log('DUQUE Engine Phase 1-2 tests passed');
+const poisson = runPoissonEngine({ homeLambda: 1.8, awayLambda: 1.1 });
+const oneXTwoTotal = poisson.probabilities.homeWin + poisson.probabilities.draw + poisson.probabilities.awayWin;
+const totalsMarket = poisson.probabilities.over25 + poisson.probabilities.under25;
+
+assert.ok(Math.abs(oneXTwoTotal - 100) <= 0.2, 'Poisson 1X2 probabilities should sum to 100');
+assert.ok(Math.abs(totalsMarket - 100) <= 0.2, 'Poisson totals market should sum to 100');
+
+console.log('DUQUE Engine Phase 1-3 tests passed');

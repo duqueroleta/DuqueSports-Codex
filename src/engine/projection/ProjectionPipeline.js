@@ -4,29 +4,10 @@ import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
 import { runRecencyEngine } from '../preprocessing/RecencyEngine.js';
+import { runPoissonEngine } from '../statistical/PoissonEngine.js';
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
-}
-
-function roundProbability(value) {
-  return Number(clamp(value, 1, 98).toFixed(1));
-}
-
-function buildProbabilities(homeGoals, awayGoals) {
-  const totalGoals = homeGoals + awayGoals;
-  const goalDifference = homeGoals - awayGoals;
-  const homeWin = 50 + (goalDifference * 18);
-  const awayWin = 50 - (goalDifference * 18);
-  const draw = 28 - (Math.abs(goalDifference) * 5);
-
-  return {
-    homeWin: roundProbability(homeWin),
-    draw: roundProbability(draw),
-    awayWin: roundProbability(awayWin),
-    over25: roundProbability((totalGoals - 1.8) * 32 + 50),
-    btts: roundProbability(Math.min(homeGoals, awayGoals) * 34 + 30),
-  };
 }
 
 function calculateConfidence(dataQualityScore, homeAdjusted, awayAdjusted) {
@@ -66,6 +47,10 @@ function runProjectionPipeline(matchInput) {
   const awayAdjustedXg = getTeamFeatureValue(featureStore, 'away', 'adjusted_xg');
   const expectedHomeGoals = Number((homeAdjustedXg * venueHomeModifier * knockoutModifier).toFixed(2));
   const expectedAwayGoals = Number((awayAdjustedXg * venueAwayModifier * knockoutModifier).toFixed(2));
+  const poisson = runPoissonEngine({
+    homeLambda: expectedHomeGoals,
+    awayLambda: expectedAwayGoals,
+  });
   const confidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
 
   return {
@@ -75,13 +60,14 @@ function runProjectionPipeline(matchInput) {
     expectedHomeGoals,
     expectedAwayGoals,
     confidence,
-    probabilities: buildProbabilities(expectedHomeGoals, expectedAwayGoals),
+    probabilities: poisson.probabilities,
     explanation: [
       `Data Quality approved with score ${dataQuality.score}.`,
       `Feature Store registered ${featureStore.catalogSize} official feature definitions.`,
       `${matchInput.homeTeam.name} adjusted xG stored as ${homeAdjustedXg}.`,
       `${matchInput.awayTeam.name} adjusted xG stored as ${awayAdjustedXg}.`,
       `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
+      `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
     ],
     trace: {
@@ -89,6 +75,7 @@ function runProjectionPipeline(matchInput) {
       featureStore,
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
+      statistical: { poisson },
     },
   };
 }
