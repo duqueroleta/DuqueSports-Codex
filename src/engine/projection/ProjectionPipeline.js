@@ -5,6 +5,7 @@ import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
+import { runOpportunityRankingEngine } from '../ranking/OpportunityRankingEngine.js';
 import { runRecencyEngine } from '../preprocessing/RecencyEngine.js';
 import { runPoissonEngine } from '../statistical/PoissonEngine.js';
 
@@ -69,6 +70,12 @@ function runProjectionPipeline(matchInput) {
     poisson,
     calibration,
   });
+  const opportunityRanking = runOpportunityRankingEngine({
+    dataQualityScore: dataQuality.score,
+    confidence,
+    calibration,
+    aiExplanation,
+  });
 
   return {
     matchId: matchInput.id,
@@ -79,6 +86,7 @@ function runProjectionPipeline(matchInput) {
     confidence,
     probabilities: calibration.probabilities,
     aiExplanation,
+    opportunityRanking,
     explanation: [
       `Data Quality approved with score ${dataQuality.score}.`,
       `Feature Store registered ${featureStore.catalogSize} official feature definitions.`,
@@ -87,6 +95,7 @@ function runProjectionPipeline(matchInput) {
       `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
       `Calibration reliability set to ${Math.round(calibration.reliability * 100)}%.`,
+      `Opportunity ranking classified the match as ${opportunityRanking.rankSignal}.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
     ],
     trace: {
@@ -97,6 +106,7 @@ function runProjectionPipeline(matchInput) {
       statistical: { poisson },
       calibration,
       explainability: aiExplanation,
+      ranking: opportunityRanking,
     },
   };
 }

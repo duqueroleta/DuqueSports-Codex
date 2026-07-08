@@ -115,11 +115,11 @@ function MatchDetailPage() {
       </section>
 
       {engineProjection && !engineProjection.blocked ? (
-        <section className="engine-projection-panel" aria-label="DUQUE Score Engine v1 fase 5">
+        <section className="engine-projection-panel" aria-label="DUQUE Score Engine v1 fase 6">
           <div>
-            <span>Engine v1 • Fase 4</span>
-            <strong>IA explicavel ativa</strong>
-            <p>{engineProjection.explanation[6]}</p>
+            <span>Engine v1 - Fase 6</span>
+            <strong>Ranking de oportunidade ativo</strong>
+            <p>{engineProjection.explanation[7]}</p>
           </div>
           <div className="engine-projection-metrics">
             <article>
@@ -147,16 +147,12 @@ function MatchDetailPage() {
               <strong>{engineProjection.probabilities.btts}%</strong>
             </article>
             <article>
-              <span>Calibracao</span>
-              <strong>{Math.round(engineProjection.trace.calibration.reliability * 100)}%</strong>
+              <span>Oportunidade</span>
+              <strong>{engineProjection.opportunityRanking.opportunityScore}</strong>
             </article>
             <article>
-              <span>Placar modal</span>
-              <strong>
-                {engineProjection.trace.statistical.poisson.correctScore.homeGoals}
-                -
-                {engineProjection.trace.statistical.poisson.correctScore.awayGoals}
-              </strong>
+              <span>Tier</span>
+              <strong>{engineProjection.opportunityRanking.tier}</strong>
             </article>
           </div>
         </section>

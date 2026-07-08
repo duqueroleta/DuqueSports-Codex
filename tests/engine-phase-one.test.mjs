@@ -46,6 +46,10 @@ assert.equal(projection.trace.explainability.model, 'explanation-engine-v1', 'Pr
 assert.equal(projection.aiExplanation.model, 'explanation-engine-v1', 'Projection should expose AI explanation');
 assert.ok(projection.aiExplanation.keyDrivers.length >= 3, 'AI explanation should expose key drivers');
 assert.ok(projection.aiExplanation.riskFlags.length >= 1, 'AI explanation should expose risk flags');
+assert.equal(projection.trace.ranking.model, 'opportunity-ranking-v1', 'Projection should use Opportunity Ranking Engine');
+assert.ok(projection.opportunityRanking.opportunityScore >= 0, 'Opportunity score should be non-negative');
+assert.ok(projection.opportunityRanking.opportunityScore <= 100, 'Opportunity score should stay within 0-100');
+assert.ok(projection.opportunityRanking.tier.length > 0, 'Opportunity ranking should expose a tier');
 
 const poisson = runPoissonEngine({ homeLambda: 1.8, awayLambda: 1.1 });
 const oneXTwoTotal = poisson.probabilities.homeWin + poisson.probabilities.draw + poisson.probabilities.awayWin;
@@ -63,4 +67,4 @@ assert.ok(Math.abs(totalsMarket - 100) <= 0.2, 'Poisson totals market should sum
 assert.ok(Math.abs(calibratedOneXTwoTotal - 100) <= 0.2, 'Calibrated 1X2 probabilities should sum to 100');
 assert.ok(Math.abs(calibratedTotalsMarket - 100) <= 0.2, 'Calibrated totals market should sum to 100');
 
-console.log('DUQUE Engine Phase 1-5 tests passed');
+console.log('DUQUE Engine Phase 1-6 tests passed');
