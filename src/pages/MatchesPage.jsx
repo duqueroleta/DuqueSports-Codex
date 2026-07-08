@@ -3,8 +3,10 @@ import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/CompetitionRail.jsx';
 import MatchCard from '../components/matches/MatchCard.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
+import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../engine/batch/BatchFilters.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { usePersistentState } from '../hooks/usePersistentState.js';
+import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getMatches } from '../services/matchesService.js';
 import '../styles/page-matches.css';
 import { itemMatchesSearch } from '../utils/search.js';
@@ -41,13 +43,26 @@ function MatchesPage() {
     'duque.filters.matches.competition',
     ALL_COMPETITIONS,
   );
+  const [activeTier, setActiveTier] = usePersistentState('duque.filters.matches.tier', ALL_TIERS);
+  const [activeMarket, setActiveMarket] = usePersistentState('duque.filters.matches.market', ALL_MARKETS);
   const { searchTerm } = useSearch();
   const { data: matches, error, isLoading, retry } = useAsyncData(getMatches, []);
+  const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
+  const opportunities = batchAnalysis?.opportunities ?? [];
+  const batchOptions = getBatchFilterOptions(opportunities);
+  const filteredOpportunityIds = new Set(
+    filterBatchOpportunities(opportunities, { tier: activeTier, market: activeMarket })
+      .map((opportunity) => opportunity.matchId),
+  );
   const filteredMatches = matches.filter(
     (match) => {
       const matchesCompetition = activeCompetition === ALL_COMPETITIONS || match.league === activeCompetition;
+      const matchesRanking = opportunities.length === 0 || filteredOpportunityIds.has(match.id);
 
-      return matchesCompetition && filterMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm);
+      return matchesCompetition
+        && matchesRanking
+        && filterMatches(match, activeFilter)
+        && itemMatchesSearch(match, searchTerm);
     },
   );
   const averageConfidence = filteredMatches.length
@@ -73,6 +88,37 @@ function MatchesPage() {
       </section>
 
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
+
+      <section className="matches-ranking-filters" aria-label="Filtros do Ranking Engine">
+        <div>
+          <span>Tier</span>
+          {batchOptions.tiers.map((tier) => (
+            <button
+              aria-pressed={activeTier === tier}
+              className={activeTier === tier ? 'matches-filter-active' : ''}
+              key={tier}
+              onClick={() => setActiveTier(tier)}
+              type="button"
+            >
+              {tier}
+            </button>
+          ))}
+        </div>
+        <div>
+          <span>Mercado IA</span>
+          {batchOptions.markets.slice(0, 7).map((market) => (
+            <button
+              aria-pressed={activeMarket === market}
+              className={activeMarket === market ? 'matches-filter-active' : ''}
+              key={market}
+              onClick={() => setActiveMarket(market)}
+              type="button"
+            >
+              {market}
+            </button>
+          ))}
+        </div>
+      </section>
 
       <section className="matches-toolbar" aria-label="Filtros de jogos">
         {filters.map((filter) => (

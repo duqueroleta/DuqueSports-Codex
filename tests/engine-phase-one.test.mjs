@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { matches } from '../src/data/matches.js';
+import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../src/engine/batch/BatchFilters.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -77,5 +78,11 @@ assert.ok(
   batchAnalysis.topOpportunities[0].opportunityScore >= batchAnalysis.topOpportunities[1].opportunityScore,
   'Batch Analysis Service should sort opportunities by score',
 );
+const batchFilterOptions = getBatchFilterOptions(batchAnalysis.opportunities);
+const eliteOpportunities = filterBatchOpportunities(batchAnalysis.opportunities, { tier: 'Elite', market: ALL_MARKETS });
 
-console.log('DUQUE Engine Phase 1-7 tests passed');
+assert.ok(batchFilterOptions.tiers.includes(ALL_TIERS), 'Batch filters should expose all tiers option');
+assert.ok(batchFilterOptions.markets.includes(ALL_MARKETS), 'Batch filters should expose all markets option');
+assert.ok(eliteOpportunities.every((opportunity) => opportunity.tier === 'Elite'), 'Batch tier filter should narrow opportunities');
+
+console.log('DUQUE Engine Phase 1-8 tests passed');
