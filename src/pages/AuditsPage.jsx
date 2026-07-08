@@ -2,8 +2,11 @@ import AuditRow from '../components/audits/AuditRow.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
+import { markets } from '../data/markets.js';
+import { runMarketAuditDashboardService } from '../engine/batch/MarketAuditDashboardService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { usePersistentState } from '../hooks/usePersistentState.js';
+import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getAudits } from '../services/auditsService.js';
 import '../styles/page-audits.css';
 import { itemMatchesSearch } from '../utils/search.js';
@@ -38,6 +41,10 @@ function AuditsPage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.audits', 'Todos');
   const { searchTerm } = useSearch();
   const { data: audits, error, isLoading, retry } = useAsyncData(getAudits, []);
+  const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
+  const marketAuditDashboard = batchAnalysis
+    ? runMarketAuditDashboardService({ markets, opportunities: batchAnalysis.opportunities })
+    : null;
   const filteredAudits = audits.filter(
     (audit) => filterAudits(audit, activeFilter) && itemMatchesSearch(audit, searchTerm),
   );
@@ -60,6 +67,49 @@ function AuditsPage() {
           <p>6 sinais auditados na amostra atual</p>
         </aside>
       </section>
+
+      {marketAuditDashboard ? (
+        <section className="market-audit-dashboard" aria-label="Auditorias consolidadas por mercado">
+          <div className="market-audit-dashboard-header">
+            <div>
+              <span>Auditoria por mercado</span>
+              <strong>{marketAuditDashboard.averageHitRate}% acerto simulado</strong>
+              <p>
+                Estabilidade media {marketAuditDashboard.averageStability} com {marketAuditDashboard.consistentMarkets} mercados consistentes.
+              </p>
+            </div>
+            <aside>
+              <span>Engine v1 - Fase 12</span>
+              <strong>{marketAuditDashboard.marketAudits.length}</strong>
+              <p>mercados auditados no batch atual</p>
+            </aside>
+          </div>
+
+          <div className="market-audit-dashboard-grid">
+            {marketAuditDashboard.marketAudits.slice(0, 4).map((audit) => (
+              <article key={audit.marketId}>
+                <span>{audit.priority}</span>
+                <strong>{audit.marketName}</strong>
+                <small>{audit.relatedGames} jogos relacionados</small>
+                <div>
+                  <p>
+                    <b>{audit.hitRate}%</b>
+                    <em>acerto</em>
+                  </p>
+                  <p>
+                    <b>{audit.volatility}</b>
+                    <em>volatilidade</em>
+                  </p>
+                  <p>
+                    <b>{audit.stabilityScore}</b>
+                    <em>estabilidade</em>
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="audits-toolbar" aria-label="Filtros de auditoria">
         {filters.map((filter) => (

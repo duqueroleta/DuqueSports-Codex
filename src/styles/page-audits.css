@@ -14,6 +14,7 @@
 
 .audits-page-hero > div,
 .audits-page-summary,
+.market-audit-dashboard,
 .audits-page-panel {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
@@ -75,6 +76,113 @@
   margin: 18px auto;
 }
 
+.market-audit-dashboard {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(217, 180, 91, 0.14), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+}
+
+.market-audit-dashboard-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+.market-audit-dashboard-header > div,
+.market-audit-dashboard-header aside {
+  min-width: 0;
+}
+
+.market-audit-dashboard-header aside {
+  padding: 16px;
+  border: 1px solid rgba(217, 180, 91, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.market-audit-dashboard span,
+.market-audit-dashboard-header span {
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.market-audit-dashboard strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.25rem, 2.3vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.market-audit-dashboard p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.market-audit-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.market-audit-dashboard-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.market-audit-dashboard-grid small {
+  display: block;
+  margin-top: 8px;
+  color: #9faaba;
+  font-weight: 800;
+}
+
+.market-audit-dashboard-grid div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.market-audit-dashboard-grid p {
+  min-width: 0;
+  margin: 0;
+  padding: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.market-audit-dashboard-grid b,
+.market-audit-dashboard-grid em {
+  display: block;
+}
+
+.market-audit-dashboard-grid b {
+  color: var(--color-gold-soft);
+}
+
+.market-audit-dashboard-grid em {
+  color: #9faaba;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .audits-toolbar button {
   min-height: 42px;
   padding: 0 14px;
@@ -105,6 +213,15 @@
   }
 
   .audits-page-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .market-audit-dashboard-header,
+  .market-audit-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .market-audit-dashboard-grid div {
     grid-template-columns: 1fr;
   }
 }

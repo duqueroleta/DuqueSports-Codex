@@ -5,6 +5,7 @@ import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions
 import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../src/engine/batch/MarketRankingService.js';
 import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailIntelligenceService.js';
 import { runMarketAuditService } from '../src/engine/batch/MarketAuditService.js';
+import { runMarketAuditDashboardService } from '../src/engine/batch/MarketAuditDashboardService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -120,5 +121,10 @@ const marketAudit = runMarketAuditService({
 
 assert.ok(marketAudit.hitRate >= 42 && marketAudit.hitRate <= 88, 'Market audit hit rate should stay calibrated');
 assert.ok(marketAudit.stabilityScore >= 35 && marketAudit.stabilityScore <= 94, 'Market audit stability should stay bounded');
+const auditDashboard = runMarketAuditDashboardService({ markets, opportunities: batchAnalysis.opportunities });
 
-console.log('DUQUE Engine Phase 1-11 tests passed');
+assert.equal(auditDashboard.model, 'market-audit-dashboard-v1', 'Market audit dashboard should expose its model');
+assert.equal(auditDashboard.marketAudits.length, markets.length, 'Market audit dashboard should audit every market');
+assert.ok(auditDashboard.averageHitRate >= 42, 'Market audit dashboard should expose average hit rate');
+
+console.log('DUQUE Engine Phase 1-12 tests passed');
