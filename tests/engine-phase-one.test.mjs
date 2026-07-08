@@ -13,6 +13,11 @@ import {
   resetEngineSnapshotRepository,
   saveEngineSnapshot,
 } from '../src/engine/snapshot/EngineSnapshotRepository.js';
+import {
+  exportEngineSnapshotToJson,
+  importEngineSnapshotFromJson,
+  SNAPSHOT_JSON_FORMAT,
+} from '../src/engine/snapshot/EngineSnapshotJsonService.js';
 import { runEngineSnapshotService } from '../src/engine/snapshot/EngineSnapshotService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
@@ -142,15 +147,24 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-15'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-16'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 resetEngineSnapshotRepository();
 const savedSnapshot = saveEngineSnapshot(engineSnapshot);
 const recoveredSnapshot = getEngineSnapshotById(engineSnapshot.snapshotId);
 const snapshotHistory = getEngineSnapshotHistory();
+const exportedSnapshotJson = exportEngineSnapshotToJson(engineSnapshot);
+const importedSnapshotEnvelope = importEngineSnapshotFromJson(exportedSnapshotJson);
 
 assert.equal(savedSnapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot repository should save snapshots by ID');
 assert.equal(recoveredSnapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot repository should recover snapshots by ID');
 assert.equal(snapshotHistory.length, 1, 'Snapshot repository should expose memory history');
+assert.equal(importedSnapshotEnvelope.format, SNAPSHOT_JSON_FORMAT, 'Snapshot JSON should expose its format');
+assert.equal(importedSnapshotEnvelope.snapshot.snapshotId, engineSnapshot.snapshotId, 'Snapshot JSON should preserve snapshot ID');
+assert.equal(
+  importedSnapshotEnvelope.snapshot.engineVersion,
+  engineSnapshot.engineVersion,
+  'Snapshot JSON should preserve engine version',
+);
 
-console.log('DUQUE Engine Phase 1-15 tests passed');
+console.log('DUQUE Engine Phase 1-16 tests passed');

@@ -8,6 +8,10 @@ import {
   getEngineSnapshotHistory,
   saveEngineSnapshot,
 } from '../engine/snapshot/EngineSnapshotRepository.js';
+import {
+  exportEngineSnapshotToJson,
+  importEngineSnapshotFromJson,
+} from '../engine/snapshot/EngineSnapshotJsonService.js';
 import { runEngineSnapshotService } from '../engine/snapshot/EngineSnapshotService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -61,6 +65,10 @@ function DataPage() {
   const persistedSnapshot = engineSnapshot ? saveEngineSnapshot(engineSnapshot) : null;
   const snapshotHistory = getEngineSnapshotHistory();
   const recoveredSnapshot = persistedSnapshot ? getEngineSnapshotById(persistedSnapshot.snapshotId) : null;
+  const exportedSnapshotJson = persistedSnapshot ? exportEngineSnapshotToJson(persistedSnapshot) : '';
+  const importedSnapshotEnvelope = exportedSnapshotJson
+    ? importEngineSnapshotFromJson(exportedSnapshotJson)
+    : null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -197,6 +205,41 @@ function DataPage() {
               <span>Consulta</span>
               <strong>{recoveredSnapshot?.topOpportunities.length ?? 0}</strong>
               <p>oportunidades recuperadas</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {importedSnapshotEnvelope ? (
+        <section className="snapshot-json-panel" aria-label="Exportacao e importacao JSON de snapshots">
+          <div className="snapshot-json-header">
+            <div>
+              <span>Snapshot JSON</span>
+              <strong>Exportacao/importacao ativa</strong>
+              <p>{importedSnapshotEnvelope.format}</p>
+            </div>
+            <aside>
+              <span>Payload</span>
+              <strong>{exportedSnapshotJson.length}</strong>
+              <p>caracteres serializados</p>
+            </aside>
+          </div>
+
+          <div className="snapshot-json-grid">
+            <article>
+              <span>Export ID</span>
+              <strong>{importedSnapshotEnvelope.snapshot.snapshotId}</strong>
+              <p>snapshot pronto para transporte</p>
+            </article>
+            <article>
+              <span>Importado</span>
+              <strong>Valido</strong>
+              <p>{importedSnapshotEnvelope.exportedAt}</p>
+            </article>
+            <article>
+              <span>Versao</span>
+              <strong>{importedSnapshotEnvelope.snapshot.engineVersion}</strong>
+              <p>{importedSnapshotEnvelope.snapshot.scope}</p>
             </article>
           </div>
         </section>

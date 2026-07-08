@@ -16,7 +16,8 @@
 .data-page-summary,
 .executive-dashboard,
 .engine-snapshot-panel,
-.snapshot-persistence-panel {
+.snapshot-persistence-panel,
+.snapshot-json-panel {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
   background:
@@ -263,6 +264,71 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.snapshot-json-panel {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, rgba(217, 180, 91, 0.13), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(32, 246, 164, 0.09), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+}
+
+.snapshot-json-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+.snapshot-json-header aside {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.snapshot-json-panel span {
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.snapshot-json-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.05rem, 1.9vw, 1.45rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.snapshot-json-panel p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.snapshot-json-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.snapshot-json-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
 @media (max-width: 1180px) {
   .data-source-grid,
   .executive-dashboard-grid {
@@ -276,7 +342,9 @@
   .engine-snapshot-header,
   .engine-snapshot-grid,
   .snapshot-persistence-header,
-  .snapshot-persistence-grid {
+  .snapshot-persistence-grid,
+  .snapshot-json-header,
+  .snapshot-json-grid {
     grid-template-columns: 1fr;
   }
 }
