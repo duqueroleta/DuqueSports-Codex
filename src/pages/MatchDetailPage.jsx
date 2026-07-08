@@ -4,6 +4,7 @@ import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getMatchById } from '../services/matchesService.js';
+import { getMatchVisualStyle } from '../utils/matchVisuals.js';
 import '../styles/page-detail.css';
 
 const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
@@ -67,7 +68,7 @@ function MatchDetailPage() {
 
   return (
     <main className="detail-page">
-      <section className="detail-hero" aria-labelledby="match-detail-title">
+      <section className="detail-hero" aria-labelledby="match-detail-title" style={getMatchVisualStyle(match)}>
         <div>
           <Link to="/">Voltar aos jogos</Link>
           <span>{match.league} • Hoje, {match.time}</span>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
+import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
 
 function MatchCard({ match }) {
@@ -14,7 +15,7 @@ function MatchCard({ match }) {
   }
 
   return (
-    <Link className="match-card" to={`/jogos/${match.id}`}>
+    <Link className="match-card" style={getMatchVisualStyle(match)} to={`/jogos/${match.id}`}>
       <div className="match-card-top">
         <div>
           <span className="match-league">{match.league}</span>

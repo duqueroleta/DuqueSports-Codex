@@ -4,19 +4,10 @@ import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRa
 import TeamCrest from '../teams/TeamCrest.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
+import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
 
 const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
-
-function getMatchBackground(match) {
-  const [primary, secondary, tertiary] = match.colors || ['#d9b45b', '#20f6a4', '#07111c'];
-
-  return {
-    '--match-primary': primary,
-    '--match-secondary': secondary,
-    '--match-tertiary': tertiary,
-  };
-}
 
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
@@ -61,7 +52,7 @@ function MobileMatchCarousel() {
         <div className="mobile-carousel-track" ref={carouselRef}>
           {visibleMatches.map((match) => (
             <article className="mobile-match-slide" key={match.id}>
-              <div className="mobile-match-card" style={getMatchBackground(match)}>
+              <div className="mobile-match-card" style={getMatchVisualStyle(match)}>
                 <div className="mobile-match-kicker">
                   <strong>Melhor oportunidade</strong>
                   <span>{match.league}</span>
