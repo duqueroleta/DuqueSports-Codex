@@ -96,6 +96,34 @@ function MarketDetailPage() {
         </section>
       ) : null}
 
+      {marketIntelligence?.audit ? (
+        <section className="market-audit-panel" aria-label="Auditoria historica simulada">
+          <div>
+            <span>Auditoria historica</span>
+            <strong>{marketIntelligence.audit.auditLabel}</strong>
+            <p>{marketIntelligence.audit.notes[0]}</p>
+          </div>
+          <div className="market-audit-grid">
+            <article>
+              <span>Amostra</span>
+              <strong>{marketIntelligence.audit.sampleSize}</strong>
+            </article>
+            <article>
+              <span>Volatilidade</span>
+              <strong>{marketIntelligence.audit.volatility}</strong>
+            </article>
+            <article>
+              <span>Estabilidade</span>
+              <strong>{marketIntelligence.audit.stabilityScore}</strong>
+            </article>
+            <article>
+              <span>Tier</span>
+              <strong>{marketIntelligence.audit.stabilityTier}</strong>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
       <section className="detail-grid" aria-label="Análise do mercado">
         <article className="detail-card detail-card-highlight">
           <span>Odd média</span>

@@ -1,3 +1,5 @@
+import { runMarketAuditService } from './MarketAuditService.js';
+
 function normalizeText(value) {
   return value
     .normalize('NFD')
@@ -72,6 +74,7 @@ function runMarketDetailIntelligence({ market, opportunities }) {
       ? `${market.name} tem aderencia com ${relatedOpportunities.length} jogo(s) do ranking atual. O melhor sinal vem de ${topOpportunity.home} x ${topOpportunity.away}.`
       : `${market.name} ainda nao possui jogo classificado como oportunidade ativa pelo batch atual.`,
     riskAlert: buildMarketRiskAlert(market, relatedOpportunities),
+    audit: runMarketAuditService({ market, relatedOpportunities }),
   };
 }
 

@@ -4,6 +4,7 @@ import { matches } from '../src/data/matches.js';
 import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../src/engine/batch/BatchFilters.js';
 import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../src/engine/batch/MarketRankingService.js';
 import { runMarketDetailIntelligence } from '../src/engine/batch/MarketDetailIntelligenceService.js';
+import { runMarketAuditService } from '../src/engine/batch/MarketAuditService.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -107,5 +108,17 @@ assert.ok(
   marketDetailIntelligence.summary.relatedGames >= 0,
   'Market Detail Intelligence should expose related games count',
 );
+assert.equal(
+  marketDetailIntelligence.audit.model,
+  'market-audit-service-v1',
+  'Market Detail Intelligence should expose simulated audit',
+);
+const marketAudit = runMarketAuditService({
+  market: markets[0],
+  relatedOpportunities: marketDetailIntelligence.relatedOpportunities,
+});
 
-console.log('DUQUE Engine Phase 1-10 tests passed');
+assert.ok(marketAudit.hitRate >= 42 && marketAudit.hitRate <= 88, 'Market audit hit rate should stay calibrated');
+assert.ok(marketAudit.stabilityScore >= 35 && marketAudit.stabilityScore <= 94, 'Market audit stability should stay bounded');
+
+console.log('DUQUE Engine Phase 1-11 tests passed');
