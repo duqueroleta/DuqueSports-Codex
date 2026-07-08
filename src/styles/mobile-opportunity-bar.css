@@ -1,0 +1,49 @@
+.mobile-opportunity-bar {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .mobile-opportunity-bar {
+    display: grid;
+    gap: 5px;
+    margin: 0 12px;
+    padding: 8px 10px;
+    border: 1px solid rgba(217, 180, 91, 0.2);
+    border-radius: 15px;
+    color: inherit;
+    background:
+      radial-gradient(circle at top right, rgba(217, 180, 91, 0.18), transparent 44%),
+      rgba(255, 255, 255, 0.055);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    text-decoration: none;
+  }
+
+  .mobile-opportunity-bar > span {
+    color: var(--color-gold-soft);
+    font-size: 0.68rem;
+    font-weight: 950;
+    text-transform: uppercase;
+  }
+
+  .mobile-opportunity-bar div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .mobile-opportunity-bar strong {
+    min-width: 0;
+    color: var(--color-white);
+    font-size: 0.9rem;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .mobile-opportunity-bar small {
+    color: #aeb8c5;
+    font-size: 0.72rem;
+    font-weight: 850;
+  }
+}

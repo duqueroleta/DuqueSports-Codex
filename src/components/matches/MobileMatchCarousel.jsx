@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
+import MobileMarketFilters from './MobileMarketFilters.jsx';
+import MobileOpportunityBar from './MobileOpportunityBar.jsx';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
+import { matchMarketFilter } from '../../utils/marketFilters.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
 
@@ -12,10 +15,27 @@ const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
   const [activeCompetition, setActiveCompetition] = useState(ALL_COMPETITIONS);
+  const [activeMarket, setActiveMarket] = useState('todos');
   const carouselRef = useRef(null);
-  const visibleMatches = activeCompetition === ALL_COMPETITIONS
+  const competitionMatches = activeCompetition === ALL_COMPETITIONS
     ? matches
     : matches.filter((match) => match.league === activeCompetition);
+  const visibleMatches = competitionMatches.filter((match) => matchMarketFilter(match, activeMarket));
+  const bestMatch = [...visibleMatches].sort((first, second) => second.confidence - first.confidence)[0];
+
+  function scrollToStart() {
+    carouselRef.current?.scrollTo({ behavior: 'smooth', left: 0 });
+  }
+
+  function handleCompetitionSelect(competition) {
+    setActiveCompetition(competition);
+    scrollToStart();
+  }
+
+  function handleMarketSelect(market) {
+    setActiveMarket(market);
+    scrollToStart();
+  }
 
   function moveCarousel(direction) {
     const carousel = carouselRef.current;
@@ -31,13 +51,10 @@ function MobileMatchCarousel() {
   }
 
   return (
-    <section className="mobile-match-carousel" aria-labelledby="mobile-match-carousel-title">
-      <div className="mobile-carousel-heading">
-        <span>Duque Score</span>
-        <h1 id="mobile-match-carousel-title">Jogos em destaque</h1>
-      </div>
-
-      <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
+    <section className="mobile-match-carousel" aria-label="Jogos em destaque">
+      <MobileOpportunityBar match={bestMatch} />
+      <MobileMarketFilters activeMarket={activeMarket} onSelect={handleMarketSelect} />
+      <CompetitionRail activeCompetition={activeCompetition} onSelect={handleCompetitionSelect} />
 
       <div className="mobile-carousel-shell">
         <button
@@ -117,6 +134,14 @@ function MobileMatchCarousel() {
               </div>
             </article>
           ))}
+          {!visibleMatches.length ? (
+            <article className="mobile-match-slide">
+              <div className="mobile-match-empty">
+                <span>Nenhum jogo encontrado</span>
+                <strong>Troque o mercado ou campeonato</strong>
+              </div>
+            </article>
+          ) : null}
         </div>
 
         <button
