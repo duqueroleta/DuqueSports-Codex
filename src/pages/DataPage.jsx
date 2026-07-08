@@ -12,6 +12,7 @@ import {
   exportEngineSnapshotToJson,
   importEngineSnapshotFromJson,
 } from '../engine/snapshot/EngineSnapshotJsonService.js';
+import { runEngineAuditLogService } from '../engine/audit/EngineAuditLogService.js';
 import { runEngineSnapshotService } from '../engine/snapshot/EngineSnapshotService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -68,6 +69,9 @@ function DataPage() {
   const exportedSnapshotJson = persistedSnapshot ? exportEngineSnapshotToJson(persistedSnapshot) : '';
   const importedSnapshotEnvelope = exportedSnapshotJson
     ? importEngineSnapshotFromJson(exportedSnapshotJson)
+    : null;
+  const auditLog = engineSnapshot
+    ? runEngineAuditLogService({ snapshot: engineSnapshot, importedSnapshotEnvelope })
     : null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
@@ -246,6 +250,33 @@ function DataPage() {
               <strong>{importedSnapshotEnvelope.migration.migrated ? 'Aplicada' : 'Nao requerida'}</strong>
               <p>{importedSnapshotEnvelope.migration.registryVersion}</p>
             </article>
+          </div>
+        </section>
+      ) : null}
+
+      {auditLog ? (
+        <section className="engine-audit-panel" aria-label="Auditoria de eventos do engine">
+          <div className="engine-audit-header">
+            <div>
+              <span>Audit Trail</span>
+              <strong>{auditLog.health}</strong>
+              <p>{auditLog.model}</p>
+            </div>
+            <aside>
+              <span>Eventos</span>
+              <strong>{auditLog.totalEvents}</strong>
+              <p>{auditLog.generatedAt}</p>
+            </aside>
+          </div>
+
+          <div className="engine-audit-grid">
+            {auditLog.events.map((event) => (
+              <article key={event.type}>
+                <span>{event.type}</span>
+                <strong>{event.severity}</strong>
+                <p>{event.message}</p>
+              </article>
+            ))}
           </div>
         </section>
       ) : null}
