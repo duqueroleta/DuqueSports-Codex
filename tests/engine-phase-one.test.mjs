@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { matches } from '../src/data/matches.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
+import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../src/engine/data-quality/DataQualityEngine.js';
 import { FEATURE_CATALOG } from '../src/engine/feature-store/featureCatalog.js';
 import { runProjectionPipeline } from '../src/engine/projection/ProjectionPipeline.js';
@@ -36,12 +37,26 @@ assert.ok(
   projection.trace.statistical.poisson.correctScore.probability > 0,
   'Poisson Engine should expose the most likely scoreline',
 );
+assert.equal(projection.trace.calibration.model, 'probability-calibration-v1', 'Projection should use probability calibration');
+assert.ok(
+  projection.trace.calibration.reliability >= 0.35 && projection.trace.calibration.reliability <= 0.92,
+  'Calibration reliability should stay within defined bounds',
+);
 
 const poisson = runPoissonEngine({ homeLambda: 1.8, awayLambda: 1.1 });
 const oneXTwoTotal = poisson.probabilities.homeWin + poisson.probabilities.draw + poisson.probabilities.awayWin;
 const totalsMarket = poisson.probabilities.over25 + poisson.probabilities.under25;
+const calibration = runProbabilityCalibrationEngine({
+  probabilities: poisson.probabilities,
+  dataQualityScore: 88,
+  confidence: 81,
+});
+const calibratedOneXTwoTotal = calibration.probabilities.homeWin + calibration.probabilities.draw + calibration.probabilities.awayWin;
+const calibratedTotalsMarket = calibration.probabilities.over25 + calibration.probabilities.under25;
 
 assert.ok(Math.abs(oneXTwoTotal - 100) <= 0.2, 'Poisson 1X2 probabilities should sum to 100');
 assert.ok(Math.abs(totalsMarket - 100) <= 0.2, 'Poisson totals market should sum to 100');
+assert.ok(Math.abs(calibratedOneXTwoTotal - 100) <= 0.2, 'Calibrated 1X2 probabilities should sum to 100');
+assert.ok(Math.abs(calibratedTotalsMarket - 100) <= 0.2, 'Calibrated totals market should sum to 100');
 
-console.log('DUQUE Engine Phase 1-3 tests passed');
+console.log('DUQUE Engine Phase 1-4 tests passed');

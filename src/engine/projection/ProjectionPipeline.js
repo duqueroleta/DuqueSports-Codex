@@ -1,4 +1,5 @@
 import { ENGINE_VERSION } from '../core/contracts.js';
+import { runProbabilityCalibrationEngine } from '../calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../data-quality/DataQualityEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
@@ -52,6 +53,11 @@ function runProjectionPipeline(matchInput) {
     awayLambda: expectedAwayGoals,
   });
   const confidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
+  const calibration = runProbabilityCalibrationEngine({
+    probabilities: poisson.probabilities,
+    dataQualityScore: dataQuality.score,
+    confidence,
+  });
 
   return {
     matchId: matchInput.id,
@@ -60,7 +66,7 @@ function runProjectionPipeline(matchInput) {
     expectedHomeGoals,
     expectedAwayGoals,
     confidence,
-    probabilities: poisson.probabilities,
+    probabilities: calibration.probabilities,
     explanation: [
       `Data Quality approved with score ${dataQuality.score}.`,
       `Feature Store registered ${featureStore.catalogSize} official feature definitions.`,
@@ -68,6 +74,7 @@ function runProjectionPipeline(matchInput) {
       `${matchInput.awayTeam.name} adjusted xG stored as ${awayAdjustedXg}.`,
       `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
+      `Calibration reliability set to ${Math.round(calibration.reliability * 100)}%.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
     ],
     trace: {
@@ -76,6 +83,7 @@ function runProjectionPipeline(matchInput) {
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
       statistical: { poisson },
+      calibration,
     },
   };
 }
