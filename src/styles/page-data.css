@@ -19,7 +19,8 @@
 .snapshot-persistence-panel,
 .snapshot-json-panel,
 .engine-audit-panel,
-.engine-status-panel {
+.engine-status-panel,
+.engine-report-panel {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
   background:
@@ -136,6 +137,70 @@
 }
 
 .engine-status-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.engine-report-panel {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(217, 180, 91, 0.16), transparent 36%),
+    radial-gradient(circle at bottom left, rgba(32, 246, 164, 0.1), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+}
+
+.engine-report-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+.engine-report-header aside {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(217, 180, 91, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.engine-report-panel span {
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.engine-report-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.15rem, 2.1vw, 1.65rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.engine-report-panel p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.engine-report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.engine-report-grid article {
   min-width: 0;
   padding: 14px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -476,7 +541,9 @@
   .engine-audit-header,
   .engine-audit-grid,
   .engine-status-header,
-  .engine-status-grid {
+  .engine-status-grid,
+  .engine-report-header,
+  .engine-report-grid {
     grid-template-columns: 1fr;
   }
 }

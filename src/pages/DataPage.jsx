@@ -58,6 +58,7 @@ function DataPage() {
   const importedSnapshotEnvelope = engineExecution?.importedSnapshotEnvelope ?? null;
   const auditLog = engineExecution?.auditLog ?? null;
   const executionStatus = engineExecution?.executionStatus ?? null;
+  const executiveReport = engineExecution?.executiveReport ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -78,6 +79,41 @@ function DataPage() {
           <p>bases principais em estado saudável</p>
         </aside>
       </section>
+
+      {executiveReport ? (
+        <section className="engine-report-panel" aria-label="Relatorio executivo do pipeline">
+          <div className="engine-report-header">
+            <div>
+              <span>Executive Report</span>
+              <strong>{executiveReport.status}</strong>
+              <p>{executiveReport.headline}</p>
+            </div>
+            <aside>
+              <span>Saude</span>
+              <strong>{executiveReport.health}</strong>
+              <p>{executiveReport.generatedAt}</p>
+            </aside>
+          </div>
+
+          <div className="engine-report-grid">
+            <article>
+              <span>Jogos</span>
+              <strong>{executiveReport.summary.matches}</strong>
+              <p>{executiveReport.summary.eliteOpportunities} oportunidades elite</p>
+            </article>
+            <article>
+              <span>Top leitura</span>
+              <strong>{executiveReport.highlights.topOpportunity?.label ?? 'Sem destaque'}</strong>
+              <p>{executiveReport.highlights.topOpportunity?.opportunityScore ?? 0} score</p>
+            </article>
+            <article>
+              <span>Recomendacao</span>
+              <strong>{executiveReport.highlights.topOpportunity?.market ?? 'Aguardar'}</strong>
+              <p>{executiveReport.recommendation}</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
 
       {executionStatus ? (
         <section className="engine-status-panel" aria-label="Status padronizado da execucao do engine">

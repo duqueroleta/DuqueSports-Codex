@@ -10,6 +10,7 @@ import {
   saveEngineSnapshot,
 } from '../snapshot/EngineSnapshotRepository.js';
 import { runEngineSnapshotService } from '../snapshot/EngineSnapshotService.js';
+import { runEngineExecutiveReportService } from './EngineExecutiveReportService.js';
 import { resolveExecutionStatus } from './EngineExecutionStatusService.js';
 
 function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
@@ -22,11 +23,18 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
   const importedSnapshotEnvelope = importEngineSnapshotFromJson(exportedSnapshotJson);
   const auditLog = runEngineAuditLogService({ snapshot: engineSnapshot, importedSnapshotEnvelope });
   const executionStatus = resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, auditLog });
+  const executiveReport = runEngineExecutiveReportService({
+    executionStatus,
+    executiveDashboard,
+    engineSnapshot,
+    auditLog,
+  });
 
   return {
     model: 'engine-execution-pipeline-v1',
     status: executionStatus.status,
     executionStatus,
+    executiveReport,
     batchAnalysis,
     executiveDashboard,
     engineSnapshot,
