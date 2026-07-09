@@ -8,8 +8,16 @@ function createExecutionMessage({ code, severity = 'info', text }) {
   };
 }
 
-function resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, auditLog }) {
+function resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, auditLog, dataSource = null }) {
   const messages = [];
+
+  if (dataSource?.validation && !dataSource.validation.valid) {
+    messages.push(createExecutionMessage({
+      code: 'data-source.validation.invalid',
+      severity: 'error',
+      text: 'Fonte de dados invalida bloqueou a execucao operacional do engine.',
+    }));
+  }
 
   if (!persistedSnapshot) {
     messages.push(createExecutionMessage({

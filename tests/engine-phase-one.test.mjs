@@ -187,14 +187,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-26'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-27'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-26', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-27', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -208,6 +208,7 @@ const directExecutionStatus = resolveExecutionStatus({
   persistedSnapshot: engineSnapshot,
   importedSnapshotEnvelope,
   auditLog: engineAuditLog,
+  dataSource: mockEngineData,
 });
 const directExecutiveReport = runEngineExecutiveReportService({
   executionStatus: directExecutionStatus,
@@ -300,9 +301,36 @@ const blockedExecutionStatus = resolveExecutionStatus({
     health: 'critical',
   },
 });
+const invalidDataSource = {
+  model: mockEngineData.model,
+  source: 'invalid-mock-local-dataset',
+  freshness: mockEngineData.freshness,
+  provider: mockEngineData.provider,
+  validation: invalidMatchesValidation,
+  totals: mockEngineData.totals,
+};
+const blockedByDataSourceStatus = resolveExecutionStatus({
+  persistedSnapshot: engineSnapshot,
+  importedSnapshotEnvelope,
+  auditLog: engineAuditLog,
+  dataSource: invalidDataSource,
+});
+const blockedDataSourceExecution = runEngineExecutionPipeline({
+  matches: mockEngineData.matches,
+  markets: mockEngineData.markets,
+  batchAnalysis: mockEngineData.batchAnalysis,
+  dataSource: invalidDataSource,
+});
 
 assert.equal(partialExecutionStatus.status, 'partial', 'Execution status should expose partial runs');
 assert.equal(blockedExecutionStatus.status, 'blocked', 'Execution status should expose blocked runs');
+assert.equal(blockedByDataSourceStatus.status, 'blocked', 'Invalid data source should block execution status');
+assert.ok(
+  blockedByDataSourceStatus.messages.some((message) => message.code === 'data-source.validation.invalid'),
+  'Invalid data source should expose validation message',
+);
+assert.equal(blockedDataSourceExecution.status, 'blocked', 'Pipeline should block invalid data sources');
+assert.equal(blockedDataSourceExecution.apiResponse.statusCode, 409, 'Blocked data source API response should expose HTTP 409');
 const blockedApiResponse = createEnginePipelineApiResponse({
   ...engineExecution,
   status: 'blocked',
@@ -310,4 +338,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-26 tests passed');
+console.log('DUQUE Engine Phase 1-27 tests passed');

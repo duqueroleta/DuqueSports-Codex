@@ -23,7 +23,12 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis, dataSourc
   const exportedSnapshotJson = exportEngineSnapshotToJson(persistedSnapshot);
   const importedSnapshotEnvelope = importEngineSnapshotFromJson(exportedSnapshotJson);
   const auditLog = runEngineAuditLogService({ snapshot: engineSnapshot, importedSnapshotEnvelope });
-  const executionStatus = resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, auditLog });
+  const executionStatus = resolveExecutionStatus({
+    persistedSnapshot,
+    importedSnapshotEnvelope,
+    auditLog,
+    dataSource,
+  });
   const executiveReport = runEngineExecutiveReportService({
     executionStatus,
     executiveDashboard,
