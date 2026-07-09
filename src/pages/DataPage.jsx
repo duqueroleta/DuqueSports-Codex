@@ -304,113 +304,98 @@ function DataPage() {
       ) : null}
 
       {engineSnapshot ? (
-        <section className="engine-snapshot-panel" aria-label="Snapshot do estado do engine">
-          <div className="engine-snapshot-header">
-            <div>
-              <span>Engine Snapshot</span>
-              <strong>{engineSnapshot.engineVersion}</strong>
-              <p>{engineSnapshot.snapshotId}</p>
-            </div>
-            <aside>
-              <span>Escopo</span>
-              <strong>{engineSnapshot.scope}</strong>
-              <p>{engineSnapshot.createdAt}</p>
-            </aside>
-          </div>
-
-          <div className="engine-snapshot-grid">
-            <article>
-              <span>Top oportunidade</span>
-              <strong>{engineSnapshot.topOpportunities[0]?.label ?? 'Sem snapshot'}</strong>
-              <p>{engineSnapshot.topOpportunities[0]?.opportunityScore ?? 0} score</p>
-            </article>
-            <article>
-              <span>Top mercado</span>
-              <strong>{engineSnapshot.topMarkets[0]?.marketName ?? 'Sem snapshot'}</strong>
-              <p>{engineSnapshot.topMarkets[0]?.averageScore ?? 0} score medio</p>
-            </article>
-            <article>
-              <span>Top auditoria</span>
-              <strong>{engineSnapshot.auditSummary[0]?.marketName ?? 'Sem snapshot'}</strong>
-              <p>{engineSnapshot.auditSummary[0]?.stabilityScore ?? 0} estabilidade</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Snapshot do estado do engine"
+          variant="gold"
+          eyebrow="Engine Snapshot"
+          title={engineSnapshot.engineVersion}
+          description={engineSnapshot.snapshotId}
+          asideEyebrow="Escopo"
+          asideTitle={engineSnapshot.scope}
+          asideDescription={engineSnapshot.createdAt}
+          items={[
+            {
+              label: 'Top oportunidade',
+              value: engineSnapshot.topOpportunities[0]?.label ?? 'Sem snapshot',
+              description: `${engineSnapshot.topOpportunities[0]?.opportunityScore ?? 0} score`,
+            },
+            {
+              label: 'Top mercado',
+              value: engineSnapshot.topMarkets[0]?.marketName ?? 'Sem snapshot',
+              description: `${engineSnapshot.topMarkets[0]?.averageScore ?? 0} score medio`,
+            },
+            {
+              label: 'Top auditoria',
+              value: engineSnapshot.auditSummary[0]?.marketName ?? 'Sem snapshot',
+              description: `${engineSnapshot.auditSummary[0]?.stabilityScore ?? 0} estabilidade`,
+            },
+          ]}
+        />
       ) : null}
 
       {persistedSnapshot ? (
-        <section className="snapshot-persistence-panel" aria-label="Persistencia local de snapshots">
-          <div className="snapshot-persistence-header">
-            <div>
-              <span>Persistencia local</span>
-              <strong>{snapshotHistory.length} snapshot salvo</strong>
-              <p>Historico em memoria pronto para futura troca por banco de dados.</p>
-            </div>
-            <aside>
-              <span>Recuperacao por ID</span>
-              <strong>{recoveredSnapshot ? 'Ativa' : 'Indisponivel'}</strong>
-              <p>{persistedSnapshot.snapshotId}</p>
-            </aside>
-          </div>
-
-          <div className="snapshot-persistence-grid">
-            <article>
-              <span>Ultima versao</span>
-              <strong>{persistedSnapshot.engineVersion}</strong>
-              <p>{persistedSnapshot.scope}</p>
-            </article>
-            <article>
-              <span>Historico</span>
-              <strong>{snapshotHistory.length}</strong>
-              <p>registros em memoria</p>
-            </article>
-            <article>
-              <span>Consulta</span>
-              <strong>{recoveredSnapshot?.topOpportunities.length ?? 0}</strong>
-              <p>oportunidades recuperadas</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Persistencia local de snapshots"
+          variant="neon"
+          eyebrow="Persistencia local"
+          title={`${snapshotHistory.length} snapshot salvo`}
+          description="Historico em memoria pronto para futura troca por banco de dados."
+          asideEyebrow="Recuperacao por ID"
+          asideTitle={recoveredSnapshot ? 'Ativa' : 'Indisponivel'}
+          asideDescription={persistedSnapshot.snapshotId}
+          items={[
+            {
+              label: 'Ultima versao',
+              value: persistedSnapshot.engineVersion,
+              description: persistedSnapshot.scope,
+            },
+            {
+              label: 'Historico',
+              value: snapshotHistory.length,
+              description: 'registros em memoria',
+            },
+            {
+              label: 'Consulta',
+              value: recoveredSnapshot?.topOpportunities.length ?? 0,
+              description: 'oportunidades recuperadas',
+            },
+          ]}
+        />
       ) : null}
 
       {importedSnapshotEnvelope ? (
-        <section className="snapshot-json-panel" aria-label="Exportacao e importacao JSON de snapshots">
-          <div className="snapshot-json-header">
-            <div>
-              <span>Snapshot JSON</span>
-              <strong>Exportacao/importacao ativa</strong>
-              <p>{importedSnapshotEnvelope.format}</p>
-            </div>
-            <aside>
-              <span>Payload</span>
-              <strong>{exportedSnapshotJson.length}</strong>
-              <p>caracteres serializados</p>
-            </aside>
-          </div>
-
-          <div className="snapshot-json-grid">
-            <article>
-              <span>Export ID</span>
-              <strong>{importedSnapshotEnvelope.snapshot.snapshotId}</strong>
-              <p>snapshot pronto para transporte</p>
-            </article>
-            <article>
-              <span>Schema</span>
-              <strong>{importedSnapshotEnvelope.schemaValidation.valid ? 'Valido' : 'Invalido'}</strong>
-              <p>{importedSnapshotEnvelope.schemaValidation.schemaVersion}</p>
-            </article>
-            <article>
-              <span>Compatibilidade</span>
-              <strong>{importedSnapshotEnvelope.compatibility.status}</strong>
-              <p>{importedSnapshotEnvelope.compatibility.migrationRequired ? 'migracao necessaria' : 'sem migracao'}</p>
-            </article>
-            <article>
-              <span>Migracao</span>
-              <strong>{importedSnapshotEnvelope.migration.migrated ? 'Aplicada' : 'Nao requerida'}</strong>
-              <p>{importedSnapshotEnvelope.migration.registryVersion}</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Exportacao e importacao JSON de snapshots"
+          variant="gold"
+          eyebrow="Snapshot JSON"
+          title="Exportacao/importacao ativa"
+          description={importedSnapshotEnvelope.format}
+          asideEyebrow="Payload"
+          asideTitle={exportedSnapshotJson.length}
+          asideDescription="caracteres serializados"
+          items={[
+            {
+              label: 'Export ID',
+              value: importedSnapshotEnvelope.snapshot.snapshotId,
+              description: 'snapshot pronto para transporte',
+            },
+            {
+              label: 'Schema',
+              value: importedSnapshotEnvelope.schemaValidation.valid ? 'Valido' : 'Invalido',
+              description: importedSnapshotEnvelope.schemaValidation.schemaVersion,
+            },
+            {
+              label: 'Compatibilidade',
+              value: importedSnapshotEnvelope.compatibility.status,
+              description: importedSnapshotEnvelope.compatibility.migrationRequired ? 'migracao necessaria' : 'sem migracao',
+            },
+            {
+              label: 'Migracao',
+              value: importedSnapshotEnvelope.migration.migrated ? 'Aplicada' : 'Nao requerida',
+              description: importedSnapshotEnvelope.migration.registryVersion,
+            },
+          ]}
+        />
       ) : null}
 
       {auditLog ? (
