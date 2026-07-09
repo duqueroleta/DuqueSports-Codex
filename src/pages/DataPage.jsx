@@ -126,53 +126,48 @@ function DataPage() {
       ) : null}
 
       {dataSource ? (
-        <section className="engine-data-adapter-panel" aria-label="Adapter de dados do engine">
-          <div className="engine-data-adapter-header">
-            <div>
-              <span>Data Adapter</span>
-              <strong>{dataSource.source}</strong>
-              <p>{dataSource.model}</p>
-            </div>
-            <aside>
-              <span>Provider</span>
-              <strong>{dataSource.provider}</strong>
-              <p>{dataSource.validation.valid ? 'entrada validada' : 'revisar entrada'}</p>
-            </aside>
-          </div>
-
-          <div className="engine-data-adapter-grid">
-            <article>
-              <span>Jogos</span>
-              <strong>{dataSource.totals.matches}</strong>
-              <p>partidas carregadas</p>
-            </article>
-            <article>
-              <span>Mercados</span>
-              <strong>{dataSource.totals.markets}</strong>
-              <p>mercados mockados</p>
-            </article>
-            <article>
-              <span>Auditorias</span>
-              <strong>{dataSource.totals.audits}</strong>
-              <p>leituras especializadas</p>
-            </article>
-            <article>
-              <span>Oportunidades</span>
-              <strong>{dataSource.totals.opportunities}</strong>
-              <p>itens analisados</p>
-            </article>
-            <article>
-              <span>Validacao</span>
-              <strong>{dataSource.validation.valid ? 'Valida' : 'Invalida'}</strong>
-              <p>{dataSource.validation.checkedItems} itens verificados</p>
-            </article>
-            <article>
-              <span>Quarentena</span>
-              <strong>{dataSource.quarantine.status}</strong>
-              <p>{dataSource.quarantine.rejectedItems} registros retidos</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Adapter de dados do engine"
+          variant="neon"
+          eyebrow="Data Adapter"
+          title={dataSource.source}
+          description={dataSource.model}
+          asideEyebrow="Provider"
+          asideTitle={dataSource.provider}
+          asideDescription={dataSource.validation.valid ? 'entrada validada' : 'revisar entrada'}
+          items={[
+            {
+              label: 'Jogos',
+              value: dataSource.totals.matches,
+              description: 'partidas carregadas',
+            },
+            {
+              label: 'Mercados',
+              value: dataSource.totals.markets,
+              description: 'mercados mockados',
+            },
+            {
+              label: 'Auditorias',
+              value: dataSource.totals.audits,
+              description: 'leituras especializadas',
+            },
+            {
+              label: 'Oportunidades',
+              value: dataSource.totals.opportunities,
+              description: 'itens analisados',
+            },
+            {
+              label: 'Validacao',
+              value: dataSource.validation.valid ? 'Valida' : 'Invalida',
+              description: `${dataSource.validation.checkedItems} itens verificados`,
+            },
+            {
+              label: 'Quarentena',
+              value: dataSource.quarantine.status,
+              description: `${dataSource.quarantine.rejectedItems} registros retidos`,
+            },
+          ]}
+        />
       ) : null}
 
       {preflight ? (
