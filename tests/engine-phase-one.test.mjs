@@ -30,6 +30,9 @@ import { runEngineExecutionPipeline } from '../src/engine/pipeline/EngineExecuti
 import { resolveExecutionStatus } from '../src/engine/pipeline/EngineExecutionStatusService.js';
 import { createEnginePipelineApiResponse } from '../src/engine/api/EnginePipelineApiContract.js';
 import { createMockEngineDataAdapter } from '../src/engine/data-source/MockEngineDataAdapter.js';
+import { createMockAuditsDataAdapter } from '../src/engine/data-source/MockAuditsDataAdapter.js';
+import { createMockMarketsDataAdapter } from '../src/engine/data-source/MockMarketsDataAdapter.js';
+import { createMockMatchesDataAdapter } from '../src/engine/data-source/MockMatchesDataAdapter.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -99,6 +102,9 @@ assert.ok(Math.abs(calibratedOneXTwoTotal - 100) <= 0.2, 'Calibrated 1X2 probabi
 assert.ok(Math.abs(calibratedTotalsMarket - 100) <= 0.2, 'Calibrated totals market should sum to 100');
 
 const batchAnalysis = runBatchAnalysis(matches);
+const mockMatchesData = createMockMatchesDataAdapter();
+const mockMarketsData = createMockMarketsDataAdapter();
+const mockAuditsData = createMockAuditsDataAdapter();
 const mockEngineData = createMockEngineDataAdapter();
 
 assert.equal(batchAnalysis.model, 'batch-analysis-service-v1', 'Batch Analysis Service should expose its model');
@@ -109,8 +115,15 @@ assert.ok(
   'Batch Analysis Service should sort opportunities by score',
 );
 assert.equal(mockEngineData.model, 'mock-engine-data-adapter-v1', 'Mock data adapter should expose its model');
+assert.equal(mockMatchesData.model, 'mock-matches-data-adapter-v1', 'Mock matches adapter should expose its model');
+assert.equal(mockMarketsData.model, 'mock-markets-data-adapter-v1', 'Mock markets adapter should expose its model');
+assert.equal(mockAuditsData.model, 'mock-audits-data-adapter-v1', 'Mock audits adapter should expose its model');
 assert.equal(mockEngineData.matches.length, matches.length, 'Mock data adapter should expose matches');
 assert.equal(mockEngineData.markets.length, markets.length, 'Mock data adapter should expose markets');
+assert.equal(mockEngineData.audits.length, markets.length, 'Mock data adapter should expose audits');
+assert.equal(mockEngineData.adapters.matches.model, mockMatchesData.model, 'Aggregate adapter should preserve matches adapter');
+assert.equal(mockEngineData.adapters.markets.model, mockMarketsData.model, 'Aggregate adapter should preserve markets adapter');
+assert.equal(mockEngineData.adapters.audits.model, mockAuditsData.model, 'Aggregate adapter should preserve audits adapter');
 assert.equal(mockEngineData.batchAnalysis.analyzedMatches, matches.length, 'Mock data adapter should expose batch analysis');
 const batchFilterOptions = getBatchFilterOptions(batchAnalysis.opportunities);
 const eliteOpportunities = filterBatchOpportunities(batchAnalysis.opportunities, { tier: 'Elite', market: ALL_MARKETS });
@@ -163,14 +176,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-24'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-25'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-24', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-25', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -250,6 +263,7 @@ assert.equal(engineExecution.apiResponse.statusCode, 200, 'Healthy API contract 
 assert.equal(engineExecution.apiResponse.data.snapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'API contract should expose snapshot');
 assert.equal(engineExecution.dataSource.model, 'mock-engine-data-adapter-v1', 'Pipeline should preserve data source contract');
 assert.equal(engineExecution.apiResponse.data.dataSource.source, 'mock-local-dataset', 'API contract should expose data source');
+assert.equal(engineExecution.apiResponse.data.dataSource.totals.audits, markets.length, 'API contract should expose audits total');
 assert.equal(engineExecution.executiveDashboard.totals.matches, matches.length, 'Pipeline should include executive dashboard');
 assert.equal(engineExecution.persistedSnapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'Pipeline should persist snapshot');
 assert.equal(engineExecution.importedSnapshotEnvelope.compatibility.status, 'current', 'Pipeline should import current snapshot');
@@ -283,4 +297,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-24 tests passed');
+console.log('DUQUE Engine Phase 1-25 tests passed');

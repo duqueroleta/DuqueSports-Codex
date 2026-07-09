@@ -153,6 +153,11 @@ function DataPage() {
               <p>mercados mockados</p>
             </article>
             <article>
+              <span>Auditorias</span>
+              <strong>{dataSource.totals.audits}</strong>
+              <p>leituras especializadas</p>
+            </article>
+            <article>
               <span>Oportunidades</span>
               <strong>{dataSource.totals.opportunities}</strong>
               <p>itens analisados</p>
