@@ -6,6 +6,18 @@ import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineDataSource } from '../services/engineDataService.js';
 import '../styles/page-data.css';
 import { itemMatchesSearch } from '../utils/search.js';
+import {
+  getApiResponseItems,
+  getAuditLogItems,
+  getDataSourceItems,
+  getEngineSnapshotItems,
+  getExecutionStatusItems,
+  getExecutiveDashboardItems,
+  getExecutiveReportItems,
+  getPersistedSnapshotItems,
+  getPreflightItems,
+  getSnapshotJsonItems,
+} from './dataPagePanelItems.js';
 
 const sources = [
   {
@@ -105,23 +117,7 @@ function DataPage() {
           asideEyebrow="Saude"
           asideTitle={executiveReport.health}
           asideDescription={executiveReport.generatedAt}
-          items={[
-            {
-              label: 'Jogos',
-              value: executiveReport.summary.matches,
-              description: `${executiveReport.summary.eliteOpportunities} oportunidades elite`,
-            },
-            {
-              label: 'Top leitura',
-              value: executiveReport.highlights.topOpportunity?.label ?? 'Sem destaque',
-              description: `${executiveReport.highlights.topOpportunity?.opportunityScore ?? 0} score`,
-            },
-            {
-              label: 'Recomendacao',
-              value: executiveReport.highlights.topOpportunity?.market ?? 'Aguardar',
-              description: executiveReport.recommendation,
-            },
-          ]}
+          items={getExecutiveReportItems(executiveReport)}
         />
       ) : null}
 
@@ -135,38 +131,7 @@ function DataPage() {
           asideEyebrow="Provider"
           asideTitle={dataSource.provider}
           asideDescription={dataSource.validation.valid ? 'entrada validada' : 'revisar entrada'}
-          items={[
-            {
-              label: 'Jogos',
-              value: dataSource.totals.matches,
-              description: 'partidas carregadas',
-            },
-            {
-              label: 'Mercados',
-              value: dataSource.totals.markets,
-              description: 'mercados mockados',
-            },
-            {
-              label: 'Auditorias',
-              value: dataSource.totals.audits,
-              description: 'leituras especializadas',
-            },
-            {
-              label: 'Oportunidades',
-              value: dataSource.totals.opportunities,
-              description: 'itens analisados',
-            },
-            {
-              label: 'Validacao',
-              value: dataSource.validation.valid ? 'Valida' : 'Invalida',
-              description: `${dataSource.validation.checkedItems} itens verificados`,
-            },
-            {
-              label: 'Quarentena',
-              value: dataSource.quarantine.status,
-              description: `${dataSource.quarantine.rejectedItems} registros retidos`,
-            },
-          ]}
+          items={getDataSourceItems(dataSource)}
         />
       ) : null}
 
@@ -180,23 +145,7 @@ function DataPage() {
           asideEyebrow="Politica"
           asideTitle={preflight.severityPolicy.model}
           asideDescription={preflight.severityPolicy.toleratesWarnings ? 'avisos tolerados' : 'avisos bloqueantes'}
-          items={[
-            {
-              label: 'Continuidade',
-              value: preflight.shouldContinue ? 'Liberada' : 'Bloqueada',
-              description: preflight.checkedAt,
-            },
-            {
-              label: 'Bloqueantes',
-              value: preflight.severityPolicy.blockingSeverities.join(', '),
-              description: 'severidades que interrompem a rodada',
-            },
-            {
-              label: 'Mensagens',
-              value: preflight.messages.length,
-              description: preflight.messages[0]?.code ?? 'sem eventos',
-            },
-          ]}
+          items={getPreflightItems(preflight)}
         />
       ) : null}
 
@@ -210,23 +159,7 @@ function DataPage() {
           asideEyebrow="Status HTTP"
           asideTitle={apiResponse.statusCode}
           asideDescription={apiResponse.meta.transport}
-          items={[
-            {
-              label: 'Metodo',
-              value: apiResponse.method,
-              description: apiResponse.generatedAt,
-            },
-            {
-              label: 'Payload',
-              value: apiResponse.data.status,
-              description: `${apiResponse.data.topOpportunities.length} oportunidades no contrato`,
-            },
-            {
-              label: 'Persistencia',
-              value: apiResponse.meta.persistence,
-              description: apiResponse.meta.mock ? 'mock ativo' : 'producao',
-            },
-          ]}
+          items={getApiResponseItems(apiResponse)}
         />
       ) : null}
 
@@ -240,11 +173,7 @@ function DataPage() {
           asideEyebrow="Mensagens"
           asideTitle={executionStatus.messages.length}
           asideDescription={executionStatus.isTerminal ? 'execucao finalizada' : 'execucao em andamento'}
-          items={executionStatus.messages.map((message) => ({
-            label: message.code,
-            value: message.severity,
-            description: message.text,
-          }))}
+          items={getExecutionStatusItems(executionStatus)}
         />
       ) : null}
 
@@ -258,30 +187,7 @@ function DataPage() {
           asideEyebrow="Engine v1"
           asideTitle={executiveDashboard.quality.averageOpportunityScore}
           asideDescription="score medio das melhores oportunidades"
-          items={[
-            {
-              label: 'Ao vivo',
-              value: executiveDashboard.totals.liveMatches,
-              description: 'partidas em monitoramento live',
-            },
-            {
-              label: 'Top oportunidade',
-              value: executiveDashboard.highlights.topOpportunity
-                ? `${executiveDashboard.highlights.topOpportunity.home} x ${executiveDashboard.highlights.topOpportunity.away}`
-                : 'Calculando',
-              description: executiveDashboard.highlights.topOpportunity?.tier ?? 'Sem tier',
-            },
-            {
-              label: 'Top mercado',
-              value: executiveDashboard.highlights.topMarket?.marketName ?? 'Calculando',
-              description: `${executiveDashboard.highlights.topMarket?.averageScore ?? 0} score medio`,
-            },
-            {
-              label: 'Auditoria',
-              value: `${executiveDashboard.quality.averageAuditHitRate}%`,
-              description: `${executiveDashboard.quality.averageStability} estabilidade media`,
-            },
-          ]}
+          items={getExecutiveDashboardItems(executiveDashboard)}
         />
       ) : null}
 
@@ -295,23 +201,7 @@ function DataPage() {
           asideEyebrow="Escopo"
           asideTitle={engineSnapshot.scope}
           asideDescription={engineSnapshot.createdAt}
-          items={[
-            {
-              label: 'Top oportunidade',
-              value: engineSnapshot.topOpportunities[0]?.label ?? 'Sem snapshot',
-              description: `${engineSnapshot.topOpportunities[0]?.opportunityScore ?? 0} score`,
-            },
-            {
-              label: 'Top mercado',
-              value: engineSnapshot.topMarkets[0]?.marketName ?? 'Sem snapshot',
-              description: `${engineSnapshot.topMarkets[0]?.averageScore ?? 0} score medio`,
-            },
-            {
-              label: 'Top auditoria',
-              value: engineSnapshot.auditSummary[0]?.marketName ?? 'Sem snapshot',
-              description: `${engineSnapshot.auditSummary[0]?.stabilityScore ?? 0} estabilidade`,
-            },
-          ]}
+          items={getEngineSnapshotItems(engineSnapshot)}
         />
       ) : null}
 
@@ -325,23 +215,7 @@ function DataPage() {
           asideEyebrow="Recuperacao por ID"
           asideTitle={recoveredSnapshot ? 'Ativa' : 'Indisponivel'}
           asideDescription={persistedSnapshot.snapshotId}
-          items={[
-            {
-              label: 'Ultima versao',
-              value: persistedSnapshot.engineVersion,
-              description: persistedSnapshot.scope,
-            },
-            {
-              label: 'Historico',
-              value: snapshotHistory.length,
-              description: 'registros em memoria',
-            },
-            {
-              label: 'Consulta',
-              value: recoveredSnapshot?.topOpportunities.length ?? 0,
-              description: 'oportunidades recuperadas',
-            },
-          ]}
+          items={getPersistedSnapshotItems(persistedSnapshot, snapshotHistory, recoveredSnapshot)}
         />
       ) : null}
 
@@ -355,28 +229,7 @@ function DataPage() {
           asideEyebrow="Payload"
           asideTitle={exportedSnapshotJson.length}
           asideDescription="caracteres serializados"
-          items={[
-            {
-              label: 'Export ID',
-              value: importedSnapshotEnvelope.snapshot.snapshotId,
-              description: 'snapshot pronto para transporte',
-            },
-            {
-              label: 'Schema',
-              value: importedSnapshotEnvelope.schemaValidation.valid ? 'Valido' : 'Invalido',
-              description: importedSnapshotEnvelope.schemaValidation.schemaVersion,
-            },
-            {
-              label: 'Compatibilidade',
-              value: importedSnapshotEnvelope.compatibility.status,
-              description: importedSnapshotEnvelope.compatibility.migrationRequired ? 'migracao necessaria' : 'sem migracao',
-            },
-            {
-              label: 'Migracao',
-              value: importedSnapshotEnvelope.migration.migrated ? 'Aplicada' : 'Nao requerida',
-              description: importedSnapshotEnvelope.migration.registryVersion,
-            },
-          ]}
+          items={getSnapshotJsonItems(importedSnapshotEnvelope)}
         />
       ) : null}
 
@@ -390,11 +243,7 @@ function DataPage() {
           asideEyebrow="Eventos"
           asideTitle={auditLog.totalEvents}
           asideDescription={auditLog.generatedAt}
-          items={auditLog.events.map((event) => ({
-            label: event.type,
-            value: event.severity,
-            description: event.message,
-          }))}
+          items={getAuditLogItems(auditLog)}
         />
       ) : null}
 
