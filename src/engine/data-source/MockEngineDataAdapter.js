@@ -1,4 +1,5 @@
 import { runBatchAnalysis } from '../batch/BatchAnalysisService.js';
+import { createDataAdapterQuarantine } from './DataAdapterQuarantineService.js';
 import { summarizeAdapterValidations } from './DataAdapterValidationService.js';
 import { createMockAuditsDataAdapter } from './MockAuditsDataAdapter.js';
 import { createMockMarketsDataAdapter } from './MockMarketsDataAdapter.js';
@@ -15,6 +16,14 @@ function createMockEngineDataAdapter() {
     marketsData.validation,
     auditsData.validation,
   ]);
+  const quarantine = createDataAdapterQuarantine({
+    source: 'mock-local-dataset',
+    validations: [
+      matchesData.validation,
+      marketsData.validation,
+      auditsData.validation,
+    ],
+  });
   const batchAnalysis = runBatchAnalysis(matchesData.matches);
 
   return {
@@ -23,6 +32,7 @@ function createMockEngineDataAdapter() {
     freshness: 'mock-current-state',
     provider: 'duque-score-local',
     validation,
+    quarantine,
     adapters: {
       matches: matchesData,
       markets: marketsData,

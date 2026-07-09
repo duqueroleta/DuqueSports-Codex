@@ -55,6 +55,7 @@ function DataPage() {
         freshness: engineDataSource.freshness,
         provider: engineDataSource.provider,
         validation: engineDataSource.validation,
+        quarantine: engineDataSource.quarantine,
         totals: engineDataSource.totals,
       },
     })
@@ -167,6 +168,11 @@ function DataPage() {
               <span>Validacao</span>
               <strong>{dataSource.validation.valid ? 'Valida' : 'Invalida'}</strong>
               <p>{dataSource.validation.checkedItems} itens verificados</p>
+            </article>
+            <article>
+              <span>Quarentena</span>
+              <strong>{dataSource.quarantine.status}</strong>
+              <p>{dataSource.quarantine.rejectedItems} registros retidos</p>
             </article>
           </div>
         </section>

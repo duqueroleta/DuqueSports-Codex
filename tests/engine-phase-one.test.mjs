@@ -33,6 +33,7 @@ import { createMockEngineDataAdapter } from '../src/engine/data-source/MockEngin
 import { createMockAuditsDataAdapter } from '../src/engine/data-source/MockAuditsDataAdapter.js';
 import { createMockMarketsDataAdapter } from '../src/engine/data-source/MockMarketsDataAdapter.js';
 import { createMockMatchesDataAdapter } from '../src/engine/data-source/MockMatchesDataAdapter.js';
+import { createDataAdapterQuarantine } from '../src/engine/data-source/DataAdapterQuarantineService.js';
 import {
   validateMatchesData,
   validateMarketsData,
@@ -111,6 +112,13 @@ const mockMarketsData = createMockMarketsDataAdapter();
 const mockAuditsData = createMockAuditsDataAdapter();
 const mockEngineData = createMockEngineDataAdapter();
 const invalidMatchesValidation = validateMatchesData([{ id: 'broken-match' }]);
+const invalidAdapterQuarantine = createDataAdapterQuarantine({
+  source: 'test-invalid-source',
+  validations: [
+    invalidMatchesValidation,
+    mockMarketsData.validation,
+  ],
+});
 
 assert.equal(batchAnalysis.model, 'batch-analysis-service-v1', 'Batch Analysis Service should expose its model');
 assert.equal(batchAnalysis.analyzedMatches, matches.length, 'Batch Analysis Service should process every mock match');
@@ -127,7 +135,16 @@ assert.equal(mockMatchesData.validation.valid, true, 'Mock matches adapter shoul
 assert.equal(mockMarketsData.validation.valid, true, 'Mock markets adapter should validate its input');
 assert.equal(mockAuditsData.validation.valid, true, 'Mock audits adapter should validate its input');
 assert.equal(mockEngineData.validation.valid, true, 'Aggregate mock data adapter should summarize valid inputs');
+assert.equal(mockEngineData.quarantine.status, 'clear', 'Aggregate mock data adapter should expose clear quarantine');
+assert.equal(mockEngineData.quarantine.rejectedItems, 0, 'Valid mock data should not reject records');
 assert.equal(invalidMatchesValidation.valid, false, 'Data adapter validation should reject incomplete matches');
+assert.equal(invalidAdapterQuarantine.status, 'quarantined', 'Invalid adapter validation should create quarantine');
+assert.equal(invalidAdapterQuarantine.rejectedItems, 1, 'Invalid adapter quarantine should count rejected records');
+assert.equal(
+  invalidAdapterQuarantine.rejectedRecords[0].entityName,
+  'matches',
+  'Invalid adapter quarantine should preserve entity ownership',
+);
 assert.equal(validateMarketsData(markets).checkedItems, markets.length, 'Market validation should count checked items');
 assert.equal(mockEngineData.matches.length, matches.length, 'Mock data adapter should expose matches');
 assert.equal(mockEngineData.markets.length, markets.length, 'Mock data adapter should expose markets');
@@ -187,14 +204,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-27'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-28'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-27', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-28', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -261,6 +278,7 @@ const engineExecution = runEngineExecutionPipeline({
     freshness: mockEngineData.freshness,
     provider: mockEngineData.provider,
     validation: mockEngineData.validation,
+    quarantine: mockEngineData.quarantine,
     totals: mockEngineData.totals,
   },
 });
@@ -276,7 +294,9 @@ assert.equal(engineExecution.apiResponse.statusCode, 200, 'Healthy API contract 
 assert.equal(engineExecution.apiResponse.data.snapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'API contract should expose snapshot');
 assert.equal(engineExecution.dataSource.model, 'mock-engine-data-adapter-v1', 'Pipeline should preserve data source contract');
 assert.equal(engineExecution.dataSource.validation.valid, true, 'Pipeline should preserve data source validation');
+assert.equal(engineExecution.dataSource.quarantine.status, 'clear', 'Pipeline should preserve data source quarantine');
 assert.equal(engineExecution.apiResponse.data.dataSource.source, 'mock-local-dataset', 'API contract should expose data source');
+assert.equal(engineExecution.apiResponse.data.dataSource.quarantine.rejectedItems, 0, 'API contract should expose quarantine');
 assert.equal(engineExecution.apiResponse.data.dataSource.totals.audits, markets.length, 'API contract should expose audits total');
 assert.equal(engineExecution.executiveDashboard.totals.matches, matches.length, 'Pipeline should include executive dashboard');
 assert.equal(engineExecution.persistedSnapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'Pipeline should persist snapshot');
@@ -307,6 +327,7 @@ const invalidDataSource = {
   freshness: mockEngineData.freshness,
   provider: mockEngineData.provider,
   validation: invalidMatchesValidation,
+  quarantine: invalidAdapterQuarantine,
   totals: mockEngineData.totals,
 };
 const blockedByDataSourceStatus = resolveExecutionStatus({
@@ -338,4 +359,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-27 tests passed');
+console.log('DUQUE Engine Phase 1-28 tests passed');
