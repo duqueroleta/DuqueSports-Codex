@@ -249,53 +249,40 @@ function DataPage() {
       ) : null}
 
       {executiveDashboard ? (
-        <section className="executive-dashboard" aria-label="Painel executivo de dados globais">
-          <div className="executive-dashboard-header">
-            <div>
-              <span>Executive Data Layer</span>
-              <strong>{executiveDashboard.totals.matches} jogos no radar</strong>
-              <p>
-                {executiveDashboard.totals.eliteOpportunities} oportunidades elite,
-                {' '}
-                {executiveDashboard.totals.rankedMarkets} mercados ranqueados e
-                {' '}
-                {executiveDashboard.totals.auditedMarkets} auditorias consolidadas.
-              </p>
-            </div>
-            <aside>
-              <span>Engine v1 - Fase 13</span>
-              <strong>{executiveDashboard.quality.averageOpportunityScore}</strong>
-              <p>score medio das melhores oportunidades</p>
-            </aside>
-          </div>
-
-          <div className="executive-dashboard-grid">
-            <article>
-              <span>Ao vivo</span>
-              <strong>{executiveDashboard.totals.liveMatches}</strong>
-              <p>partidas em monitoramento live</p>
-            </article>
-            <article>
-              <span>Top oportunidade</span>
-              <strong>
-                {executiveDashboard.highlights.topOpportunity
-                  ? `${executiveDashboard.highlights.topOpportunity.home} x ${executiveDashboard.highlights.topOpportunity.away}`
-                  : 'Calculando'}
-              </strong>
-              <p>{executiveDashboard.highlights.topOpportunity?.tier ?? 'Sem tier'}</p>
-            </article>
-            <article>
-              <span>Top mercado</span>
-              <strong>{executiveDashboard.highlights.topMarket?.marketName ?? 'Calculando'}</strong>
-              <p>{executiveDashboard.highlights.topMarket?.averageScore ?? 0} score medio</p>
-            </article>
-            <article>
-              <span>Auditoria</span>
-              <strong>{executiveDashboard.quality.averageAuditHitRate}%</strong>
-              <p>{executiveDashboard.quality.averageStability} estabilidade media</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Painel executivo de dados globais"
+          variant="neon"
+          eyebrow="Executive Data Layer"
+          title={`${executiveDashboard.totals.matches} jogos no radar`}
+          description={`${executiveDashboard.totals.eliteOpportunities} oportunidades elite, ${executiveDashboard.totals.rankedMarkets} mercados ranqueados e ${executiveDashboard.totals.auditedMarkets} auditorias consolidadas.`}
+          asideEyebrow="Engine v1"
+          asideTitle={executiveDashboard.quality.averageOpportunityScore}
+          asideDescription="score medio das melhores oportunidades"
+          items={[
+            {
+              label: 'Ao vivo',
+              value: executiveDashboard.totals.liveMatches,
+              description: 'partidas em monitoramento live',
+            },
+            {
+              label: 'Top oportunidade',
+              value: executiveDashboard.highlights.topOpportunity
+                ? `${executiveDashboard.highlights.topOpportunity.home} x ${executiveDashboard.highlights.topOpportunity.away}`
+                : 'Calculando',
+              description: executiveDashboard.highlights.topOpportunity?.tier ?? 'Sem tier',
+            },
+            {
+              label: 'Top mercado',
+              value: executiveDashboard.highlights.topMarket?.marketName ?? 'Calculando',
+              description: `${executiveDashboard.highlights.topMarket?.averageScore ?? 0} score medio`,
+            },
+            {
+              label: 'Auditoria',
+              value: `${executiveDashboard.quality.averageAuditHitRate}%`,
+              description: `${executiveDashboard.quality.averageStability} estabilidade media`,
+            },
+          ]}
+        />
       ) : null}
 
       {engineSnapshot ? (
