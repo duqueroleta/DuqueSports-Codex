@@ -96,38 +96,33 @@ function DataPage() {
       </section>
 
       {executiveReport ? (
-        <section className="engine-report-panel" aria-label="Relatorio executivo do pipeline">
-          <div className="engine-report-header">
-            <div>
-              <span>Executive Report</span>
-              <strong>{executiveReport.status}</strong>
-              <p>{executiveReport.headline}</p>
-            </div>
-            <aside>
-              <span>Saude</span>
-              <strong>{executiveReport.health}</strong>
-              <p>{executiveReport.generatedAt}</p>
-            </aside>
-          </div>
-
-          <div className="engine-report-grid">
-            <article>
-              <span>Jogos</span>
-              <strong>{executiveReport.summary.matches}</strong>
-              <p>{executiveReport.summary.eliteOpportunities} oportunidades elite</p>
-            </article>
-            <article>
-              <span>Top leitura</span>
-              <strong>{executiveReport.highlights.topOpportunity?.label ?? 'Sem destaque'}</strong>
-              <p>{executiveReport.highlights.topOpportunity?.opportunityScore ?? 0} score</p>
-            </article>
-            <article>
-              <span>Recomendacao</span>
-              <strong>{executiveReport.highlights.topOpportunity?.market ?? 'Aguardar'}</strong>
-              <p>{executiveReport.recommendation}</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Relatorio executivo do pipeline"
+          variant="gold"
+          eyebrow="Executive Report"
+          title={executiveReport.status}
+          description={executiveReport.headline}
+          asideEyebrow="Saude"
+          asideTitle={executiveReport.health}
+          asideDescription={executiveReport.generatedAt}
+          items={[
+            {
+              label: 'Jogos',
+              value: executiveReport.summary.matches,
+              description: `${executiveReport.summary.eliteOpportunities} oportunidades elite`,
+            },
+            {
+              label: 'Top leitura',
+              value: executiveReport.highlights.topOpportunity?.label ?? 'Sem destaque',
+              description: `${executiveReport.highlights.topOpportunity?.opportunityScore ?? 0} score`,
+            },
+            {
+              label: 'Recomendacao',
+              value: executiveReport.highlights.topOpportunity?.market ?? 'Aguardar',
+              description: executiveReport.recommendation,
+            },
+          ]}
+        />
       ) : null}
 
       {dataSource ? (
@@ -241,30 +236,21 @@ function DataPage() {
       ) : null}
 
       {executionStatus ? (
-        <section className="engine-status-panel" aria-label="Status padronizado da execucao do engine">
-          <div className="engine-status-header">
-            <div>
-              <span>Execution Status</span>
-              <strong>{executionStatus.status}</strong>
-              <p>{executionStatus.model}</p>
-            </div>
-            <aside>
-              <span>Mensagens</span>
-              <strong>{executionStatus.messages.length}</strong>
-              <p>{executionStatus.isTerminal ? 'execucao finalizada' : 'execucao em andamento'}</p>
-            </aside>
-          </div>
-
-          <div className="engine-status-grid">
-            {executionStatus.messages.map((message) => (
-              <article key={message.code}>
-                <span>{message.code}</span>
-                <strong>{message.severity}</strong>
-                <p>{message.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Status padronizado da execucao do engine"
+          variant="neon"
+          eyebrow="Execution Status"
+          title={executionStatus.status}
+          description={executionStatus.model}
+          asideEyebrow="Mensagens"
+          asideTitle={executionStatus.messages.length}
+          asideDescription={executionStatus.isTerminal ? 'execucao finalizada' : 'execucao em andamento'}
+          items={executionStatus.messages.map((message) => ({
+            label: message.code,
+            value: message.severity,
+            description: message.text,
+          }))}
+        />
       ) : null}
 
       {executiveDashboard ? (
