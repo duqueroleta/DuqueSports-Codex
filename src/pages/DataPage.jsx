@@ -2,18 +2,7 @@ import DataSourceCard from '../components/data/DataSourceCard.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { markets } from '../data/markets.js';
 import { matches } from '../data/matches.js';
-import { runExecutiveDashboardService } from '../engine/batch/ExecutiveDashboardService.js';
-import {
-  getEngineSnapshotById,
-  getEngineSnapshotHistory,
-  saveEngineSnapshot,
-} from '../engine/snapshot/EngineSnapshotRepository.js';
-import {
-  exportEngineSnapshotToJson,
-  importEngineSnapshotFromJson,
-} from '../engine/snapshot/EngineSnapshotJsonService.js';
-import { runEngineAuditLogService } from '../engine/audit/EngineAuditLogService.js';
-import { runEngineSnapshotService } from '../engine/snapshot/EngineSnapshotService.js';
+import { runEngineExecutionPipeline } from '../engine/pipeline/EngineExecutionPipeline.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import '../styles/page-data.css';
@@ -57,22 +46,17 @@ const sources = [
 function DataPage() {
   const { searchTerm } = useSearch();
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
-  const executiveDashboard = batchAnalysis
-    ? runExecutiveDashboardService({ matches, markets, batchAnalysis })
+  const engineExecution = batchAnalysis
+    ? runEngineExecutionPipeline({ matches, markets, batchAnalysis })
     : null;
-  const engineSnapshot = batchAnalysis && executiveDashboard
-    ? runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard })
-    : null;
-  const persistedSnapshot = engineSnapshot ? saveEngineSnapshot(engineSnapshot) : null;
-  const snapshotHistory = getEngineSnapshotHistory();
-  const recoveredSnapshot = persistedSnapshot ? getEngineSnapshotById(persistedSnapshot.snapshotId) : null;
-  const exportedSnapshotJson = persistedSnapshot ? exportEngineSnapshotToJson(persistedSnapshot) : '';
-  const importedSnapshotEnvelope = exportedSnapshotJson
-    ? importEngineSnapshotFromJson(exportedSnapshotJson)
-    : null;
-  const auditLog = engineSnapshot
-    ? runEngineAuditLogService({ snapshot: engineSnapshot, importedSnapshotEnvelope })
-    : null;
+  const executiveDashboard = engineExecution?.executiveDashboard ?? null;
+  const engineSnapshot = engineExecution?.engineSnapshot ?? null;
+  const persistedSnapshot = engineExecution?.persistedSnapshot ?? null;
+  const snapshotHistory = engineExecution?.snapshotHistory ?? [];
+  const recoveredSnapshot = engineExecution?.recoveredSnapshot ?? null;
+  const exportedSnapshotJson = engineExecution?.exportedSnapshotJson ?? '';
+  const importedSnapshotEnvelope = engineExecution?.importedSnapshotEnvelope ?? null;
+  const auditLog = engineExecution?.auditLog ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (

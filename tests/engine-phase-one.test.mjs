@@ -25,6 +25,7 @@ import {
 import { migrateEngineSnapshotToCurrentVersion } from '../src/engine/snapshot/EngineSnapshotMigrationService.js';
 import { runEngineSnapshotService } from '../src/engine/snapshot/EngineSnapshotService.js';
 import { runEngineAuditLogService } from '../src/engine/audit/EngineAuditLogService.js';
+import { runEngineExecutionPipeline } from '../src/engine/pipeline/EngineExecutionPipeline.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -153,14 +154,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-19'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-20'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-19', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-20', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -200,5 +201,14 @@ assert.ok(
   engineAuditLog.events.some((event) => event.type === 'snapshot.migration.evaluated'),
   'Engine audit log should register migration evaluation',
 );
+resetEngineSnapshotRepository();
+const engineExecution = runEngineExecutionPipeline({ matches, markets, batchAnalysis });
 
-console.log('DUQUE Engine Phase 1-19 tests passed');
+assert.equal(engineExecution.model, 'engine-execution-pipeline-v1', 'Engine execution pipeline should expose its model');
+assert.equal(engineExecution.status, 'completed', 'Engine execution pipeline should complete healthy runs');
+assert.equal(engineExecution.executiveDashboard.totals.matches, matches.length, 'Pipeline should include executive dashboard');
+assert.equal(engineExecution.persistedSnapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'Pipeline should persist snapshot');
+assert.equal(engineExecution.importedSnapshotEnvelope.compatibility.status, 'current', 'Pipeline should import current snapshot');
+assert.equal(engineExecution.auditLog.totalEvents, 3, 'Pipeline should include audit events');
+
+console.log('DUQUE Engine Phase 1-20 tests passed');
