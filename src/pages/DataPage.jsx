@@ -70,6 +70,7 @@ function DataPage() {
   const auditLog = engineExecution?.auditLog ?? null;
   const executionStatus = engineExecution?.executionStatus ?? null;
   const executiveReport = engineExecution?.executiveReport ?? null;
+  const preflight = engineExecution?.preflight ?? null;
   const apiResponse = engineExecution?.apiResponse ?? null;
   const dataSource = engineExecution?.dataSource ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
@@ -173,6 +174,41 @@ function DataPage() {
               <span>Quarentena</span>
               <strong>{dataSource.quarantine.status}</strong>
               <p>{dataSource.quarantine.rejectedItems} registros retidos</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {preflight ? (
+        <section className="engine-preflight-panel" aria-label="Resumo de preflight do engine">
+          <div className="engine-preflight-header">
+            <div>
+              <span>Preflight</span>
+              <strong>{preflight.status}</strong>
+              <p>{preflight.model}</p>
+            </div>
+            <aside>
+              <span>Politica</span>
+              <strong>{preflight.severityPolicy.model}</strong>
+              <p>{preflight.severityPolicy.toleratesWarnings ? 'avisos tolerados' : 'avisos bloqueantes'}</p>
+            </aside>
+          </div>
+
+          <div className="engine-preflight-grid">
+            <article>
+              <span>Continuidade</span>
+              <strong>{preflight.shouldContinue ? 'Liberada' : 'Bloqueada'}</strong>
+              <p>{preflight.checkedAt}</p>
+            </article>
+            <article>
+              <span>Bloqueantes</span>
+              <strong>{preflight.severityPolicy.blockingSeverities.join(', ')}</strong>
+              <p>severidades que interrompem a rodada</p>
+            </article>
+            <article>
+              <span>Mensagens</span>
+              <strong>{preflight.messages.length}</strong>
+              <p>{preflight.messages[0]?.code ?? 'sem eventos'}</p>
             </article>
           </div>
         </section>
