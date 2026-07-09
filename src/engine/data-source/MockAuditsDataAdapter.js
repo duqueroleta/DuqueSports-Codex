@@ -1,4 +1,5 @@
 import { markets } from '../../data/markets.js';
+import { validateAuditsData } from './DataAdapterValidationService.js';
 
 const MOCK_AUDITS_DATA_ADAPTER_MODEL = 'mock-audits-data-adapter-v1';
 
@@ -10,12 +11,14 @@ function createMockAuditsDataAdapter() {
     risk: market.risk,
     trend: market.trend,
   }));
+  const validation = validateAuditsData(audits);
 
   return {
     model: MOCK_AUDITS_DATA_ADAPTER_MODEL,
     source: 'mock-audits-dataset',
     freshness: 'mock-current-state',
     provider: 'duque-score-local',
+    validation,
     audits,
     totals: {
       audits: audits.length,

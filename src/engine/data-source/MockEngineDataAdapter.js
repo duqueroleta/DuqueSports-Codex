@@ -1,4 +1,5 @@
 import { runBatchAnalysis } from '../batch/BatchAnalysisService.js';
+import { summarizeAdapterValidations } from './DataAdapterValidationService.js';
 import { createMockAuditsDataAdapter } from './MockAuditsDataAdapter.js';
 import { createMockMarketsDataAdapter } from './MockMarketsDataAdapter.js';
 import { createMockMatchesDataAdapter } from './MockMatchesDataAdapter.js';
@@ -9,6 +10,11 @@ function createMockEngineDataAdapter() {
   const matchesData = createMockMatchesDataAdapter();
   const marketsData = createMockMarketsDataAdapter();
   const auditsData = createMockAuditsDataAdapter();
+  const validation = summarizeAdapterValidations([
+    matchesData.validation,
+    marketsData.validation,
+    auditsData.validation,
+  ]);
   const batchAnalysis = runBatchAnalysis(matchesData.matches);
 
   return {
@@ -16,6 +22,7 @@ function createMockEngineDataAdapter() {
     source: 'mock-local-dataset',
     freshness: 'mock-current-state',
     provider: 'duque-score-local',
+    validation,
     adapters: {
       matches: matchesData,
       markets: marketsData,

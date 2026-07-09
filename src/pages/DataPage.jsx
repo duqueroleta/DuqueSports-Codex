@@ -54,6 +54,7 @@ function DataPage() {
         source: engineDataSource.source,
         freshness: engineDataSource.freshness,
         provider: engineDataSource.provider,
+        validation: engineDataSource.validation,
         totals: engineDataSource.totals,
       },
     })
@@ -137,7 +138,7 @@ function DataPage() {
             <aside>
               <span>Provider</span>
               <strong>{dataSource.provider}</strong>
-              <p>{dataSource.freshness}</p>
+              <p>{dataSource.validation.valid ? 'entrada validada' : 'revisar entrada'}</p>
             </aside>
           </div>
 
@@ -161,6 +162,11 @@ function DataPage() {
               <span>Oportunidades</span>
               <strong>{dataSource.totals.opportunities}</strong>
               <p>itens analisados</p>
+            </article>
+            <article>
+              <span>Validacao</span>
+              <strong>{dataSource.validation.valid ? 'Valida' : 'Invalida'}</strong>
+              <p>{dataSource.validation.checkedItems} itens verificados</p>
             </article>
           </div>
         </section>
