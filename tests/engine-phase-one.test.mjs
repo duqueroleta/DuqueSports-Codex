@@ -119,6 +119,20 @@ const invalidAdapterQuarantine = createDataAdapterQuarantine({
     mockMarketsData.validation,
   ],
 });
+const warningAdapterQuarantine = {
+  ...mockEngineData.quarantine,
+  status: 'warning',
+  rejectedItems: 1,
+  rejectedRecords: [
+    {
+      id: 'markets-warning-1',
+      entityName: 'markets',
+      severity: 'warning',
+      action: 'review-record',
+      reason: 'market odds freshness near tolerance limit',
+    },
+  ],
+};
 
 assert.equal(batchAnalysis.model, 'batch-analysis-service-v1', 'Batch Analysis Service should expose its model');
 assert.equal(batchAnalysis.analyzedMatches, matches.length, 'Batch Analysis Service should process every mock match');
@@ -204,14 +218,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-29'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-30'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-29', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-30', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -343,6 +357,16 @@ const blockedDataSourceExecution = runEngineExecutionPipeline({
   batchAnalysis: mockEngineData.batchAnalysis,
   dataSource: invalidDataSource,
 });
+const warningDataSourceExecution = runEngineExecutionPipeline({
+  matches: mockEngineData.matches,
+  markets: mockEngineData.markets,
+  batchAnalysis: mockEngineData.batchAnalysis,
+  dataSource: {
+    ...invalidDataSource,
+    validation: mockEngineData.validation,
+    quarantine: warningAdapterQuarantine,
+  },
+});
 
 assert.equal(partialExecutionStatus.status, 'partial', 'Execution status should expose partial runs');
 assert.equal(blockedExecutionStatus.status, 'blocked', 'Execution status should expose blocked runs');
@@ -363,6 +387,19 @@ assert.ok(
   blockedDataSourceExecution.executionStatus.messages.some((message) => message.code === 'preflight.quarantine.blocked'),
   'Preflight block should expose quarantine message',
 );
+assert.equal(warningDataSourceExecution.preflight.status, 'warning', 'Warning quarantine should expose warning preflight');
+assert.equal(warningDataSourceExecution.preflight.shouldContinue, true, 'Warning quarantine should keep pipeline running');
+assert.equal(warningDataSourceExecution.status, 'completed', 'Warning quarantine should not block execution');
+assert.equal(warningDataSourceExecution.apiResponse.statusCode, 200, 'Warning quarantine should keep API response healthy');
+assert.ok(
+  warningDataSourceExecution.preflight.messages.some((message) => message.code === 'preflight.quarantine.warning'),
+  'Warning quarantine should expose preflight warning message',
+);
+assert.equal(
+  warningDataSourceExecution.preflight.severityPolicy.toleratesWarnings,
+  true,
+  'Preflight policy should document warning tolerance',
+);
 const blockedApiResponse = createEnginePipelineApiResponse({
   ...engineExecution,
   status: 'blocked',
@@ -370,4 +407,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-29 tests passed');
+console.log('DUQUE Engine Phase 1-30 tests passed');
