@@ -14,7 +14,7 @@ import { createEnginePipelineApiResponse } from '../api/EnginePipelineApiContrac
 import { runEngineExecutiveReportService } from './EngineExecutiveReportService.js';
 import { resolveExecutionStatus } from './EngineExecutionStatusService.js';
 
-function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
+function runEngineExecutionPipeline({ matches, markets, batchAnalysis, dataSource = null }) {
   const executiveDashboard = runExecutiveDashboardService({ matches, markets, batchAnalysis });
   const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
   const persistedSnapshot = saveEngineSnapshot(engineSnapshot);
@@ -36,6 +36,7 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
     status: executionStatus.status,
     executionStatus,
     executiveReport,
+    dataSource,
     batchAnalysis,
     executiveDashboard,
     engineSnapshot,

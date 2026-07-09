@@ -22,6 +22,7 @@ function createEnginePipelineApiResponse(engineExecution) {
         health: engineExecution.auditLog.health,
         totalEvents: engineExecution.auditLog.totalEvents,
       },
+      dataSource: engineExecution.dataSource,
     },
     meta: {
       mock: true,

@@ -1,10 +1,8 @@
 import DataSourceCard from '../components/data/DataSourceCard.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
-import { markets } from '../data/markets.js';
-import { matches } from '../data/matches.js';
 import { runEngineExecutionPipeline } from '../engine/pipeline/EngineExecutionPipeline.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
-import { getBatchAnalysis } from '../services/batchAnalysisService.js';
+import { getEngineDataSource } from '../services/engineDataService.js';
 import '../styles/page-data.css';
 import { itemMatchesSearch } from '../utils/search.js';
 
@@ -45,9 +43,20 @@ const sources = [
 
 function DataPage() {
   const { searchTerm } = useSearch();
-  const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
-  const engineExecution = batchAnalysis
-    ? runEngineExecutionPipeline({ matches, markets, batchAnalysis })
+  const { data: engineDataSource } = useAsyncData(getEngineDataSource, [], null);
+  const engineExecution = engineDataSource
+    ? runEngineExecutionPipeline({
+      matches: engineDataSource.matches,
+      markets: engineDataSource.markets,
+      batchAnalysis: engineDataSource.batchAnalysis,
+      dataSource: {
+        model: engineDataSource.model,
+        source: engineDataSource.source,
+        freshness: engineDataSource.freshness,
+        provider: engineDataSource.provider,
+        totals: engineDataSource.totals,
+      },
+    })
     : null;
   const executiveDashboard = engineExecution?.executiveDashboard ?? null;
   const engineSnapshot = engineExecution?.engineSnapshot ?? null;
@@ -60,6 +69,7 @@ function DataPage() {
   const executionStatus = engineExecution?.executionStatus ?? null;
   const executiveReport = engineExecution?.executiveReport ?? null;
   const apiResponse = engineExecution?.apiResponse ?? null;
+  const dataSource = engineExecution?.dataSource ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -111,6 +121,41 @@ function DataPage() {
               <span>Recomendacao</span>
               <strong>{executiveReport.highlights.topOpportunity?.market ?? 'Aguardar'}</strong>
               <p>{executiveReport.recommendation}</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {dataSource ? (
+        <section className="engine-data-adapter-panel" aria-label="Adapter de dados do engine">
+          <div className="engine-data-adapter-header">
+            <div>
+              <span>Data Adapter</span>
+              <strong>{dataSource.source}</strong>
+              <p>{dataSource.model}</p>
+            </div>
+            <aside>
+              <span>Provider</span>
+              <strong>{dataSource.provider}</strong>
+              <p>{dataSource.freshness}</p>
+            </aside>
+          </div>
+
+          <div className="engine-data-adapter-grid">
+            <article>
+              <span>Jogos</span>
+              <strong>{dataSource.totals.matches}</strong>
+              <p>partidas carregadas</p>
+            </article>
+            <article>
+              <span>Mercados</span>
+              <strong>{dataSource.totals.markets}</strong>
+              <p>mercados mockados</p>
+            </article>
+            <article>
+              <span>Oportunidades</span>
+              <strong>{dataSource.totals.opportunities}</strong>
+              <p>itens analisados</p>
             </article>
           </div>
         </section>

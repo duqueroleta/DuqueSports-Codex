@@ -21,7 +21,8 @@
 .engine-audit-panel,
 .engine-status-panel,
 .engine-report-panel,
-.engine-api-panel {
+.engine-api-panel,
+.engine-data-adapter-panel {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
   background:
@@ -266,6 +267,70 @@
 }
 
 .engine-api-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.engine-data-adapter-panel {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, rgba(32, 246, 164, 0.12), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(217, 180, 91, 0.1), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+}
+
+.engine-data-adapter-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+.engine-data-adapter-header aside {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(32, 246, 164, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.engine-data-adapter-panel span {
+  color: var(--color-neon);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.engine-data-adapter-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.05rem, 1.9vw, 1.45rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.engine-data-adapter-panel p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.engine-data-adapter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.engine-data-adapter-grid article {
   min-width: 0;
   padding: 14px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -610,7 +675,9 @@
   .engine-report-header,
   .engine-report-grid,
   .engine-api-header,
-  .engine-api-grid {
+  .engine-api-grid,
+  .engine-data-adapter-header,
+  .engine-data-adapter-grid {
     grid-template-columns: 1fr;
   }
 }
