@@ -59,6 +59,7 @@ function DataPage() {
   const auditLog = engineExecution?.auditLog ?? null;
   const executionStatus = engineExecution?.executionStatus ?? null;
   const executiveReport = engineExecution?.executiveReport ?? null;
+  const apiResponse = engineExecution?.apiResponse ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -110,6 +111,41 @@ function DataPage() {
               <span>Recomendacao</span>
               <strong>{executiveReport.highlights.topOpportunity?.market ?? 'Aguardar'}</strong>
               <p>{executiveReport.recommendation}</p>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {apiResponse ? (
+        <section className="engine-api-panel" aria-label="Contrato mock de API do pipeline">
+          <div className="engine-api-header">
+            <div>
+              <span>API Contract</span>
+              <strong>{apiResponse.endpoint}</strong>
+              <p>{apiResponse.model}</p>
+            </div>
+            <aside>
+              <span>Status HTTP</span>
+              <strong>{apiResponse.statusCode}</strong>
+              <p>{apiResponse.meta.transport}</p>
+            </aside>
+          </div>
+
+          <div className="engine-api-grid">
+            <article>
+              <span>Metodo</span>
+              <strong>{apiResponse.method}</strong>
+              <p>{apiResponse.generatedAt}</p>
+            </article>
+            <article>
+              <span>Payload</span>
+              <strong>{apiResponse.data.status}</strong>
+              <p>{apiResponse.data.topOpportunities.length} oportunidades no contrato</p>
+            </article>
+            <article>
+              <span>Persistencia</span>
+              <strong>{apiResponse.meta.persistence}</strong>
+              <p>{apiResponse.meta.mock ? 'mock ativo' : 'producao'}</p>
             </article>
           </div>
         </section>

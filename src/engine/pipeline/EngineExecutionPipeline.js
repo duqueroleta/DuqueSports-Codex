@@ -10,6 +10,7 @@ import {
   saveEngineSnapshot,
 } from '../snapshot/EngineSnapshotRepository.js';
 import { runEngineSnapshotService } from '../snapshot/EngineSnapshotService.js';
+import { createEnginePipelineApiResponse } from '../api/EnginePipelineApiContract.js';
 import { runEngineExecutiveReportService } from './EngineExecutiveReportService.js';
 import { resolveExecutionStatus } from './EngineExecutionStatusService.js';
 
@@ -30,7 +31,7 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
     auditLog,
   });
 
-  return {
+  const engineExecution = {
     model: 'engine-execution-pipeline-v1',
     status: executionStatus.status,
     executionStatus,
@@ -44,6 +45,11 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
     exportedSnapshotJson,
     importedSnapshotEnvelope,
     auditLog,
+  };
+
+  return {
+    ...engineExecution,
+    apiResponse: createEnginePipelineApiResponse(engineExecution),
   };
 }
 

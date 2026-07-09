@@ -28,6 +28,7 @@ import { runEngineAuditLogService } from '../src/engine/audit/EngineAuditLogServ
 import { runEngineExecutiveReportService } from '../src/engine/pipeline/EngineExecutiveReportService.js';
 import { runEngineExecutionPipeline } from '../src/engine/pipeline/EngineExecutionPipeline.js';
 import { resolveExecutionStatus } from '../src/engine/pipeline/EngineExecutionStatusService.js';
+import { createEnginePipelineApiResponse } from '../src/engine/api/EnginePipelineApiContract.js';
 import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter.js';
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
@@ -156,14 +157,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-22'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-23'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-22', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-23', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -227,6 +228,9 @@ assert.equal(engineExecution.executionStatus.model, 'engine-execution-status-v1'
 assert.equal(engineExecution.executionStatus.messages.length, 1, 'Healthy pipeline should expose one status message');
 assert.equal(engineExecution.executiveReport.model, 'engine-executive-report-v1', 'Pipeline should expose executive report');
 assert.equal(engineExecution.executiveReport.health, 'healthy', 'Pipeline executive report should expose health');
+assert.equal(engineExecution.apiResponse.model, 'engine-pipeline-api-contract-v1', 'Pipeline should expose API contract');
+assert.equal(engineExecution.apiResponse.statusCode, 200, 'Healthy API contract should expose HTTP 200');
+assert.equal(engineExecution.apiResponse.data.snapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'API contract should expose snapshot');
 assert.equal(engineExecution.executiveDashboard.totals.matches, matches.length, 'Pipeline should include executive dashboard');
 assert.equal(engineExecution.persistedSnapshot.snapshotId, engineExecution.engineSnapshot.snapshotId, 'Pipeline should persist snapshot');
 assert.equal(engineExecution.importedSnapshotEnvelope.compatibility.status, 'current', 'Pipeline should import current snapshot');
@@ -253,5 +257,11 @@ const blockedExecutionStatus = resolveExecutionStatus({
 
 assert.equal(partialExecutionStatus.status, 'partial', 'Execution status should expose partial runs');
 assert.equal(blockedExecutionStatus.status, 'blocked', 'Execution status should expose blocked runs');
+const blockedApiResponse = createEnginePipelineApiResponse({
+  ...engineExecution,
+  status: 'blocked',
+});
 
-console.log('DUQUE Engine Phase 1-22 tests passed');
+assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
+
+console.log('DUQUE Engine Phase 1-23 tests passed');
