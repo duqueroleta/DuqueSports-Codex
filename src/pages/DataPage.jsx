@@ -1,4 +1,5 @@
 import DataSourceCard from '../components/data/DataSourceCard.jsx';
+import TechnicalPanel from '../components/data/TechnicalPanel.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { runEngineExecutionPipeline } from '../engine/pipeline/EngineExecutionPipeline.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -180,73 +181,63 @@ function DataPage() {
       ) : null}
 
       {preflight ? (
-        <section className="engine-preflight-panel" aria-label="Resumo de preflight do engine">
-          <div className="engine-preflight-header">
-            <div>
-              <span>Preflight</span>
-              <strong>{preflight.status}</strong>
-              <p>{preflight.model}</p>
-            </div>
-            <aside>
-              <span>Politica</span>
-              <strong>{preflight.severityPolicy.model}</strong>
-              <p>{preflight.severityPolicy.toleratesWarnings ? 'avisos tolerados' : 'avisos bloqueantes'}</p>
-            </aside>
-          </div>
-
-          <div className="engine-preflight-grid">
-            <article>
-              <span>Continuidade</span>
-              <strong>{preflight.shouldContinue ? 'Liberada' : 'Bloqueada'}</strong>
-              <p>{preflight.checkedAt}</p>
-            </article>
-            <article>
-              <span>Bloqueantes</span>
-              <strong>{preflight.severityPolicy.blockingSeverities.join(', ')}</strong>
-              <p>severidades que interrompem a rodada</p>
-            </article>
-            <article>
-              <span>Mensagens</span>
-              <strong>{preflight.messages.length}</strong>
-              <p>{preflight.messages[0]?.code ?? 'sem eventos'}</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Resumo de preflight do engine"
+          variant="gold"
+          eyebrow="Preflight"
+          title={preflight.status}
+          description={preflight.model}
+          asideEyebrow="Politica"
+          asideTitle={preflight.severityPolicy.model}
+          asideDescription={preflight.severityPolicy.toleratesWarnings ? 'avisos tolerados' : 'avisos bloqueantes'}
+          items={[
+            {
+              label: 'Continuidade',
+              value: preflight.shouldContinue ? 'Liberada' : 'Bloqueada',
+              description: preflight.checkedAt,
+            },
+            {
+              label: 'Bloqueantes',
+              value: preflight.severityPolicy.blockingSeverities.join(', '),
+              description: 'severidades que interrompem a rodada',
+            },
+            {
+              label: 'Mensagens',
+              value: preflight.messages.length,
+              description: preflight.messages[0]?.code ?? 'sem eventos',
+            },
+          ]}
+        />
       ) : null}
 
       {apiResponse ? (
-        <section className="engine-api-panel" aria-label="Contrato mock de API do pipeline">
-          <div className="engine-api-header">
-            <div>
-              <span>API Contract</span>
-              <strong>{apiResponse.endpoint}</strong>
-              <p>{apiResponse.model}</p>
-            </div>
-            <aside>
-              <span>Status HTTP</span>
-              <strong>{apiResponse.statusCode}</strong>
-              <p>{apiResponse.meta.transport}</p>
-            </aside>
-          </div>
-
-          <div className="engine-api-grid">
-            <article>
-              <span>Metodo</span>
-              <strong>{apiResponse.method}</strong>
-              <p>{apiResponse.generatedAt}</p>
-            </article>
-            <article>
-              <span>Payload</span>
-              <strong>{apiResponse.data.status}</strong>
-              <p>{apiResponse.data.topOpportunities.length} oportunidades no contrato</p>
-            </article>
-            <article>
-              <span>Persistencia</span>
-              <strong>{apiResponse.meta.persistence}</strong>
-              <p>{apiResponse.meta.mock ? 'mock ativo' : 'producao'}</p>
-            </article>
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Contrato mock de API do pipeline"
+          variant="neon"
+          eyebrow="API Contract"
+          title={apiResponse.endpoint}
+          description={apiResponse.model}
+          asideEyebrow="Status HTTP"
+          asideTitle={apiResponse.statusCode}
+          asideDescription={apiResponse.meta.transport}
+          items={[
+            {
+              label: 'Metodo',
+              value: apiResponse.method,
+              description: apiResponse.generatedAt,
+            },
+            {
+              label: 'Payload',
+              value: apiResponse.data.status,
+              description: `${apiResponse.data.topOpportunities.length} oportunidades no contrato`,
+            },
+            {
+              label: 'Persistencia',
+              value: apiResponse.meta.persistence,
+              description: apiResponse.meta.mock ? 'mock ativo' : 'producao',
+            },
+          ]}
+        />
       ) : null}
 
       {executionStatus ? (
