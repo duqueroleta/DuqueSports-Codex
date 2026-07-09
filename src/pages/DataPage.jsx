@@ -57,6 +57,7 @@ function DataPage() {
   const exportedSnapshotJson = engineExecution?.exportedSnapshotJson ?? '';
   const importedSnapshotEnvelope = engineExecution?.importedSnapshotEnvelope ?? null;
   const auditLog = engineExecution?.auditLog ?? null;
+  const executionStatus = engineExecution?.executionStatus ?? null;
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -77,6 +78,33 @@ function DataPage() {
           <p>bases principais em estado saudável</p>
         </aside>
       </section>
+
+      {executionStatus ? (
+        <section className="engine-status-panel" aria-label="Status padronizado da execucao do engine">
+          <div className="engine-status-header">
+            <div>
+              <span>Execution Status</span>
+              <strong>{executionStatus.status}</strong>
+              <p>{executionStatus.model}</p>
+            </div>
+            <aside>
+              <span>Mensagens</span>
+              <strong>{executionStatus.messages.length}</strong>
+              <p>{executionStatus.isTerminal ? 'execucao finalizada' : 'execucao em andamento'}</p>
+            </aside>
+          </div>
+
+          <div className="engine-status-grid">
+            {executionStatus.messages.map((message) => (
+              <article key={message.code}>
+                <span>{message.code}</span>
+                <strong>{message.severity}</strong>
+                <p>{message.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {executiveDashboard ? (
         <section className="executive-dashboard" aria-label="Painel executivo de dados globais">

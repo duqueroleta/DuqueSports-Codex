@@ -10,6 +10,7 @@ import {
   saveEngineSnapshot,
 } from '../snapshot/EngineSnapshotRepository.js';
 import { runEngineSnapshotService } from '../snapshot/EngineSnapshotService.js';
+import { resolveExecutionStatus } from './EngineExecutionStatusService.js';
 
 function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
   const executiveDashboard = runExecutiveDashboardService({ matches, markets, batchAnalysis });
@@ -20,10 +21,12 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis }) {
   const exportedSnapshotJson = exportEngineSnapshotToJson(persistedSnapshot);
   const importedSnapshotEnvelope = importEngineSnapshotFromJson(exportedSnapshotJson);
   const auditLog = runEngineAuditLogService({ snapshot: engineSnapshot, importedSnapshotEnvelope });
+  const executionStatus = resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, auditLog });
 
   return {
     model: 'engine-execution-pipeline-v1',
-    status: auditLog.health === 'critical' ? 'blocked' : 'completed',
+    status: executionStatus.status,
+    executionStatus,
     batchAnalysis,
     executiveDashboard,
     engineSnapshot,
