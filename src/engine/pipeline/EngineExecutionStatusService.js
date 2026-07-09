@@ -69,4 +69,13 @@ function resolveExecutionStatus({ persistedSnapshot, importedSnapshotEnvelope, a
   };
 }
 
-export { ENGINE_EXECUTION_STATUS_MODEL, resolveExecutionStatus };
+function createPreflightBlockedExecutionStatus(preflight) {
+  return {
+    model: ENGINE_EXECUTION_STATUS_MODEL,
+    status: 'blocked',
+    isTerminal: true,
+    messages: preflight.messages,
+  };
+}
+
+export { ENGINE_EXECUTION_STATUS_MODEL, createPreflightBlockedExecutionStatus, resolveExecutionStatus };

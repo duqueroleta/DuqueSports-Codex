@@ -12,9 +12,38 @@ import {
 import { runEngineSnapshotService } from '../snapshot/EngineSnapshotService.js';
 import { createEnginePipelineApiResponse } from '../api/EnginePipelineApiContract.js';
 import { runEngineExecutiveReportService } from './EngineExecutiveReportService.js';
-import { resolveExecutionStatus } from './EngineExecutionStatusService.js';
+import { runEnginePreflightService } from './EnginePreflightService.js';
+import { createPreflightBlockedExecutionStatus, resolveExecutionStatus } from './EngineExecutionStatusService.js';
 
 function runEngineExecutionPipeline({ matches, markets, batchAnalysis, dataSource = null }) {
+  const preflight = runEnginePreflightService({ dataSource });
+
+  if (!preflight.shouldContinue) {
+    const executionStatus = createPreflightBlockedExecutionStatus(preflight);
+    const blockedExecution = {
+      model: 'engine-execution-pipeline-v1',
+      status: executionStatus.status,
+      preflight,
+      executionStatus,
+      executiveReport: null,
+      dataSource,
+      batchAnalysis,
+      executiveDashboard: null,
+      engineSnapshot: null,
+      persistedSnapshot: null,
+      snapshotHistory: [],
+      recoveredSnapshot: null,
+      exportedSnapshotJson: '',
+      importedSnapshotEnvelope: null,
+      auditLog: null,
+    };
+
+    return {
+      ...blockedExecution,
+      apiResponse: createEnginePipelineApiResponse(blockedExecution),
+    };
+  }
+
   const executiveDashboard = runExecutiveDashboardService({ matches, markets, batchAnalysis });
   const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
   const persistedSnapshot = saveEngineSnapshot(engineSnapshot);
@@ -39,6 +68,7 @@ function runEngineExecutionPipeline({ matches, markets, batchAnalysis, dataSourc
   const engineExecution = {
     model: 'engine-execution-pipeline-v1',
     status: executionStatus.status,
+    preflight,
     executionStatus,
     executiveReport,
     dataSource,

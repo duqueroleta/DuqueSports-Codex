@@ -9,19 +9,24 @@ function createEnginePipelineApiResponse(engineExecution) {
     generatedAt: 'mock-api-response-current-state',
     data: {
       status: engineExecution.status,
+      preflight: engineExecution.preflight,
       executionStatus: engineExecution.executionStatus,
       executiveReport: engineExecution.executiveReport,
-      snapshot: {
-        snapshotId: engineExecution.engineSnapshot.snapshotId,
-        engineVersion: engineExecution.engineSnapshot.engineVersion,
-        scope: engineExecution.engineSnapshot.scope,
-      },
-      totals: engineExecution.executiveDashboard.totals,
-      topOpportunities: engineExecution.engineSnapshot.topOpportunities,
-      audit: {
-        health: engineExecution.auditLog.health,
-        totalEvents: engineExecution.auditLog.totalEvents,
-      },
+      snapshot: engineExecution.engineSnapshot
+        ? {
+          snapshotId: engineExecution.engineSnapshot.snapshotId,
+          engineVersion: engineExecution.engineSnapshot.engineVersion,
+          scope: engineExecution.engineSnapshot.scope,
+        }
+        : null,
+      totals: engineExecution.executiveDashboard?.totals ?? null,
+      topOpportunities: engineExecution.engineSnapshot?.topOpportunities ?? [],
+      audit: engineExecution.auditLog
+        ? {
+          health: engineExecution.auditLog.health,
+          totalEvents: engineExecution.auditLog.totalEvents,
+        }
+        : null,
       dataSource: engineExecution.dataSource,
     },
     meta: {

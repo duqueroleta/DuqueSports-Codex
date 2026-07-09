@@ -204,14 +204,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-28'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-29'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-28', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-29', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -285,6 +285,7 @@ const engineExecution = runEngineExecutionPipeline({
 
 assert.equal(engineExecution.model, 'engine-execution-pipeline-v1', 'Engine execution pipeline should expose its model');
 assert.equal(engineExecution.status, 'completed', 'Engine execution pipeline should complete healthy runs');
+assert.equal(engineExecution.preflight.status, 'passed', 'Healthy pipeline should pass preflight');
 assert.equal(engineExecution.executionStatus.model, 'engine-execution-status-v1', 'Pipeline should expose execution status contract');
 assert.equal(engineExecution.executionStatus.messages.length, 1, 'Healthy pipeline should expose one status message');
 assert.equal(engineExecution.executiveReport.model, 'engine-executive-report-v1', 'Pipeline should expose executive report');
@@ -351,7 +352,17 @@ assert.ok(
   'Invalid data source should expose validation message',
 );
 assert.equal(blockedDataSourceExecution.status, 'blocked', 'Pipeline should block invalid data sources');
+assert.equal(blockedDataSourceExecution.preflight.status, 'blocked', 'Pipeline should block invalid data sources at preflight');
+assert.equal(blockedDataSourceExecution.engineSnapshot, null, 'Preflight block should skip snapshot generation');
+assert.equal(blockedDataSourceExecution.executiveDashboard, null, 'Preflight block should skip executive dashboard generation');
+assert.equal(blockedDataSourceExecution.auditLog, null, 'Preflight block should skip audit generation');
 assert.equal(blockedDataSourceExecution.apiResponse.statusCode, 409, 'Blocked data source API response should expose HTTP 409');
+assert.equal(blockedDataSourceExecution.apiResponse.data.snapshot, null, 'Blocked preflight API response should omit snapshot');
+assert.equal(blockedDataSourceExecution.apiResponse.data.topOpportunities.length, 0, 'Blocked preflight API response should omit opportunities');
+assert.ok(
+  blockedDataSourceExecution.executionStatus.messages.some((message) => message.code === 'preflight.quarantine.blocked'),
+  'Preflight block should expose quarantine message',
+);
 const blockedApiResponse = createEnginePipelineApiResponse({
   ...engineExecution,
   status: 'blocked',
@@ -359,4 +370,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-28 tests passed');
+console.log('DUQUE Engine Phase 1-29 tests passed');
