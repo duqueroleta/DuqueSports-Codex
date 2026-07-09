@@ -381,30 +381,21 @@ function DataPage() {
       ) : null}
 
       {auditLog ? (
-        <section className="engine-audit-panel" aria-label="Auditoria de eventos do engine">
-          <div className="engine-audit-header">
-            <div>
-              <span>Audit Trail</span>
-              <strong>{auditLog.health}</strong>
-              <p>{auditLog.model}</p>
-            </div>
-            <aside>
-              <span>Eventos</span>
-              <strong>{auditLog.totalEvents}</strong>
-              <p>{auditLog.generatedAt}</p>
-            </aside>
-          </div>
-
-          <div className="engine-audit-grid">
-            {auditLog.events.map((event) => (
-              <article key={event.type}>
-                <span>{event.type}</span>
-                <strong>{event.severity}</strong>
-                <p>{event.message}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+        <TechnicalPanel
+          ariaLabel="Auditoria de eventos do engine"
+          variant="neon"
+          eyebrow="Audit Trail"
+          title={auditLog.health}
+          description={auditLog.model}
+          asideEyebrow="Eventos"
+          asideTitle={auditLog.totalEvents}
+          asideDescription={auditLog.generatedAt}
+          items={auditLog.events.map((event) => ({
+            label: event.type,
+            value: event.severity,
+            description: event.message,
+          }))}
+        />
       ) : null}
 
       <section className="data-source-grid" aria-label="Fontes de dados">
