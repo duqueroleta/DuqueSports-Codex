@@ -3,6 +3,7 @@ import DetailHero from '../components/detail/DetailHero.jsx';
 import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
 import AiExplanationPanel from '../components/matches/detail/AiExplanationPanel.jsx';
 import EngineProjectionPanel from '../components/matches/detail/EngineProjectionPanel.jsx';
+import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
@@ -11,26 +12,6 @@ import { getMatchVisualStyle } from '../utils/matchVisuals.js';
 import '../styles/page-detail.css';
 
 const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
-
-function getAnalysisBlocks(match) {
-  return [
-    {
-      label: 'Projecao estatistica',
-      title: `${match.confidence}% de confianca operacional`,
-      text: 'Score composto por forma recente, volume ofensivo, pressao territorial e preco medio do mercado.',
-    },
-    {
-      label: 'Cenario provavel',
-      title: match.signal,
-      text: match.insight,
-    },
-    {
-      label: 'Gestao de risco',
-      title: `Odd media ${match.odds}`,
-      text: 'Leitura indicada para estudo previo. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
-    },
-  ];
-}
 
 function MatchDetailPage() {
   const { matchId } = useParams();
@@ -53,8 +34,6 @@ function MatchDetailPage() {
       />
     );
   }
-
-  const analysisBlocks = getAnalysisBlocks(match);
 
   return (
     <main className="detail-page">
@@ -97,30 +76,7 @@ function MatchDetailPage() {
 
       <EngineProjectionPanel projection={engineProjection} />
       <AiExplanationPanel explanation={engineProjection?.aiExplanation} />
-
-      <section className="detail-grid" aria-label="Analise completa do jogo">
-        <article className="detail-card detail-card-highlight">
-          <span>Mercado recomendado</span>
-          <strong>{match.signal}</strong>
-          <p>Odd atual {match.odds} com confianca operacional de {match.confidence}%.</p>
-        </article>
-
-        {analysisBlocks.map((block) => (
-          <article className="detail-card" key={block.label}>
-            <span>{block.label}</span>
-            <strong>{block.title}</strong>
-            <p>{block.text}</p>
-          </article>
-        ))}
-
-        {match.metrics.map((metric) => (
-          <article className="detail-card detail-card-compact" key={metric}>
-            <span>Indicador avancado</span>
-            <strong>{metric}</strong>
-            <p>Indicador utilizado para sustentar a leitura da IA.</p>
-          </article>
-        ))}
-      </section>
+      <MatchAnalysisGrid match={match} />
 
       <section className="detail-action-panel" aria-label="Acoes da analise">
         <div>
