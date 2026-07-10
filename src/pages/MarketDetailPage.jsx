@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
 import { runMarketDetailIntelligence } from '../engine/batch/MarketDetailIntelligenceService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -66,34 +67,7 @@ function MarketDetailPage() {
       </section>
 
       <MarketIntelligencePanel intelligence={marketIntelligence} />
-
-      {marketIntelligence?.audit ? (
-        <section className="market-audit-panel" aria-label="Auditoria historica simulada">
-          <div>
-            <span>Auditoria historica</span>
-            <strong>{marketIntelligence.audit.auditLabel}</strong>
-            <p>{marketIntelligence.audit.notes[0]}</p>
-          </div>
-          <div className="market-audit-grid">
-            <article>
-              <span>Amostra</span>
-              <strong>{marketIntelligence.audit.sampleSize}</strong>
-            </article>
-            <article>
-              <span>Volatilidade</span>
-              <strong>{marketIntelligence.audit.volatility}</strong>
-            </article>
-            <article>
-              <span>Estabilidade</span>
-              <strong>{marketIntelligence.audit.stabilityScore}</strong>
-            </article>
-            <article>
-              <span>Tier</span>
-              <strong>{marketIntelligence.audit.stabilityTier}</strong>
-            </article>
-          </div>
-        </section>
-      ) : null}
+      <MarketAuditPanel audit={marketIntelligence?.audit} />
 
       <section className="detail-grid" aria-label="Análise do mercado">
         <article className="detail-card detail-card-highlight">
