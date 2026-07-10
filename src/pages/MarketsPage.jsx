@@ -2,6 +2,7 @@ import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import MarketRankingPanel from '../components/markets/MarketRankingPanel.jsx';
 import MarketStrengthCard from '../components/markets/MarketStrengthCard.jsx';
+import MarketsFilterToolbar from '../components/markets/MarketsFilterToolbar.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../engine/batch/MarketRankingService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -82,19 +83,11 @@ function MarketsPage() {
         onCompetitionChange={setActiveCompetition}
       />
 
-      <section className="markets-toolbar" aria-label="Filtros de mercados">
-        {filters.map((filter) => (
-          <button
-            aria-pressed={activeFilter === filter}
-            className={activeFilter === filter ? 'markets-filter-active' : ''}
-            key={filter}
-            onClick={() => setActiveFilter(filter)}
-            type="button"
-          >
-            {filter}
-          </button>
-        ))}
-      </section>
+      <MarketsFilterToolbar
+        activeFilter={activeFilter}
+        filters={filters}
+        onFilterChange={setActiveFilter}
+      />
 
       <section className="markets-page-grid" aria-label="Lista de mercados">
         {isLoading ? <SkeletonGrid count={8} /> : null}
