@@ -1,7 +1,5 @@
-import ErrorState from '../components/error/ErrorState.jsx';
-import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import MarketsGrid from '../components/markets/MarketsGrid.jsx';
 import MarketRankingPanel from '../components/markets/MarketRankingPanel.jsx';
-import MarketStrengthCard from '../components/markets/MarketStrengthCard.jsx';
 import MarketsFilterToolbar from '../components/markets/MarketsFilterToolbar.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { ALL_MARKET_COMPETITIONS, filterMarketRankings, runMarketRankingService } from '../engine/batch/MarketRankingService.js';
@@ -60,15 +58,12 @@ function MarketsPage() {
         onFilterChange={setActiveFilter}
       />
 
-      <section className="markets-page-grid" aria-label="Lista de mercados">
-        {isLoading ? <SkeletonGrid count={8} /> : null}
-        {error ? <ErrorState onRetry={retry} /> : null}
-        {!isLoading
-          && !error
-          ? filteredMarkets.map((market) => <MarketStrengthCard key={market.id} market={market} />)
-          : null}
-        {!isLoading && !error && !filteredMarkets.length ? <p className="search-empty">Nenhum mercado encontrado.</p> : null}
-      </section>
+      <MarketsGrid
+        error={error}
+        isLoading={isLoading}
+        markets={filteredMarkets}
+        onRetry={retry}
+      />
     </main>
   );
 }
