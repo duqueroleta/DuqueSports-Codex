@@ -1,7 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DetailHero from '../components/detail/DetailHero.jsx';
-import ErrorState from '../components/error/ErrorState.jsx';
-import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
@@ -39,35 +38,17 @@ function MatchDetailPage() {
     [matchId],
     null,
   );
+  const detailState = resolveDetailPageState({ data: match, error, isLoading });
 
-  if (isLoading) {
+  if (detailState) {
     return (
-      <main className="detail-page">
-        <section className="detail-grid detail-grid-loading" aria-label="Carregando analise do jogo">
-          <SkeletonGrid count={4} />
-        </section>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="detail-page">
-        <section className="detail-grid detail-grid-loading" aria-label="Falha ao carregar analise do jogo">
-          <ErrorState onRetry={retry} />
-        </section>
-      </main>
-    );
-  }
-
-  if (!match) {
-    return (
-      <main className="detail-page">
-        <section className="detail-empty">
-          <h1>Jogo nao encontrado</h1>
-          <Link to="/jogos">Voltar para Jogos</Link>
-        </section>
-      </main>
+      <DetailPageState
+        backHref="/jogos"
+        backLabel="Voltar para Jogos"
+        onRetry={retry}
+        resource="jogo"
+        state={detailState}
+      />
     );
   }
 

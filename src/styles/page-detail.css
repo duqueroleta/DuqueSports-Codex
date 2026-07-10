@@ -217,10 +217,6 @@
   border-color: rgba(217, 180, 91, 0.26);
 }
 
-.detail-grid-loading {
-  margin-top: 0;
-}
-
 .detail-card {
   min-width: 0;
   padding: 20px;

@@ -1,7 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DetailHero from '../components/detail/DetailHero.jsx';
-import ErrorState from '../components/error/ErrorState.jsx';
-import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
 import MarketRecommendationPanel from '../components/markets/detail/MarketRecommendationPanel.jsx';
@@ -15,35 +14,17 @@ function MarketDetailPage() {
   const { marketId } = useParams();
   const { data: market, error, isLoading, retry } = useAsyncData(() => getMarketById(marketId), [marketId], null);
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
+  const detailState = resolveDetailPageState({ data: market, error, isLoading });
 
-  if (isLoading) {
+  if (detailState) {
     return (
-      <main className="detail-page">
-        <section className="detail-grid detail-grid-loading" aria-label="Carregando análise do mercado">
-          <SkeletonGrid count={4} />
-        </section>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="detail-page">
-        <section className="detail-grid detail-grid-loading" aria-label="Falha ao carregar análise do mercado">
-          <ErrorState onRetry={retry} />
-        </section>
-      </main>
-    );
-  }
-
-  if (!market) {
-    return (
-      <main className="detail-page">
-        <section className="detail-empty">
-          <h1>Mercado não encontrado</h1>
-          <Link to="/mercados">Voltar para Mercados</Link>
-        </section>
-      </main>
+      <DetailPageState
+        backHref="/mercados"
+        backLabel="Voltar para Mercados"
+        onRetry={retry}
+        resource="mercado"
+        state={detailState}
+      />
     );
   }
 
