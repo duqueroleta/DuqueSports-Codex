@@ -45,11 +45,44 @@ import { runDataQuality } from '../src/engine/data-quality/DataQualityEngine.js'
 import { FEATURE_CATALOG } from '../src/engine/feature-store/featureCatalog.js';
 import { runProjectionPipeline } from '../src/engine/projection/ProjectionPipeline.js';
 import { runPoissonEngine } from '../src/engine/statistical/PoissonEngine.js';
+import { MARKET_LIST_FILTERS, matchMarketListFilter } from '../src/utils/marketFilters.js';
 
 const sampleMatch = matches[0];
 const engineInput = adaptMatchToEngineInput(sampleMatch);
 const dataQuality = runDataQuality(engineInput);
 const projection = runProjectionPipeline(engineInput);
+
+assert.equal(MARKET_LIST_FILTERS.length, 6, 'Market list should expose six filters');
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Todos')).length,
+  8,
+  'All filter should preserve every market',
+);
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Gols')).length,
+  3,
+  'Goals filter should select goals markets',
+);
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Resultado')).length,
+  2,
+  'Result filter should select result markets',
+);
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Escanteios')).length,
+  1,
+  'Corners filter should select corners markets',
+);
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Baixo risco')).length,
+  4,
+  'Low-risk filter should include controlled markets',
+);
+assert.equal(
+  markets.filter((market) => matchMarketListFilter(market, 'Alta força')).length,
+  2,
+  'High-strength filter should enforce the threshold',
+);
 
 assert.equal(dataQuality.passed, true, 'Data Quality should approve the sample match');
 assert.equal(projection.blocked, undefined, 'Projection should not be blocked');
@@ -218,14 +251,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-40'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-41'), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-40', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace('phase-41', 'phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -407,4 +440,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-40 tests passed');
+console.log('DUQUE Engine Phase 1-41 tests passed');

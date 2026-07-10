@@ -10,37 +10,8 @@ import { usePersistentState } from '../hooks/usePersistentState.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getMarkets } from '../services/marketsService.js';
 import '../styles/page-markets.css';
+import { MARKET_LIST_FILTERS, matchMarketListFilter } from '../utils/marketFilters.js';
 import { itemMatchesSearch } from '../utils/search.js';
-
-const filters = ['Todos', 'Gols', 'Resultado', 'Escanteios', 'Baixo risco', 'Alta força'];
-
-function filterMarkets(market, filter) {
-  if (filter === 'Todos') {
-    return true;
-  }
-
-  if (filter === 'Gols') {
-    return market.name.includes('gols') || market.name.includes('Over') || market.name.includes('Under');
-  }
-
-  if (filter === 'Resultado') {
-    return market.name.includes('vence') || market.name.includes('Empate');
-  }
-
-  if (filter === 'Escanteios') {
-    return market.name.includes('Escanteios');
-  }
-
-  if (filter === 'Baixo risco') {
-    return market.risk === 'Baixo' || market.risk === 'Controlado';
-  }
-
-  if (filter === 'Alta força') {
-    return market.strength >= 85;
-  }
-
-  return true;
-}
 
 function MarketsPage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.markets', 'Todos');
@@ -54,7 +25,7 @@ function MarketsPage() {
   const marketRanking = runMarketRankingService(batchAnalysis?.opportunities ?? []);
   const rankedMarkets = filterMarketRankings(marketRanking.rankings, activeCompetition);
   const filteredMarkets = markets.filter(
-    (market) => filterMarkets(market, activeFilter) && itemMatchesSearch(market, searchTerm),
+    (market) => matchMarketListFilter(market, activeFilter) && itemMatchesSearch(market, searchTerm),
   );
 
   return (
@@ -85,7 +56,7 @@ function MarketsPage() {
 
       <MarketsFilterToolbar
         activeFilter={activeFilter}
-        filters={filters}
+        filters={MARKET_LIST_FILTERS}
         onFilterChange={setActiveFilter}
       />
 
