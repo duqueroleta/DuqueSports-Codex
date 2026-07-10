@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import DetailHero from '../components/detail/DetailHero.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
@@ -74,33 +75,30 @@ function MatchDetailPage() {
 
   return (
     <main className="detail-page">
-      <section className="detail-hero" aria-labelledby="match-detail-title" style={getMatchVisualStyle(match)}>
-        <div>
-          <Link to="/">Voltar aos jogos</Link>
-          <span>{match.league} • Hoje, {match.time}</span>
-          <h1 id="match-detail-title">
-            {match.home} x {match.away}
-          </h1>
-          <div className="detail-teams-strip" aria-label="Times da partida">
-            <span>
-              <TeamCrest size="large" teamName={match.home} />
-              <strong>{match.home}</strong>
-            </span>
-            <i>x</i>
-            <span>
-              <TeamCrest size="large" teamName={match.away} />
-              <strong>{match.away}</strong>
-            </span>
-          </div>
-          <p>{match.insight}</p>
+      <DetailHero
+        backHref="/"
+        backLabel="Voltar aos jogos"
+        description={match.insight}
+        eyebrow={`${match.league} • Hoje, ${match.time}`}
+        scoreCaption="Duque Score"
+        scoreLabel={match.status}
+        scoreValue={match.confidence}
+        style={getMatchVisualStyle(match)}
+        title={`${match.home} x ${match.away}`}
+        titleId="match-detail-title"
+      >
+        <div className="detail-teams-strip" aria-label="Times da partida">
+          <span>
+            <TeamCrest size="large" teamName={match.home} />
+            <strong>{match.home}</strong>
+          </span>
+          <i>x</i>
+          <span>
+            <TeamCrest size="large" teamName={match.away} />
+            <strong>{match.away}</strong>
+          </span>
         </div>
-
-        <aside className="detail-score-panel">
-          <span>{match.status}</span>
-          <strong>{match.confidence}</strong>
-          <p>Duque Score</p>
-        </aside>
-      </section>
+      </DetailHero>
 
       <section className="detail-probabilities" aria-label="Probabilidades principais">
         {match.probabilities.map((probability) => (

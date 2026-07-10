@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import DetailHero from '../components/detail/DetailHero.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
@@ -51,20 +52,17 @@ function MarketDetailPage() {
 
   return (
     <main className="detail-page">
-      <section className="detail-hero" aria-labelledby="market-detail-title">
-        <div>
-          <Link to="/mercados">Voltar para Mercados</Link>
-          <span>Radar de mercado</span>
-          <h1 id="market-detail-title">{market.name}</h1>
-          <p>{market.insight}</p>
-        </div>
-
-        <aside className="detail-score-panel">
-          <span>Força IA</span>
-          <strong>{market.strength}%</strong>
-          <p>Tendência {market.trend}</p>
-        </aside>
-      </section>
+      <DetailHero
+        backHref="/mercados"
+        backLabel="Voltar para Mercados"
+        description={market.insight}
+        eyebrow="Radar de mercado"
+        scoreCaption={`Tendência ${market.trend}`}
+        scoreLabel="Força IA"
+        scoreValue={`${market.strength}%`}
+        title={market.name}
+        titleId="market-detail-title"
+      />
 
       <MarketIntelligencePanel intelligence={marketIntelligence} />
       <MarketAuditPanel audit={marketIntelligence?.audit} />
