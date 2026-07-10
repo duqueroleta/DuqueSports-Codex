@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
+import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
 import { runMarketDetailIntelligence } from '../engine/batch/MarketDetailIntelligenceService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -64,37 +65,7 @@ function MarketDetailPage() {
         </aside>
       </section>
 
-      {marketIntelligence ? (
-        <section className="market-intelligence-panel" aria-label="Inteligencia do mercado">
-          <div className="market-intelligence-main">
-            <span>Market Intelligence</span>
-            <strong>{marketIntelligence.summary.relatedGames} jogos relacionados</strong>
-            <p>{marketIntelligence.explanation}</p>
-          </div>
-          <div className="market-intelligence-grid">
-            <article>
-              <span>Score medio</span>
-              <strong>{marketIntelligence.summary.averageScore}</strong>
-            </article>
-            <article>
-              <span>Probabilidade</span>
-              <strong>{marketIntelligence.summary.averageProbability}%</strong>
-            </article>
-            <article>
-              <span>Top jogo</span>
-              <strong>
-                {marketIntelligence.summary.topOpportunity
-                  ? `${marketIntelligence.summary.topOpportunity.home} x ${marketIntelligence.summary.topOpportunity.away}`
-                  : 'Monitorar'}
-              </strong>
-            </article>
-            <article className="market-intelligence-risk">
-              <span>Risco</span>
-              <p>{marketIntelligence.riskAlert}</p>
-            </article>
-          </div>
-        </section>
-      ) : null}
+      <MarketIntelligencePanel intelligence={marketIntelligence} />
 
       {marketIntelligence?.audit ? (
         <section className="market-audit-panel" aria-label="Auditoria historica simulada">
