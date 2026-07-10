@@ -4,6 +4,7 @@ import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
+import MarketRecommendationPanel from '../components/markets/detail/MarketRecommendationPanel.jsx';
 import { runMarketDetailIntelligence } from '../engine/batch/MarketDetailIntelligenceService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -66,29 +67,7 @@ function MarketDetailPage() {
 
       <MarketIntelligencePanel intelligence={marketIntelligence} />
       <MarketAuditPanel audit={marketIntelligence?.audit} />
-
-      <section className="detail-grid" aria-label="Análise do mercado">
-        <article className="detail-card detail-card-highlight">
-          <span>Odd média</span>
-          <strong>{market.averageOdd}</strong>
-          <p>Referência de preço para avaliar valor antes da entrada.</p>
-        </article>
-        <article className="detail-card">
-          <span>Risco</span>
-          <strong>{market.risk}</strong>
-          <p>Classificação operacional de exposição e variância esperada.</p>
-        </article>
-        <article className="detail-card">
-          <span>Auditoria</span>
-          <strong>{market.audit}</strong>
-          <p>Selo baseado em consistência histórica e estabilidade do sinal.</p>
-        </article>
-        <article className="detail-card">
-          <span>Tendência</span>
-          <strong>{market.trend}</strong>
-          <p>Movimento recente do mercado dentro do radar Duque Score.</p>
-        </article>
-      </section>
+      <MarketRecommendationPanel market={market} />
     </main>
   );
 }

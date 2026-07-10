@@ -1,0 +1,7 @@
+.market-recommendation-panel {
+  grid-auto-rows: 1fr;
+}
+
+.market-recommendation-panel .detail-card {
+  height: 100%;
+}
