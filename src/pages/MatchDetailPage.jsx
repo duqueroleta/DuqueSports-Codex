@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import DetailHero from '../components/detail/DetailHero.jsx';
 import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
+import AiExplanationPanel from '../components/matches/detail/AiExplanationPanel.jsx';
 import EngineProjectionPanel from '../components/matches/detail/EngineProjectionPanel.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -95,28 +96,7 @@ function MatchDetailPage() {
       </section>
 
       <EngineProjectionPanel projection={engineProjection} />
-
-      {engineProjection?.aiExplanation ? (
-        <section className="ai-explanation-panel" aria-label="Explicacao da IA">
-          <div className="ai-explanation-main">
-            <span>Explicabilidade IA</span>
-            <strong>{engineProjection.aiExplanation.headline}</strong>
-            <p>{engineProjection.aiExplanation.verdict}</p>
-          </div>
-          <div className="ai-explanation-grid">
-            {engineProjection.aiExplanation.keyDrivers.slice(0, 3).map((driver) => (
-              <article key={driver}>
-                <span>Fator</span>
-                <p>{driver}</p>
-              </article>
-            ))}
-            <article className="ai-explanation-risk">
-              <span>Risco</span>
-              <p>{engineProjection.aiExplanation.riskFlags[0]}</p>
-            </article>
-          </div>
-        </section>
-      ) : null}
+      <AiExplanationPanel explanation={engineProjection?.aiExplanation} />
 
       <section className="detail-grid" aria-label="Analise completa do jogo">
         <article className="detail-card detail-card-highlight">
