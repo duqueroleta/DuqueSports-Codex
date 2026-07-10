@@ -1,0 +1,7 @@
+.markets-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: min(1240px, 100%);
+  margin: 18px auto;
+}

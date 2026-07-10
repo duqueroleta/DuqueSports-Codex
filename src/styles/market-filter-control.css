@@ -1,0 +1,16 @@
+.market-filter-control {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: #aeb8c5;
+  background: rgba(255, 255, 255, 0.055);
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.market-filter-control.markets-filter-active {
+  border-color: rgba(32, 246, 164, 0.32);
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
+}

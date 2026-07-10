@@ -1,3 +1,8 @@
+import MarketFilterButton from './MarketFilterButton.jsx';
+import '../../styles/market-ranking-panel.css';
+
+const MAX_VISIBLE_RANKINGS = 4;
+
 function MarketRankingPanel({
   activeCompetition,
   filterOptions,
@@ -14,21 +19,18 @@ function MarketRankingPanel({
         </div>
         <div className="market-ranking-filters" aria-label="Filtro por campeonato">
           {filterOptions.competitions.map((competition) => (
-            <button
-              aria-pressed={activeCompetition === competition}
-              className={activeCompetition === competition ? 'markets-filter-active' : ''}
+            <MarketFilterButton
+              isActive={activeCompetition === competition}
               key={competition}
-              onClick={() => onCompetitionChange(competition)}
-              type="button"
-            >
-              {competition}
-            </button>
+              label={competition}
+              onSelect={() => onCompetitionChange(competition)}
+            />
           ))}
         </div>
       </div>
 
       <div className="market-ranking-grid">
-        {rankings.slice(0, 4).map((ranking) => (
+        {rankings.slice(0, MAX_VISIBLE_RANKINGS).map((ranking) => (
           <article className="market-ranking-card" key={ranking.marketName}>
             <span>{ranking.tier}</span>
             <strong>{ranking.marketName}</strong>

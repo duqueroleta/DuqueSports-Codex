@@ -1,0 +1,135 @@
+.market-ranking-panel {
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.13), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(12, 18, 28, 0.72);
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(18px);
+}
+
+.market-ranking-header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.market-ranking-header span,
+.market-ranking-card > span {
+  color: var(--color-neon);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.market-ranking-header strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.04;
+}
+
+.market-ranking-header p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.market-ranking-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.market-ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.market-ranking-card {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.market-ranking-card strong {
+  display: block;
+  margin-top: 10px;
+  color: var(--color-white);
+  font-size: 1.25rem;
+  line-height: 1.05;
+}
+
+.market-ranking-card small {
+  display: block;
+  margin-top: 8px;
+  color: #9faaba;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.market-ranking-card div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.market-ranking-card p {
+  min-width: 0;
+  margin: 0;
+  padding: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.market-ranking-card b,
+.market-ranking-card em {
+  display: block;
+}
+
+.market-ranking-card b {
+  color: var(--color-gold-soft);
+  font-size: 1rem;
+}
+
+.market-ranking-card em {
+  color: #9faaba;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1180px) {
+  .market-ranking-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .market-ranking-header {
+    grid-template-columns: 1fr;
+  }
+
+  .market-ranking-filters {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 820px) {
+  .market-ranking-grid,
+  .market-ranking-card div {
+    grid-template-columns: 1fr;
+  }
+}

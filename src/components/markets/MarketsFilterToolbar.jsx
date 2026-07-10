@@ -1,16 +1,16 @@
+import MarketFilterButton from './MarketFilterButton.jsx';
+import '../../styles/markets-filter-toolbar.css';
+
 function MarketsFilterToolbar({ activeFilter, filters, onFilterChange }) {
   return (
     <section className="markets-toolbar" aria-label="Filtros de mercados">
       {filters.map((filter) => (
-        <button
-          aria-pressed={activeFilter === filter}
-          className={activeFilter === filter ? 'markets-filter-active' : ''}
+        <MarketFilterButton
+          isActive={activeFilter === filter}
           key={filter}
-          onClick={() => onFilterChange(filter)}
-          type="button"
-        >
-          {filter}
-        </button>
+          label={filter}
+          onSelect={() => onFilterChange(filter)}
+        />
       ))}
     </section>
   );
