@@ -4,13 +4,12 @@ import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRa
 import MobileMarketFilters from './MobileMarketFilters.jsx';
 import MobileOpportunityBar from './MobileOpportunityBar.jsx';
 import TeamCrest from '../teams/TeamCrest.jsx';
+import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
-
-const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
 
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
@@ -127,7 +126,7 @@ function MobileMatchCarousel() {
 
                 <div className="mobile-match-actions">
                   <Link to={`/jogos/${match.id}`}>Abrir analise completa</Link>
-                  <a href={BETSLIP_URL} rel="noreferrer" target="_blank">
+                  <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
                     Bilhete pronto
                   </a>
                 </div>

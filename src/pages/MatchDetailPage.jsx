@@ -3,6 +3,7 @@ import DetailHero from '../components/detail/DetailHero.jsx';
 import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
 import AiExplanationPanel from '../components/matches/detail/AiExplanationPanel.jsx';
 import EngineProjectionPanel from '../components/matches/detail/EngineProjectionPanel.jsx';
+import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx';
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
@@ -10,8 +11,6 @@ import { getEngineProjectionByMatchId } from '../services/engineProjectionServic
 import { getMatchById } from '../services/matchesService.js';
 import { getMatchVisualStyle } from '../utils/matchVisuals.js';
 import '../styles/page-detail.css';
-
-const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
 
 function MatchDetailPage() {
   const { matchId } = useParams();
@@ -77,17 +76,7 @@ function MatchDetailPage() {
       <EngineProjectionPanel projection={engineProjection} />
       <AiExplanationPanel explanation={engineProjection?.aiExplanation} />
       <MatchAnalysisGrid match={match} />
-
-      <section className="detail-action-panel" aria-label="Acoes da analise">
-        <div>
-          <span>Decisao rapida</span>
-          <strong>{match.signal}</strong>
-          <p>Abra o bilhete somente se a leitura fizer sentido para sua estrategia.</p>
-        </div>
-        <a href={BETSLIP_URL} rel="noreferrer" target="_blank">
-          Abrir bilhete pronto
-        </a>
-      </section>
+      <MatchActionPanel signal={match.signal} />
     </main>
   );
 }
