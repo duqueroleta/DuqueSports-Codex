@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import DetailHero from '../components/detail/DetailHero.jsx';
 import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
+import EngineProjectionPanel from '../components/matches/detail/EngineProjectionPanel.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
@@ -93,49 +94,7 @@ function MatchDetailPage() {
         ))}
       </section>
 
-      {engineProjection && !engineProjection.blocked ? (
-        <section className="engine-projection-panel" aria-label="DUQUE Score Engine v1 fase 6">
-          <div>
-            <span>Engine v1 - Fase 6</span>
-            <strong>Ranking de oportunidade ativo</strong>
-            <p>{engineProjection.explanation[7]}</p>
-          </div>
-          <div className="engine-projection-metrics">
-            <article>
-              <span>Data Quality</span>
-              <strong>{engineProjection.dataQualityScore}</strong>
-            </article>
-            <article>
-              <span>xG mandante</span>
-              <strong>{engineProjection.expectedHomeGoals}</strong>
-            </article>
-            <article>
-              <span>xG visitante</span>
-              <strong>{engineProjection.expectedAwayGoals}</strong>
-            </article>
-            <article>
-              <span>Over 2.5</span>
-              <strong>{engineProjection.probabilities.over25}%</strong>
-            </article>
-            <article>
-              <span>Casa vence</span>
-              <strong>{engineProjection.probabilities.homeWin}%</strong>
-            </article>
-            <article>
-              <span>BTTS</span>
-              <strong>{engineProjection.probabilities.btts}%</strong>
-            </article>
-            <article>
-              <span>Oportunidade</span>
-              <strong>{engineProjection.opportunityRanking.opportunityScore}</strong>
-            </article>
-            <article>
-              <span>Tier</span>
-              <strong>{engineProjection.opportunityRanking.tier}</strong>
-            </article>
-          </div>
-        </section>
-      ) : null}
+      <EngineProjectionPanel projection={engineProjection} />
 
       {engineProjection?.aiExplanation ? (
         <section className="ai-explanation-panel" aria-label="Explicacao da IA">
