@@ -46,50 +46,6 @@
   line-height: 0.95;
 }
 
-.detail-probabilities {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  width: min(1240px, 100%);
-  margin: 18px auto 0;
-}
-
-.detail-probabilities article {
-  display: grid;
-  gap: 10px;
-  min-width: 0;
-  padding: 16px;
-  border-radius: var(--radius-lg);
-}
-
-.detail-probabilities span {
-  color: var(--color-graphite);
-  font-size: 0.74rem;
-  font-weight: 950;
-  text-transform: uppercase;
-}
-
-.detail-probabilities strong {
-  color: var(--color-white);
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.detail-probabilities div {
-  overflow: hidden;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.detail-probabilities i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
-  box-shadow: 0 0 18px rgba(32, 246, 164, 0.25);
-}
-
 .detail-empty {
   width: min(760px, 100%);
   margin: 0 auto;
@@ -102,29 +58,5 @@
 
   .detail-empty h1 {
     font-size: clamp(2rem, 11vw, 3.3rem);
-  }
-
-  .detail-probabilities {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 520px) {
-  .detail-probabilities {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .detail-probabilities article {
-    padding: 10px;
-    border-radius: 15px;
-  }
-
-  .detail-probabilities span {
-    font-size: 0.66rem;
-  }
-
-  .detail-probabilities strong {
-    font-size: 1.2rem;
   }
 }

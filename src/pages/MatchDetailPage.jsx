@@ -5,6 +5,7 @@ import AiExplanationPanel from '../components/matches/detail/AiExplanationPanel.
 import EngineProjectionPanel from '../components/matches/detail/EngineProjectionPanel.jsx';
 import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx';
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
+import MatchProbabilitiesPanel from '../components/matches/detail/MatchProbabilitiesPanel.jsx';
 import TeamCrest from '../components/teams/TeamCrest.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
@@ -61,18 +62,7 @@ function MatchDetailPage() {
         </div>
       </DetailHero>
 
-      <section className="detail-probabilities" aria-label="Probabilidades principais">
-        {match.probabilities.map((probability) => (
-          <article key={probability.label}>
-            <span>{probability.label}</span>
-            <strong>{probability.value}%</strong>
-            <div>
-              <i style={{ width: `${probability.value}%` }} />
-            </div>
-          </article>
-        ))}
-      </section>
-
+      <MatchProbabilitiesPanel probabilities={match.probabilities} />
       <EngineProjectionPanel projection={engineProjection} />
       <AiExplanationPanel explanation={engineProjection?.aiExplanation} />
       <MatchAnalysisGrid match={match} />
