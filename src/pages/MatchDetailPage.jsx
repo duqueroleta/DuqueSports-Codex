@@ -6,7 +6,7 @@ import EngineProjectionPanel from '../components/matches/detail/EngineProjection
 import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx';
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
 import MatchProbabilitiesPanel from '../components/matches/detail/MatchProbabilitiesPanel.jsx';
-import TeamCrest from '../components/teams/TeamCrest.jsx';
+import MatchTeamsStrip from '../components/matches/detail/MatchTeamsStrip.jsx';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
 import { getMatchById } from '../services/matchesService.js';
@@ -49,17 +49,7 @@ function MatchDetailPage() {
         title={`${match.home} x ${match.away}`}
         titleId="match-detail-title"
       >
-        <div className="detail-teams-strip" aria-label="Times da partida">
-          <span>
-            <TeamCrest size="large" teamName={match.home} />
-            <strong>{match.home}</strong>
-          </span>
-          <i>x</i>
-          <span>
-            <TeamCrest size="large" teamName={match.away} />
-            <strong>{match.away}</strong>
-          </span>
-        </div>
+        <MatchTeamsStrip awayTeam={match.away} homeTeam={match.home} />
       </DetailHero>
 
       <MatchProbabilitiesPanel probabilities={match.probabilities} />
