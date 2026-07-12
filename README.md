@@ -124,6 +124,7 @@ O projeto separa responsabilidades por domínio:
 - [Snapshots estatísticos canônicos - Fase 77](docs/engine-phase-77.md)
 - [Eventos canônicos e idempotência - Fase 78](docs/engine-phase-78.md)
 - [Mercados e snapshots de odds - Fase 79](docs/engine-phase-79.md)
+- [Projeções canônicas e separação de odds - Fase 80](docs/engine-phase-80.md)
 
 ## Observações
 

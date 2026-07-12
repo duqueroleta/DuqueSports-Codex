@@ -108,3 +108,4 @@ Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um re
 - Fase 77: criado `canonical-match-statistics.v1` como snapshot separado ligado por `matchId`.
 - Fase 78: criado `canonical-match-events.v1` com identidade idempotente e ordenacao temporal.
 - Fase 79: separados `canonical-market.v1` e `canonical-odds-snapshot.v1` para preservar o historico de precos.
+- Fase 80: criado `canonical-projection.v1`, mantendo probabilidades cientificas separadas de odds comerciais.

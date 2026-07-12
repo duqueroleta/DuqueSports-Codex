@@ -136,9 +136,37 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalOddsSnapshot.v1.js`.
 
+## canonical-projection.v1
+
+Representa uma execucao reproduzivel do Engine para uma partida. O contrato liga o input congelado, a versao do Engine, os submodelos, as metricas e as probabilidades produzidas.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `id` | Identidade idempotente da execucao |
+| `matchId` | Partida canonica analisada |
+| `status` | Execucao concluida ou bloqueada |
+| `input` | Snapshot de entrada e limite temporal dos dados |
+| `execution` | Versao do Engine e horario de geracao |
+| `models` | Modelos estatistico, de calibracao e explicacao |
+| `metrics` | xG esperado, confianca, qualidade e reliability |
+| `predictions` | Probabilidades agrupadas por mercado canonico |
+| `evidence` | Features, fundamentos, riscos e motivos de bloqueio |
+
+Regras de coerencia:
+
+- o ID e derivado da partida, input, versao do Engine e horario de execucao;
+- a projecao nao pode anteceder o limite temporal dos dados;
+- probabilidades ficam entre 0 e 100 e cada mercado soma aproximadamente 100%;
+- mercados e selecoes previstos devem corresponder aos contratos canonicos;
+- execucoes concluidas exigem xG, confianca, reliability, previsoes e evidencias;
+- execucoes bloqueadas preservam qualidade e motivos, sem publicar saidas estatisticas;
+- bookmaker, snapshot de odds e preco decimal sao rejeitados pelo contrato.
+
+Exemplo executavel: `src/engine/contracts/examples/canonicalProjection.v1.js`.
+
 ## Relacionamento
 
-Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1` e varios mercados `canonical-market.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`. Todos preservam os IDs internos de relacionamento.
+Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1`, varios mercados `canonical-market.v1` e varias execucoes `canonical-projection.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`. Todos preservam os IDs internos de relacionamento.
 
 ## Fora da versao atual
 
