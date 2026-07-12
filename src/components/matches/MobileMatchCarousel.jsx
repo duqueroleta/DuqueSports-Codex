@@ -8,6 +8,7 @@ import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
+import { normalizeMatchProbabilities } from '../../utils/matchProbabilities.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
 
@@ -113,7 +114,7 @@ function MobileMatchCarousel() {
                 </div>
 
                 <div className="mobile-probability-strip" aria-label="Probabilidades principais">
-                  {match.probabilities.map((probability) => (
+                  {normalizeMatchProbabilities(match.probabilities).map((probability) => (
                     <div key={probability.label}>
                       <span>{probability.label}</span>
                       <strong>{probability.value}%</strong>
