@@ -164,9 +164,44 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalProjection.v1.js`.
 
+## canonical-projection-audit.v1
+
+Representa a avaliacao pos-jogo de uma projecao concluida. O contrato relaciona previsao, resultado final, regra de liquidacao, classificacao e metricas cientificas reproduziveis.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `id` | Identidade idempotente da auditoria |
+| `matchId` | Partida canonica auditada |
+| `projectionId` | Projecao canonica avaliada |
+| `result` | Snapshot final, horario e placar observado |
+| `evaluation` | Versao do avaliador e horario da auditoria |
+| `outcomes` | Liquidacao e erro de cada mercado previsto |
+| `summary` | Contagens e medias derivadas dos outcomes |
+
+Classificacoes v1: `hit`, `miss`, `push`, `void` e `partial`.
+
+Metricas:
+
+- Brier Score: media dos erros quadraticos normalizada pelo numero de selecoes;
+- Log Loss: logaritmo natural negativo da probabilidade atribuida a selecao observada;
+- `push`, `void` e `partial` ficam fora das medias cientificas nesta versao;
+- cada metrica e recalculada contra a projecao, impedindo valores manuais inconsistentes.
+
+Regras de coerencia:
+
+- o ID e derivado da projecao, resultado, versao do avaliador e horario;
+- a auditoria nao pode anteceder a projecao nem o resultado final;
+- apenas projecoes concluidas podem ser auditadas;
+- todo mercado previsto deve possuir exatamente um outcome;
+- selecao prevista, classificacao, Brier e Log Loss devem ser reproduziveis;
+- resumo e medias sao derivados dos outcomes;
+- odd, stake, lucro, ROI e bookmaker sao rejeitados pela auditoria cientifica.
+
+Exemplo executavel: `src/engine/contracts/examples/canonicalProjectionAudit.v1.js`.
+
 ## Relacionamento
 
-Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1`, varios mercados `canonical-market.v1` e varias execucoes `canonical-projection.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`. Todos preservam os IDs internos de relacionamento.
+Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1`, varios mercados `canonical-market.v1` e varias execucoes `canonical-projection.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`, e cada projecao concluida pode receber uma auditoria `canonical-projection-audit.v1`. Todos preservam os IDs internos de relacionamento.
 
 ## Fora da versao atual
 

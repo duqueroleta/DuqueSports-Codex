@@ -26,7 +26,7 @@ Definir entidades estaveis para competicao, temporada, equipe, partida, evento, 
 
 **Criterio de aceite:** schemas versionados, exemplos reais anonimizados e testes de contrato para entradas validas e invalidas.
 
-**Progresso:** partida, estatisticas, eventos, mercados, odds e projecoes possuem schemas v1, validadores e exemplos executaveis. Auditorias canonicas continuam pendentes.
+**Progresso:** a base canonica v1 cobre partida, competicao, temporada, equipes, estatisticas, eventos, mercados, odds, projecoes e auditorias com validadores, exemplos executaveis e testes. A integracao com adaptadores reais continua pendente.
 
 ### 4. Persistencia e migracoes
 
