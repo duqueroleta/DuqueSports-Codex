@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:engine": "node tests/engine-phase-one.test.mjs",
+    "test:engine": "node tests/run-engine-tests.mjs",
     "test:ui": "node tests/run-ui-tests.mjs",
     "verify": "npm test && npm run build"
   },
