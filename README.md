@@ -123,6 +123,7 @@ O projeto separa responsabilidades por domínio:
 - [Contratos canônicos de futebol v1](docs/contracts/canonical-data-v1.md)
 - [Snapshots estatísticos canônicos - Fase 77](docs/engine-phase-77.md)
 - [Eventos canônicos e idempotência - Fase 78](docs/engine-phase-78.md)
+- [Mercados e snapshots de odds - Fase 79](docs/engine-phase-79.md)
 
 ## Observações
 

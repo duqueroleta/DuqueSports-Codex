@@ -86,14 +86,63 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalMatchEvents.v1.js`.
 
+## canonical-market.v1
+
+Representa uma definicao estavel de mercado para uma partida. O contrato separa identidade, periodo, linha e selecoes dos precos oferecidos por casas de apostas.
+
+Tipos v1:
+
+- resultado da partida;
+- dupla chance;
+- total de gols;
+- ambas marcam;
+- total de escanteios.
+
+Regras de coerencia:
+
+- o ID e derivado de partida, tipo, periodo e linha;
+- mercados sem linha exigem `line: null`;
+- totais exigem linha positiva em incrementos de 0,25;
+- selecoes sao unicas e devem corresponder ao tipo do mercado;
+- nomes e rotulos nao substituem as chaves canonicas.
+
+Exemplo executavel: `src/engine/contracts/examples/canonicalMarket.v1.js`.
+
+## canonical-odds-snapshot.v1
+
+Representa os precos de um mercado em uma casa e instante especificos. Cada nova captura gera outro snapshot sem alterar o historico anterior.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `id` | Identidade idempotente da captura |
+| `matchId` | Partida canonica relacionada |
+| `marketId` | Mercado canonico relacionado |
+| `source` | Provedor e IDs externos da partida e do mercado |
+| `bookmaker` | Casa responsavel pelos precos |
+| `capturedAt` | Instante UTC da cotacao |
+| `format` | Formato decimal canonico |
+| `status` | Mercado aberto, suspenso ou encerrado |
+| `selections` | Preco e estado por selecao |
+| `dataQuality` | Frescor e completude do snapshot |
+
+Regras de coerencia:
+
+- IDs incluem origem, casa, partida externa, mercado externo e instante de captura;
+- `capturedAt` nao pode ser posterior ao horario de coleta;
+- selecoes abertas exigem odd decimal maior que 1;
+- selecoes suspensas ou liquidadas podem usar preco `null`;
+- chaves e IDs externos de selecao nao podem se repetir;
+- a validacao cruzada exige a mesma partida, mercado e conjunto de selecoes.
+
+Exemplo executavel: `src/engine/contracts/examples/canonicalOddsSnapshot.v1.js`.
+
 ## Relacionamento
 
-Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1` e uma linha do tempo `canonical-match-events.v1`. Todos sao relacionados pelo mesmo `matchId` interno.
+Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1` e varios mercados `canonical-market.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`. Todos preservam os IDs internos de relacionamento.
 
 ## Fora da versao atual
 
 - escalacoes e atletas;
-- mercados e odds;
 - arbitragem e estadio detalhados;
 - payload bruto do fornecedor;
 - persistencia ou endpoint de API.
