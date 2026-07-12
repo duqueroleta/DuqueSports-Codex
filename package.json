@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "test": "npm run test:engine && npm run test:ui",
     "dev": "vite",
