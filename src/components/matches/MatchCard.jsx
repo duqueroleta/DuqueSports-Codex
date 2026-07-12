@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
+import { formatMatchConfidence, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
@@ -8,6 +9,8 @@ import '../../styles/match-card.css';
 function MatchCard({ match }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('match', match.id);
+  const confidence = normalizeMatchConfidence(match.confidence);
+  const confidenceDisplay = formatMatchConfidence(match.confidence);
 
   function handleFavoriteClick(event) {
     event.preventDefault();
@@ -56,12 +59,12 @@ function MatchCard({ match }) {
           <strong>{match.signal}</strong>
         </div>
         <div className="match-confidence">
-          <span>{match.confidence}%</span>
+          <span>{confidenceDisplay}</span>
         </div>
       </div>
 
-      <div className="match-confidence-track" aria-label={`Confianca da IA em ${match.confidence}%`}>
-        <span style={{ width: `${match.confidence}%` }} />
+      <div className="match-confidence-track" aria-label={`Confianca da IA: ${confidenceDisplay}`}>
+        <span style={{ width: `${confidence ?? 0}%` }} />
       </div>
 
       <p className="match-insight">{match.insight}</p>

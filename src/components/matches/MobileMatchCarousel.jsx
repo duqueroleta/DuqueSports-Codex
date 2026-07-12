@@ -8,6 +8,7 @@ import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
+import { getMatchConfidenceLabel, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
 import { normalizeMatchProbabilities } from '../../utils/matchProbabilities.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
@@ -22,7 +23,10 @@ function MobileMatchCarousel() {
     ? matches
     : matches.filter((match) => match.league === activeCompetition);
   const visibleMatches = competitionMatches.filter((match) => matchMarketFilter(match, activeMarket));
-  const bestMatch = [...visibleMatches].sort((first, second) => second.confidence - first.confidence)[0];
+  const bestMatch = [...visibleMatches].sort((first, second) => (
+    (normalizeMatchConfidence(second.confidence) ?? -1)
+      - (normalizeMatchConfidence(first.confidence) ?? -1)
+  ))[0];
 
   function scrollToStart() {
     carouselRef.current?.scrollTo({ behavior: 'smooth', left: 0 });
@@ -98,8 +102,8 @@ function MobileMatchCarousel() {
 
                 <div className="mobile-score-panel">
                   <span>Duque Score</span>
-                  <strong>{match.confidence}</strong>
-                  <p>{match.confidence >= 80 ? 'Confianca alta' : 'Confianca moderada'}</p>
+                  <strong>{normalizeMatchConfidence(match.confidence) ?? '--'}</strong>
+                  <p>{getMatchConfidenceLabel(match.confidence)}</p>
                 </div>
 
                 <div className="mobile-match-stats">

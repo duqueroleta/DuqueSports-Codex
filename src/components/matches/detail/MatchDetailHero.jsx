@@ -1,4 +1,5 @@
 import DetailHero from '../../detail/DetailHero.jsx';
+import { normalizeMatchConfidence } from '../../../utils/matchConfidence.js';
 import { getMatchVisualStyle } from '../../../utils/matchVisuals.js';
 import MatchTeamsStrip from './MatchTeamsStrip.jsx';
 
@@ -15,7 +16,7 @@ function MatchDetailHero({ match }) {
       eyebrow={`${match.league} • Hoje, ${match.time}`}
       scoreCaption="Duque Score"
       scoreLabel={match.status}
-      scoreValue={match.confidence}
+      scoreValue={normalizeMatchConfidence(match.confidence) ?? '--'}
       style={getMatchVisualStyle(match)}
       title={`${match.home} x ${match.away}`}
       titleId="match-detail-title"

@@ -5,7 +5,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:engine": "node tests/engine-phase-one.test.mjs",
-    "test:ui": "node tests/engine-projection-section-state.test.mjs && node tests/detail-page-state.test.mjs && node tests/match-probabilities.test.mjs && node tests/match-metrics.test.mjs"
+    "test:ui": "node tests/engine-projection-section-state.test.mjs && node tests/detail-page-state.test.mjs && node tests/match-probabilities.test.mjs && node tests/match-metrics.test.mjs && node tests/match-confidence.test.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

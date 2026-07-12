@@ -9,6 +9,11 @@ import { usePersistentState } from '../hooks/usePersistentState.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getMatches } from '../services/matchesService.js';
 import '../styles/page-matches.css';
+import {
+  calculateAverageMatchConfidence,
+  formatMatchConfidence,
+  normalizeMatchConfidence,
+} from '../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../utils/matchMetrics.js';
 import { itemMatchesSearch } from '../utils/search.js';
 
@@ -24,7 +29,7 @@ function filterMatches(match, filter) {
   }
 
   if (filter === 'Alta confiança') {
-    return match.confidence >= 80;
+    return (normalizeMatchConfidence(match.confidence) ?? -1) >= 80;
   }
 
   if (filter === 'Over') {
@@ -67,9 +72,7 @@ function MatchesPage() {
         && itemMatchesSearch(match, searchTerm);
     },
   );
-  const averageConfidence = filteredMatches.length
-    ? Math.round(filteredMatches.reduce((total, match) => total + match.confidence, 0) / filteredMatches.length)
-    : 0;
+  const averageConfidence = calculateAverageMatchConfidence(filteredMatches);
 
   return (
     <main className="matches-page">
@@ -84,7 +87,7 @@ function MatchesPage() {
 
         <aside className="matches-page-summary">
           <span>Confiança média</span>
-          <strong>{averageConfidence}%</strong>
+          <strong>{formatMatchConfidence(averageConfidence)}</strong>
           <p>{filteredMatches.length} jogos priorizados hoje</p>
         </aside>
       </section>

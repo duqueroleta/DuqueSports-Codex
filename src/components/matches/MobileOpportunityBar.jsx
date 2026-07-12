@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
+import { formatMatchConfidence } from '../../utils/matchConfidence.js';
 import '../../styles/mobile-opportunity-bar.css';
 
 function MobileOpportunityBar({ match }) {
@@ -17,7 +18,7 @@ function MobileOpportunityBar({ match }) {
         </strong>
         <TeamCrest size="small" teamName={match.away} />
       </div>
-      <small>{match.confidence}% • {match.signal}</small>
+      <small>{formatMatchConfidence(match.confidence)} • {match.signal}</small>
     </Link>
   );
 }

@@ -1,15 +1,14 @@
 import MatchCard from './MatchCard.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
+import { calculateAverageMatchConfidence, formatMatchConfidence } from '../../utils/matchConfidence.js';
 import '../../styles/matches-today.css';
 
 function TodayMatches() {
   const { data: matches } = useAsyncData(getMatches, []);
   const featuredMatches = matches.slice(0, 3);
   const liveMatchesCount = matches.filter((match) => match.status === 'Ao vivo').length;
-  const averageConfidence = featuredMatches.length
-    ? Math.round(featuredMatches.reduce((total, match) => total + match.confidence, 0) / featuredMatches.length)
-    : 0;
+  const averageConfidence = calculateAverageMatchConfidence(featuredMatches);
 
   return (
     <section className="today-matches" aria-labelledby="today-matches-title">
@@ -30,7 +29,7 @@ function TodayMatches() {
             <span>ao vivo agora</span>
           </div>
           <div>
-            <strong>{averageConfidence}%</strong>
+            <strong>{formatMatchConfidence(averageConfidence)}</strong>
             <span>confianca media</span>
           </div>
         </div>

@@ -1,17 +1,19 @@
+import { formatMatchConfidence } from '../../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../../utils/matchMetrics.js';
 import '../../../styles/match-analysis-grid.css';
 
 function getAnalysisCards(match) {
+  const confidence = formatMatchConfidence(match.confidence);
   const summaryCards = [
     {
       label: 'Mercado recomendado',
       title: match.signal,
-      text: `Odd atual ${match.odds} com confianca operacional de ${match.confidence}%.`,
+      text: `Odd atual ${match.odds} com confianca operacional de ${confidence}.`,
       variant: 'highlight',
     },
     {
       label: 'Projecao estatistica',
-      title: `${match.confidence}% de confianca operacional`,
+      title: `${confidence} de confianca operacional`,
       text: 'Score composto por forma recente, volume ofensivo, pressao territorial e preco medio do mercado.',
     },
     {
