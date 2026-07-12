@@ -1,15 +1,14 @@
 import assert from 'node:assert/strict';
-import { markets } from '../../src/data/markets.js';
 import { createEnginePipelineApiResponse } from '../../src/engine/api/EnginePipelineApiContract.js';
 import { createDataAdapterQuarantine } from '../../src/engine/data-source/DataAdapterQuarantineService.js';
 import { validateMatchesData } from '../../src/engine/data-source/DataAdapterValidationService.js';
-import { createMockEngineDataAdapter } from '../../src/engine/data-source/MockEngineDataAdapter.js';
 import { createMockMarketsDataAdapter } from '../../src/engine/data-source/MockMarketsDataAdapter.js';
 import { runEngineExecutionPipeline } from '../../src/engine/pipeline/EngineExecutionPipeline.js';
 import { resolveExecutionStatus } from '../../src/engine/pipeline/EngineExecutionStatusService.js';
 import { resetEngineSnapshotRepository } from '../../src/engine/snapshot/EngineSnapshotRepository.js';
+import { createMockEngineTestContext } from './fixtures/engineTestContext.mjs';
 
-const mockEngineData = createMockEngineDataAdapter();
+const { dataSource, markets, mockEngineData } = createMockEngineTestContext();
 const mockMarketsData = createMockMarketsDataAdapter();
 const invalidMatchesValidation = validateMatchesData([{ id: 'broken-match' }]);
 const invalidAdapterQuarantine = createDataAdapterQuarantine({
@@ -37,15 +36,7 @@ const engineExecution = runEngineExecutionPipeline({
   matches: mockEngineData.matches,
   markets: mockEngineData.markets,
   batchAnalysis: mockEngineData.batchAnalysis,
-  dataSource: {
-    model: mockEngineData.model,
-    source: mockEngineData.source,
-    freshness: mockEngineData.freshness,
-    provider: mockEngineData.provider,
-    validation: mockEngineData.validation,
-    quarantine: mockEngineData.quarantine,
-    totals: mockEngineData.totals,
-  },
+  dataSource,
 });
 
 assert.equal(engineExecution.model, 'engine-execution-pipeline-v1', 'Engine execution pipeline should expose its model');

@@ -1,3 +1,5 @@
+import { ENGINE_VERSION } from '../src/engine/core/contracts.js';
+
 const ENGINE_TEST_SUITES = Object.freeze([
   'engine/projection.test.mjs',
   'engine/market-domain.test.mjs',
@@ -10,4 +12,4 @@ for (const suite of ENGINE_TEST_SUITES) {
   await import(new URL(suite, import.meta.url));
 }
 
-console.log(`DUQUE Engine Phase 1-71 tests passed across ${ENGINE_TEST_SUITES.length} suites`);
+console.log(`Engine tests passed for ${ENGINE_VERSION} across ${ENGINE_TEST_SUITES.length} suites`);

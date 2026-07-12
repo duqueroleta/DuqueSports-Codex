@@ -1,11 +1,6 @@
 import assert from 'node:assert/strict';
-import { markets } from '../../src/data/markets.js';
-import { matches } from '../../src/data/matches.js';
 import { runEngineAuditLogService } from '../../src/engine/audit/EngineAuditLogService.js';
-import { runBatchAnalysis } from '../../src/engine/batch/BatchAnalysisService.js';
-import { runExecutiveDashboardService } from '../../src/engine/batch/ExecutiveDashboardService.js';
 import { ENGINE_VERSION } from '../../src/engine/core/contracts.js';
-import { createMockEngineDataAdapter } from '../../src/engine/data-source/MockEngineDataAdapter.js';
 import { runEngineExecutiveReportService } from '../../src/engine/pipeline/EngineExecutiveReportService.js';
 import { resolveExecutionStatus } from '../../src/engine/pipeline/EngineExecutionStatusService.js';
 import {
@@ -24,12 +19,14 @@ import {
   assessEngineSnapshotCompatibility,
   validateEngineSnapshotSchema,
 } from '../../src/engine/snapshot/EngineSnapshotSchemaService.js';
-import { runEngineSnapshotService } from '../../src/engine/snapshot/EngineSnapshotService.js';
+import { createSnapshotTestContext } from './fixtures/engineTestContext.mjs';
 
-const batchAnalysis = runBatchAnalysis(matches);
-const executiveDashboard = runExecutiveDashboardService({ matches, markets, batchAnalysis });
-const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
-const mockEngineData = createMockEngineDataAdapter();
+const {
+  engineSnapshot,
+  executiveDashboard,
+  matches,
+  mockEngineData,
+} = createSnapshotTestContext();
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
 assert.ok(engineSnapshot.snapshotId.includes(ENGINE_VERSION), 'Engine snapshot should include engine version');
