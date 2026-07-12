@@ -114,6 +114,11 @@ O projeto separa responsabilidades por domínio:
 - `hooks/` - hooks reutilizáveis
 - `context/` - estados globais da aplicação
 
+## Planejamento
+
+- [Backlog priorizado dos próximos ciclos](docs/product-backlog.md)
+- [Fechamento do segundo ciclo - Fase 75](docs/engine-phase-75.md)
+
 ## Observações
 
 O app ainda usa dados locais, mas a camada de `services` já prepara o caminho para substituir os mocks por APIs reais sem reescrever as telas.
