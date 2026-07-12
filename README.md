@@ -36,6 +36,10 @@ Configuração recomendada:
 
 O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas do React Router funcionem ao acessar URLs diretamente, como `/jogos` ou `/mercados/1`.
 
+## Qualidade automatizada
+
+O workflow `Quality` do GitHub Actions executa `npm ci` e `npm run verify` em pushes e pull requests para `main`. A verificacao cobre testes do Engine, testes da interface e build de producao.
+
 ### Captacao de leads
 
 O formulario da Lista VIP envia os dados para um Google Apps Script conectado a uma planilha.
