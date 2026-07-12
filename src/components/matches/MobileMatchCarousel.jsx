@@ -10,6 +10,7 @@ import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
 import { getMatchConfidenceLabel, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
+import { formatMatchOdds } from '../../utils/matchOdds.js';
 import { normalizeMatchProbabilities } from '../../utils/matchProbabilities.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
@@ -115,7 +116,7 @@ function MobileMatchCarousel() {
                 <div className="mobile-match-signal">
                   <span>Mercado indicado</span>
                   <strong>{match.signal}</strong>
-                  <small>Odd media {match.odds}</small>
+                  <small>Odd media {formatMatchOdds(match.odds)}</small>
                 </div>
 
                 <div className="mobile-probability-strip" aria-label="Probabilidades principais">

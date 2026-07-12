@@ -1,14 +1,16 @@
 import { formatMatchConfidence } from '../../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../../utils/matchMetrics.js';
+import { formatMatchOdds } from '../../../utils/matchOdds.js';
 import '../../../styles/match-analysis-grid.css';
 
 function getAnalysisCards(match) {
   const confidence = formatMatchConfidence(match.confidence);
+  const odds = formatMatchOdds(match.odds);
   const summaryCards = [
     {
       label: 'Mercado recomendado',
       title: match.signal,
-      text: `Odd atual ${match.odds} com confianca operacional de ${confidence}.`,
+      text: `Odd atual ${odds} com confianca operacional de ${confidence}.`,
       variant: 'highlight',
     },
     {
@@ -23,7 +25,7 @@ function getAnalysisCards(match) {
     },
     {
       label: 'Gestao de risco',
-      title: `Odd media ${match.odds}`,
+      title: `Odd media ${odds}`,
       text: 'Leitura indicada para estudo previo. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
     },
   ];

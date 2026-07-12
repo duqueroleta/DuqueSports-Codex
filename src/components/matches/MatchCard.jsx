@@ -3,6 +3,7 @@ import TeamCrest from '../teams/TeamCrest.jsx';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
 import { formatMatchConfidence, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
+import { formatMatchOdds } from '../../utils/matchOdds.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
 
@@ -70,7 +71,7 @@ function MatchCard({ match }) {
       <p className="match-insight">{match.insight}</p>
 
       <div className="match-meta">
-        <strong>Odd {match.odds}</strong>
+        <strong>Odd {formatMatchOdds(match.odds)}</strong>
         {normalizeMatchMetrics(match.metrics).map((metric) => (
           <span key={metric}>{metric}</span>
         ))}
