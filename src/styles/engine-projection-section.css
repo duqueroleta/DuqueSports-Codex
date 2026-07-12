@@ -1,0 +1,97 @@
+.detail-page .engine-projection-state {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: center;
+  width: min(1240px, 100%);
+  margin: 18px auto 0;
+  padding: 20px;
+}
+
+.engine-projection-state span {
+  color: var(--color-neon);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.engine-projection-state strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: 1.35rem;
+}
+
+.engine-projection-state p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  line-height: 1.55;
+}
+
+.engine-projection-state-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.engine-projection-state-bars i {
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(32, 246, 164, 0.08),
+    rgba(32, 246, 164, 0.42),
+    rgba(217, 180, 91, 0.1)
+  );
+  background-size: 220% 100%;
+  animation: engine-projection-pulse 1.6s ease-in-out infinite;
+}
+
+.engine-projection-state-bars i:nth-child(2) {
+  width: 78%;
+  animation-delay: 120ms;
+}
+
+.engine-projection-state-bars i:nth-child(3) {
+  width: 58%;
+  animation-delay: 240ms;
+}
+
+.engine-projection-state-error {
+  border-color: rgba(217, 180, 91, 0.28);
+}
+
+.engine-projection-state-error button {
+  min-height: 48px;
+  border: 1px solid rgba(217, 180, 91, 0.34);
+  border-radius: 14px;
+  color: var(--color-white);
+  background: rgba(217, 180, 91, 0.12);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@keyframes engine-projection-pulse {
+  0%,
+  100% {
+    background-position: 100% 50%;
+    opacity: 0.72;
+  }
+
+  50% {
+    background-position: 0 50%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 820px) {
+  .detail-page .engine-projection-state {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .engine-projection-state-bars i {
+    animation: none;
+  }
+}
