@@ -101,3 +101,8 @@ Eventos, estatisticas detalhadas, mercados e odds permanecem fora do contrato de
 ## Revisao
 
 Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um requisito obrigatorio nao couber no contrato canonico sem extensao.
+
+## Acompanhamento
+
+- Fase 76: criado `canonical-match.v1`.
+- Fase 77: criado `canonical-match-statistics.v1` como snapshot separado ligado por `matchId`.
