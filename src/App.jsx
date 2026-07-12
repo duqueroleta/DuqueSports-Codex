@@ -11,6 +11,7 @@ import MarketDetailPage from './pages/MarketDetailPage.jsx';
 import MarketsPage from './pages/MarketsPage.jsx';
 import MatchDetailPage from './pages/MatchDetailPage.jsx';
 import MatchesPage from './pages/MatchesPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/perfil" element={<ProfilePage />} />
         <Route path="/favoritos" element={<FavoritesPage />} />
         <Route path="/analises" element={<AnalysesPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

@@ -16,6 +16,7 @@ Aplicativo premium de análise estatística de futebol com foco em leitura predi
 npm install
 npm run dev
 npm run build
+npm run verify
 ```
 
 Servidor local padrão:
@@ -87,6 +88,7 @@ Para evitar duplicidade direto na planilha, o Apps Script deve retornar `{ dupli
 - `/favoritos` - Favoritos salvos
 - `/perfil` - Perfil e preferências
 - `/analises` - Análises estatísticas
+- `*` - Página segura para rotas não encontradas
 
 ## Arquitetura
 
