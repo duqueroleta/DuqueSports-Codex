@@ -1,12 +1,14 @@
 import { matches } from '../data/matches.js';
+import { normalizeMatchPresentation, normalizeMatchesPresentation } from '../utils/matchPresentation.js';
 import { mockRequest } from './mockApi.js';
 
 function getMatches() {
-  return mockRequest('matches', matches);
+  return mockRequest('matches', normalizeMatchesPresentation(matches));
 }
 
 function getMatchById(id) {
-  return mockRequest('matches', matches.find((match) => match.id === Number(id)));
+  const match = matches.find((item) => item.id === Number(id));
+  return mockRequest('matches', normalizeMatchPresentation(match));
 }
 
 export { getMatchById, getMatches };
