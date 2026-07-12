@@ -6,6 +6,7 @@ import { useAsyncData } from '../hooks/useAsyncData.js';
 import { usePersistentState } from '../hooks/usePersistentState.js';
 import { getLiveMatches } from '../services/liveService.js';
 import '../styles/page-live.css';
+import { calculateAverageLivePressure, formatLivePressure } from '../utils/liveMatchPresentation.js';
 import { itemMatchesSearch } from '../utils/search.js';
 
 const filters = ['Todos', 'Pressao alta', 'Gols', 'Escanteios', 'Segundo tempo'];
@@ -42,9 +43,7 @@ function LivePage() {
     (match) => filterLiveMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm),
   );
   const highPressureCount = liveMatches.filter((match) => match.pressure >= 78).length;
-  const averagePressure = liveMatches.length
-    ? Math.round(liveMatches.reduce((total, match) => total + match.pressure, 0) / liveMatches.length)
-    : 0;
+  const averagePressure = calculateAverageLivePressure(liveMatches);
 
   return (
     <main className="live-page">
@@ -59,7 +58,7 @@ function LivePage() {
 
           <div className="live-page-metrics" aria-label="Resumo do monitor ao vivo">
             <strong>{liveMatches.length} jogos live</strong>
-            <strong>{averagePressure}% pressao media</strong>
+            <strong>{formatLivePressure(averagePressure)} pressao media</strong>
             <strong>{filteredMatches.length} no filtro atual</strong>
           </div>
         </div>

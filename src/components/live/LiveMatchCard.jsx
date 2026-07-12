@@ -1,28 +1,23 @@
 import TeamCrest from '../teams/TeamCrest.jsx';
+import {
+  formatLiveMinute,
+  formatLivePressure,
+  getLiveMatchStage,
+  getLivePressureTone,
+} from '../../utils/liveMatchPresentation.js';
 import '../../styles/live-match-card.css';
 
-function getMatchStage(minute) {
-  if (minute >= 75) {
-    return 'Reta final';
-  }
-
-  if (minute >= 46) {
-    return 'Segundo tempo';
-  }
-
-  return 'Primeiro tempo';
-}
-
 function LiveMatchCard({ match }) {
-  const stage = getMatchStage(match.minute);
-  const pressureTone = match.pressure >= 80 ? 'Zona quente' : 'Monitorar';
+  const stage = getLiveMatchStage(match.minute);
+  const pressureTone = getLivePressureTone(match.pressure);
+  const pressureDisplay = formatLivePressure(match.pressure);
 
   return (
     <article className="live-match-card">
       <div className="live-match-top">
         <div>
           <span>{match.league}</span>
-          <strong>{match.minute}'</strong>
+          <strong>{formatLiveMinute(match.minute)}</strong>
         </div>
         <span className="live-pulse">Ao vivo</span>
       </div>
@@ -47,10 +42,10 @@ function LiveMatchCard({ match }) {
       <div className="live-pressure">
         <div>
           <span>Pressao ofensiva</span>
-          <strong>{match.pressure}%</strong>
+          <strong>{pressureDisplay}</strong>
         </div>
-        <div className="live-pressure-bar" aria-label={`Pressao ofensiva ${match.pressure}%`}>
-          <span style={{ width: `${match.pressure}%` }} />
+        <div className="live-pressure-bar" aria-label={`Pressao ofensiva: ${pressureDisplay}`}>
+          <span style={{ width: `${match.pressure ?? 0}%` }} />
         </div>
       </div>
 
