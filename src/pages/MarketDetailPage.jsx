@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import DetailHero from '../components/detail/DetailHero.jsx';
-import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
+import DetailPageState from '../components/detail/DetailPageState.jsx';
+import { DETAIL_PAGE_STATES, resolveDetailPageState } from '../components/detail/detailPageState.js';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
 import MarketRecommendationPanel from '../components/markets/detail/MarketRecommendationPanel.jsx';
@@ -16,7 +17,7 @@ function MarketDetailPage() {
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
   const detailState = resolveDetailPageState({ data: market, error, isLoading });
 
-  if (detailState) {
+  if (detailState !== DETAIL_PAGE_STATES.READY) {
     return (
       <DetailPageState
         backHref="/mercados"

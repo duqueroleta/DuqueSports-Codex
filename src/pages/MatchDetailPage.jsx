@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
-import DetailPageState, { resolveDetailPageState } from '../components/detail/DetailPageState.jsx';
+import DetailPageState from '../components/detail/DetailPageState.jsx';
+import { DETAIL_PAGE_STATES, resolveDetailPageState } from '../components/detail/detailPageState.js';
 import EngineProjectionSection from '../components/matches/detail/EngineProjectionSection.jsx';
 import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx';
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
@@ -22,7 +23,7 @@ function MatchDetailPage() {
   } = useMatchDetailData(matchId);
   const detailState = resolveDetailPageState({ data: match, error, isLoading });
 
-  if (detailState) {
+  if (detailState !== DETAIL_PAGE_STATES.READY) {
     return (
       <DetailPageState
         backHref="/jogos"

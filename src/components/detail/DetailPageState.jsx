@@ -1,28 +1,17 @@
 import { Link } from 'react-router-dom';
 import ErrorState from '../error/ErrorState.jsx';
 import SkeletonGrid from '../loading/SkeletonGrid.jsx';
+import { DETAIL_PAGE_STATES } from './detailPageState.js';
 import '../../styles/detail-page-state.css';
 
 function getResourceTitle(resource) {
   return `${resource.charAt(0).toUpperCase()}${resource.slice(1)}`;
 }
 
-function resolveDetailPageState({ data, error, isLoading }) {
-  if (isLoading) {
-    return 'loading';
-  }
-
-  if (error) {
-    return 'error';
-  }
-
-  return data ? null : 'not-found';
-}
-
 function DetailPageState({ backHref, backLabel, onRetry, resource, state }) {
   const analysisLabel = `análise do ${resource}`;
 
-  if (state === 'loading') {
+  if (state === DETAIL_PAGE_STATES.LOADING) {
     return (
       <main className="detail-page">
         <section
@@ -35,7 +24,7 @@ function DetailPageState({ backHref, backLabel, onRetry, resource, state }) {
     );
   }
 
-  if (state === 'error') {
+  if (state === DETAIL_PAGE_STATES.ERROR) {
     return (
       <main className="detail-page">
         <section
@@ -48,7 +37,7 @@ function DetailPageState({ backHref, backLabel, onRetry, resource, state }) {
     );
   }
 
-  if (state === 'not-found') {
+  if (state === DETAIL_PAGE_STATES.NOT_FOUND) {
     return (
       <main className="detail-page">
         <section className="detail-empty">
@@ -63,4 +52,3 @@ function DetailPageState({ backHref, backLabel, onRetry, resource, state }) {
 }
 
 export default DetailPageState;
-export { resolveDetailPageState };

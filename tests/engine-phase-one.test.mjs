@@ -42,6 +42,7 @@ import { adaptMatchToEngineInput } from '../src/engine/adapters/mockMatchAdapter
 import { runBatchAnalysis } from '../src/engine/batch/BatchAnalysisService.js';
 import { runProbabilityCalibrationEngine } from '../src/engine/calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../src/engine/data-quality/DataQualityEngine.js';
+import { ENGINE_VERSION } from '../src/engine/core/contracts.js';
 import { FEATURE_CATALOG } from '../src/engine/feature-store/featureCatalog.js';
 import { runProjectionPipeline } from '../src/engine/projection/ProjectionPipeline.js';
 import { runPoissonEngine } from '../src/engine/statistical/PoissonEngine.js';
@@ -254,14 +255,14 @@ assert.equal(executiveDashboard.totals.auditedMarkets, markets.length, 'Executiv
 const engineSnapshot = runEngineSnapshotService({ matches, markets, batchAnalysis, executiveDashboard });
 
 assert.equal(engineSnapshot.model, 'engine-snapshot-service-v1', 'Engine snapshot should expose its model');
-assert.ok(engineSnapshot.snapshotId.includes('duque-score-engine-v1.phase-59'), 'Engine snapshot should include engine version');
+assert.ok(engineSnapshot.snapshotId.includes(ENGINE_VERSION), 'Engine snapshot should include engine version');
 assert.equal(engineSnapshot.topOpportunities.length, 3, 'Engine snapshot should preserve top opportunities');
 const snapshotSchemaValidation = validateEngineSnapshotSchema(engineSnapshot);
 const snapshotCompatibility = assessEngineSnapshotCompatibility(engineSnapshot);
 const legacySnapshot = {
   ...engineSnapshot,
   engineVersion: 'duque-score-engine-v1.phase-16',
-  snapshotId: engineSnapshot.snapshotId.replace('phase-59', 'phase-16'),
+  snapshotId: engineSnapshot.snapshotId.replace(ENGINE_VERSION, 'duque-score-engine-v1.phase-16'),
 };
 const migratedLegacySnapshot = migrateEngineSnapshotToCurrentVersion(legacySnapshot);
 resetEngineSnapshotRepository();
@@ -443,4 +444,4 @@ const blockedApiResponse = createEnginePipelineApiResponse({
 
 assert.equal(blockedApiResponse.statusCode, 409, 'Blocked API contract should expose HTTP 409');
 
-console.log('DUQUE Engine Phase 1-59 tests passed');
+console.log('DUQUE Engine Phase 1-60 tests passed');
