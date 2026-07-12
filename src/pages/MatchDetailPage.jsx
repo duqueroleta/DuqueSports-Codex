@@ -7,20 +7,13 @@ import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx'
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
 import MatchProbabilitiesPanel from '../components/matches/detail/MatchProbabilitiesPanel.jsx';
 import MatchTeamsStrip from '../components/matches/detail/MatchTeamsStrip.jsx';
-import { useAsyncData } from '../hooks/useAsyncData.js';
-import { getEngineProjectionByMatchId } from '../services/engineProjectionService.js';
-import { getMatchById } from '../services/matchesService.js';
+import { useMatchDetailData } from '../hooks/useMatchDetailData.js';
 import { getMatchVisualStyle } from '../utils/matchVisuals.js';
 import '../styles/page-detail.css';
 
 function MatchDetailPage() {
   const { matchId } = useParams();
-  const { data: match, error, isLoading, retry } = useAsyncData(() => getMatchById(matchId), [matchId], null);
-  const { data: engineProjection } = useAsyncData(
-    () => getEngineProjectionByMatchId(matchId),
-    [matchId],
-    null,
-  );
+  const { engineProjection, error, isLoading, match, retry } = useMatchDetailData(matchId);
   const detailState = resolveDetailPageState({ data: match, error, isLoading });
 
   if (detailState) {
