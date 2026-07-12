@@ -1,9 +1,15 @@
 import '../../../styles/engine-projection-section.css';
 import AiExplanationPanel from './AiExplanationPanel.jsx';
 import EngineProjectionPanel from './EngineProjectionPanel.jsx';
+import {
+  ENGINE_PROJECTION_SECTION_STATES,
+  resolveEngineProjectionSectionState,
+} from './engineProjectionSectionState.js';
 
 function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
-  if (isLoading) {
+  const state = resolveEngineProjectionSectionState({ error, isLoading });
+
+  if (state === ENGINE_PROJECTION_SECTION_STATES.LOADING) {
     return (
       <section
         aria-busy="true"
@@ -25,7 +31,7 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
     );
   }
 
-  if (error) {
+  if (state === ENGINE_PROJECTION_SECTION_STATES.ERROR) {
     return (
       <section
         aria-label="Projecao estatistica indisponivel"
