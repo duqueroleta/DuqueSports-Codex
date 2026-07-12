@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
+import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
 
@@ -67,7 +68,7 @@ function MatchCard({ match }) {
 
       <div className="match-meta">
         <strong>Odd {match.odds}</strong>
-        {match.metrics.map((metric) => (
+        {normalizeMatchMetrics(match.metrics).map((metric) => (
           <span key={metric}>{metric}</span>
         ))}
       </div>

@@ -8,6 +8,7 @@ import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
+import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
 import { normalizeMatchProbabilities } from '../../utils/matchProbabilities.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
@@ -102,7 +103,7 @@ function MobileMatchCarousel() {
                 </div>
 
                 <div className="mobile-match-stats">
-                  {match.metrics.slice(0, 3).map((metric) => (
+                  {normalizeMatchMetrics(match.metrics).slice(0, 3).map((metric) => (
                     <span key={metric}>{metric}</span>
                   ))}
                 </div>

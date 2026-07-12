@@ -1,3 +1,5 @@
+import { normalizeMatchMetrics } from './matchMetrics.js';
+
 const MARKET_FILTERS = [
   { id: 'todos', label: 'Todos' },
   { id: 'gols', label: 'Gols' },
@@ -21,7 +23,7 @@ function matchMarketFilter(match, activeMarket) {
   }
 
   const signal = match.signal.toLowerCase();
-  const metrics = match.metrics.join(' ').toLowerCase();
+  const metrics = normalizeMatchMetrics(match.metrics).join(' ').toLowerCase();
 
   if (activeMarket === 'gols') {
     return signal.includes('over') || signal.includes('under') || signal.includes('gol');

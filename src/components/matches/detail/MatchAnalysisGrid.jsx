@@ -1,3 +1,4 @@
+import { normalizeMatchMetrics } from '../../../utils/matchMetrics.js';
 import '../../../styles/match-analysis-grid.css';
 
 function getAnalysisCards(match) {
@@ -24,7 +25,7 @@ function getAnalysisCards(match) {
       text: 'Leitura indicada para estudo previo. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
     },
   ];
-  const metricCards = (match.metrics ?? []).map((metric) => ({
+  const metricCards = normalizeMatchMetrics(match.metrics).map((metric) => ({
     key: `metric-${metric}`,
     label: 'Indicador avancado',
     title: metric,

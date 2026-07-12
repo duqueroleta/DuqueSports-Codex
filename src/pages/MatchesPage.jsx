@@ -9,6 +9,7 @@ import { usePersistentState } from '../hooks/usePersistentState.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getMatches } from '../services/matchesService.js';
 import '../styles/page-matches.css';
+import { normalizeMatchMetrics } from '../utils/matchMetrics.js';
 import { itemMatchesSearch } from '../utils/search.js';
 
 const filters = ['Todos', 'Ao vivo', 'Pré-jogo', 'Alta confiança', 'Over', 'BTTS'];
@@ -31,7 +32,8 @@ function filterMatches(match, filter) {
   }
 
   if (filter === 'BTTS') {
-    return match.metrics.some((metric) => metric.includes('BTTS')) || match.signal === 'Ambas marcam';
+    return normalizeMatchMetrics(match.metrics).some((metric) => metric.includes('BTTS'))
+      || match.signal === 'Ambas marcam';
   }
 
   return true;
