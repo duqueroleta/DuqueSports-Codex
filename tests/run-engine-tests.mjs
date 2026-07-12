@@ -1,6 +1,7 @@
 import { ENGINE_VERSION } from '../src/engine/core/contracts.js';
 
 const ENGINE_TEST_SUITES = Object.freeze([
+  'engine/canonical-match-contract.test.mjs',
   'engine/projection.test.mjs',
   'engine/market-domain.test.mjs',
   'engine/data-source.test.mjs',

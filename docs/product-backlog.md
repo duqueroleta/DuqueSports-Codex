@@ -12,6 +12,8 @@ Avaliar provedores por cobertura dos campeonatos oficiais, profundidade historic
 
 **Criterio de aceite:** decisao arquitetural documentada com custos, riscos, limites e alternativa de contingencia.
 
+**Progresso:** ADR 001 define a fronteira, os pesos e o gate. A selecao do fornecedor continua pendente.
+
 ### 2. Backend de integracao
 
 Criar um backend ou BFF para proteger credenciais, controlar cache, aplicar rate limit, normalizar respostas e impedir acesso direto do navegador ao provedor.
@@ -23,6 +25,8 @@ Criar um backend ou BFF para proteger credenciais, controlar cache, aplicar rate
 Definir entidades estaveis para competicao, temporada, equipe, partida, evento, estatistica, mercado, odd, projecao e auditoria. Adaptadores de provedores devem converter para esse contrato.
 
 **Criterio de aceite:** schemas versionados, exemplos reais anonimizados e testes de contrato para entradas validas e invalidas.
+
+**Progresso:** `canonical-match.v1` possui o primeiro validador executavel. Eventos, estatisticas e mercados continuam pendentes.
 
 ### 4. Persistencia e migracoes
 

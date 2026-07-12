@@ -118,6 +118,8 @@ O projeto separa responsabilidades por domínio:
 
 - [Backlog priorizado dos próximos ciclos](docs/product-backlog.md)
 - [Fechamento do segundo ciclo - Fase 75](docs/engine-phase-75.md)
+- [ADR 001 - Fronteira do provedor e contrato canônico](docs/adr/001-provider-boundary-and-canonical-match.md)
+- [Contrato canônico inicial - Fase 76](docs/engine-phase-76.md)
 
 ## Observações
 
