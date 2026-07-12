@@ -26,7 +26,7 @@ Definir entidades estaveis para competicao, temporada, equipe, partida, evento, 
 
 **Criterio de aceite:** schemas versionados, exemplos reais anonimizados e testes de contrato para entradas validas e invalidas.
 
-**Progresso:** `canonical-match.v1` e `canonical-match-statistics.v1` possuem validadores e exemplos executaveis. Eventos e mercados continuam pendentes.
+**Progresso:** partida, estatisticas e eventos possuem schemas v1, validadores e exemplos executaveis. Mercados e odds continuam pendentes.
 
 ### 4. Persistencia e migracoes
 

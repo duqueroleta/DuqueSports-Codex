@@ -122,6 +122,7 @@ O projeto separa responsabilidades por domínio:
 - [Contrato canônico inicial - Fase 76](docs/engine-phase-76.md)
 - [Contratos canônicos de futebol v1](docs/contracts/canonical-data-v1.md)
 - [Snapshots estatísticos canônicos - Fase 77](docs/engine-phase-77.md)
+- [Eventos canônicos e idempotência - Fase 78](docs/engine-phase-78.md)
 
 ## Observações
 

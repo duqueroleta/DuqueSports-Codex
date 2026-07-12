@@ -56,13 +56,42 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalMatchStatistics.v1.js`.
 
+## canonical-match-events.v1
+
+Representa a linha do tempo canonica de uma partida. O lote e ligado a `matchId`, enquanto cada evento possui identidade deterministica derivada do provedor, da partida externa e do ID externo do evento.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `source` | Provedor, ID externo da partida e horario de coleta |
+| `events[].id` | ID interno deterministico e idempotente |
+| `events[].externalId` | Identidade original do evento no provedor |
+| `events[].type` | Gol, cartao, substituicao ou penalti perdido |
+| `events[].period` | Periodo normalizado da partida |
+| `events[].minute` | Minuto absoluto dentro da partida |
+| `events[].stoppageMinute` | Acrescimo anulavel |
+| `events[].sequence` | Desempate de eventos no mesmo instante |
+| `events[].details` | Dados discriminados conforme o tipo |
+| `dataQuality` | Frescor e completude do lote |
+
+Regras de coerencia:
+
+- a mesma combinacao provedor + partida externa + evento externo sempre produz o mesmo ID interno;
+- IDs internos e externos nao podem se repetir no mesmo lote;
+- eventos devem estar em ordem cronologica estrita;
+- o minuto deve ser compativel com o periodo informado;
+- gols exigem autor e qualificacao normalizada;
+- cartoes exigem tipo e atleta;
+- substituicoes exigem atletas de entrada e saida distintos;
+- dados indisponiveis continuam representados por `null`.
+
+Exemplo executavel: `src/engine/contracts/examples/canonicalMatchEvents.v1.js`.
+
 ## Relacionamento
 
-Uma partida possui um registro `canonical-match.v1` e pode possuir varios snapshots `canonical-match-statistics.v1`, todos relacionados pelo mesmo `matchId` interno.
+Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1` e uma linha do tempo `canonical-match-events.v1`. Todos sao relacionados pelo mesmo `matchId` interno.
 
 ## Fora da versao atual
 
-- eventos de jogo;
 - escalacoes e atletas;
 - mercados e odds;
 - arbitragem e estadio detalhados;
