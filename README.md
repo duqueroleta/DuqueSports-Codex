@@ -1,5 +1,7 @@
 # Duque Score
 
+[![Quality](https://github.com/duqueroleta/DuqueSports-Codex/actions/workflows/quality.yml/badge.svg)](https://github.com/duqueroleta/DuqueSports-Codex/actions/workflows/quality.yml)
+
 Aplicativo premium de análise estatística de futebol com foco em leitura preditiva, sinais de mercado, auditoria de recomendações e experiência visual de alto nível.
 
 ## Stack
@@ -39,6 +41,12 @@ O arquivo `vercel.json` inclui rewrite para `index.html`, garantindo que rotas d
 ## Qualidade automatizada
 
 O workflow `Quality` do GitHub Actions executa `npm ci` e `npm run verify` em pushes e pull requests para `main`. A verificacao cobre testes do Engine, testes da interface e build de producao.
+
+Se o workflow falhar:
+
+1. Abra a execucao mais recente na aba `Actions` e selecione o job `Tests and build`.
+2. Identifique se a falha ocorreu em `Install dependencies` ou `Verify project`.
+3. Reproduza localmente com `npm ci` e `npm run verify` antes de publicar a correcao.
 
 ### Captacao de leads
 
