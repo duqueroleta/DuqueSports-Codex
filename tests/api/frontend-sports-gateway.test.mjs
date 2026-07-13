@@ -18,11 +18,13 @@ const server = createServer(handler);
 await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 const address = server.address();
 const apiClient = createSportsApiClient({ baseUrl: `http://127.0.0.1:${address.port}/api/v1` });
+const sourceReports = [];
 const gateway = createSportsDataGateway({
   apiClient,
   enabled: true,
   fallbackCompetitions: competitions,
   fallbackMatches: matches,
+  reportSource: (report) => sourceReports.push(report),
 });
 
 try {
@@ -37,6 +39,7 @@ try {
   assert.equal(apiMatches[5].status, 'Pre-jogo');
   assert.equal(apiMatches[5].odds, matches[5].odds, 'Presentation-only mock metadata remains available');
   assert.deepEqual(apiMatches[5].colors, matches[5].colors);
+  assert.deepEqual(sourceReports.slice(0, 2).map((report) => report.source), ['api', 'api']);
 
   const apiMatch = await gateway.getMatchById(6);
   assert.equal(apiMatch.away, 'Manchester City');
@@ -52,18 +55,23 @@ try {
     getMatchById: async () => { throw new Error('offline'); },
     getMatches: async () => { throw new Error('offline'); },
   };
+  const fallbackReports = [];
   const fallbackGateway = createSportsDataGateway({
     apiClient: failingClient,
     enabled: true,
     fallbackCompetitions: competitions,
     fallbackMatches: matches,
+    reportSource: (report) => fallbackReports.push(report),
   });
 
   assert.equal(await fallbackGateway.getCompetitions(), competitions);
   assert.equal(await fallbackGateway.getMatches(), matches);
   assert.equal((await fallbackGateway.getMatchById(2)).home, 'Cruzeiro');
+  assert.deepEqual(fallbackReports.map((report) => report.source), ['fallback', 'fallback', 'fallback']);
+  assert.equal(fallbackReports[0].reason, 'unavailable');
 
   let apiWasCalled = false;
+  const mockReports = [];
   const disabledGateway = createSportsDataGateway({
     apiClient: {
       getMatches: async () => {
@@ -73,10 +81,23 @@ try {
     },
     enabled: false,
     fallbackMatches: matches,
+    reportSource: (report) => mockReports.push(report),
   });
 
   assert.equal(await disabledGateway.getMatches(), matches);
   assert.equal(apiWasCalled, false, 'Disabled integration must not make network requests');
+  assert.equal(mockReports[0].source, 'mock');
+
+  const failedMockReports = [];
+  const failedMockGateway = createSportsDataGateway({
+    enabled: false,
+    loadFallbackMatches: async () => { throw new Error('simulated failure'); },
+    reportSource: (report) => failedMockReports.push(report),
+  });
+  await assert.rejects(() => failedMockGateway.getMatches(), /simulated failure/);
+  assert.equal(failedMockReports[0].source, 'mock');
+  assert.equal(failedMockReports[0].status, 'error');
+  assert.equal(failedMockReports[0].reason, 'unavailable');
 
   const malformedClient = createSportsApiClient({
     baseUrl: 'https://invalid.example/api/v1',

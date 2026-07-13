@@ -4,9 +4,11 @@ import { normalizeMatchPresentation, normalizeMatchesPresentation } from '../uti
 import { mockRequest } from './mockApi.js';
 import { createSportsApiClient, DEFAULT_API_BASE_URL } from './sportsApiClient.js';
 import { createSportsDataGateway } from './sportsDataGateway.js';
+import { createSportsDataSourceStore } from './sportsDataSourceStore.js';
 
 const environment = import.meta.env ?? {};
 const sportsApiEnabled = environment.VITE_SPORTS_API_ENABLED === 'true';
+const sportsDataSourceStore = createSportsDataSourceStore({ apiEnabled: sportsApiEnabled });
 const apiClient = createSportsApiClient({
   baseUrl: environment.VITE_SPORTS_API_URL || DEFAULT_API_BASE_URL,
 });
@@ -16,6 +18,7 @@ const gateway = createSportsDataGateway({
   fallbackCompetitions: competitions,
   fallbackMatches: matches,
   loadFallbackMatches: () => mockRequest('matches', normalizeMatchesPresentation(matches)),
+  reportSource: sportsDataSourceStore.report,
 });
 
 function getCompetitions() {
@@ -31,4 +34,4 @@ async function getMatches() {
   return normalizeMatchesPresentation(await gateway.getMatches());
 }
 
-export { getCompetitions, getMatchById, getMatches, sportsApiEnabled };
+export { getCompetitions, getMatchById, getMatches, sportsApiEnabled, sportsDataSourceStore };

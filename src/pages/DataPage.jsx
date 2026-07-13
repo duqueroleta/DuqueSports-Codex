@@ -1,4 +1,5 @@
 import DataSourceCard from '../components/data/DataSourceCard.jsx';
+import SportsDataDiagnostics from '../components/data/SportsDataDiagnostics.jsx';
 import TechnicalPanel from '../components/data/TechnicalPanel.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
 import { runEngineExecutionPipeline } from '../engine/pipeline/EngineExecutionPipeline.js';
@@ -106,6 +107,8 @@ function DataPage() {
           <p>bases principais em estado saudável</p>
         </aside>
       </section>
+
+      <SportsDataDiagnostics />
 
       {executiveReport ? (
         <TechnicalPanel
