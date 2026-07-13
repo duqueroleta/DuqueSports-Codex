@@ -6,11 +6,12 @@ import {
   createBackendRuntime,
 } from '../../server/bootstrap/createBackendRuntime.js';
 
-function createTestConfig(port = 0) {
+function createTestConfig(port = 0, shutdownTimeoutMs = 10000) {
   return Object.freeze({
     host: '127.0.0.1',
     port,
     allowedOrigins: Object.freeze([]),
+    shutdownTimeoutMs,
   });
 }
 
@@ -41,6 +42,7 @@ assert.equal(health.meta.requestId, 'req_runtime_test');
 signalSource.emit('SIGTERM');
 const stopped = await runtime.whenStopped();
 assert.equal(stopped.reason, 'SIGTERM');
+assert.equal(stopped.forced, false);
 assert.equal(runtime.getState(), 'stopped');
 assert.equal(signalSource.listenerCount('SIGINT'), 0);
 assert.equal(signalSource.listenerCount('SIGTERM'), 0);
@@ -62,6 +64,50 @@ await Promise.all([
   manuallyStoppedRuntime.stop('duplicate'),
 ]);
 assert.equal(manuallyStoppedRuntime.getState(), 'stopped');
+
+let releaseSlowRequest;
+const slowRequestStarted = new Promise((resolve) => {
+  releaseSlowRequest = resolve;
+});
+let scheduledShutdown;
+let clearedShutdownTimer = false;
+const forcedLogs = [];
+const forcedRuntime = createBackendRuntime({
+  config: createTestConfig(0, 500),
+  signalSource: new EventEmitter(),
+  logger: {
+    warn: (message) => forcedLogs.push(message),
+  },
+  scheduleTimeout: (callback, delay) => {
+    scheduledShutdown = { callback, delay };
+    return 'shutdown-timer';
+  },
+  clearScheduledTimeout: (timer) => {
+    if (timer === 'shutdown-timer') clearedShutdownTimer = true;
+  },
+  serverFactory: (handler) => createServer((request, response) => {
+    if (request.url === '/slow') {
+      releaseSlowRequest();
+      return;
+    }
+
+    handler(request, response);
+  }),
+});
+const forcedStartup = await forcedRuntime.start();
+const slowFetch = fetch(`${forcedStartup.address}/slow`).catch((error) => error);
+await slowRequestStarted;
+const forcedStopPromise = forcedRuntime.stop('timeout-test');
+assert.equal(forcedRuntime.getState(), 'stopping');
+assert.equal(scheduledShutdown.delay, 500);
+scheduledShutdown.callback();
+await forcedStopPromise;
+await slowFetch;
+const forcedStop = await forcedRuntime.whenStopped();
+assert.equal(forcedStop.reason, 'timeout-test');
+assert.equal(forcedStop.forced, true);
+assert.equal(clearedShutdownTimer, true);
+assert.equal(forcedLogs.length, 1);
 
 const occupiedServer = createServer((_request, response) => response.end('occupied'));
 await new Promise((resolve) => occupiedServer.listen(0, '127.0.0.1', resolve));

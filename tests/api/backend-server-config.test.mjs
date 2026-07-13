@@ -8,6 +8,7 @@ import {
 const defaults = createServerConfig();
 assert.equal(defaults.host, '127.0.0.1');
 assert.equal(defaults.port, 8787);
+assert.equal(defaults.shutdownTimeoutMs, 10000);
 assert.deepEqual(defaults.allowedOrigins, [
   'http://127.0.0.1:5173',
   'http://localhost:5173',
@@ -19,9 +20,11 @@ const configured = createServerConfig({
   API_PORT: ' 9090 ',
   API_HOST: '0.0.0.0',
   API_ALLOWED_ORIGINS: 'https://duque-score.example/, https://duque-score.example, http://localhost:4173',
+  API_SHUTDOWN_TIMEOUT_MS: '5000',
 });
 assert.equal(configured.port, 9090);
 assert.equal(configured.host, '0.0.0.0');
+assert.equal(configured.shutdownTimeoutMs, 5000);
 assert.deepEqual(configured.allowedOrigins, [
   'https://duque-score.example',
   'http://localhost:4173',
@@ -48,6 +51,14 @@ for (const invalidHost of ['', 'api.example.com', '127.0.0.1/path']) {
   );
 }
 
+for (const invalidTimeout of ['', '99', '120001', '500.5', 'not-a-timeout']) {
+  assert.throws(
+    () => createServerConfig({ API_SHUTDOWN_TIMEOUT_MS: invalidTimeout }),
+    (error) => error instanceof ServerConfigError
+      && error.issues.some((issue) => issue.code === 'shutdown-timeout-invalid'),
+  );
+}
+
 for (const invalidOrigin of [
   '*',
   'not-a-url',
@@ -68,9 +79,10 @@ assert.throws(
     API_PORT: 'invalid',
     API_HOST: 'api.example.com',
     API_ALLOWED_ORIGINS: '*',
+    API_SHUTDOWN_TIMEOUT_MS: 'invalid',
   }),
   (error) => error instanceof ServerConfigError
-    && error.issues.length === 3
+    && error.issues.length === 4
     && !error.message.includes('api.example.com'),
 );
 

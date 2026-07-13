@@ -3,6 +3,7 @@ import { isIP } from 'node:net';
 const DEFAULT_SERVER_CONFIG = Object.freeze({
   host: '127.0.0.1',
   port: 8787,
+  shutdownTimeoutMs: 10000,
   allowedOrigins: Object.freeze([
     'http://127.0.0.1:5173',
     'http://localhost:5173',
@@ -32,6 +33,21 @@ function parseHost(value) {
 
   if (normalized !== 'localhost' && isIP(normalized) === 0) {
     throw new ServerConfigError([{ code: 'api-host-invalid', field: 'API_HOST' }]);
+  }
+
+  return normalized;
+}
+
+function parseShutdownTimeout(value) {
+  const normalized = value === undefined
+    ? DEFAULT_SERVER_CONFIG.shutdownTimeoutMs
+    : Number(String(value).trim());
+
+  if (!Number.isInteger(normalized) || normalized < 100 || normalized > 120000) {
+    throw new ServerConfigError([{
+      code: 'shutdown-timeout-invalid',
+      field: 'API_SHUTDOWN_TIMEOUT_MS',
+    }]);
   }
 
   return normalized;
@@ -81,11 +97,13 @@ function createServerConfig(environment = {}) {
   let port;
   let host;
   let allowedOrigins;
+  let shutdownTimeoutMs;
 
   for (const [field, parser, value] of [
     ['API_PORT', parsePort, environment.API_PORT],
     ['API_HOST', parseHost, environment.API_HOST],
     ['API_ALLOWED_ORIGINS', parseAllowedOrigins, environment.API_ALLOWED_ORIGINS],
+    ['API_SHUTDOWN_TIMEOUT_MS', parseShutdownTimeout, environment.API_SHUTDOWN_TIMEOUT_MS],
   ]) {
     try {
       const parsed = parser(value);
@@ -93,6 +111,7 @@ function createServerConfig(environment = {}) {
       if (field === 'API_PORT') port = parsed;
       if (field === 'API_HOST') host = parsed;
       if (field === 'API_ALLOWED_ORIGINS') allowedOrigins = parsed;
+      if (field === 'API_SHUTDOWN_TIMEOUT_MS') shutdownTimeoutMs = parsed;
     } catch (error) {
       if (error instanceof ServerConfigError) {
         issues.push(...error.issues);
@@ -106,7 +125,7 @@ function createServerConfig(environment = {}) {
     throw new ServerConfigError(issues);
   }
 
-  return Object.freeze({ host, port, allowedOrigins });
+  return Object.freeze({ host, port, allowedOrigins, shutdownTimeoutMs });
 }
 
 function formatServerAddress({ host, port }) {
@@ -123,4 +142,5 @@ export {
   parseAllowedOrigins,
   parseHost,
   parsePort,
+  parseShutdownTimeout,
 };

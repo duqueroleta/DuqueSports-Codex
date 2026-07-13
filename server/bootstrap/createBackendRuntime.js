@@ -29,6 +29,8 @@ function createBackendRuntime({
   requestIdFactory = () => `req_${randomUUID()}`,
   repository = new InMemorySportsRepository(),
   serverFactory = (handler) => createServer(handler),
+  scheduleTimeout = globalThis.setTimeout,
+  clearScheduledTimeout = globalThis.clearTimeout,
 } = {}) {
   const resolvedConfig = config ?? createServerConfig(environment);
   const startedAt = now();
@@ -44,6 +46,8 @@ function createBackendRuntime({
   let state = 'idle';
   let startPromise = null;
   let shutdownPromise = null;
+  let shutdownTimer = null;
+  let forcedShutdown = false;
   let resolveStopped;
   const stoppedPromise = new Promise((resolve) => {
     resolveStopped = resolve;
@@ -136,13 +140,21 @@ function createBackendRuntime({
 
     state = 'stopping';
     shutdownPromise = new Promise((resolve, reject) => {
+      shutdownTimer = scheduleTimeout(() => {
+        forcedShutdown = true;
+        logger.warn?.('DUQUE Score API graceful shutdown deadline exceeded; closing remaining connections.');
+        server.closeAllConnections?.();
+      }, resolvedConfig.shutdownTimeoutMs ?? 10000);
+
       server.close((error) => {
+        clearScheduledTimeout(shutdownTimer);
+        shutdownTimer = null;
         server.off('error', onRuntimeError);
         unregisterSignals();
 
         if (error) {
           state = 'failed';
-          resolveStopped({ reason: 'shutdown-failed' });
+          resolveStopped({ forced: forcedShutdown, reason: 'shutdown-failed' });
           reject(new BackendRuntimeError('Backend failed during graceful shutdown.', {
             code: 'api-shutdown-failed',
             cause: error,
@@ -151,7 +163,7 @@ function createBackendRuntime({
         }
 
         state = 'stopped';
-        resolveStopped({ reason });
+        resolveStopped({ forced: forcedShutdown, reason });
         resolve();
       });
     });

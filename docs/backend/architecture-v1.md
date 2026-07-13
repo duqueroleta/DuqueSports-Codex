@@ -96,6 +96,8 @@ Desde a Fase 96, o backend valida `API_HOST`, `API_PORT` e `API_ALLOWED_ORIGINS`
 
 Desde a Fase 97, a composicao do repositorio, handler e servidor pertence a um runtime testavel. O processo possui estados explicitos, traduz falhas de bind para codigos controlados e remove seus listeners ao encerrar. `SIGINT` e `SIGTERM` iniciam `server.close()`, permitindo que requisicoes em andamento terminem antes da liberacao da porta.
 
+Desde a Fase 98, `API_SHUTDOWN_TIMEOUT_MS` limita essa espera. O runtime so chama `closeAllConnections()` depois que a janela graciosa expira; encerramentos normais nao tem conexoes interrompidas.
+
 ## Decisoes pendentes
 
 - Provedor esportivo e termos de licenca.
