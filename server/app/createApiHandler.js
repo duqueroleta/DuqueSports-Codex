@@ -1,5 +1,6 @@
 import { sendError, sendSuccess } from '../http/apiResponse.js';
 import { paginate } from '../http/pagination.js';
+import { createHealthSnapshot, HEALTH_SCHEMA_VERSION, SERVICE_VERSION } from '../health/createHealthSnapshot.js';
 
 const MATCH_STATUSES = Object.freeze(['scheduled', 'live', 'finished', 'postponed', 'cancelled']);
 
@@ -18,7 +19,14 @@ function parseLimit(value) {
   return Number.isInteger(limit) && limit >= 1 && limit <= 100 ? limit : null;
 }
 
-function createApiHandler({ repository, now, requestIdFactory, allowedOrigins = [] }) {
+function createApiHandler({
+  repository,
+  now,
+  requestIdFactory,
+  allowedOrigins = [],
+  startedAt = now(),
+  serviceVersion = SERVICE_VERSION,
+}) {
   return (request, response) => {
     const requestId = requestIdFactory();
     const generatedAt = now().toISOString();
@@ -32,6 +40,20 @@ function createApiHandler({ repository, now, requestIdFactory, allowedOrigins = 
         message: 'This endpoint only supports GET.',
         requestId,
       }, { ...corsHeaders, Allow: 'GET' });
+      return;
+    }
+
+    if (url.pathname === '/internal/v1/health') {
+      sendSuccess(response, {
+        data: createHealthSnapshot({
+          checkedAt: new Date(generatedAt),
+          startedAt,
+          serviceVersion,
+        }),
+        requestId,
+        generatedAt,
+        dataSchemaVersion: HEALTH_SCHEMA_VERSION,
+      }, corsHeaders);
       return;
     }
 

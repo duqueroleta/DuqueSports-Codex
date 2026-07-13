@@ -12,11 +12,12 @@
 
 ## Estado de implementacao
 
-Implementado localmente na Fase 91:
+Implementado localmente entre as Fases 91 e 94:
 
 - `GET /api/v1/competitions`;
 - `GET /api/v1/matches` com `competitionId`, `status`, `cursor` e `limit`;
 - `GET /api/v1/matches/:matchId`;
+- `GET /internal/v1/health`;
 - envelopes, erros, CORS e paginacao.
 
 As demais rotas deste documento continuam propostas.
@@ -70,6 +71,7 @@ Mensagens publicas nao exibem stack trace, SQL, credenciais ou resposta bruta do
 
 | Metodo | Rota | Uso |
 | --- | --- | --- |
+| GET | `/internal/v1/health` | Saude, versao de contratos e uptime do processo |
 | POST | `/internal/v1/ingestion-runs` | Iniciar lote idempotente |
 | GET | `/internal/v1/ingestion-runs/:runId` | Consultar execucao |
 | POST | `/internal/v1/projection-runs` | Executar projecao congelada |
@@ -79,7 +81,7 @@ Mensagens publicas nao exibem stack trace, SQL, credenciais ou resposta bruta do
 | POST | `/internal/v1/model-comparisons` | Comparar candidatos compativeis |
 | GET | `/internal/v1/quarantine-records` | Investigar entradas rejeitadas |
 
-Essas rotas nao ficam acessiveis pelo navegador publico.
+Essas rotas nao ficam acessiveis pelo navegador publico. O health check funciona apenas no servidor local nesta fase; antes de um deploy externo, o gateway devera restringir o acesso ao prefixo operacional.
 
 ## Filtros e paginacao
 

@@ -9,11 +9,13 @@ const allowedOrigins = (process.env.API_ALLOWED_ORIGINS ?? 'http://127.0.0.1:517
   .map((origin) => origin.trim())
   .filter(Boolean);
 const repository = new InMemorySportsRepository();
+const startedAt = new Date();
 const handler = createApiHandler({
   repository,
   now: () => new Date(),
   requestIdFactory: () => `req_${randomUUID()}`,
   allowedOrigins,
+  startedAt,
 });
 const server = createServer(handler);
 
