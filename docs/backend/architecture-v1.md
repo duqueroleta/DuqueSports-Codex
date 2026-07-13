@@ -92,6 +92,10 @@ O recorte inicial usa Node.js com `node:http` e repositorio em memoria. Essa dec
 
 Desde a Fase 96, o backend valida `API_HOST`, `API_PORT` e `API_ALLOWED_ORIGINS` antes de criar o servidor HTTP. Porta fora do intervalo, host nao local/IP, wildcard CORS e origens com protocolo, caminho ou credenciais indevidos bloqueiam a inicializacao. O erro informa apenas codigos e campos controlados, sem reproduzir o ambiente completo.
 
+### Ciclo de vida HTTP
+
+Desde a Fase 97, a composicao do repositorio, handler e servidor pertence a um runtime testavel. O processo possui estados explicitos, traduz falhas de bind para codigos controlados e remove seus listeners ao encerrar. `SIGINT` e `SIGTERM` iniciam `server.close()`, permitindo que requisicoes em andamento terminem antes da liberacao da porta.
+
 ## Decisoes pendentes
 
 - Provedor esportivo e termos de licenca.

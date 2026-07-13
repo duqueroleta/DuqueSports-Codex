@@ -1,21 +1,15 @@
-import { randomUUID } from 'node:crypto';
-import { createServer } from 'node:http';
-import { createApiHandler } from './app/createApiHandler.js';
-import { createServerConfig, formatServerAddress } from './config/createServerConfig.js';
-import { InMemorySportsRepository } from './repositories/InMemorySportsRepository.js';
+import { createBackendRuntime } from './bootstrap/createBackendRuntime.js';
 
-const config = createServerConfig(process.env);
-const repository = new InMemorySportsRepository();
-const startedAt = new Date();
-const handler = createApiHandler({
-  repository,
-  now: () => new Date(),
-  requestIdFactory: () => `req_${randomUUID()}`,
-  allowedOrigins: config.allowedOrigins,
-  startedAt,
-});
-const server = createServer(handler);
+async function main() {
+  try {
+    const runtime = createBackendRuntime();
+    const startup = await runtime.start();
+    console.log(`DUQUE Score API listening on ${startup.address}`);
+  } catch (error) {
+    const code = error?.code ?? error?.issues?.map((issue) => issue.code).join(',') ?? 'api-startup-failed';
+    console.error(`DUQUE Score API failed to start: ${code}`);
+    process.exitCode = 1;
+  }
+}
 
-server.listen(config.port, config.host, () => {
-  console.log(`DUQUE Score API listening on ${formatServerAddress(config)}`);
-});
+void main();
