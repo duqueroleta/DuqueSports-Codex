@@ -9,6 +9,7 @@ const ENGINE_TEST_SUITES = Object.freeze([
   'engine/canonical-projection-audit-contract.test.mjs',
   'engine/canonical-projection-adapter.test.mjs',
   'engine/canonical-settlement-service.test.mjs',
+  'engine/historical-dataset-contract.test.mjs',
   'engine/projection.test.mjs',
   'engine/market-domain.test.mjs',
   'engine/data-source.test.mjs',

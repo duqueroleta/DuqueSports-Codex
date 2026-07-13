@@ -46,6 +46,8 @@ Implementar coleta idempotente, retries com limite, quarentena, deduplicacao, co
 
 Congelar datasets de treino, calibracao e teste por temporada e competicao, impedindo vazamento temporal.
 
+**Progresso:** o contrato versionado, as particoes cronologicas e as validacoes contra vazamento foram implementados. A fixture atual e sintetica; a importacao de um dataset observado e licenciado continua pendente.
+
 ### 7. Backtesting fora da amostra
 
 Avaliar probabilidades e mercados sem usar dados posteriores ao momento da previsao.

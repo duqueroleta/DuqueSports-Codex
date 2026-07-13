@@ -228,6 +228,29 @@ Exemplo executavel: `src/engine/contracts/examples/canonicalProjectionAudit.v1.j
 
 Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1`, varios mercados `canonical-market.v1` e varias execucoes `canonical-projection.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`, e cada projecao concluida pode receber uma auditoria `canonical-projection-audit.v1`. Todos preservam os IDs internos de relacionamento.
 
+## canonical-historical-dataset.v1
+
+Representa um manifesto congelado para validacao historica. O contrato nao duplica features ou resultados: referencia snapshots imutaveis e registra como cada partida pertence a treino, calibracao ou teste.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `id` | Identidade derivada de nome, versao e criacao |
+| `kind` | Dado sintetico ou observado |
+| `provenance` | Origem, importacao e licenca |
+| `partitions` | Janelas cronologicas de treino, calibracao e teste |
+| `records` | Referencias a partida, features e resultado final |
+
+Regras de coerencia:
+
+- janelas temporais nao podem se sobrepor;
+- features precisam ser congeladas ate o inicio da partida;
+- resultados precisam ser posteriores ao inicio da partida;
+- registros ficam em ordem cronologica e dentro da particao declarada;
+- partidas e snapshots nao podem se repetir;
+- fixtures sinteticas usam `internal-test-only` e nao comprovam desempenho.
+
+Exemplo executavel: `src/engine/datasets/examples/syntheticHistoricalDataset.v1.js`.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;
