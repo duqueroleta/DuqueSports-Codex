@@ -88,6 +88,10 @@ O primeiro backend deve iniciar como um unico servico modular, com worker no mes
 
 O recorte inicial usa Node.js com `node:http` e repositorio em memoria. Essa decisao evita dependencia prematura, mas deve ser reavaliada antes de rotas de escrita, autenticacao ou middleware operacional complexo.
 
+### Configuracao de startup
+
+Desde a Fase 96, o backend valida `API_HOST`, `API_PORT` e `API_ALLOWED_ORIGINS` antes de criar o servidor HTTP. Porta fora do intervalo, host nao local/IP, wildcard CORS e origens com protocolo, caminho ou credenciais indevidos bloqueiam a inicializacao. O erro informa apenas codigos e campos controlados, sem reproduzir o ambiente completo.
+
 ## Decisoes pendentes
 
 - Provedor esportivo e termos de licenca.
