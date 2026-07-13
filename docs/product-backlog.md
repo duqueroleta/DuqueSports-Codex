@@ -20,7 +20,7 @@ Criar um backend ou BFF para proteger credenciais, controlar cache, aplicar rate
 
 **Criterio de aceite:** nenhuma chave secreta presente no bundle React, no Git ou em variaveis expostas pelo Vite.
 
-**Progresso:** a arquitetura modular, a API v1 e os gates de seguranca foram propostos no ADR 002. Implementacao aguarda aprovacao e escolha do runtime HTTP.
+**Progresso:** o ADR 002 foi aprovado e o primeiro recorte local usa Node.js com repositorio em memoria para competicoes e partidas. Deploy, endpoints internos, autenticacao e PostgreSQL continuam pendentes.
 
 ### 3. Contrato canonico de futebol
 

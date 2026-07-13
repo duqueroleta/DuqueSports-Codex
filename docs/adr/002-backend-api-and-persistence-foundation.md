@@ -1,6 +1,6 @@
 # ADR 002 - Fundacao de Backend, API e Persistencia
 
-- **Status:** Proposto
+- **Status:** Aceito
 - **Data:** 2026-07-13
 - **Escopo:** arquitetura, sem servidor ou banco provisionado
 
@@ -18,6 +18,7 @@ O frontend publicado usa dados mockados. O Engine ja possui contratos versionado
 6. Iniciar como servico modular, nao como microservicos.
 7. Adotar jobs assincronos apenas para ingestao, projecao e auditoria quando necessario.
 8. Manter leads e dados pessoais separados do dominio esportivo.
+9. Iniciar o recorte de leitura com Node.js e `node:http`, sem framework adicional.
 
 ## Alternativas consideradas
 
@@ -54,8 +55,8 @@ Proposto. Mantem baixo acoplamento, integridade e caminho de evolucao sem comple
 
 ## Gates antes da implementacao
 
-1. Aprovar esta arquitetura.
-2. Escolher runtime e framework HTTP.
+1. Aprovar esta arquitetura. Concluido na Fase 91.
+2. Escolher runtime e framework HTTP. Node.js com `node:http` aprovado para o recorte inicial.
 3. Aprovar PostgreSQL gerenciado e ambiente de desenvolvimento.
 4. Definir politica de segredos e acessos.
 5. Confirmar licenca e retencao do provedor esportivo.
@@ -64,3 +65,9 @@ Proposto. Mantem baixo acoplamento, integridade e caminho de evolucao sem comple
 ## Primeiro recorte recomendado
 
 Implementar somente leitura de competicoes e partidas mockadas atraves do backend, usando uma interface de repositorio em memoria. Depois validar o mesmo contrato com PostgreSQL em ambiente de desenvolvimento, sem integrar o provedor esportivo no mesmo passo.
+
+## Acompanhamento
+
+- Fase 91: implementado o recorte local de competicoes e partidas com repositorio em memoria e testes HTTP reais.
+- PostgreSQL, provedor esportivo e deploy do backend permanecem pendentes.
+- A necessidade de framework HTTP deve ser reavaliada antes de adicionar escrita, autenticacao ou middleware complexo.

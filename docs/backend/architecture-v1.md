@@ -86,11 +86,13 @@ Dependencias apontam para dentro: dominio nao conhece HTTP, PostgreSQL ou fornec
 
 O primeiro backend deve iniciar como um unico servico modular, com worker no mesmo repositorio e processos separados quando necessario. Microservicos nao sao recomendados antes de existir escala, ownership ou isolamento operacional que justifique a complexidade.
 
+O recorte inicial usa Node.js com `node:http` e repositorio em memoria. Essa decisao evita dependencia prematura, mas deve ser reavaliada antes de rotas de escrita, autenticacao ou middleware operacional complexo.
+
 ## Decisoes pendentes
 
-- Runtime e framework HTTP.
 - Provedor esportivo e termos de licenca.
 - Servico gerenciado de PostgreSQL.
 - Armazenamento de objetos e politica de retencao.
 - Plataforma de jobs e cache.
 - Regioes, SLA e orcamento operacional.
+- Framework HTTP para a etapa posterior ao recorte somente leitura.

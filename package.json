@@ -1,11 +1,13 @@
 {
   "type": "module",
   "scripts": {
-    "test": "npm run test:engine && npm run test:ui",
+    "test": "npm run test:engine && npm run test:api && npm run test:ui",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "dev:api": "node server/server.js",
     "test:engine": "node tests/run-engine-tests.mjs",
+    "test:api": "node tests/run-api-tests.mjs",
     "test:ui": "node tests/run-ui-tests.mjs",
     "verify": "npm test && npm run build"
   },

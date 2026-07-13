@@ -17,6 +17,7 @@ Aplicativo premium de análise estatística de futebol com foco em leitura predi
 ```bash
 npm install
 npm run dev
+npm run dev:api
 npm run build
 npm run verify
 ```
@@ -26,6 +27,14 @@ Servidor local padrão:
 ```bash
 http://127.0.0.1:5173/
 ```
+
+API local mockada:
+
+```bash
+http://127.0.0.1:8787/api/v1/competitions
+```
+
+O servidor da API e local e nao faz parte do deploy Vite atual na Vercel.
 
 ## Deploy na Vercel
 
@@ -113,6 +122,7 @@ O projeto separa responsabilidades por domínio:
 - `services/` - camada de acesso aos dados
 - `hooks/` - hooks reutilizáveis
 - `context/` - estados globais da aplicação
+- `server/` - backend Node.js modular e repositorios
 
 ## Planejamento
 
@@ -139,6 +149,7 @@ O projeto separa responsabilidades por domínio:
 - [Arquitetura do backend v1](docs/backend/architecture-v1.md)
 - [Contrato da API v1](docs/backend/api-contract-v1.md)
 - [Modelo de persistência v1](docs/backend/persistence-model-v1.md)
+- [Primeiro recorte do backend - Fase 91](docs/platform-phase-91.md)
 
 ## Observações
 

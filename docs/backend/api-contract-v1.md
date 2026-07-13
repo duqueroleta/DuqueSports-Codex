@@ -10,6 +10,17 @@
 - Listas usam cursor, nunca offset em tabelas historicas grandes.
 - Operacoes de escrita aceitam `Idempotency-Key`.
 
+## Estado de implementacao
+
+Implementado localmente na Fase 91:
+
+- `GET /api/v1/competitions`;
+- `GET /api/v1/matches` com `competitionId`, `status`, `cursor` e `limit`;
+- `GET /api/v1/matches/:matchId`;
+- envelopes, erros, CORS e paginacao.
+
+As demais rotas deste documento continuam propostas.
+
 ## Envelope de sucesso
 
 ```json
