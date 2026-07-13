@@ -164,6 +164,19 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalProjection.v1.js`.
 
+### Adaptacao do ProjectionPipeline
+
+`CanonicalProjectionAdapter.js` converte a saida atual do Engine para `canonical-projection.v1` e cria os mercados canonicos correspondentes.
+
+- `homeWin`, `draw` e `awayWin` alimentam resultado da partida;
+- `over25` e `under25` alimentam total de 2,5 gols;
+- `btts` alimenta a selecao `yes`, enquanto `no` usa seu complemento;
+- versoes dos modelos sao preservadas a partir do trace real;
+- Feature Store recebe identidade derivada do input e do catalogo;
+- execucoes bloqueadas preservam apenas qualidade e motivos;
+- horario de corte e geracao sempre sao fornecidos pelo chamador;
+- o envelope executa validacao de mercados, projecao e relacionamentos.
+
 ## canonical-projection-audit.v1
 
 Representa a avaliacao pos-jogo de uma projecao concluida. O contrato relaciona previsao, resultado final, regra de liquidacao, classificacao e metricas cientificas reproduziveis.

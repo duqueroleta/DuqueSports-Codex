@@ -126,6 +126,7 @@ O projeto separa responsabilidades por domínio:
 - [Mercados e snapshots de odds - Fase 79](docs/engine-phase-79.md)
 - [Projeções canônicas e separação de odds - Fase 80](docs/engine-phase-80.md)
 - [Auditoria científica canônica - Fase 81](docs/engine-phase-81.md)
+- [Adaptador canônico do ProjectionPipeline - Fase 82](docs/engine-phase-82.md)
 
 ## Observações
 
