@@ -116,3 +116,4 @@ Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um re
 - Fase 85: criado o executor de backtesting em lote com reconciliacao temporal, auditorias e agregacao por particao.
 - Fase 86: criado `canonical-calibration-report.v1` com faixas de confianca e metricas separadas por particao.
 - Fase 87: a calibracao passou a ser segmentada por mercado com piso operacional explicito de amostras.
+- Fase 88: criado o registro canonico de modelos candidatos, ligando codigo, parametros, dataset e avaliacoes sem autorizar deploy.

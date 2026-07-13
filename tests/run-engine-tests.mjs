@@ -13,6 +13,7 @@ const ENGINE_TEST_SUITES = Object.freeze([
   'engine/canonical-backtest-runner.test.mjs',
   'engine/calibration-report.test.mjs',
   'engine/calibration-segmentation.test.mjs',
+  'engine/model-registration-contract.test.mjs',
   'engine/projection.test.mjs',
   'engine/market-domain.test.mjs',
   'engine/data-source.test.mjs',

@@ -64,6 +64,8 @@ Medir Brier Score, Log Loss, curvas de confiabilidade, estabilidade por competic
 
 Relacionar versao do codigo, features, parametros, dataset, calibracao e resultado de cada execucao.
 
+**Progresso:** o manifesto canonico relaciona todos os artefatos e valida sua cronologia. A v1 registra somente candidatos nao implantaveis; persistencia, aprovacao e comparacao entre candidatos continuam pendentes.
+
 **Criterio de aceite P1:** toda projecao pode ser reproduzida e comparada com o resultado observado usando a mesma versao do pipeline.
 
 ## P1 - Observabilidade e operacao

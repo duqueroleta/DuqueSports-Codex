@@ -283,6 +283,32 @@ Segmentacao v2:
 - o limite de 30 e apenas um piso operacional e nao garante significancia estatistica;
 - mercados sem observacoes permanecem explicitos no relatorio.
 
+## canonical-model-registration.v1
+
+Representa um manifesto imutavel de modelo candidato. O registro conecta implementacao, configuracao e evidencias sem autorizar implantacao.
+
+| Bloco | Responsabilidade |
+| --- | --- |
+| `code` | Repositorio e revisao Git completa |
+| `components` | Modelos estatistico, de calibracao e explicacao |
+| `features` | Versoes do catalogo e do schema |
+| `parameters` | Snapshot e checksum SHA-256 |
+| `dataset` | Dataset historico congelado |
+| `evaluation` | Backtesting, calibracao e nivel de evidencia |
+| `governance` | Estado candidato e bloqueio de implantacao |
+
+Regras de coerencia:
+
+- identidade deriva de modelo, versao, codigo e horario;
+- versao do Engine precisa existir no backtesting relacionado;
+- dataset e nivel de evidencia permanecem iguais entre os artefatos;
+- registro nao pode anteceder suas avaliacoes;
+- backtesting invalido nao pode sustentar o manifesto;
+- a v1 registra apenas candidatos e exige `deploymentAllowed: false`;
+- dados comerciais nao fazem parte do registro cientifico.
+
+Exemplo executavel: `src/engine/registry/examples/candidateModelRegistration.v1.js`.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;

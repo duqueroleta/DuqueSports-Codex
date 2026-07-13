@@ -165,6 +165,9 @@ function runCanonicalBacktest({ dataset, cases, evaluatorVersion, runAt } = {}) 
   });
   const caseErrors = evaluatedCases.flatMap((item) => item.errors);
   const errors = [...executionErrors, ...caseErrors];
+  const engineVersions = [...new Set(records
+    .map((record) => casesByMatch.get(record.matchId)?.projection?.execution?.engineVersion)
+    .filter(isRequiredText))].sort();
 
   return {
     model: CANONICAL_BACKTEST_RUNNER_MODEL,
@@ -174,7 +177,11 @@ function runCanonicalBacktest({ dataset, cases, evaluatorVersion, runAt } = {}) 
       kind: dataset?.kind ?? null,
       evidenceLevel: dataset?.kind === 'observed' ? 'scientific-candidate' : 'infrastructure-only',
     },
-    execution: { evaluatorVersion: evaluatorVersion ?? null, runAt: runAt ?? null },
+    execution: {
+      evaluatorVersion: evaluatorVersion ?? null,
+      runAt: runAt ?? null,
+      engineVersions,
+    },
     cases: evaluatedCases,
     summary: buildBacktestSummary(evaluatedCases, HISTORICAL_DATASET_PARTITIONS),
     validation: {

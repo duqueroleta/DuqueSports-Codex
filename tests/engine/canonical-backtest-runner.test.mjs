@@ -55,6 +55,11 @@ assert.equal(generated.summary.overall.totalCases, 6);
 assert.equal(generated.summary.overall.auditedCases, 6);
 assert.equal(generated.summary.overall.auditedMarkets, 18);
 assert.equal(generated.summary.overall.rejectedCases, 0);
+assert.deepEqual(
+  generated.execution.engineVersions,
+  [cases[0].projection.execution.engineVersion],
+  'Backtesting should expose the Engine versions present in evaluated projections',
+);
 assert.ok(
   generated.cases.every((testCase) => testCase.calibrationSamples.length === 3),
   'Each settled projected market should produce one top-prediction calibration sample',

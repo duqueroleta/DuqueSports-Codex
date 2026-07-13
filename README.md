@@ -132,6 +132,7 @@ O projeto separa responsabilidades por domínio:
 - [Backtesting canônico em lote - Fase 85](docs/engine-phase-85.md)
 - [Relatórios de calibração - Fase 86](docs/engine-phase-86.md)
 - [Calibração por mercado - Fase 87](docs/engine-phase-87.md)
+- [Registro de modelos candidatos - Fase 88](docs/engine-phase-88.md)
 
 ## Observações
 
