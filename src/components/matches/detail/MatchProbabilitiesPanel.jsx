@@ -9,16 +9,22 @@ function MatchProbabilitiesPanel({ probabilities = [] }) {
   }
 
   return (
-    <section className="detail-probabilities" aria-label="Probabilidades principais">
-      {normalizedProbabilities.map((probability) => (
-        <article key={probability.label}>
-          <span>{probability.label}</span>
-          <strong>{probability.value}%</strong>
-          <div aria-hidden="true">
-            <i style={{ width: `${probability.value}%` }} />
-          </div>
-        </article>
-      ))}
+    <section className="detail-probabilities" id="probabilidades" aria-label="Probabilidades principais">
+      <header>
+        <span>Probabilidades calibradas</span>
+        <strong>Cenario estatistico</strong>
+      </header>
+      <div className="detail-probabilities-grid">
+        {normalizedProbabilities.map((probability) => (
+          <article key={probability.label}>
+            <span>{probability.label}</span>
+            <strong>{probability.value}%</strong>
+            <div aria-hidden="true">
+              <i style={{ width: `${probability.value}%` }} />
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

@@ -48,18 +48,24 @@ function MatchAnalysisGrid({ match }) {
   const cards = getAnalysisCards(match);
 
   return (
-    <section className="detail-grid" aria-label="Analise completa do jogo">
-      {cards.map((card) => {
-        const variantClass = card.variant ? ` detail-card-${card.variant}` : '';
+    <section className="detail-analysis" id="fundamentos" aria-label="Analise completa do jogo">
+      <header>
+        <span>Fundamentos estatisticos</span>
+        <strong>Por que esta leitura?</strong>
+      </header>
+      <div className="detail-grid">
+        {cards.map((card) => {
+          const variantClass = card.variant ? ` detail-card-${card.variant}` : '';
 
-        return (
-          <article className={`detail-card${variantClass}`} key={card.key ?? card.label}>
-            <span>{card.label}</span>
-            <strong>{card.title}</strong>
-            <p>{card.text}</p>
-          </article>
-        );
-      })}
+          return (
+            <article className={`detail-card${variantClass}`} key={card.key ?? card.label}>
+              <span>{card.label}</span>
+              <strong>{card.title}</strong>
+              <p>{card.text}</p>
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 }

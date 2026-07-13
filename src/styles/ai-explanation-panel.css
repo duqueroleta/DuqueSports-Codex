@@ -51,8 +51,25 @@
 }
 
 @media (max-width: 820px) {
-  .detail-page .ai-explanation-panel,
-  .ai-explanation-grid {
+  .detail-page .ai-explanation-panel {
     grid-template-columns: 1fr;
+  }
+
+  .ai-explanation-grid {
+    grid-auto-columns: min(72vw, 280px);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .ai-explanation-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-explanation-grid article {
+    scroll-snap-align: start;
   }
 }
