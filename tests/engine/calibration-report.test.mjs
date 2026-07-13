@@ -9,8 +9,9 @@ import {
   summarizeCalibrationSamples,
 } from '../../src/engine/calibration/calibrationMetrics.js';
 
-const sample = (probability, observed) => ({
+const sample = (probability, observed, marketType = 'match-result') => ({
   marketId: `market:${probability}:${observed}`,
+  marketType,
   selectionKey: 'home',
   probability,
   observed,
@@ -39,6 +40,10 @@ assert.equal(generated.validation.valid, true);
 assert.equal(generated.report.schemaVersion, CANONICAL_CALIBRATION_REPORT_SCHEMA_VERSION);
 assert.equal(generated.report.source.claimStatus, 'infrastructure-only');
 assert.equal(generated.report.overall.samples, 6);
+assert.equal(generated.report.overall.adequacy, 'insufficient-sample');
+assert.equal(generated.report.marketSegments['match-result'].overall.assessment, 'insufficient-sample');
+assert.equal(generated.report.marketSegments['match-result'].overall.metrics.samples, 6);
+assert.equal(generated.report.marketSegments['total-goals'].overall.metrics.samples, 0);
 assert.equal(generated.report.partitions.train.samples, 2);
 assert.equal(generated.report.partitions.calibration.samples, 2);
 assert.equal(generated.report.partitions.test.samples, 2);

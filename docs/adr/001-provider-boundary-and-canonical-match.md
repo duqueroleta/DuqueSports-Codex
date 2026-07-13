@@ -115,3 +115,4 @@ Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um re
 - Fase 84: criado o manifesto `canonical-historical-dataset.v1`, separando treino, calibracao e teste sem autorizar dados externos.
 - Fase 85: criado o executor de backtesting em lote com reconciliacao temporal, auditorias e agregacao por particao.
 - Fase 86: criado `canonical-calibration-report.v1` com faixas de confianca e metricas separadas por particao.
+- Fase 87: a calibracao passou a ser segmentada por mercado com piso operacional explicito de amostras.

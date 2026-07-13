@@ -275,6 +275,14 @@ Exemplo executavel: `src/engine/datasets/examples/syntheticHistoricalDataset.v1.
 - faixas sem amostras usam `null`;
 - resultados sinteticos nao podem sustentar alegacoes de desempenho.
 
+Segmentacao v2:
+
+- cada amostra preserva o tipo canonico do mercado;
+- cada mercado recebe metricas gerais e por particao;
+- segmentos com menos de 30 amostras usam `insufficient-sample`;
+- o limite de 30 e apenas um piso operacional e nao garante significancia estatistica;
+- mercados sem observacoes permanecem explicitos no relatorio.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;

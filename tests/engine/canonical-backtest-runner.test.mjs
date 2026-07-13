@@ -59,6 +59,11 @@ assert.ok(
   generated.cases.every((testCase) => testCase.calibrationSamples.length === 3),
   'Each settled projected market should produce one top-prediction calibration sample',
 );
+assert.deepEqual(
+  [...new Set(generated.cases[0].calibrationSamples.map((sample) => sample.marketType))],
+  ['match-result', 'total-goals', 'both-teams-score'],
+  'Calibration samples should preserve canonical market types',
+);
 assert.equal(generated.summary.partitions.train.totalCases, 2);
 assert.equal(generated.summary.partitions.calibration.totalCases, 2);
 assert.equal(generated.summary.partitions.test.totalCases, 2);

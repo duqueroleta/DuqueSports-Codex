@@ -100,7 +100,7 @@ function evaluateBacktestCase(record, testCase, index, evaluatorVersion, runAt) 
     status: generated.validation.valid ? 'audited' : 'rejected',
     audit: generated.validation.valid ? generated.audit : null,
     calibrationSamples: generated.validation.valid
-      ? buildTopPredictionCalibrationSamples(projection, generated.audit)
+      ? buildTopPredictionCalibrationSamples(projection, generated.audit, markets)
       : [],
     errors: generated.validation.valid
       ? []

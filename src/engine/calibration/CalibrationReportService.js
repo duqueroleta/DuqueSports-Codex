@@ -1,12 +1,18 @@
 import { isRecord, isRequiredText, isUtcIsoDate } from '../contracts/contractValidation.js';
+import { CANONICAL_MARKET_TYPES } from '../contracts/CanonicalMarketContract.js';
 import { HISTORICAL_DATASET_PARTITIONS } from '../datasets/historicalDatasetValidation.js';
 import {
   CALIBRATION_BUCKET_WIDTH,
   summarizeCalibrationSamples,
 } from './calibrationMetrics.js';
+import {
+  MINIMUM_CALIBRATION_SAMPLES,
+  buildMarketCalibrationSegments,
+  summarizeWithAdequacy,
+} from './calibrationSegmentation.js';
 
 const CANONICAL_CALIBRATION_REPORT_SCHEMA_VERSION = 'canonical-calibration-report.v1';
-const CALIBRATION_REPORT_MODEL = 'top-prediction-calibration-v1';
+const CALIBRATION_REPORT_MODEL = 'top-prediction-calibration-v2';
 
 function reportError(path, code, message) {
   return { path, code, message };
@@ -43,11 +49,14 @@ function collectCalibrationSamples(backtestRun, errors) {
       const path = `cases.${caseIndex}.calibrationSamples.${sampleIndex}`;
 
       if (!isRecord(sample)
+        || !isRequiredText(sample.marketId)
+        || !isRequiredText(sample.selectionKey)
         || !Number.isFinite(sample.probability)
         || sample.probability < 0
         || sample.probability > 100
-        || typeof sample.observed !== 'boolean') {
-        errors.push(reportError(path, 'invalid-calibration-sample', 'sample requires probability within 0-100 and observed boolean'));
+        || typeof sample.observed !== 'boolean'
+        || !CANONICAL_MARKET_TYPES.includes(sample.marketType)) {
+        errors.push(reportError(path, 'invalid-calibration-sample', 'sample requires market identity, canonical type, probability within 0-100 and observed boolean'));
         return;
       }
 
@@ -119,12 +128,18 @@ function createCalibrationReport({ backtestRun, generatedAt } = {}) {
       model: CALIBRATION_REPORT_MODEL,
       generatedAt,
       bucketWidth: CALIBRATION_BUCKET_WIDTH,
+      minimumSamples: MINIMUM_CALIBRATION_SAMPLES,
     },
-    overall: summarizeCalibrationSamples(samples),
+    overall: {
+      ...summarizeCalibrationSamples(samples),
+      adequacy: summarizeWithAdequacy(samples).assessment,
+      minimumSamples: MINIMUM_CALIBRATION_SAMPLES,
+    },
     partitions: Object.fromEntries(HISTORICAL_DATASET_PARTITIONS.map((partition) => [
       partition,
       summarizeCalibrationSamples(samples.filter((sample) => sample.partition === partition)),
     ])),
+    marketSegments: buildMarketCalibrationSegments(samples, CANONICAL_MARKET_TYPES),
   };
 
   return {

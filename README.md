@@ -131,6 +131,7 @@ O projeto separa responsabilidades por domínio:
 - [Dataset histórico versionado - Fase 84](docs/engine-phase-84.md)
 - [Backtesting canônico em lote - Fase 85](docs/engine-phase-85.md)
 - [Relatórios de calibração - Fase 86](docs/engine-phase-86.md)
+- [Calibração por mercado - Fase 87](docs/engine-phase-87.md)
 
 ## Observações
 
