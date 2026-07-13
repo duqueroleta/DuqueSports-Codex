@@ -1,6 +1,7 @@
 const API_TEST_SUITES = Object.freeze([
   'api/backend-read-api.test.mjs',
   'api/backend-health-api.test.mjs',
+  'api/frontend-health-client.test.mjs',
   'api/frontend-sports-gateway.test.mjs',
   'api/sports-data-source-store.test.mjs',
 ]);

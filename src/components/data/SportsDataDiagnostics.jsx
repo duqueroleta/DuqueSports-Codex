@@ -1,4 +1,6 @@
 import { useSyncExternalStore } from 'react';
+import { useAsyncData } from '../../hooks/useAsyncData.js';
+import { getBackendHealth, healthCheckEnabled } from '../../services/sportsHealthService.js';
 import { sportsDataSourceStore } from '../../services/sportsDataService.js';
 import TechnicalPanel from './TechnicalPanel.jsx';
 
@@ -25,19 +27,37 @@ function createDiagnosticItems(operations) {
   }));
 }
 
+function getHealthPresentation({ data, error, isLoading }) {
+  if (!healthCheckEnabled) {
+    return { description: 'ative a API no ambiente local', title: 'Nao habilitado' };
+  }
+
+  if (isLoading) {
+    return { description: 'verificando processo local', title: 'Consultando' };
+  }
+
+  if (error || !data) {
+    return { description: error?.code ?? 'sem resposta valida', title: 'Offline' };
+  }
+
+  return {
+    description: `${data.service.version} | uptime ${data.time.uptimeSeconds}s`,
+    title: 'Online',
+  };
+}
+
 function SportsDataDiagnostics() {
   const diagnostics = useSyncExternalStore(
     sportsDataSourceStore.subscribe,
     sportsDataSourceStore.getSnapshot,
   );
+  const healthState = useAsyncData(getBackendHealth, [], null);
 
   if (!import.meta.env.DEV) {
     return null;
   }
 
-  const recentOperation = Object.values(diagnostics.operations)
-    .filter((operation) => operation.updatedAt)
-    .sort((first, second) => second.updatedAt.localeCompare(first.updatedAt))[0];
+  const health = getHealthPresentation(healthState);
 
   return (
     <TechnicalPanel
@@ -46,13 +66,13 @@ function SportsDataDiagnostics() {
       eyebrow="Dev diagnostics"
       title={diagnostics.apiEnabled ? 'Integracao HTTP ativada' : 'Modo mock ativado'}
       description="Origem efetiva das leituras esportivas realizadas nesta sessao local."
-      asideEyebrow="Ultima fonte"
-      asideTitle={SOURCE_LABELS[recentOperation?.source] ?? 'Aguardando'}
-      asideDescription={recentOperation?.updatedAt ?? 'sem leitura registrada'}
+      asideEyebrow="Backend local"
+      asideTitle={health.title}
+      asideDescription={health.description}
       items={createDiagnosticItems(diagnostics.operations)}
     />
   );
 }
 
-export { createDiagnosticItems };
+export { createDiagnosticItems, getHealthPresentation };
 export default SportsDataDiagnostics;

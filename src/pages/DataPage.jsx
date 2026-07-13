@@ -108,7 +108,7 @@ function DataPage() {
         </aside>
       </section>
 
-      <SportsDataDiagnostics />
+      {import.meta.env.DEV ? <SportsDataDiagnostics /> : null}
 
       {executiveReport ? (
         <TechnicalPanel
