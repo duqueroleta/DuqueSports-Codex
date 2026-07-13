@@ -134,6 +134,11 @@ O projeto separa responsabilidades por domínio:
 - [Calibração por mercado - Fase 87](docs/engine-phase-87.md)
 - [Registro de modelos candidatos - Fase 88](docs/engine-phase-88.md)
 - [Comparação de modelos candidatos - Fase 89](docs/engine-phase-89.md)
+- [Fundação da plataforma backend - Fase 90](docs/platform-phase-90.md)
+- [ADR 002 - Backend, API e persistência](docs/adr/002-backend-api-and-persistence-foundation.md)
+- [Arquitetura do backend v1](docs/backend/architecture-v1.md)
+- [Contrato da API v1](docs/backend/api-contract-v1.md)
+- [Modelo de persistência v1](docs/backend/persistence-model-v1.md)
 
 ## Observações
 

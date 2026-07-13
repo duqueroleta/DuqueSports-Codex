@@ -20,6 +20,8 @@ Criar um backend ou BFF para proteger credenciais, controlar cache, aplicar rate
 
 **Criterio de aceite:** nenhuma chave secreta presente no bundle React, no Git ou em variaveis expostas pelo Vite.
 
+**Progresso:** a arquitetura modular, a API v1 e os gates de seguranca foram propostos no ADR 002. Implementacao aguarda aprovacao e escolha do runtime HTTP.
+
 ### 3. Contrato canonico de futebol
 
 Definir entidades estaveis para competicao, temporada, equipe, partida, evento, estatistica, mercado, odd, projecao e auditoria. Adaptadores de provedores devem converter para esse contrato.
@@ -33,6 +35,8 @@ Definir entidades estaveis para competicao, temporada, equipe, partida, evento, 
 Projetar banco para dados brutos, entidades normalizadas, snapshots do Engine, projecoes, auditorias e rastreabilidade de versao.
 
 **Criterio de aceite:** modelo relacional aprovado, migracoes reproduziveis, indices definidos e politica de retencao documentada.
+
+**Progresso:** PostgreSQL, entidades, relacionamentos, indices e retencao foram propostos. Provedor gerenciado, migracoes executaveis e instancia de desenvolvimento continuam pendentes.
 
 ### 5. Pipeline de ingestao
 
