@@ -309,6 +309,21 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/registry/examples/candidateModelRegistration.v1.js`.
 
+## canonical-model-comparison.v1
+
+Representa uma comparacao descritiva entre dois registros candidatos compativeis.
+
+Regras de coerencia:
+
+- candidatos pertencem a mesma familia e usam o mesmo dataset;
+- nivel de evidencia, partidas, avaliador e calibracao precisam coincidir;
+- artefatos precisam apontar uns para os outros e respeitar a cronologia;
+- deltas usam sempre candidato menos referencia;
+- metricas sao comparadas no geral, por particao e por mercado;
+- direcoes `lower-is-better` nao equivalem a decisao automatica;
+- comparacao exige revisao humana e nunca autoriza promocao;
+- dados sinteticos permanecem restritos a validacao de infraestrutura.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;
