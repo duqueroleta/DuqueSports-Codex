@@ -4,6 +4,7 @@ const API_TEST_SUITES = Object.freeze([
   'api/backend-runtime.test.mjs',
   'api/backend-request-tracker.test.mjs',
   'api/backend-health-api.test.mjs',
+  'api/backend-operational-probes.test.mjs',
   'api/frontend-health-client.test.mjs',
   'api/frontend-sports-gateway.test.mjs',
   'api/sports-data-source-store.test.mjs',

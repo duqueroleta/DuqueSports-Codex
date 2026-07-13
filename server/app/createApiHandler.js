@@ -1,6 +1,12 @@
 import { sendError, sendSuccess } from '../http/apiResponse.js';
 import { paginate } from '../http/pagination.js';
 import { createHealthSnapshot, HEALTH_SCHEMA_VERSION, SERVICE_VERSION } from '../health/createHealthSnapshot.js';
+import {
+  createLivenessSnapshot,
+  createReadinessSnapshot,
+  LIVENESS_SCHEMA_VERSION,
+  READINESS_SCHEMA_VERSION,
+} from '../health/createOperationalProbeSnapshot.js';
 
 const MATCH_STATUSES = Object.freeze(['scheduled', 'live', 'finished', 'postponed', 'cancelled']);
 
@@ -27,6 +33,7 @@ function createApiHandler({
   startedAt = now(),
   serviceVersion = SERVICE_VERSION,
   getRequestMetrics = () => ({ active: 0, totalStarted: 0 }),
+  getReadinessChecks = () => [{ name: 'http-runtime', required: true, status: 'ready' }],
 }) {
   return (request, response) => {
     const requestId = requestIdFactory();
@@ -41,6 +48,37 @@ function createApiHandler({
         message: 'This endpoint only supports GET.',
         requestId,
       }, { ...corsHeaders, Allow: 'GET' });
+      return;
+    }
+
+    if (url.pathname === '/internal/v1/health/live') {
+      sendSuccess(response, {
+        data: createLivenessSnapshot({
+          checkedAt: new Date(generatedAt),
+          startedAt,
+          serviceVersion,
+        }),
+        requestId,
+        generatedAt,
+        dataSchemaVersion: LIVENESS_SCHEMA_VERSION,
+      }, corsHeaders);
+      return;
+    }
+
+    if (url.pathname === '/internal/v1/health/ready') {
+      const readiness = createReadinessSnapshot({
+        checkedAt: new Date(generatedAt),
+        checks: getReadinessChecks(),
+        serviceVersion,
+      });
+
+      sendSuccess(response, {
+        data: readiness,
+        requestId,
+        generatedAt,
+        dataSchemaVersion: READINESS_SCHEMA_VERSION,
+        statusCode: readiness.status === 'ready' ? 200 : 503,
+      }, corsHeaders);
       return;
     }
 

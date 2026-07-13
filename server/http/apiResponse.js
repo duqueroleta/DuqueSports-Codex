@@ -14,8 +14,15 @@ function sendJson(response, statusCode, payload, extraHeaders = {}) {
   response.end(JSON.stringify(payload));
 }
 
-function sendSuccess(response, { data, requestId, generatedAt, dataSchemaVersion, nextCursor = null }, headers) {
-  sendJson(response, 200, {
+function sendSuccess(response, {
+  data,
+  requestId,
+  generatedAt,
+  dataSchemaVersion,
+  nextCursor = null,
+  statusCode = 200,
+}, headers) {
+  sendJson(response, statusCode, {
     data,
     meta: {
       requestId,

@@ -36,6 +36,7 @@ function createBackendRuntime({
   clearScheduledTimeout = globalThis.clearTimeout,
 } = {}) {
   const resolvedConfig = config ?? createServerConfig(environment);
+  let state = 'idle';
   const startedAt = now();
   const apiHandler = handlerFactory({
     repository,
@@ -44,11 +45,24 @@ function createBackendRuntime({
     allowedOrigins: resolvedConfig.allowedOrigins,
     startedAt,
     getRequestMetrics: requestTracker.getSnapshot,
+    getReadinessChecks: () => [
+      {
+        name: 'http-runtime',
+        required: true,
+        status: state === 'running' ? 'ready' : 'not-ready',
+      },
+      {
+        name: 'sports-repository',
+        required: true,
+        status: repository ? 'ready' : 'not-ready',
+      },
+      { name: 'database', required: false, status: 'not-configured' },
+      { name: 'sports-provider', required: false, status: 'not-configured' },
+    ],
   });
   const handler = requestTracker.track(apiHandler);
   const server = serverFactory(handler);
   const signalHandlers = new Map();
-  let state = 'idle';
   let startPromise = null;
   let shutdownPromise = null;
   let shutdownTimer = null;

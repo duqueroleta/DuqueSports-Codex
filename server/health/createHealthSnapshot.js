@@ -1,6 +1,6 @@
 const HEALTH_SCHEMA_VERSION = 'health-read.v1';
 const SERVICE_NAME = 'duque-score-api';
-const SERVICE_VERSION = 'platform.phase-94';
+const SERVICE_VERSION = 'platform.phase-100';
 
 function createHealthSnapshot({
   checkedAt,

@@ -100,6 +100,8 @@ Desde a Fase 98, `API_SHUTDOWN_TIMEOUT_MS` limita essa espera. O runtime so cham
 
 Desde a Fase 99, um tracker em memoria conta requisicoes ativas e o total iniciado no processo. A instrumentacao observa apenas eventos de conclusao e fechamento da resposta e nao retém metadados da requisicao.
 
+Desde a Fase 100, liveness e readiness possuem contratos separados. Liveness depende somente do processo HTTP; readiness considera checks obrigatorios do runtime. Banco e provedor aparecem como opcionais e `not-configured` ate serem integrados de fato.
+
 ## Decisoes pendentes
 
 - Provedor esportivo e termos de licenca.

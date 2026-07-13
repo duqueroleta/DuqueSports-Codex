@@ -18,6 +18,8 @@ Implementado localmente entre as Fases 91 e 94:
 - `GET /api/v1/matches` com `competitionId`, `status`, `cursor` e `limit`;
 - `GET /api/v1/matches/:matchId`;
 - `GET /internal/v1/health`;
+- `GET /internal/v1/health/live`;
+- `GET /internal/v1/health/ready`;
 - envelopes, erros, CORS e paginacao.
 
 As demais rotas deste documento continuam propostas.
@@ -72,6 +74,8 @@ Mensagens publicas nao exibem stack trace, SQL, credenciais ou resposta bruta do
 | Metodo | Rota | Uso |
 | --- | --- | --- |
 | GET | `/internal/v1/health` | Saude, versao de contratos e uptime do processo |
+| GET | `/internal/v1/health/live` | Liveness independente de dependencias |
+| GET | `/internal/v1/health/ready` | Readiness das condicoes obrigatorias |
 | POST | `/internal/v1/ingestion-runs` | Iniciar lote idempotente |
 | GET | `/internal/v1/ingestion-runs/:runId` | Consultar execucao |
 | POST | `/internal/v1/projection-runs` | Executar projecao congelada |
@@ -86,6 +90,8 @@ Essas rotas nao ficam acessiveis pelo navegador publico. O health check funciona
 ### Health operacional
 
 `GET /internal/v1/health` inclui `requests.active` e `requests.totalStarted`. Sao apenas contadores agregados do processo atual. A API nao armazena nem publica URL, metodo, IP, cabecalhos ou payload das requisicoes.
+
+O endpoint `/live` retorna `200` enquanto o processo HTTP consegue responder. `/ready` retorna `200` quando todos os checks obrigatorios estao prontos e `503` quando pelo menos um esta indisponivel. Checks opcionais `not-configured` nao bloqueiam readiness. `/internal/v1/health` permanece como contrato legado para o diagnostico local do frontend.
 
 ## Filtros e paginacao
 

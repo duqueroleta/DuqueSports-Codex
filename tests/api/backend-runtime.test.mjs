@@ -41,6 +41,13 @@ assert.equal(health.meta.requestId, 'req_runtime_test');
 assert.deepEqual(health.data.requests, { active: 1, totalStarted: 1 });
 assert.deepEqual(runtime.getRequestMetrics(), { active: 0, totalStarted: 1 });
 
+const readinessResponse = await fetch(`${startup.address}/internal/v1/health/ready`);
+const readiness = await readinessResponse.json();
+assert.equal(readinessResponse.status, 200);
+assert.equal(readiness.data.status, 'ready');
+assert.equal(readiness.data.checks.find((check) => check.name === 'database').status, 'not-configured');
+assert.deepEqual(runtime.getRequestMetrics(), { active: 0, totalStarted: 2 });
+
 signalSource.emit('SIGTERM');
 const stopped = await runtime.whenStopped();
 assert.equal(stopped.reason, 'SIGTERM');
