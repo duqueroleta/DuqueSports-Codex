@@ -52,7 +52,7 @@ Congelar datasets de treino, calibracao e teste por temporada e competicao, impe
 
 Avaliar probabilidades e mercados sem usar dados posteriores ao momento da previsao.
 
-**Preparacao concluida:** projecoes concluidas ja podem ser liquidadas e auditadas de forma deterministica. O dataset historico versionado e a execucao em lote continuam pendentes.
+**Progresso:** projecoes concluidas podem ser liquidadas, auditadas e agregadas em lote por particao. A infraestrutura foi validada com dados sinteticos; o backtesting cientifico com dados observados e licenciados continua pendente.
 
 ### 8. Metricas de calibracao
 

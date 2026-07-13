@@ -251,6 +251,18 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/datasets/examples/syntheticHistoricalDataset.v1.js`.
 
+### Execucao de backtesting
+
+`CanonicalBacktestRunner.js` relaciona o manifesto congelado aos casos materializados e reutiliza a liquidacao e a auditoria canonicas.
+
+- cada partida possui um unico caso;
+- feature snapshot e corte temporal precisam corresponder ao registro historico;
+- projecoes pos-inicio sao rejeitadas;
+- resultados precisam corresponder ao snapshot final congelado;
+- bloqueios de Data Quality sao contabilizados sem gerar auditoria;
+- metricas sao agregadas globalmente e por treino, calibracao e teste;
+- datasets sinteticos permanecem classificados como validacao de infraestrutura.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;
