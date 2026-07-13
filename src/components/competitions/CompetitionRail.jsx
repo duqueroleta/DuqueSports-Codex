@@ -1,10 +1,13 @@
 import { competitions } from '../../data/competitions.js';
+import { useAsyncData } from '../../hooks/useAsyncData.js';
+import { getCompetitions } from '../../services/sportsDataService.js';
 import '../../styles/competition-rail.css';
 
 const ALL_COMPETITIONS = 'Todos';
 
 function CompetitionRail({ activeCompetition = ALL_COMPETITIONS, onSelect }) {
-  const items = [{ id: 'todos', label: ALL_COMPETITIONS, region: 'Geral' }, ...competitions];
+  const { data: availableCompetitions } = useAsyncData(getCompetitions, [], competitions);
+  const items = [{ id: 'todos', label: ALL_COMPETITIONS, region: 'Geral' }, ...availableCompetitions];
 
   return (
     <section className="competition-rail" aria-label="Campeonatos disponíveis">
