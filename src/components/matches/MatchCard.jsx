@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
+import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
 import { formatMatchConfidence, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
 import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
@@ -12,55 +13,59 @@ function MatchCard({ match }) {
   const favorite = isFavorite('match', match.id);
   const confidence = normalizeMatchConfidence(match.confidence);
   const confidenceDisplay = formatMatchConfidence(match.confidence);
-
-  function handleFavoriteClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    toggleFavorite('match', match.id);
-  }
+  const metrics = normalizeMatchMetrics(match.metrics).slice(0, 3);
 
   return (
-    <Link className="match-card" style={getMatchVisualStyle(match)} to={`/jogos/${match.id}`}>
-      <div className="match-card-top">
+    <article
+      aria-label={`${match.home} contra ${match.away}`}
+      className="match-card"
+      style={getMatchVisualStyle(match)}
+    >
+      <header className="match-card-top">
         <div>
           <span className="match-league">{match.league}</span>
-          <strong>{match.time}</strong>
+          <strong>Hoje, {match.time}</strong>
         </div>
         <div className="match-card-actions">
+          <span className={`match-status ${match.status === 'Ao vivo' ? 'match-status-live' : ''}`}>
+            {match.status}
+          </span>
           <button
             aria-label={favorite ? 'Remover jogo dos favoritos' : 'Adicionar jogo aos favoritos'}
             aria-pressed={favorite}
             className={`favorite-button ${favorite ? 'favorite-button-active' : ''}`}
-            onClick={handleFavoriteClick}
+            onClick={() => toggleFavorite('match', match.id)}
             type="button"
           >
-            F
+            <span aria-hidden="true">{favorite ? '★' : '☆'}</span>
           </button>
-          <span className={`match-status ${match.status === 'Ao vivo' ? 'match-status-live' : ''}`}>
-            {match.status}
-          </span>
         </div>
-      </div>
+      </header>
 
       <div className="match-teams">
         <span>
           <TeamCrest size="small" teamName={match.home} />
-          {match.home}
+          <strong>{match.home}</strong>
         </span>
-        <strong>{match.score}</strong>
+        <div>
+          <strong>{match.status === 'Ao vivo' ? match.score : 'X'}</strong>
+          <small>{match.time}</small>
+        </div>
         <span>
-          {match.away}
           <TeamCrest size="small" teamName={match.away} />
+          <strong>{match.away}</strong>
         </span>
       </div>
 
       <div className="match-signal">
         <div>
-          <span>Sinal IA</span>
+          <span>Leitura da IA</span>
           <strong>{match.signal}</strong>
+          <small>Odd {formatMatchOdds(match.odds)}</small>
         </div>
         <div className="match-confidence">
-          <span>{confidenceDisplay}</span>
+          <strong>{confidenceDisplay}</strong>
+          <span>Score</span>
         </div>
       </div>
 
@@ -70,13 +75,15 @@ function MatchCard({ match }) {
 
       <p className="match-insight">{match.insight}</p>
 
-      <div className="match-meta">
-        <strong>Odd {formatMatchOdds(match.odds)}</strong>
-        {normalizeMatchMetrics(match.metrics).map((metric) => (
-          <span key={metric}>{metric}</span>
-        ))}
+      <div className="match-meta" aria-label="Indicadores principais">
+        {metrics.map((metric) => <span key={metric}>{metric}</span>)}
       </div>
-    </Link>
+
+      <footer className="match-card-footer">
+        <Link to={`/jogos/${match.id}`}>Ver análise</Link>
+        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">Bilhete pronto</a>
+      </footer>
+    </article>
   );
 }
 

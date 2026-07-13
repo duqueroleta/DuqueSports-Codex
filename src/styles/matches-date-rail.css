@@ -1,0 +1,65 @@
+.matches-date-rail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(74px, 1fr));
+  gap: 7px;
+  width: min(720px, 100%);
+  margin: 12px auto 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.matches-date-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.matches-date-rail button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #8f9aa8;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.matches-date-rail span {
+  overflow: hidden;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.matches-date-rail strong {
+  color: var(--color-white);
+  font-size: 0.9rem;
+}
+
+.matches-date-rail .matches-date-active {
+  border-color: rgba(217, 180, 91, 0.32);
+  color: #07111c;
+  background: var(--color-gold-soft);
+}
+
+.matches-date-active strong {
+  color: #07111c;
+}
+
+@media (max-width: 520px) {
+  .matches-date-rail {
+    grid-template-columns: repeat(5, 72px);
+    justify-content: start;
+  }
+
+  .matches-date-rail button {
+    grid-template-columns: 1fr;
+    gap: 1px;
+    min-height: 46px;
+    padding: 5px 8px;
+  }
+}
