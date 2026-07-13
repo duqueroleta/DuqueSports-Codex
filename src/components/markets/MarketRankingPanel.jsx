@@ -1,4 +1,3 @@
-import MarketFilterButton from './MarketFilterButton.jsx';
 import '../../styles/market-ranking-panel.css';
 
 const MAX_VISIBLE_RANKINGS = 4;
@@ -17,22 +16,20 @@ function MarketRankingPanel({
           <strong>Mercados por oportunidade real</strong>
           <p>Leitura agregada dos jogos analisados pelo DUQUE Score Engine.</p>
         </div>
-        <div className="market-ranking-filters" aria-label="Filtro por campeonato">
-          {filterOptions.competitions.map((competition) => (
-            <MarketFilterButton
-              isActive={activeCompetition === competition}
-              key={competition}
-              label={competition}
-              onSelect={() => onCompetitionChange(competition)}
-            />
-          ))}
-        </div>
+        <label className="market-ranking-filter">
+          <span>Campeonato</span>
+          <select onChange={(event) => onCompetitionChange(event.target.value)} value={activeCompetition}>
+            {filterOptions.competitions.map((competition) => (
+              <option key={competition}>{competition}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <div className="market-ranking-grid">
-        {rankings.slice(0, MAX_VISIBLE_RANKINGS).map((ranking) => (
+        {rankings.slice(0, MAX_VISIBLE_RANKINGS).map((ranking, index) => (
           <article className="market-ranking-card" key={ranking.marketName}>
-            <span>{ranking.tier}</span>
+            <span>#{index + 1} {ranking.tier}</span>
             <strong>{ranking.marketName}</strong>
             <small>
               Top jogo: {ranking.topOpportunity.home} x {ranking.topOpportunity.away}

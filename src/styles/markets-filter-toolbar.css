@@ -1,7 +1,21 @@
 .markets-toolbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 7px;
   width: min(1240px, 100%);
-  margin: 18px auto;
+  margin: 12px auto 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.markets-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.markets-toolbar .market-filter-control {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 0.72rem;
 }

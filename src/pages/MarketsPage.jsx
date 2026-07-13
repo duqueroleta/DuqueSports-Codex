@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import MarketsGrid from '../components/markets/MarketsGrid.jsx';
 import MarketsHero from '../components/markets/MarketsHero.jsx';
 import MarketRankingPanel from '../components/markets/MarketRankingPanel.jsx';
@@ -14,6 +15,7 @@ import { getStrongestMarket } from '../utils/marketStats.js';
 import { itemMatchesSearch } from '../utils/search.js';
 
 function MarketsPage() {
+  const [visibleCount, setVisibleCount] = useState(4);
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.markets', 'Todos');
   const [activeCompetition, setActiveCompetition] = usePersistentState(
     'duque.filters.markets.competition',
@@ -28,6 +30,7 @@ function MarketsPage() {
   const filteredMarkets = markets.filter(
     (market) => matchMarketListFilter(market, activeFilter) && itemMatchesSearch(market, searchTerm),
   );
+  const visibleMarkets = filteredMarkets.slice(0, visibleCount);
 
   return (
     <main className="markets-page">
@@ -53,9 +56,19 @@ function MarketsPage() {
       <MarketsGrid
         error={error}
         isLoading={isLoading}
-        markets={filteredMarkets}
+        markets={visibleMarkets}
         onRetry={retry}
       />
+
+      {visibleCount < filteredMarkets.length ? (
+        <button
+          className="markets-load-more"
+          onClick={() => setVisibleCount((count) => count + 4)}
+          type="button"
+        >
+          Mostrar mais mercados
+        </button>
+      ) : null}
     </main>
   );
 }
