@@ -111,3 +111,4 @@ Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um re
 - Fase 80: criado `canonical-projection.v1`, mantendo probabilidades cientificas separadas de odds comerciais.
 - Fase 81: criado `canonical-projection-audit.v1` com Brier Score, Log Loss e liquidacao rastreavel.
 - Fase 82: o `ProjectionPipeline` mockado passou a produzir e validar `canonical-projection.v1` por adaptador interno.
+- Fase 83: resultados finais passaram a liquidar mercados e gerar `canonical-projection-audit.v1` automaticamente, sem dados comerciais.

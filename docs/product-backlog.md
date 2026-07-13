@@ -26,7 +26,7 @@ Definir entidades estaveis para competicao, temporada, equipe, partida, evento, 
 
 **Criterio de aceite:** schemas versionados, exemplos reais anonimizados e testes de contrato para entradas validas e invalidas.
 
-**Progresso:** a base canonica v1 cobre partida, competicao, temporada, equipes, estatisticas, eventos, mercados, odds, projecoes e auditorias. O pipeline mockado ja produz projecoes canonicas validadas; adaptadores de provedores externos continuam pendentes.
+**Progresso:** a base canonica v1 cobre partida, competicao, temporada, equipes, estatisticas, eventos, mercados, odds, projecoes e auditorias. O pipeline mockado ja produz projecoes canonicas e o resultado final gera liquidacoes e auditorias validadas; adaptadores de provedores externos continuam pendentes.
 
 ### 4. Persistencia e migracoes
 
@@ -49,6 +49,8 @@ Congelar datasets de treino, calibracao e teste por temporada e competicao, impe
 ### 7. Backtesting fora da amostra
 
 Avaliar probabilidades e mercados sem usar dados posteriores ao momento da previsao.
+
+**Preparacao concluida:** projecoes concluidas ja podem ser liquidadas e auditadas de forma deterministica. O dataset historico versionado e a execucao em lote continuam pendentes.
 
 ### 8. Metricas de calibracao
 

@@ -127,6 +127,7 @@ O projeto separa responsabilidades por domínio:
 - [Projeções canônicas e separação de odds - Fase 80](docs/engine-phase-80.md)
 - [Auditoria científica canônica - Fase 81](docs/engine-phase-81.md)
 - [Adaptador canônico do ProjectionPipeline - Fase 82](docs/engine-phase-82.md)
+- [Liquidação e auditoria automática - Fase 83](docs/engine-phase-83.md)
 
 ## Observações
 

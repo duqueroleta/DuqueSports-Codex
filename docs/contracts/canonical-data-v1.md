@@ -212,6 +212,18 @@ Regras de coerencia:
 
 Exemplo executavel: `src/engine/contracts/examples/canonicalProjectionAudit.v1.js`.
 
+### Liquidacao e geracao automatica
+
+`CanonicalMarketSettlementService.js` converte o resultado observado em uma liquidacao versionada, enquanto `CanonicalProjectionAuditService.js` gera outcomes e metricas para cada mercado previsto.
+
+- resultado da partida deriva `home`, `draw` ou `away` do placar final;
+- total de gols e escanteios respeita linhas inteiras, de meio gol e asiaticas;
+- ambas marcam deriva `yes` ou `no` sem inferencias adicionais;
+- dados observados ausentes produzem `void`, nunca valores inventados;
+- `push`, `void` e `partial` nao participam das medias de erro na v1;
+- o servico valida o contrato da auditoria e sua relacao com a projecao;
+- projecoes bloqueadas nao podem iniciar o processo de auditoria.
+
 ## Relacionamento
 
 Uma partida possui um registro `canonical-match.v1`, pode possuir varios snapshots `canonical-match-statistics.v1`, uma linha do tempo `canonical-match-events.v1`, varios mercados `canonical-market.v1` e varias execucoes `canonical-projection.v1`. Cada mercado pode receber muitos snapshots `canonical-odds-snapshot.v1`, e cada projecao concluida pode receber uma auditoria `canonical-projection-audit.v1`. Todos preservam os IDs internos de relacionamento.
