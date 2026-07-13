@@ -83,6 +83,10 @@ Mensagens publicas nao exibem stack trace, SQL, credenciais ou resposta bruta do
 
 Essas rotas nao ficam acessiveis pelo navegador publico. O health check funciona apenas no servidor local nesta fase; antes de um deploy externo, o gateway devera restringir o acesso ao prefixo operacional.
 
+### Health operacional
+
+`GET /internal/v1/health` inclui `requests.active` e `requests.totalStarted`. Sao apenas contadores agregados do processo atual. A API nao armazena nem publica URL, metodo, IP, cabecalhos ou payload das requisicoes.
+
 ## Filtros e paginacao
 
 `GET /api/v1/matches` aceita inicialmente:

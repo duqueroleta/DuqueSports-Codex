@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { createApiHandler } from '../app/createApiHandler.js';
 import { createServerConfig, formatServerAddress } from '../config/createServerConfig.js';
 import { InMemorySportsRepository } from '../repositories/InMemorySportsRepository.js';
+import { createRequestTracker } from '../observability/createRequestTracker.js';
 
 const SHUTDOWN_SIGNALS = Object.freeze(['SIGINT', 'SIGTERM']);
 
@@ -28,19 +29,23 @@ function createBackendRuntime({
   now = () => new Date(),
   requestIdFactory = () => `req_${randomUUID()}`,
   repository = new InMemorySportsRepository(),
+  handlerFactory = createApiHandler,
+  requestTracker = createRequestTracker(),
   serverFactory = (handler) => createServer(handler),
   scheduleTimeout = globalThis.setTimeout,
   clearScheduledTimeout = globalThis.clearTimeout,
 } = {}) {
   const resolvedConfig = config ?? createServerConfig(environment);
   const startedAt = now();
-  const handler = createApiHandler({
+  const apiHandler = handlerFactory({
     repository,
     now,
     requestIdFactory,
     allowedOrigins: resolvedConfig.allowedOrigins,
     startedAt,
+    getRequestMetrics: requestTracker.getSnapshot,
   });
+  const handler = requestTracker.track(apiHandler);
   const server = serverFactory(handler);
   const signalHandlers = new Map();
   let state = 'idle';
@@ -172,6 +177,7 @@ function createBackendRuntime({
   }
 
   return Object.freeze({
+    getRequestMetrics: requestTracker.getSnapshot,
     getState: () => state,
     start,
     stop,

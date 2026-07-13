@@ -26,6 +26,7 @@ function createApiHandler({
   allowedOrigins = [],
   startedAt = now(),
   serviceVersion = SERVICE_VERSION,
+  getRequestMetrics = () => ({ active: 0, totalStarted: 0 }),
 }) {
   return (request, response) => {
     const requestId = requestIdFactory();
@@ -49,6 +50,7 @@ function createApiHandler({
           checkedAt: new Date(generatedAt),
           startedAt,
           serviceVersion,
+          requestMetrics: getRequestMetrics(),
         }),
         requestId,
         generatedAt,

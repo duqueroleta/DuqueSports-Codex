@@ -98,6 +98,8 @@ Desde a Fase 97, a composicao do repositorio, handler e servidor pertence a um r
 
 Desde a Fase 98, `API_SHUTDOWN_TIMEOUT_MS` limita essa espera. O runtime so chama `closeAllConnections()` depois que a janela graciosa expira; encerramentos normais nao tem conexoes interrompidas.
 
+Desde a Fase 99, um tracker em memoria conta requisicoes ativas e o total iniciado no processo. A instrumentacao observa apenas eventos de conclusao e fechamento da resposta e nao retém metadados da requisicao.
+
 ## Decisoes pendentes
 
 - Provedor esportivo e termos de licenca.

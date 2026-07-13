@@ -6,6 +6,7 @@ function createHealthSnapshot({
   checkedAt,
   startedAt,
   serviceVersion = SERVICE_VERSION,
+  requestMetrics = { active: 0, totalStarted: 0 },
 }) {
   const checkedTime = checkedAt.getTime();
   const startedTime = startedAt.getTime();
@@ -22,6 +23,10 @@ function createHealthSnapshot({
       startedAt: startedAt.toISOString(),
       checkedAt: checkedAt.toISOString(),
       uptimeSeconds,
+    }),
+    requests: Object.freeze({
+      active: requestMetrics.active,
+      totalStarted: requestMetrics.totalStarted,
     }),
     contracts: Object.freeze({
       envelope: 'api-envelope.v1',

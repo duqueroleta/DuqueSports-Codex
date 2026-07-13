@@ -38,6 +38,8 @@ assert.equal(signalSource.listenerCount('SIGTERM'), 1);
 const health = await fetch(`${startup.address}/internal/v1/health`).then((response) => response.json());
 assert.equal(health.data.status, 'healthy');
 assert.equal(health.meta.requestId, 'req_runtime_test');
+assert.deepEqual(health.data.requests, { active: 1, totalStarted: 1 });
+assert.deepEqual(runtime.getRequestMetrics(), { active: 0, totalStarted: 1 });
 
 signalSource.emit('SIGTERM');
 const stopped = await runtime.whenStopped();
@@ -85,18 +87,19 @@ const forcedRuntime = createBackendRuntime({
   clearScheduledTimeout: (timer) => {
     if (timer === 'shutdown-timer') clearedShutdownTimer = true;
   },
-  serverFactory: (handler) => createServer((request, response) => {
+  handlerFactory: () => (request, response) => {
     if (request.url === '/slow') {
       releaseSlowRequest();
       return;
     }
 
-    handler(request, response);
-  }),
+    response.end('ok');
+  },
 });
 const forcedStartup = await forcedRuntime.start();
 const slowFetch = fetch(`${forcedStartup.address}/slow`).catch((error) => error);
 await slowRequestStarted;
+assert.deepEqual(forcedRuntime.getRequestMetrics(), { active: 1, totalStarted: 1 });
 const forcedStopPromise = forcedRuntime.stop('timeout-test');
 assert.equal(forcedRuntime.getState(), 'stopping');
 assert.equal(scheduledShutdown.delay, 500);
@@ -108,6 +111,7 @@ assert.equal(forcedStop.reason, 'timeout-test');
 assert.equal(forcedStop.forced, true);
 assert.equal(clearedShutdownTimer, true);
 assert.equal(forcedLogs.length, 1);
+assert.deepEqual(forcedRuntime.getRequestMetrics(), { active: 0, totalStarted: 1 });
 
 const occupiedServer = createServer((_request, response) => response.end('occupied'));
 await new Promise((resolve) => occupiedServer.listen(0, '127.0.0.1', resolve));

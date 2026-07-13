@@ -13,6 +13,7 @@ const handler = createApiHandler({
   serviceVersion: 'test-version',
   requestIdFactory: () => 'req_health_test',
   allowedOrigins: ['http://127.0.0.1:5173'],
+  getRequestMetrics: () => ({ active: 3, totalStarted: 42 }),
 });
 const server = createServer(handler);
 
@@ -39,6 +40,7 @@ try {
   assert.equal(body.data.time.startedAt, '2026-07-14T01:44:00.000Z');
   assert.equal(body.data.time.checkedAt, '2026-07-14T01:45:42.900Z');
   assert.equal(body.data.time.uptimeSeconds, 102);
+  assert.deepEqual(body.data.requests, { active: 3, totalStarted: 42 });
   assert.equal(body.data.contracts.matchRead, 'match-read.v1');
 
   const serializedBody = JSON.stringify(body).toLowerCase();
@@ -46,6 +48,7 @@ try {
   assert.equal(serializedBody.includes('token'), false);
   assert.equal(serializedBody.includes('process.env'), false);
   assert.equal(serializedBody.includes('memoryusage'), false);
+  assert.equal(serializedBody.includes('/internal/v1/health'), false);
 
   const methodResponse = await fetch(healthUrl, { method: 'POST' });
   const methodBody = await methodResponse.json();
