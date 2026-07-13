@@ -263,6 +263,18 @@ Exemplo executavel: `src/engine/datasets/examples/syntheticHistoricalDataset.v1.
 - metricas sao agregadas globalmente e por treino, calibracao e teste;
 - datasets sinteticos permanecem classificados como validacao de infraestrutura.
 
+### Relatorio de calibracao
+
+`CalibrationReportService.js` produz `canonical-calibration-report.v1` a partir de um backtest valido.
+
+- cada mercado liquidado contribui com a probabilidade da selecao principal e seu acerto observado;
+- dez faixas cobrem probabilidades de zero a cem;
+- ECE e erro maximo usam pontos percentuais;
+- Brier binario usa escala de zero a um;
+- treino, calibracao e teste permanecem separados;
+- faixas sem amostras usam `null`;
+- resultados sinteticos nao podem sustentar alegacoes de desempenho.
+
 ## Fora da versao atual
 
 - escalacoes e atletas;

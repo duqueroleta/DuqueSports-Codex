@@ -55,6 +55,10 @@ assert.equal(generated.summary.overall.totalCases, 6);
 assert.equal(generated.summary.overall.auditedCases, 6);
 assert.equal(generated.summary.overall.auditedMarkets, 18);
 assert.equal(generated.summary.overall.rejectedCases, 0);
+assert.ok(
+  generated.cases.every((testCase) => testCase.calibrationSamples.length === 3),
+  'Each settled projected market should produce one top-prediction calibration sample',
+);
 assert.equal(generated.summary.partitions.train.totalCases, 2);
 assert.equal(generated.summary.partitions.calibration.totalCases, 2);
 assert.equal(generated.summary.partitions.test.totalCases, 2);
@@ -87,6 +91,7 @@ const withBlocked = runCanonicalBacktest({
 
 assert.equal(withBlocked.validation.valid, true, 'Valid Data Quality blocks should remain part of coverage');
 assert.equal(withBlocked.cases[0].status, 'blocked');
+assert.deepEqual(withBlocked.cases[0].calibrationSamples, []);
 assert.equal(withBlocked.summary.overall.blockedCases, 1);
 assert.equal(withBlocked.summary.overall.auditedCases, 5);
 

@@ -1,4 +1,5 @@
 import { createCanonicalProjectionAudit } from '../audit/CanonicalProjectionAuditService.js';
+import { buildTopPredictionCalibrationSamples } from '../calibration/calibrationSamples.js';
 import {
   validateCanonicalProjection,
   validateProjectionAgainstMarkets,
@@ -78,11 +79,11 @@ function evaluateBacktestCase(record, testCase, index, evaluatorVersion, runAt) 
   }
 
   if (errors.length > 0) {
-    return { matchId: record.matchId, partition: record.partition, status: 'rejected', audit: null, errors };
+    return { matchId: record.matchId, partition: record.partition, status: 'rejected', audit: null, calibrationSamples: [], errors };
   }
 
   if (projection.status === 'blocked') {
-    return { matchId: record.matchId, partition: record.partition, status: 'blocked', audit: null, errors: [] };
+    return { matchId: record.matchId, partition: record.partition, status: 'blocked', audit: null, calibrationSamples: [], errors: [] };
   }
 
   const generated = createCanonicalProjectionAudit({
@@ -98,6 +99,9 @@ function evaluateBacktestCase(record, testCase, index, evaluatorVersion, runAt) 
     partition: record.partition,
     status: generated.validation.valid ? 'audited' : 'rejected',
     audit: generated.validation.valid ? generated.audit : null,
+    calibrationSamples: generated.validation.valid
+      ? buildTopPredictionCalibrationSamples(projection, generated.audit)
+      : [],
     errors: generated.validation.valid
       ? []
       : prefixErrors(generated.validation.errors, `${path}.audit`),
@@ -154,7 +158,7 @@ function runCanonicalBacktest({ dataset, cases, evaluatorVersion, runAt } = {}) 
     if (!testCase) {
       const error = backtestError(`cases.${index}`, 'missing-backtest-case', 'every dataset record requires one case');
       executionErrors.push(error);
-      return { matchId: record.matchId, partition: record.partition, status: 'rejected', audit: null, errors: [error] };
+      return { matchId: record.matchId, partition: record.partition, status: 'rejected', audit: null, calibrationSamples: [], errors: [error] };
     }
 
     return evaluateBacktestCase(record, testCase, index, evaluatorVersion, runAt);

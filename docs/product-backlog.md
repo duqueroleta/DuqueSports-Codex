@@ -58,6 +58,8 @@ Avaliar probabilidades e mercados sem usar dados posteriores ao momento da previ
 
 Medir Brier Score, Log Loss, curvas de confiabilidade, estabilidade por competicao e degradacao temporal.
 
+**Progresso:** o Engine calcula Brier, Log Loss, ECE, erro maximo e faixas de confianca para a selecao principal, com separacao por particao. Segmentacao por competicao e degradacao temporal continuam pendentes.
+
 ### 9. Registro de modelos
 
 Relacionar versao do codigo, features, parametros, dataset, calibracao e resultado de cada execucao.

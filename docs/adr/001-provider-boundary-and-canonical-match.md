@@ -114,3 +114,4 @@ Este ADR deve ser revisto quando o piloto de provedores terminar ou quando um re
 - Fase 83: resultados finais passaram a liquidar mercados e gerar `canonical-projection-audit.v1` automaticamente, sem dados comerciais.
 - Fase 84: criado o manifesto `canonical-historical-dataset.v1`, separando treino, calibracao e teste sem autorizar dados externos.
 - Fase 85: criado o executor de backtesting em lote com reconciliacao temporal, auditorias e agregacao por particao.
+- Fase 86: criado `canonical-calibration-report.v1` com faixas de confianca e metricas separadas por particao.
