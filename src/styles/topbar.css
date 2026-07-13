@@ -131,7 +131,12 @@
 @media (max-width: 760px) {
   .topbar {
     grid-template-columns: 1fr;
-    padding: 12px;
+    padding: 8px 12px;
+  }
+
+  .topbar-search {
+    min-height: 42px;
+    border-radius: 13px;
   }
 
   .topbar-actions {

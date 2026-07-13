@@ -18,10 +18,10 @@
 
   .mobile-market-filters button {
     flex: 0 0 auto;
-    min-height: 34px;
-    padding: 0 11px;
+    min-height: 32px;
+    padding: 0 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
+    border-radius: 10px;
     color: #aeb8c5;
     background: rgba(255, 255, 255, 0.055);
     font-size: 0.72rem;
@@ -32,6 +32,6 @@
     border-color: rgba(32, 246, 164, 0.38);
     color: #07111c;
     background: linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
-    box-shadow: 0 14px 28px rgba(32, 246, 164, 0.16);
+    box-shadow: 0 10px 22px rgba(32, 246, 164, 0.12);
   }
 }

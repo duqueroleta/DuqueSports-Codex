@@ -1,36 +1,27 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
+import MobileCarouselHeader from './MobileCarouselHeader.jsx';
 import MobileMarketFilters from './MobileMarketFilters.jsx';
-import MobileOpportunityBar from './MobileOpportunityBar.jsx';
-import TeamCrest from '../teams/TeamCrest.jsx';
-import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
+import MobileMatchSlide from './MobileMatchSlide.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
 import { matchMarketFilter } from '../../utils/marketFilters.js';
-import { getMatchConfidenceLabel, normalizeMatchConfidence } from '../../utils/matchConfidence.js';
-import { normalizeMatchMetrics } from '../../utils/matchMetrics.js';
-import { formatMatchOdds } from '../../utils/matchOdds.js';
-import { normalizeMatchProbabilities } from '../../utils/matchProbabilities.js';
-import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/mobile-match-carousel.css';
 
 function MobileMatchCarousel() {
   const { data: matches } = useAsyncData(getMatches, []);
   const [activeCompetition, setActiveCompetition] = useState(ALL_COMPETITIONS);
   const [activeMarket, setActiveMarket] = useState('todos');
+  const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef(null);
   const competitionMatches = activeCompetition === ALL_COMPETITIONS
     ? matches
     : matches.filter((match) => match.league === activeCompetition);
   const visibleMatches = competitionMatches.filter((match) => matchMarketFilter(match, activeMarket));
-  const bestMatch = [...visibleMatches].sort((first, second) => (
-    (normalizeMatchConfidence(second.confidence) ?? -1)
-      - (normalizeMatchConfidence(first.confidence) ?? -1)
-  ))[0];
 
   function scrollToStart() {
     carouselRef.current?.scrollTo({ behavior: 'smooth', left: 0 });
+    setActiveIndex(0);
   }
 
   function handleCompetitionSelect(competition) {
@@ -50,95 +41,33 @@ function MobileMatchCarousel() {
       return;
     }
 
-    carousel.scrollBy({
+    const nextIndex = Math.min(Math.max(activeIndex + direction, 0), visibleMatches.length - 1);
+    carousel.scrollTo({
       behavior: 'smooth',
-      left: direction * carousel.clientWidth,
+      left: nextIndex * carousel.clientWidth,
     });
+  }
+
+  function handleCarouselScroll() {
+    const carousel = carouselRef.current;
+
+    if (!carousel?.clientWidth) {
+      return;
+    }
+
+    setActiveIndex(Math.round(carousel.scrollLeft / carousel.clientWidth));
   }
 
   return (
     <section className="mobile-match-carousel" aria-label="Jogos em destaque">
-      <MobileOpportunityBar match={bestMatch} />
-      <MobileMarketFilters activeMarket={activeMarket} onSelect={handleMarketSelect} />
+      <MobileCarouselHeader activeIndex={activeIndex} matchCount={visibleMatches.length} />
       <CompetitionRail activeCompetition={activeCompetition} onSelect={handleCompetitionSelect} />
+      <MobileMarketFilters activeMarket={activeMarket} onSelect={handleMarketSelect} />
 
       <div className="mobile-carousel-shell">
-        <button
-          aria-label="Jogo anterior"
-          className="mobile-carousel-arrow mobile-carousel-arrow-left"
-          onClick={() => moveCarousel(-1)}
-          type="button"
-        >
-          &lt;
-        </button>
-
-        <div className="mobile-carousel-track" ref={carouselRef}>
+        <div className="mobile-carousel-track" onScroll={handleCarouselScroll} ref={carouselRef}>
           {visibleMatches.map((match) => (
-            <article className="mobile-match-slide" key={match.id}>
-              <div className="mobile-match-card" style={getMatchVisualStyle(match)}>
-                <div className="mobile-match-kicker">
-                  <strong>Melhor oportunidade</strong>
-                  <span>{match.league}</span>
-                </div>
-
-                <div className="mobile-match-teams">
-                  <div>
-                    <TeamCrest teamName={match.home} />
-                    <strong>{match.home}</strong>
-                    <small>Mandante</small>
-                  </div>
-
-                  <div className="mobile-match-versus">
-                    <span>{match.time}</span>
-                    <strong>{match.score}</strong>
-                    <small>Hoje</small>
-                  </div>
-
-                  <div>
-                    <TeamCrest teamName={match.away} />
-                    <strong>{match.away}</strong>
-                    <small>Visitante</small>
-                  </div>
-                </div>
-
-                <div className="mobile-score-panel">
-                  <span>Duque Score</span>
-                  <strong>{normalizeMatchConfidence(match.confidence) ?? '--'}</strong>
-                  <p>{getMatchConfidenceLabel(match.confidence)}</p>
-                </div>
-
-                <div className="mobile-match-stats">
-                  {normalizeMatchMetrics(match.metrics).slice(0, 3).map((metric) => (
-                    <span key={metric}>{metric}</span>
-                  ))}
-                </div>
-
-                <div className="mobile-match-signal">
-                  <span>Mercado indicado</span>
-                  <strong>{match.signal}</strong>
-                  <small>Odd media {formatMatchOdds(match.odds)}</small>
-                </div>
-
-                <div className="mobile-probability-strip" aria-label="Probabilidades principais">
-                  {normalizeMatchProbabilities(match.probabilities).map((probability) => (
-                    <div key={probability.label}>
-                      <span>{probability.label}</span>
-                      <strong>{probability.value}%</strong>
-                      <small>
-                        <i style={{ width: `${probability.value}%` }} />
-                      </small>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mobile-match-actions">
-                  <Link to={`/jogos/${match.id}`}>Abrir analise completa</Link>
-                  <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
-                    Bilhete pronto
-                  </a>
-                </div>
-              </div>
-            </article>
+            <MobileMatchSlide key={match.id} match={match} />
           ))}
           {!visibleMatches.length ? (
             <article className="mobile-match-slide">
@@ -150,15 +79,31 @@ function MobileMatchCarousel() {
           ) : null}
         </div>
 
-        <button
-          aria-label="Proximo jogo"
-          className="mobile-carousel-arrow mobile-carousel-arrow-right"
-          onClick={() => moveCarousel(1)}
-          type="button"
-        >
-          &gt;
-        </button>
       </div>
+
+      {visibleMatches.length ? (
+        <div className="mobile-carousel-controls">
+          <button
+            aria-label="Jogo anterior"
+            disabled={activeIndex === 0}
+            onClick={() => moveCarousel(-1)}
+            type="button"
+          >
+            &lsaquo;
+          </button>
+          <span aria-hidden="true">
+            <i style={{ width: `${((activeIndex + 1) / visibleMatches.length) * 100}%` }} />
+          </span>
+          <button
+            aria-label="Proximo jogo"
+            disabled={activeIndex >= visibleMatches.length - 1}
+            onClick={() => moveCarousel(1)}
+            type="button"
+          >
+            &rsaquo;
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
