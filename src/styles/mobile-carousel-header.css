@@ -4,11 +4,11 @@
 
 @media (max-width: 760px) {
   .mobile-carousel-header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
     align-items: center;
-    min-height: 48px;
+    min-height: 66px;
     padding: 0 12px;
   }
 
@@ -26,8 +26,24 @@
 
   .mobile-carousel-header h2 {
     margin: 3px 0 0;
-    font-size: 1.22rem;
+    overflow: hidden;
+    max-width: 100%;
+    font-size: 1.18rem;
     line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-carousel-header p {
+    overflow: hidden;
+    margin: 5px 0 0;
+    max-width: 100%;
+    color: #9ca7b6;
+    font-size: 0.72rem;
+    font-weight: 780;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .mobile-carousel-header-actions {

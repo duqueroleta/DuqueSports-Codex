@@ -18,6 +18,7 @@ function MobileMatchCarousel() {
     ? matches
     : matches.filter((match) => match.league === activeCompetition);
   const visibleMatches = competitionMatches.filter((match) => matchMarketFilter(match, activeMarket));
+  const activeMatch = visibleMatches[activeIndex] ?? visibleMatches[0] ?? null;
 
   function scrollToStart() {
     carouselRef.current?.scrollTo({ behavior: 'smooth', left: 0 });
@@ -42,6 +43,7 @@ function MobileMatchCarousel() {
     }
 
     const nextIndex = Math.min(Math.max(activeIndex + direction, 0), visibleMatches.length - 1);
+    setActiveIndex(nextIndex);
     carousel.scrollTo({
       behavior: 'smooth',
       left: nextIndex * carousel.clientWidth,
@@ -60,7 +62,7 @@ function MobileMatchCarousel() {
 
   return (
     <section className="mobile-match-carousel" aria-label="Jogos em destaque">
-      <MobileCarouselHeader activeIndex={activeIndex} matchCount={visibleMatches.length} />
+      <MobileCarouselHeader activeIndex={activeIndex} match={activeMatch} matchCount={visibleMatches.length} />
       <CompetitionRail activeCompetition={activeCompetition} onSelect={handleCompetitionSelect} />
       <MobileMarketFilters activeMarket={activeMarket} onSelect={handleMarketSelect} />
 

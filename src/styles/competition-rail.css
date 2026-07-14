@@ -57,6 +57,7 @@
 @media (max-width: 760px) {
   .competition-rail-track {
     gap: 7px;
+    overscroll-behavior-inline: contain;
     padding: 0 12px 1px;
   }
 
@@ -67,6 +68,7 @@
     padding: 0 11px;
     border-radius: 10px;
     text-align: center;
+    white-space: nowrap;
   }
 
   .competition-pill span {
