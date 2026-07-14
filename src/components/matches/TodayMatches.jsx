@@ -14,9 +14,9 @@ function TodayMatches() {
     <section className="today-matches" aria-labelledby="today-matches-title">
       <div className="today-matches-header">
         <div className="section-heading">
-          <span>Centro de analise</span>
+          <span>Centro de análise</span>
           <h2 id="today-matches-title">Jogos do Dia</h2>
-          <p>Partidas prioritarias com leitura estatistica, mercado sugerido e confianca da IA.</p>
+          <p>Partidas prioritárias com leitura estatística, mercado sugerido e confiança da IA.</p>
         </div>
 
         <div className="today-matches-metrics" aria-label="Resumo dos jogos do dia">
@@ -30,7 +30,7 @@ function TodayMatches() {
           </div>
           <div>
             <strong>{formatMatchConfidence(averageConfidence)}</strong>
-            <span>confianca media</span>
+            <span>confiança média</span>
           </div>
         </div>
       </div>

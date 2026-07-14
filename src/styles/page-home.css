@@ -4,6 +4,10 @@
 }
 
 @media (max-width: 760px) {
+  .home-page {
+    overflow: visible;
+  }
+
   .home-page > .best-opportunities,
   .home-page > .hero-section,
   .home-page > .today-matches,

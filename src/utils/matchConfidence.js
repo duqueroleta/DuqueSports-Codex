@@ -28,10 +28,10 @@ function getMatchConfidenceLabel(value) {
   const confidence = normalizeMatchConfidence(value);
 
   if (confidence === null) {
-    return 'Confianca indisponivel';
+    return 'Confiança indisponível';
   }
 
-  return confidence >= 80 ? 'Confianca alta' : 'Confianca moderada';
+  return confidence >= 80 ? 'Confiança alta' : 'Confiança moderada';
 }
 
 function calculateAverageMatchConfidence(matches) {

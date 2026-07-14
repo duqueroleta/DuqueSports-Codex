@@ -15,11 +15,11 @@ assert.equal(normalizeMatchConfidence(Number.NaN), null, 'Non-finite confidence 
 
 assert.equal(formatMatchConfidence(87), '87%', 'Valid confidence should include its unit');
 assert.equal(formatMatchConfidence(undefined), '--', 'Unavailable confidence should have a neutral display');
-assert.equal(getMatchConfidenceLabel(80), 'Confianca alta', 'Scores from eighty should be high confidence');
-assert.equal(getMatchConfidenceLabel(79), 'Confianca moderada', 'Scores below eighty should be moderate');
+assert.equal(getMatchConfidenceLabel(80), 'Confiança alta', 'Scores from eighty should be high confidence');
+assert.equal(getMatchConfidenceLabel(79), 'Confiança moderada', 'Scores below eighty should be moderate');
 assert.equal(
   getMatchConfidenceLabel(undefined),
-  'Confianca indisponivel',
+  'Confiança indisponível',
   'Missing confidence should not be classified as moderate',
 );
 
