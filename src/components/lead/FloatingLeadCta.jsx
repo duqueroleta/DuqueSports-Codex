@@ -11,7 +11,7 @@ function FloatingLeadCta() {
   return (
     <Link className="floating-lead-cta" to="/lista-vip">
       <span>Lista VIP</span>
-      <strong>Receber análises gratuitas</strong>
+      <strong>Receber analises gratuitas</strong>
     </Link>
   );
 }
