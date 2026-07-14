@@ -104,6 +104,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 9px;
     background: rgba(12, 18, 28, 0.76);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 34px rgba(0, 0, 0, 0.17);
   }
 
   .audit-row:last-child {
@@ -156,5 +157,11 @@
     font-size: 0.72rem;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .audits-page-panel > .audit-row {
+    flex-basis: calc(100vw - 24px);
   }
 }

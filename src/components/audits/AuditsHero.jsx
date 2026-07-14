@@ -14,7 +14,7 @@ function AuditsHero({ audits = [] }) {
     <header className="audits-page-hero" aria-labelledby="audits-page-title">
       <div>
         <span>Transparencia estatistica</span>
-        <h1 id="audits-page-title">Historico de sinais</h1>
+        <h1 id="audits-page-title">Auditorias claras em segundos</h1>
       </div>
       <div className="audits-page-summary">
         <span>Precisao media</span>

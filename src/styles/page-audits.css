@@ -10,6 +10,8 @@
   margin: 12px auto 0;
   overflow-x: auto;
   padding-bottom: 2px;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
 
@@ -28,6 +30,8 @@
   cursor: pointer;
   font-size: 0.72rem;
   font-weight: 850;
+  scroll-snap-align: start;
+  white-space: nowrap;
 }
 
 .audits-toolbar .audits-filter-active {
@@ -81,13 +85,52 @@
 
 @media (max-width: 820px) {
   .audits-page {
-    padding: 10px 12px 104px;
+    padding: 10px 0 104px;
+  }
+
+  .audits-toolbar,
+  .audits-results-heading {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .audits-results-heading small::after {
+    content: " - arraste";
   }
 
   .audits-page-panel {
-    overflow: visible;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0 12px 6px;
     border: 0;
     background: transparent;
     box-shadow: none;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 12px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .audits-page-panel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .audits-header {
+    display: none;
+  }
+
+  .audits-page-panel > .audit-row {
+    flex: 0 0 min(88vw, 380px);
+    min-height: 250px;
+    scroll-snap-align: center;
+  }
+
+  .audits-page-panel > .skeleton-card,
+  .audits-page-panel > .error-state,
+  .audits-page-panel > .search-empty {
+    flex: 0 0 calc(100vw - 24px);
   }
 }
