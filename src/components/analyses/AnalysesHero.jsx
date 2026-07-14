@@ -9,7 +9,7 @@ function AnalysesHero({ analysis }) {
     <header className="analyses-page-hero" aria-labelledby="analyses-page-title">
       <div>
         <span>Biblioteca da IA</span>
-        <h1 id="analyses-page-title">Analises processadas</h1>
+        <h1 id="analyses-page-title">Analises prontas para decidir</h1>
       </div>
       <div className="analyses-page-summary">
         <span>Score medio top 5</span>

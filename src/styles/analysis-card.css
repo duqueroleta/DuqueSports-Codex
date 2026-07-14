@@ -199,10 +199,26 @@
   .analysis-library-card {
     gap: 8px;
     padding: 12px;
+    border-radius: 16px;
   }
 
   .analysis-library-risk {
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
+  }
+
+  .analysis-library-card > a {
+    min-height: 44px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .analyses-grid > .analysis-library-card {
+    flex-basis: calc(100vw - 24px);
+  }
+
+  .analysis-library-pick div > strong {
+    font-size: 0.82rem;
   }
 }
 

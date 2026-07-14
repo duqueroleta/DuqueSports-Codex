@@ -81,6 +81,8 @@
   .analyses-page-hero {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
     padding-bottom: 10px;
   }
 
