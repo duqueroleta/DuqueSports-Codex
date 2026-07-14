@@ -41,7 +41,7 @@ function MatchDetailHero({ match }) {
         </div>
 
         <div
-          aria-label={`Duque Score ${confidence ?? 'indisponivel'}`}
+          aria-label={`Duque Score ${confidence ?? 'indisponível'}`}
           className="match-detail-score"
           style={{ '--detail-score-progress': `${confidence ?? 0}%` }}
         >
@@ -66,14 +66,14 @@ function MatchDetailHero({ match }) {
           <p>{match.insight}</p>
         </div>
         <small>
-          Odd media
+          Odd média
           <strong>{formatMatchOdds(match.odds)}</strong>
         </small>
       </div>
 
-      <div className="match-detail-kpis" aria-label="Resumo rapido da analise">
+      <div className="match-detail-kpis" aria-label="Resumo rápido da análise">
         <span>
-          <small>Confianca</small>
+          <small>Confiança</small>
           <strong>{confidence ?? '--'}</strong>
         </span>
         <span>

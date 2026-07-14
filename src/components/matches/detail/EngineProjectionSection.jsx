@@ -13,14 +13,14 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
     return (
       <section
         aria-busy="true"
-        aria-label="Projecao estatistica em processamento"
+        aria-label="Projeção estatística em processamento"
         aria-live="polite"
         className="engine-projection-state engine-projection-state-loading"
       >
         <div>
           <span>DUQUE Score Engine</span>
-          <strong>Processando projecao estatistica</strong>
-          <p>Calibrando probabilidades, confianca e ranking de oportunidade.</p>
+          <strong>Processando projeção estatística</strong>
+          <p>Calibrando probabilidades, confiança e ranking de oportunidade.</p>
         </div>
         <div className="engine-projection-state-bars" aria-hidden="true">
           <i />
@@ -34,14 +34,14 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
   if (state === ENGINE_PROJECTION_SECTION_STATES.ERROR) {
     return (
       <section
-        aria-label="Projecao estatistica indisponivel"
+        aria-label="Projeção estatística indisponível"
         className="engine-projection-state engine-projection-state-error"
         role="alert"
       >
         <div>
           <span>DUQUE Score Engine</span>
-          <strong>Projecao temporariamente indisponivel</strong>
-          <p>Os dados principais da partida continuam disponiveis para consulta.</p>
+          <strong>Projeção temporariamente indisponível</strong>
+          <p>Os dados principais da partida continuam disponíveis para consulta.</p>
         </div>
         <button onClick={onRetry} type="button">Tentar novamente</button>
       </section>

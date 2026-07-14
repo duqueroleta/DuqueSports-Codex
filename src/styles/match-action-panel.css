@@ -1,6 +1,6 @@
 .detail-page .detail-action-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
+  grid-template-columns: minmax(0, 1fr) auto 260px;
   gap: 16px;
   align-items: center;
   width: min(1240px, 100%);
@@ -30,6 +30,19 @@
   margin: 8px 0 0;
   color: #aeb8c5;
   line-height: 1.55;
+}
+
+.detail-action-panel > small {
+  justify-self: end;
+  padding: 8px 10px;
+  border: 1px solid rgba(217, 180, 91, 0.24);
+  border-radius: 999px;
+  color: var(--color-gold-soft);
+  background: rgba(217, 180, 91, 0.07);
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .detail-action-panel a {
@@ -63,7 +76,8 @@
   }
 
   .detail-action-panel span,
-  .detail-action-panel p {
+  .detail-action-panel p,
+  .detail-action-panel > small {
     display: none;
   }
 

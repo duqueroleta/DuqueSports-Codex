@@ -12,7 +12,7 @@ function MatchProbabilitiesPanel({ probabilities = [] }) {
     <section className="detail-probabilities" id="probabilidades" aria-label="Probabilidades principais">
       <header>
         <span>Probabilidades calibradas</span>
-        <strong>Cenario estatistico</strong>
+        <strong>Cenário estatístico</strong>
       </header>
       <div className="detail-probabilities-grid">
         {normalizedProbabilities.map((probability) => (

@@ -3,12 +3,13 @@ import '../../../styles/match-action-panel.css';
 
 function MatchActionPanel({ signal, betslipUrl = AFFILIATE_LINKS.readyBetslip }) {
   return (
-    <section className="detail-action-panel" aria-label="Acoes da analise">
+    <section className="detail-action-panel" aria-label="Ações da análise">
       <div>
-        <span>Decisao rapida</span>
+        <span>Decisão rápida</span>
         <strong>{signal}</strong>
-        <p>Abra o bilhete somente se a leitura fizer sentido para sua estrategia.</p>
+        <p>Abra o bilhete somente se a leitura fizer sentido para sua estratégia.</p>
       </div>
+      <small>Entrada sugerida pelo modelo</small>
       <a href={betslipUrl} rel="noreferrer" target="_blank">
         Abrir bilhete pronto
       </a>

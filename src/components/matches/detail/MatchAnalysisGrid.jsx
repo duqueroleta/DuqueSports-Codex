@@ -10,28 +10,28 @@ function getAnalysisCards(match) {
     {
       label: 'Mercado recomendado',
       title: match.signal,
-      text: `Odd atual ${odds} com confianca operacional de ${confidence}.`,
+      text: `Odd atual ${odds} com confiança operacional de ${confidence}.`,
       variant: 'highlight',
     },
     {
-      label: 'Projecao estatistica',
-      title: `${confidence} de confianca operacional`,
-      text: 'Score composto por forma recente, volume ofensivo, pressao territorial e preco medio do mercado.',
+      label: 'Projeção estatística',
+      title: `${confidence} de confiança operacional`,
+      text: 'Score composto por forma recente, volume ofensivo, pressão territorial e preço médio do mercado.',
     },
     {
-      label: 'Cenario provavel',
+      label: 'Cenário provável',
       title: match.signal,
       text: match.insight,
     },
     {
-      label: 'Gestao de risco',
-      title: `Odd media ${odds}`,
-      text: 'Leitura indicada para estudo previo. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
+      label: 'Gestão de risco',
+      title: `Odd média ${odds}`,
+      text: 'Leitura indicada para estudo prévio. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
     },
   ];
   const metricCards = normalizeMatchMetrics(match.metrics).map((metric) => ({
     key: `metric-${metric}`,
-    label: 'Indicador avancado',
+    label: 'Indicador avançado',
     title: metric,
     text: 'Indicador utilizado para sustentar a leitura da IA.',
     variant: 'compact',
@@ -48,9 +48,9 @@ function MatchAnalysisGrid({ match }) {
   const cards = getAnalysisCards(match);
 
   return (
-    <section className="detail-analysis" id="fundamentos" aria-label="Analise completa do jogo">
+    <section className="detail-analysis" id="fundamentos" aria-label="Análise completa do jogo">
       <header>
-        <span>Fundamentos estatisticos</span>
+        <span>Fundamentos estatísticos</span>
         <strong>Por que esta leitura?</strong>
       </header>
       <div className="detail-grid">
