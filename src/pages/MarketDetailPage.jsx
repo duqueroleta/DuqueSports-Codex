@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
-import DetailHero from '../components/detail/DetailHero.jsx';
 import DetailPageState from '../components/detail/DetailPageState.jsx';
 import { DETAIL_PAGE_STATES, resolveDetailPageState } from '../components/detail/detailPageState.js';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
+import MarketDetailHero from '../components/markets/detail/MarketDetailHero.jsx';
+import MarketDetailNav from '../components/markets/detail/MarketDetailNav.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
 import MarketRecommendationPanel from '../components/markets/detail/MarketRecommendationPanel.jsx';
+import MarketRelatedOpportunities from '../components/markets/detail/MarketRelatedOpportunities.jsx';
 import { runMarketDetailIntelligence } from '../engine/batch/MarketDetailIntelligenceService.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { getBatchAnalysis } from '../services/batchAnalysisService.js';
@@ -34,21 +36,16 @@ function MarketDetailPage() {
     : null;
 
   return (
-    <main className="detail-page">
-      <DetailHero
-        backHref="/mercados"
-        backLabel="Voltar para Mercados"
-        description={market.insight}
-        eyebrow="Radar de mercado"
-        scoreCaption={`Tendência ${market.trend}`}
-        scoreLabel="Força IA"
-        scoreValue={`${market.strength}%`}
-        title={market.name}
-        titleId="market-detail-title"
-      />
-
-      <MarketIntelligencePanel intelligence={marketIntelligence} />
-      <MarketAuditPanel audit={marketIntelligence?.audit} />
+    <main className="detail-page market-detail-page-v2">
+      <MarketDetailHero market={market} />
+      <MarketDetailNav />
+      <MarketRelatedOpportunities intelligence={marketIntelligence} />
+      <div id="inteligencia-mercado">
+        <MarketIntelligencePanel intelligence={marketIntelligence} />
+      </div>
+      <div id="auditoria-mercado">
+        <MarketAuditPanel audit={marketIntelligence?.audit} />
+      </div>
       <MarketRecommendationPanel market={market} />
     </main>
   );

@@ -52,6 +52,20 @@
   }
 
   .market-audit-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-columns: 130px;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .market-audit-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .market-audit-grid article {
+    scroll-snap-align: start;
   }
 }

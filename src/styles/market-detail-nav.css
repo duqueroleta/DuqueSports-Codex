@@ -1,0 +1,39 @@
+.market-detail-nav {
+  display: flex;
+  gap: 7px;
+  width: min(1240px, 100%);
+  margin: 10px auto 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.market-detail-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.market-detail-nav a {
+  flex: 1 0 auto;
+  min-height: 36px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #aeb8c5;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+}
+
+.market-detail-nav a:first-child {
+  border-color: rgba(32, 246, 164, 0.24);
+  color: var(--color-neon);
+  background: rgba(32, 246, 164, 0.06);
+}
+
+@media (max-width: 520px) {
+  .market-detail-nav a {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+  }
+}

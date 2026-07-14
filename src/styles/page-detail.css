@@ -26,6 +26,10 @@
   backdrop-filter: blur(18px);
 }
 
+.market-detail-page-v2 > div[id] {
+  scroll-margin-top: 72px;
+}
+
 .detail-empty {
   position: relative;
   z-index: 1;

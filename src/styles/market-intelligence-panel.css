@@ -6,6 +6,7 @@
   margin: 18px auto 0;
   padding: 18px;
   border-radius: var(--radius-xl);
+  scroll-margin-top: 72px;
   background:
     radial-gradient(circle at top right, rgba(32, 246, 164, 0.14), transparent 42%),
     rgba(12, 18, 28, 0.76);
@@ -51,8 +52,25 @@
 }
 
 @media (max-width: 820px) {
-  .detail-page .market-intelligence-panel,
-  .market-intelligence-grid {
+  .detail-page .market-intelligence-panel {
     grid-template-columns: 1fr;
+  }
+
+  .market-intelligence-grid {
+    grid-auto-columns: min(72vw, 270px);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .market-intelligence-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .market-intelligence-grid article {
+    scroll-snap-align: start;
   }
 }
