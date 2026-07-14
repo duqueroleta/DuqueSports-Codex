@@ -10,6 +10,10 @@ const preferenceKeys = [
   'duque.filters.markets',
   'duque.filters.audits',
   'duque.filters.live',
+  'duque.profile.competitions',
+  'duque.profile.experience',
+  'duque.profile.markets',
+  'duque.profile.userType',
   'duque.searchTerm',
 ];
 
@@ -24,15 +28,15 @@ function ResetPreferencesPanel() {
     clearFavorites();
     setSearchTerm('');
     setConfirming(false);
-    showToast('Preferências limpas com sucesso.');
+    showToast('Preferencias limpas com sucesso.');
   }
 
   return (
     <section className="reset-preferences" aria-labelledby="reset-preferences-title">
       <div>
-        <span>Preferências</span>
+        <span>Preferencias</span>
         <h2 id="reset-preferences-title">Limpar dados salvos</h2>
-        <p>Remove busca, filtros persistidos e favoritos salvos neste navegador.</p>
+        <p>Remove busca, filtros persistidos, favoritos e preferencias salvas neste navegador.</p>
       </div>
 
       <div className="reset-preferences-actions">
@@ -47,7 +51,7 @@ function ResetPreferencesPanel() {
           </>
         ) : (
           <button className="reset-button reset-button-primary" onClick={() => setConfirming(true)} type="button">
-            Limpar preferências
+            Limpar preferencias
           </button>
         )}
       </div>
