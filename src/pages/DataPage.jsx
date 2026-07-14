@@ -23,7 +23,7 @@ import {
 const sources = [
   {
     id: 1,
-    name: 'Partidas e calendário',
+    name: 'Partidas e calendario',
     coverage: '128 ligas',
     freshness: '5 min',
     quality: '98%',
@@ -43,17 +43,65 @@ const sources = [
     coverage: '18 casas',
     freshness: '2 min',
     quality: '94%',
-    status: 'Estável',
+    status: 'Estavel',
   },
   {
     id: 4,
-    name: 'Auditoria histórica',
+    name: 'Auditoria historica',
     coverage: '12.840 sinais',
-    freshness: 'Diário',
+    freshness: 'Diario',
     quality: '97%',
     status: 'Validado',
   },
 ];
+
+const pipelineSteps = [
+  {
+    label: 'Entrada',
+    value: 'Mocks v1',
+    description: 'Partidas, mercados, live e auditorias seguem contratos internos.',
+  },
+  {
+    label: 'Validacao',
+    value: 'Preflight',
+    description: 'O engine bloqueia entradas criticas antes da modelagem.',
+  },
+  {
+    label: 'Modelagem',
+    value: 'Score',
+    description: 'Probabilidades, oportunidades e snapshots sao calculados em lote.',
+  },
+  {
+    label: 'Entrega',
+    value: 'UI/API',
+    description: 'Dados sao exibidos na interface e preparados para contratos HTTP.',
+  },
+];
+
+function getDataHealthCards({ dataSource, executiveDashboard, executionStatus }) {
+  return [
+    {
+      label: 'Cobertura atual',
+      value: dataSource ? `${dataSource.totals.matches} jogos` : '--',
+      description: dataSource ? `${dataSource.totals.markets} mercados monitorados` : 'carregando engine',
+    },
+    {
+      label: 'Qualidade media',
+      value: executiveDashboard ? `${executiveDashboard.quality.averageAuditHitRate}%` : '96%',
+      description: 'hit rate medio das auditorias e leituras internas',
+    },
+    {
+      label: 'Status do motor',
+      value: executionStatus?.status ?? 'Sincronizando',
+      description: executionStatus?.isTerminal ? 'execucao finalizada' : 'pipeline em avaliacao',
+    },
+    {
+      label: 'Modo de dados',
+      value: dataSource?.provider ?? 'Mock',
+      description: 'sem API externa conectada nesta fase',
+    },
+  ];
+}
 
 function DataPage() {
   const { searchTerm } = useSearch();
@@ -87,25 +135,55 @@ function DataPage() {
   const preflight = engineExecution?.preflight ?? null;
   const apiResponse = engineExecution?.apiResponse ?? null;
   const dataSource = engineExecution?.dataSource ?? null;
+  const healthCards = getDataHealthCards({ dataSource, executiveDashboard, executionStatus });
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
     <main className="data-page">
       <section className="data-page-hero" aria-labelledby="data-page-title">
-        <div>
-          <span>Camada técnica</span>
-          <h1 id="data-page-title">Dados, cobertura e integridade estatística</h1>
+        <div className="data-page-hero-copy">
+          <span>Data command center</span>
+          <h1 id="data-page-title">Qualidade, cobertura e rastreabilidade do DUQUE Score</h1>
           <p>
-            Visão das bases que alimentam o Duque Score, com qualidade, atualização e
-            rastreabilidade operacional.
+            Uma visao executiva das bases que alimentam o motor estatistico, separando o que ja
+            esta validado, o que e mockado e o que esta pronto para evoluir para producao.
           </p>
         </div>
 
-        <aside className="data-page-summary">
-          <span>Integridade média</span>
+        <aside className="data-page-summary" aria-label="Resumo de integridade dos dados">
+          <span>Integridade media</span>
           <strong>96%</strong>
-          <p>bases principais em estado saudável</p>
+          <p>bases principais em estado saudavel</p>
+          <small>Mocks oficiais ate a integracao de APIs</small>
         </aside>
+      </section>
+
+      <section className="data-health-grid" aria-label="Indicadores principais da camada de dados">
+        {healthCards.map((card) => (
+          <article key={card.label}>
+            <span>{card.label}</span>
+            <strong>{card.value}</strong>
+            <p>{card.description}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="data-pipeline" aria-label="Pipeline de processamento dos dados">
+        <div className="data-pipeline-header">
+          <span>Pipeline operacional</span>
+          <strong>Do dado bruto ao sinal estatistico</strong>
+        </div>
+
+        <div className="data-pipeline-steps">
+          {pipelineSteps.map((step, index) => (
+            <article key={step.label}>
+              <i>{index + 1}</i>
+              <span>{step.label}</span>
+              <strong>{step.value}</strong>
+              <p>{step.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       {import.meta.env.DEV ? <SportsDataDiagnostics /> : null}
