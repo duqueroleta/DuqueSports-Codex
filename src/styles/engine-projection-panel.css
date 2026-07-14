@@ -63,6 +63,8 @@
     grid-template-columns: none;
     overflow-x: auto;
     padding-bottom: 4px;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
@@ -73,5 +75,35 @@
 
   .engine-projection-metrics article {
     scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 520px) {
+  .detail-page .engine-projection-panel {
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .engine-projection-panel strong {
+    font-size: 1.08rem;
+  }
+
+  .engine-projection-panel p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .engine-projection-metrics {
+    grid-auto-columns: 116px;
+  }
+
+  .engine-projection-metrics article {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .engine-projection-metrics article strong {
+    font-size: 1.18rem;
   }
 }

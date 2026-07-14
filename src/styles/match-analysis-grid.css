@@ -63,6 +63,8 @@
     grid-template-columns: none;
     overflow-x: auto;
     padding: 0 1px 8px;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
@@ -78,5 +80,27 @@
 
   .detail-card strong {
     margin-top: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .detail-card {
+    min-height: 176px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .detail-card span {
+    font-size: 0.64rem;
+  }
+
+  .detail-card strong {
+    font-size: 1.15rem;
+  }
+
+  .detail-card p {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    line-height: 1.5;
   }
 }
