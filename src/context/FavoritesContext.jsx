@@ -30,19 +30,17 @@ function FavoritesProvider({ children }) {
   }, [favoriteMarkets]);
 
   function toggleFavorite(type, id) {
-    const updater = (items) => {
-      const alreadySaved = items.includes(id);
-      showToast(alreadySaved ? 'Favorito removido.' : 'Favorito salvo.');
-
-      return alreadySaved ? items.filter((item) => item !== id) : [...items, id];
-    };
+    const currentItems = type === 'match' ? favoriteMatches : favoriteMarkets;
+    const alreadySaved = currentItems.includes(id);
+    const nextItems = alreadySaved ? currentItems.filter((item) => item !== id) : [...currentItems, id];
 
     if (type === 'match') {
-      setFavoriteMatches(updater);
-      return;
+      setFavoriteMatches(nextItems);
+    } else {
+      setFavoriteMarkets(nextItems);
     }
 
-    setFavoriteMarkets(updater);
+    showToast(alreadySaved ? 'Favorito removido.' : 'Favorito salvo.');
   }
 
   function isFavorite(type, id) {
