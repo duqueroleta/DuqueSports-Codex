@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import {
   formatLiveMinute,
@@ -7,10 +8,27 @@ import {
 } from '../../utils/liveMatchPresentation.js';
 import '../../styles/live-match-card.css';
 
+const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
+
+function splitScore(score) {
+  const [homeScore = '-', awayScore = '-'] = String(score ?? '-')
+    .split('-')
+    .map((value) => value.trim());
+
+  return { awayScore, homeScore };
+}
+
 function LiveMatchCard({ match }) {
   const stage = getLiveMatchStage(match.minute);
   const pressureTone = getLivePressureTone(match.pressure);
   const pressureDisplay = formatLivePressure(match.pressure);
+  const { awayScore, homeScore } = splitScore(match.score);
+  const analysisPath = `/jogos/${match.matchId ?? match.id}`;
+  const quickStats = [
+    { label: 'Finalizacoes', value: match.shots ?? '--' },
+    { label: 'xG live', value: match.xg ?? '--' },
+    { label: 'Escanteios', value: match.corners ?? '--' },
+  ];
 
   return (
     <article className="live-match-card">
@@ -23,20 +41,25 @@ function LiveMatchCard({ match }) {
       </div>
 
       <div className="live-score">
-        <span>
+        <div className="live-team">
           <TeamCrest size="small" teamName={match.home} />
-          {match.home}
-        </span>
-        <strong>{match.score}</strong>
-        <span>
-          {match.away}
+          <span>{match.home}</span>
+        </div>
+        <strong>
+          <span>{homeScore}</span>
+          <i>:</i>
+          <span>{awayScore}</span>
+        </strong>
+        <div className="live-team live-team-away">
           <TeamCrest size="small" teamName={match.away} />
-        </span>
+          <span>{match.away}</span>
+        </div>
       </div>
 
       <div className="live-context">
         <span>{stage}</span>
         <span>{pressureTone}</span>
+        <span>{match.trend ?? 'Tendencia ativa'}</span>
       </div>
 
       <div className="live-pressure">
@@ -49,9 +72,26 @@ function LiveMatchCard({ match }) {
         </div>
       </div>
 
+      <div className="live-stats" aria-label="Estatisticas live resumidas">
+        {quickStats.map((stat) => (
+          <div key={stat.label}>
+            <span>{stat.label}</span>
+            <strong>{stat.value}</strong>
+          </div>
+        ))}
+      </div>
+
       <div className="live-alert">
         <span>{match.alert}</span>
         <strong>{match.signal}</strong>
+        <small>{match.market ?? 'Mercado em monitoramento'}</small>
+      </div>
+
+      <div className="live-actions">
+        <Link to={analysisPath}>Abrir analise</Link>
+        <a href={BETSLIP_URL} rel="noreferrer" target="_blank">
+          Bilhete pronto
+        </a>
       </div>
     </article>
   );
