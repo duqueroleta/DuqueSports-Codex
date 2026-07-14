@@ -29,13 +29,13 @@ function AnalysisCard({ opportunity, rank }) {
 
       <div className="analysis-library-metrics">
         <p><strong>{opportunity.probability}%</strong><span>Probabilidade</span></p>
-        <p><strong>{opportunity.confidence}</strong><span>Confianca</span></p>
+        <p><strong>{opportunity.confidence}</strong><span>Confiança</span></p>
         <p><strong>{opportunity.dataQualityScore}</strong><span>Qualidade</span></p>
       </div>
 
       <p className="analysis-library-risk">{opportunity.risk}</p>
 
-      <Link to={`/jogos/${opportunity.matchId}`}>Abrir relatorio completo</Link>
+      <Link to={`/jogos/${opportunity.matchId}`}>Abrir relatório completo</Link>
     </article>
   );
 }

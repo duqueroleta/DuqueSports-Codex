@@ -67,12 +67,12 @@ function AnalysesPage() {
       <div className="analyses-results-heading">
         <div>
           <span>Ranking da IA</span>
-          <strong>Relatorios disponiveis</strong>
+          <strong>Relatórios disponíveis</strong>
         </div>
-        <small>{filteredOpportunities.length} analises</small>
+        <small>{filteredOpportunities.length} análises</small>
       </div>
 
-      <section className="analyses-grid" aria-label="Biblioteca de analises">
+      <section className="analyses-grid" aria-label="Biblioteca de análises">
         {isLoading ? <SkeletonGrid count={6} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error
@@ -82,8 +82,8 @@ function AnalysesPage() {
           : null}
         {!isLoading && !error && !visibleOpportunities.length ? (
           <div className="analyses-empty">
-            <strong>Nenhuma analise encontrada</strong>
-            <p>Ajuste os filtros ou a busca para consultar outros relatorios.</p>
+            <strong>Nenhuma análise encontrada</strong>
+            <p>Ajuste os filtros ou a busca para consultar outros relatórios.</p>
           </div>
         ) : null}
       </section>
@@ -94,7 +94,7 @@ function AnalysesPage() {
           onClick={() => setVisibleCount((count) => count + 6)}
           type="button"
         >
-          Mostrar mais analises
+          Mostrar mais análises
         </button>
       ) : null}
     </main>

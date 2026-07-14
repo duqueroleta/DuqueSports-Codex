@@ -25,7 +25,7 @@ function LiveMatchCard({ match }) {
   const { awayScore, homeScore } = splitScore(match.score);
   const analysisPath = `/jogos/${match.matchId ?? match.id}`;
   const quickStats = [
-    { label: 'Finalizacoes', value: match.shots ?? '--' },
+    { label: 'Finalizações', value: match.shots ?? '--' },
     { label: 'xG live', value: match.xg ?? '--' },
     { label: 'Escanteios', value: match.corners ?? '--' },
   ];
@@ -59,20 +59,20 @@ function LiveMatchCard({ match }) {
       <div className="live-context">
         <span>{stage}</span>
         <span>{pressureTone}</span>
-        <span>{match.trend ?? 'Tendencia ativa'}</span>
+        <span>{match.trend ?? 'Tendência ativa'}</span>
       </div>
 
       <div className="live-pressure">
         <div>
-          <span>Pressao ofensiva</span>
+          <span>Pressão ofensiva</span>
           <strong>{pressureDisplay}</strong>
         </div>
-        <div className="live-pressure-bar" aria-label={`Pressao ofensiva: ${pressureDisplay}`}>
+        <div className="live-pressure-bar" aria-label={`Pressão ofensiva: ${pressureDisplay}`}>
           <span style={{ width: `${match.pressure ?? 0}%` }} />
         </div>
       </div>
 
-      <div className="live-stats" aria-label="Estatisticas live resumidas">
+      <div className="live-stats" aria-label="Estatísticas live resumidas">
         {quickStats.map((stat) => (
           <div key={stat.label}>
             <span>{stat.label}</span>
@@ -88,7 +88,7 @@ function LiveMatchCard({ match }) {
       </div>
 
       <div className="live-actions">
-        <Link to={analysisPath}>Abrir analise</Link>
+        <Link to={analysisPath}>Abrir análise</Link>
         <a href={BETSLIP_URL} rel="noreferrer" target="_blank">
           Bilhete pronto
         </a>

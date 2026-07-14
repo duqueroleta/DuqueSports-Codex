@@ -1,13 +1,13 @@
 const analysisFilters = [
   { label: 'Todos', value: 'all' },
   { label: 'Elite', value: 'elite' },
-  { label: 'Alta confianca', value: 'confidence' },
+  { label: 'Alta confiança', value: 'confidence' },
   { label: 'Menor risco', value: 'risk' },
 ];
 
 function AnalysisToolbar({ activeFilter, onFilterChange, onSortChange, sortBy }) {
   return (
-    <section className="analyses-toolbar" aria-label="Filtros de analises">
+    <section className="analyses-toolbar" aria-label="Filtros de análises">
       <div>
         {analysisFilters.map((filter) => (
           <button
@@ -26,7 +26,7 @@ function AnalysisToolbar({ activeFilter, onFilterChange, onSortChange, sortBy })
         <select onChange={(event) => onSortChange(event.target.value)} value={sortBy}>
           <option value="score">Melhor score</option>
           <option value="probability">Maior probabilidade</option>
-          <option value="confidence">Maior confianca</option>
+          <option value="confidence">Maior confiança</option>
         </select>
       </label>
     </section>

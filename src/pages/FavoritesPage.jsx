@@ -61,7 +61,7 @@ function FavoritesPage() {
       description: topMatch ? topMatch.signal : 'salve jogos para comparar',
     },
     {
-      label: 'Forca mercado',
+      label: 'Força mercado',
       value: topMarket ? `${topMarket.strength}%` : '--',
       description: topMarket ? topMarket.risk : 'salve mercados para monitorar',
     },
@@ -72,9 +72,9 @@ function FavoritesPage() {
       <section className="favorites-hero" aria-labelledby="favorites-title">
         <div className="favorites-hero-copy">
           <span>Radar pessoal</span>
-          <h1 id="favorites-title">Seus jogos e mercados em um so lugar</h1>
+          <h1 id="favorites-title">Seus jogos e mercados em um só lugar</h1>
           <p>
-            Acompanhe o que foi salvo, compare prioridades e volte rapidamente para a analise ou
+            Acompanhe o que foi salvo, compare prioridades e volte rapidamente para a análise ou
             para o bilhete quando a oportunidade estiver madura.
           </p>
         </div>
@@ -82,8 +82,8 @@ function FavoritesPage() {
         <aside className="favorites-summary" aria-label="Resumo de favoritos">
           <span>Itens ativos</span>
           <strong>{totalFavorites}</strong>
-          <p>{hasFavorites ? 'favoritos em observacao' : 'salve jogos e mercados no radar'}</p>
-          <small>{savedMatches.length + savedMarkets.length} visiveis no filtro atual</small>
+          <p>{hasFavorites ? 'favoritos em observação' : 'salve jogos e mercados no radar'}</p>
+          <small>{savedMatches.length + savedMarkets.length} visíveis no filtro atual</small>
         </aside>
       </section>
 
@@ -97,26 +97,26 @@ function FavoritesPage() {
         ))}
       </section>
 
-      <section className="favorites-command" aria-label="Acao rapida dos favoritos">
+      <section className="favorites-command" aria-label="Ação rápida dos favoritos">
         <div>
-          <span>Proxima melhor leitura</span>
+          <span>Próxima melhor leitura</span>
           <strong>{topMatch ? `${topMatch.home} x ${topMatch.away}` : 'Nenhum jogo salvo ainda'}</strong>
           <p>
             {topMatch
               ? `${topMatch.signal} com ${topMatch.confidence}% de score e odd ${topMatch.odds}.`
-              : 'Salve um jogo na pagina Jogos para montar seu radar pessoal.'}
+              : 'Salve um jogo na página Jogos para montar seu radar pessoal.'}
           </p>
         </div>
 
         <aside>
           <span>Mercado em foco</span>
           <strong>{topMarket?.name ?? 'Sem mercado salvo'}</strong>
-          <p>{topMarket ? `${topMarket.strength}% de forca | risco ${topMarket.risk}` : 'Salve mercados fortes para comparar depois.'}</p>
+          <p>{topMarket ? `${topMarket.strength}% de força | risco ${topMarket.risk}` : 'Salve mercados fortes para comparar depois.'}</p>
         </aside>
 
         <div className="favorites-command-actions">
           <Link aria-disabled={!topMatch} className={!topMatch ? 'favorites-action-disabled' : ''} to={topMatch ? `/jogos/${topMatch.id}` : '#'}>
-            Abrir analise
+            Abrir análise
           </Link>
           <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
             Bilhete pronto

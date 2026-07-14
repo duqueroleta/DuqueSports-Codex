@@ -9,14 +9,14 @@ import '../styles/page-live.css';
 import { calculateAverageLivePressure, formatLivePressure } from '../utils/liveMatchPresentation.js';
 import { itemMatchesSearch } from '../utils/search.js';
 
-const filters = ['Todos', 'Pressao alta', 'Gols', 'Escanteios', 'Reta final'];
+const filters = ['Todos', 'Pressão alta', 'Gols', 'Escanteios', 'Reta final'];
 
 function filterLiveMatches(match, filter) {
   if (filter === 'Todos') {
     return true;
   }
 
-  if (filter === 'Pressao alta') {
+  if (filter === 'Pressão alta' || filter === 'Pressao alta') {
     return match.pressure >= 78;
   }
 
@@ -56,7 +56,7 @@ function LivePage() {
         <div className="live-page-hero-copy">
           <span>Central ao vivo</span>
           <h1 id="live-page-title">Sinais ao vivo em segundos</h1>
-          <p>Placar, minuto, pressao e mercado recomendado em uma leitura rapida.</p>
+          <p>Placar, minuto, pressão e mercado recomendado em uma leitura rápida.</p>
         </div>
 
         <aside className="live-page-summary" aria-label="Resumo do monitor ao vivo">
@@ -66,7 +66,7 @@ function LivePage() {
             <small>zona quente</small>
           </div>
           <div>
-            <span>Pressao media</span>
+            <span>Pressão média</span>
             <strong>{formatLivePressure(averagePressure)}</strong>
             <small>{liveMatches.length} jogos live</small>
           </div>

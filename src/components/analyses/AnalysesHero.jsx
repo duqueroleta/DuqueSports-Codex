@@ -9,16 +9,16 @@ function AnalysesHero({ analysis }) {
     <header className="analyses-page-hero" aria-labelledby="analyses-page-title">
       <div>
         <span>Biblioteca da IA</span>
-        <h1 id="analyses-page-title">Analises prontas para decidir</h1>
+        <h1 id="analyses-page-title">Análises prontas para decidir</h1>
       </div>
       <div className="analyses-page-summary">
-        <span>Score medio top 5</span>
+        <span>Score médio top 5</span>
         <strong>{analysis?.averageOpportunityScore ?? '--'}</strong>
         <small>{analysis?.analyzedMatches ?? 0} jogos</small>
       </div>
       <div className="analyses-quick-metrics">
         <p><strong>{eliteCount}</strong><span>Elite</span></p>
-        <p><strong>{highConfidenceCount}</strong><span>Alta confianca</span></p>
+        <p><strong>{highConfidenceCount}</strong><span>Alta confiança</span></p>
       </div>
     </header>
   );
