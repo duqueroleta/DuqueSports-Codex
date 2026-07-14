@@ -5,10 +5,10 @@ function AppFooter() {
     <footer className="app-footer">
       <div>
         <strong>Duque Score</strong>
-        <p>Analises estatisticas gratuitas para estudo de jogos, mercados e sinais de futebol.</p>
+        <p>Análises estatísticas gratuitas para estudo de jogos, mercados e sinais de futebol.</p>
       </div>
       <p>
-        As leituras exibidas sao informativas e baseadas em dados mockados nesta fase. Nenhum sinal
+        As leituras exibidas são informativas e baseadas em dados mockados nesta fase. Nenhum sinal
         representa garantia de resultado.
       </p>
     </footer>

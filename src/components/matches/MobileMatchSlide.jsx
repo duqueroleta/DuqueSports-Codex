@@ -80,7 +80,7 @@ function MobileMatchSlide({ match }) {
             <span>Leitura principal</span>
             <strong>{match.signal}</strong>
             <p>{match.insight}</p>
-            <small>Odd media <b>{formatMatchOdds(match.odds)}</b></small>
+            <small>Odd média <b>{formatMatchOdds(match.odds)}</b></small>
           </div>
         </div>
 

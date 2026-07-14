@@ -18,14 +18,14 @@ function StrongMarkets() {
         <div className="section-heading strong-markets-heading">
           <span>Radar de valor</span>
           <h2 id="strong-markets-title">Mercados Fortes</h2>
-          <p>Ranking dos mercados com melhor combinacao entre forca estatistica, odd e controle de risco.</p>
+          <p>Ranking dos mercados com melhor combinação entre força estatística, odd e controle de risco.</p>
         </div>
 
         <aside className="strong-markets-summary" aria-label="Resumo dos mercados fortes">
           <span>Melhor sinal agora</span>
           <strong>{topMarket?.name ?? 'Aguardando leitura'}</strong>
           <div>
-            <p>{averageStrength}% forca media</p>
+            <p>{averageStrength}% força média</p>
             <p>{lowRiskCount} mercados com risco controlado</p>
           </div>
         </aside>
