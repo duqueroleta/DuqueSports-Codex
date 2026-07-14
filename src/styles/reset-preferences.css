@@ -72,6 +72,10 @@
 @media (max-width: 760px) {
   .reset-preferences {
     grid-template-columns: 1fr;
+    width: calc(100% - 20px);
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 18px;
   }
 
   .reset-preferences-actions,
