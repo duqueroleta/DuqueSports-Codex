@@ -9,7 +9,7 @@ function AppLayout() {
   return (
     <div className="app-layout">
       <a className="skip-link" href="#main-content">
-        Pular para conteudo
+        Pular para conteúdo
       </a>
       <Sidebar />
       <div className="app-content" id="main-content">
