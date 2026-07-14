@@ -42,6 +42,11 @@ function MobileMatchSlide({ match }) {
           </div>
         </header>
 
+        <div className="mobile-match-card-badge">
+          <span>Resumo IA</span>
+          <strong>{getMatchConfidenceLabel(match.confidence)}</strong>
+        </div>
+
         <div className="mobile-matchup">
           <div>
             <TeamCrest teamName={match.home} />
@@ -84,8 +89,15 @@ function MobileMatchSlide({ match }) {
         </div>
 
         <div className="mobile-match-actions-v2">
-          <Link to={`/jogos/${match.id}`}>Analise completa</Link>
-          <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">Bilhete pronto</a>
+          <Link to={`/jogos/${match.id}`}>Abrir análise</Link>
+          <a
+            aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
+            href={AFFILIATE_LINKS.readyBetslip}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Bilhete pronto
+          </a>
         </div>
       </div>
     </article>

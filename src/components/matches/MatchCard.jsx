@@ -42,6 +42,11 @@ function MatchCard({ match }) {
         </div>
       </header>
 
+      <div className="match-card-badge">
+        <span>Resumo IA</span>
+        <strong>{confidenceDisplay} de confiança</strong>
+      </div>
+
       <div className="match-teams">
         <span>
           <TeamCrest size="small" teamName={match.home} />
@@ -69,7 +74,7 @@ function MatchCard({ match }) {
         </div>
       </div>
 
-      <div className="match-confidence-track" aria-label={`Confianca da IA: ${confidenceDisplay}`}>
+      <div className="match-confidence-track" aria-label={`Confiança da IA: ${confidenceDisplay}`}>
         <span style={{ width: `${confidence ?? 0}%` }} />
       </div>
 
@@ -80,8 +85,15 @@ function MatchCard({ match }) {
       </div>
 
       <footer className="match-card-footer">
-        <Link to={`/jogos/${match.id}`}>Ver analise</Link>
-        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">Bilhete pronto</a>
+        <Link to={`/jogos/${match.id}`}>Abrir análise</Link>
+        <a
+          aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
+          href={AFFILIATE_LINKS.readyBetslip}
+          rel="noreferrer"
+          target="_blank"
+        >
+          Bilhete pronto
+        </a>
       </footer>
     </article>
   );

@@ -24,7 +24,7 @@ const filters = [
   { label: 'Todos', value: 'Todos' },
   { label: 'Ao vivo', value: 'Ao vivo' },
   { label: 'Pre-jogo', value: 'Pre-jogo' },
-  { label: 'Alta confianca', value: 'Alta confianca' },
+  { label: 'Alta confiança', value: 'Alta confianca' },
   { label: 'Over', value: 'Over' },
   { label: 'BTTS', value: 'BTTS' },
 ];
@@ -99,7 +99,7 @@ function MatchesPage() {
           <h1>Escolha um jogo em segundos</h1>
         </div>
         <div className="matches-page-summary">
-          <span>Confianca media</span>
+          <span>Confiança média</span>
           <strong>{formatMatchConfidence(averageConfidence)}</strong>
           <small>{filteredMatches.length} partidas</small>
         </div>
@@ -108,7 +108,7 @@ function MatchesPage() {
       <MatchesDateRail activeDay={activeDay} onSelect={setActiveDay} />
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
-      <section className="matches-toolbar" aria-label="Filtros rapidos de jogos">
+      <section className="matches-toolbar" aria-label="Filtros rápidos de jogos">
         {filters.map((filter) => (
           <button
             aria-pressed={activeFilter === filter.value}
@@ -148,7 +148,7 @@ function MatchesPage() {
           : null}
         {!isLoading && !error && !filteredMatches.length ? (
           <div className="matches-empty-state">
-            <strong>Nenhum jogo nesta selecao</strong>
+            <strong>Nenhum jogo nesta seleção</strong>
             <p>Escolha Hoje ou ajuste os filtros para visualizar as partidas mockadas.</p>
           </div>
         ) : null}

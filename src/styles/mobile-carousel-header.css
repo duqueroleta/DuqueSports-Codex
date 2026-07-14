@@ -49,11 +49,12 @@
   .mobile-carousel-header-actions {
     display: flex;
     flex: 0 0 auto;
-    gap: 7px;
+    gap: 6px;
     align-items: center;
   }
 
   .mobile-carousel-header-actions strong,
+  .mobile-carousel-header-actions span,
   .mobile-carousel-header-actions a {
     display: inline-flex;
     align-items: center;
@@ -67,6 +68,11 @@
     font-size: 0.7rem;
     font-weight: 900;
     text-decoration: none;
+  }
+
+  .mobile-carousel-header-actions span {
+    border-color: rgba(32, 246, 164, 0.16);
+    color: var(--color-neon);
   }
 
   .mobile-carousel-header-actions a {

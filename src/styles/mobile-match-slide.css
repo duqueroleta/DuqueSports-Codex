@@ -11,7 +11,7 @@
   .mobile-match-card-v2 {
     position: relative;
     display: grid;
-    grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
     gap: 11px;
     min-height: clamp(430px, calc(100svh - 320px), 560px);
     overflow: hidden;
@@ -46,6 +46,7 @@
 
   .mobile-match-card-header,
   .mobile-match-card-header > div,
+  .mobile-match-card-badge,
   .mobile-matchup,
   .mobile-ai-summary,
   .mobile-key-metrics,
@@ -116,6 +117,38 @@
     border-color: rgba(217, 180, 91, 0.36);
     color: #07111c;
     background: var(--color-gold-soft);
+  }
+
+  .mobile-match-card-badge {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 10px;
+    border: 1px solid rgba(32, 246, 164, 0.16);
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, rgba(32, 246, 164, 0.1), rgba(217, 180, 91, 0.07)),
+      rgba(255, 255, 255, 0.035);
+  }
+
+  .mobile-match-card-badge span,
+  .mobile-match-card-badge strong {
+    overflow: hidden;
+    font-size: 0.68rem;
+    font-weight: 950;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mobile-match-card-badge span {
+    color: var(--color-neon);
+  }
+
+  .mobile-match-card-badge strong {
+    color: var(--color-gold-soft);
   }
 
   .mobile-matchup {
@@ -295,7 +328,9 @@
   .mobile-match-actions-v2 a:last-child {
     border-color: rgba(217, 180, 91, 0.3);
     color: var(--color-gold-soft);
-    background: rgba(217, 180, 91, 0.08);
+    background:
+      linear-gradient(145deg, rgba(217, 180, 91, 0.14), rgba(217, 180, 91, 0.06)),
+      rgba(255, 255, 255, 0.035);
     box-shadow: none;
   }
 }

@@ -12,13 +12,14 @@ function MobileCarouselHeader({ activeIndex, match, matchCount }) {
         <h2>{match ? `${match.home} x ${match.away}` : 'Jogos em destaque'}</h2>
         <p>
           {match
-            ? `${formatMatchConfidence(match.confidence)} de confianca - ${match.signal}`
+            ? `${formatMatchConfidence(match.confidence)} de confiança - ${match.signal}`
             : 'Escolha um campeonato ou mercado para analisar.'}
         </p>
       </div>
 
       <div className="mobile-carousel-header-actions">
         <strong>{currentPosition}/{matchCount}</strong>
+        <span>Arraste</span>
         <Link to="/lista-vip">Lista VIP</Link>
       </div>
     </header>
