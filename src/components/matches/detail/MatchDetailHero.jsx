@@ -22,7 +22,7 @@ function MatchDetailHero({ match }) {
       <h1 id="match-detail-title">{match.home} x {match.away}</h1>
 
       <header className="match-detail-toolbar">
-        <Link to="/" aria-label="Voltar aos jogos">
+        <Link to="/jogos" aria-label="Voltar aos jogos">
           <span aria-hidden="true">&lsaquo;</span>
           Jogos
         </Link>
@@ -69,6 +69,21 @@ function MatchDetailHero({ match }) {
           Odd media
           <strong>{formatMatchOdds(match.odds)}</strong>
         </small>
+      </div>
+
+      <div className="match-detail-kpis" aria-label="Resumo rapido da analise">
+        <span>
+          <small>Confianca</small>
+          <strong>{confidence ?? '--'}</strong>
+        </span>
+        <span>
+          <small>Mercado</small>
+          <strong>{match.signal}</strong>
+        </span>
+        <span>
+          <small>Odd</small>
+          <strong>{formatMatchOdds(match.odds)}</strong>
+        </span>
       </div>
     </section>
   );

@@ -33,6 +33,16 @@
 }
 
 @media (max-width: 520px) {
+  .match-analysis-nav {
+    position: sticky;
+    top: 58px;
+    z-index: 12;
+    margin-top: 8px;
+    padding: 6px 0;
+    background: rgba(5, 7, 11, 0.78);
+    backdrop-filter: blur(16px);
+  }
+
   .match-analysis-nav a {
     flex: 0 0 auto;
     min-height: 34px;
