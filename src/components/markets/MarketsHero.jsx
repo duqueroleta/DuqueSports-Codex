@@ -18,7 +18,7 @@ function MarketsHero({ bestMarket, hasError, isLoading }) {
     <header className="markets-page-hero" aria-labelledby="markets-page-title">
       <div>
         <span>Radar de mercados</span>
-        <h1 id="markets-page-title">Oportunidades por mercado</h1>
+        <h1 id="markets-page-title">Mercados fortes em segundos</h1>
       </div>
 
       <div className="markets-page-summary" aria-live="polite">

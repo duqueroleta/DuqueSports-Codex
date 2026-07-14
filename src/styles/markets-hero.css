@@ -51,6 +51,8 @@
 @media (max-width: 520px) {
   .markets-page-hero {
     gap: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
     padding-bottom: 10px;
   }
 

@@ -181,9 +181,24 @@
   .market-strength-card {
     gap: 8px;
     padding: 12px;
+    border-radius: 16px;
   }
 
   .market-strength-insight {
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
+  }
+
+  .market-strength-footer a {
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 380px) {
+  .market-strength-card {
+    min-height: 330px;
+  }
+
+  .market-strength-score strong {
+    font-size: 1.55rem;
   }
 }

@@ -5,7 +5,7 @@
 
 @media (max-width: 820px) {
   .markets-page {
-    padding: 12px 12px 104px;
+    padding: 12px 0 104px;
   }
 }
 
@@ -22,4 +22,11 @@
   font: inherit;
   font-size: 0.78rem;
   font-weight: 900;
+}
+
+@media (max-width: 820px) {
+  .markets-load-more {
+    width: calc(100% - 24px);
+    margin-top: 12px;
+  }
 }
