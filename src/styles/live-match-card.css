@@ -262,6 +262,7 @@
   .live-match-card {
     gap: 12px;
     padding: 14px;
+    border-radius: 18px;
   }
 
   .live-score {
@@ -289,6 +290,29 @@
   }
 
   .live-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    margin-top: auto;
+  }
+
+  .live-actions a {
+    min-height: 46px;
+    border-radius: 14px;
+    font-size: 0.76rem;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 380px) {
+  .live-grid > .live-match-card {
+    flex-basis: calc(100vw - 20px);
+  }
+
+  .live-context span {
+    padding: 7px 8px;
+    font-size: 0.68rem;
+  }
+
+  .live-alert strong {
+    font-size: 0.94rem;
   }
 }

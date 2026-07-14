@@ -55,7 +55,7 @@ function LivePage() {
       <section className="live-page-hero" aria-labelledby="live-page-title">
         <div className="live-page-hero-copy">
           <span>Central ao vivo</span>
-          <h1 id="live-page-title">Jogos em andamento com sinal imediato</h1>
+          <h1 id="live-page-title">Sinais ao vivo em segundos</h1>
           <p>Placar, minuto, pressao e mercado recomendado em uma leitura rapida.</p>
         </div>
 
@@ -93,7 +93,7 @@ function LivePage() {
         <span>{filteredMatches.length} partidas</span>
       </section>
 
-      <section className="live-grid" aria-label="Partidas ao vivo">
+      <section className="live-grid" aria-label="Carrossel de partidas ao vivo">
         {isLoading ? <SkeletonGrid count={3} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading
