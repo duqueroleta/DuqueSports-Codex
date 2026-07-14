@@ -1,0 +1,120 @@
+.audits-page-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 20px;
+  align-items: center;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audits-page-hero > div:first-child > span {
+  color: var(--color-neon);
+  font-size: 0.66rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.audits-page-hero h1 {
+  margin: 5px 0 0;
+  color: var(--color-white);
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
+  line-height: 1;
+}
+
+.audits-page-summary {
+  display: grid;
+  gap: 2px;
+  min-width: 112px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audits-page-summary span,
+.audits-page-summary small {
+  color: #929dab;
+  font-size: 0.64rem;
+  font-weight: 850;
+}
+
+.audits-page-summary strong {
+  color: var(--color-gold-soft);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.audits-result-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 68px);
+  gap: 6px;
+}
+
+.audits-result-summary p {
+  margin: 0;
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  text-align: center;
+}
+
+.audits-result-summary strong,
+.audits-result-summary span {
+  display: block;
+}
+
+.audits-result-summary strong {
+  color: var(--color-white);
+  font-size: 1rem;
+}
+
+.audits-result-summary span {
+  margin-top: 2px;
+  color: #84909e;
+  font-size: 0.56rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+  .audits-page-hero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  .audits-page-hero h1 {
+    font-size: 1.45rem;
+  }
+
+  .audits-page-summary {
+    min-width: 88px;
+    padding-left: 10px;
+  }
+
+  .audits-page-summary span {
+    display: none;
+  }
+
+  .audits-page-summary strong {
+    font-size: 1.4rem;
+  }
+
+  .audits-page-summary small {
+    text-align: right;
+  }
+
+  .audits-result-summary {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .audits-result-summary p {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    align-items: baseline;
+    padding: 5px 8px;
+  }
+}
