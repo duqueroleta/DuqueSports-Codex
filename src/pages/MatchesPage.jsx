@@ -23,8 +23,8 @@ import '../styles/page-matches.css';
 const filters = [
   { label: 'Todos', value: 'Todos' },
   { label: 'Ao vivo', value: 'Ao vivo' },
-  { label: 'Pré-jogo', value: 'Pre-jogo' },
-  { label: 'Alta confiança', value: 'Alta confianca' },
+  { label: 'Pre-jogo', value: 'Pre-jogo' },
+  { label: 'Alta confianca', value: 'Alta confianca' },
   { label: 'Over', value: 'Over' },
   { label: 'BTTS', value: 'BTTS' },
 ];
@@ -96,10 +96,10 @@ function MatchesPage() {
       <header className="matches-page-header">
         <div>
           <span>Central de jogos</span>
-          <h1>Encontre sua próxima análise</h1>
+          <h1>Escolha um jogo em segundos</h1>
         </div>
         <div className="matches-page-summary">
-          <span>Confiança média</span>
+          <span>Confianca media</span>
           <strong>{formatMatchConfidence(averageConfidence)}</strong>
           <small>{filteredMatches.length} partidas</small>
         </div>
@@ -108,7 +108,7 @@ function MatchesPage() {
       <MatchesDateRail activeDay={activeDay} onSelect={setActiveDay} />
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
-      <section className="matches-toolbar" aria-label="Filtros rápidos de jogos">
+      <section className="matches-toolbar" aria-label="Filtros rapidos de jogos">
         {filters.map((filter) => (
           <button
             aria-pressed={activeFilter === filter.value}
@@ -140,7 +140,7 @@ function MatchesPage() {
         <small>{filteredMatches.length} resultados</small>
       </div>
 
-      <section className="matches-page-grid" aria-label="Lista de jogos">
+      <section className="matches-page-grid" aria-label="Carrossel de jogos">
         {isLoading ? <SkeletonGrid count={6} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error
@@ -148,7 +148,7 @@ function MatchesPage() {
           : null}
         {!isLoading && !error && !filteredMatches.length ? (
           <div className="matches-empty-state">
-            <strong>Nenhum jogo nesta seleção</strong>
+            <strong>Nenhum jogo nesta selecao</strong>
             <p>Escolha Hoje ou ajuste os filtros para visualizar as partidas mockadas.</p>
           </div>
         ) : null}
