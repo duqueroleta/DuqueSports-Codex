@@ -34,6 +34,6 @@
   }
 
   .app-content {
-    padding-bottom: 86px;
+    padding-bottom: calc(94px + env(safe-area-inset-bottom));
   }
 }

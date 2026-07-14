@@ -133,7 +133,7 @@
   .sidebar {
     position: fixed;
     right: 14px;
-    bottom: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
     left: 14px;
     top: auto;
     z-index: 20;
@@ -154,6 +154,8 @@
     display: flex;
     gap: 6px;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
 
@@ -166,6 +168,7 @@
     justify-content: center;
     min-height: 48px;
     padding: 0;
+    scroll-snap-align: center;
   }
 
   .sidebar-link > span:last-child {
@@ -180,7 +183,7 @@
 @media (max-width: 460px) {
   .sidebar {
     right: 8px;
-    bottom: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
     left: 8px;
   }
 

@@ -80,7 +80,7 @@ function MatchCard({ match }) {
       </div>
 
       <footer className="match-card-footer">
-        <Link to={`/jogos/${match.id}`}>Ver análise</Link>
+        <Link to={`/jogos/${match.id}`}>Ver analise</Link>
         <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">Bilhete pronto</a>
       </footer>
     </article>
