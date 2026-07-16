@@ -411,8 +411,8 @@
   }
 
   .matches-page-grid > .match-card {
-    flex: 0 0 min(88vw, 380px);
-    min-height: 386px;
+    flex: 0 0 min(91vw, 390px);
+    min-height: 524px;
     scroll-snap-align: center;
   }
 
