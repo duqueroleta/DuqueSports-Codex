@@ -97,7 +97,7 @@ function MobileMatchCarousel() {
             <i style={{ width: `${((activeIndex + 1) / visibleMatches.length) * 100}%` }} />
           </span>
           <button
-            aria-label="Proximo jogo"
+            aria-label="Próximo jogo"
             disabled={activeIndex >= visibleMatches.length - 1}
             onClick={() => moveCarousel(1)}
             type="button"

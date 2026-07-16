@@ -89,7 +89,7 @@ function MobileMatchSlide({ match }) {
         </div>
 
         <div className="mobile-match-actions-v2">
-          <Link to={`/jogos/${match.id}`}>Abrir análise</Link>
+          <Link to={`/jogos/${match.id}`}>Abrir análise completa</Link>
           <a
             aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
             href={AFFILIATE_LINKS.readyBetslip}
