@@ -52,8 +52,9 @@ function MatchCard({ isActive = false, match }) {
           <TeamCrest size="small" teamName={match.home} />
           <strong>{match.home}</strong>
         </span>
-        <div>
-          <strong>{match.status === 'Ao vivo' ? match.score : 'X'}</strong>
+        <div className="match-score-node">
+          <span>Duque Score</span>
+          <strong>{match.status === 'Ao vivo' ? match.score : confidenceDisplay}</strong>
           <small>{match.time}</small>
         </div>
         <span>

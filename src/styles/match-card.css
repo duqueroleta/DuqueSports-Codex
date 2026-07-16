@@ -132,10 +132,10 @@
 
 .match-teams {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+  gap: 10px;
   align-items: center;
-  min-height: 80px;
+  min-height: 96px;
 }
 
 .match-teams > span {
@@ -154,26 +154,41 @@
   line-height: 1.05;
 }
 
-.match-teams > div {
+.match-score-node {
   display: grid;
   place-items: center;
   min-width: 0;
 }
 
-.match-teams > div strong {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  color: var(--color-white);
-  background: rgba(255, 255, 255, 0.055);
-  font-size: 0.86rem;
+.match-score-node span {
+  margin-bottom: 5px;
+  color: var(--color-gold-soft);
+  font-size: 0.48rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.match-teams > div small {
-  margin-top: 4px;
+.match-score-node strong {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  color: var(--color-white);
+  background:
+    radial-gradient(circle at center, rgba(12, 18, 28, 0.94) 58%, transparent 60%),
+    conic-gradient(var(--color-neon) 0 72%, rgba(255, 255, 255, 0.13) 72% 84%, var(--color-gold-soft) 84% 100%);
+  box-shadow:
+    0 0 28px color-mix(in srgb, var(--match-accent) 22%, transparent),
+    inset 0 0 0 7px rgba(7, 17, 28, 0.96);
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+
+.match-score-node small {
+  margin-top: 5px;
   color: #8994a2;
   font-size: 0.6rem;
   font-weight: 800;
@@ -361,6 +376,21 @@
     gap: 8px;
     padding: 12px;
     border-radius: 15px;
+  }
+
+  .match-teams {
+    grid-template-columns: minmax(0, 1fr) 78px minmax(0, 1fr);
+    min-height: 108px;
+  }
+
+  .match-teams > span > strong {
+    font-size: 0.92rem;
+  }
+
+  .match-score-node strong {
+    width: 64px;
+    height: 64px;
+    font-size: 1.12rem;
   }
 
   .match-card-active {
