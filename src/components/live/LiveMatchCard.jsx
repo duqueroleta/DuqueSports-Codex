@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import {
   formatLiveMinute,
@@ -8,8 +9,6 @@ import {
 } from '../../utils/liveMatchPresentation.js';
 import '../../styles/live-match-card.css';
 
-const BETSLIP_URL = 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_46656b_431c_&affid=873&siteid=46656&adid=431&c=';
-
 function splitScore(score) {
   const [homeScore = '-', awayScore = '-'] = String(score ?? '-')
     .split('-')
@@ -18,26 +17,45 @@ function splitScore(score) {
   return { awayScore, homeScore };
 }
 
+function getLiveDecision(match) {
+  const pressure = match.pressure ?? 0;
+  const confidence = match.confidence ?? 0;
+
+  if (pressure >= 82 && confidence >= 84) {
+    return { label: 'Entrada forte', tone: 'hot' };
+  }
+
+  if (match.minute >= 70 || pressure >= 76) {
+    return { label: 'Monitorar agora', tone: 'watch' };
+  }
+
+  return { label: 'Aguardar leitura', tone: 'calm' };
+}
+
 function LiveMatchCard({ match }) {
   const stage = getLiveMatchStage(match.minute);
   const pressureTone = getLivePressureTone(match.pressure);
   const pressureDisplay = formatLivePressure(match.pressure);
   const { awayScore, homeScore } = splitScore(match.score);
   const analysisPath = `/jogos/${match.matchId ?? match.id}`;
+  const decision = getLiveDecision(match);
   const quickStats = [
     { label: 'Finalizações', value: match.shots ?? '--' },
     { label: 'xG live', value: match.xg ?? '--' },
-    { label: 'Escanteios', value: match.corners ?? '--' },
+    { label: 'Confiança', value: formatLivePressure(match.confidence) },
   ];
 
   return (
-    <article className="live-match-card">
+    <article className={`live-match-card live-decision-${decision.tone}`}>
       <div className="live-match-top">
         <div>
           <span>{match.league}</span>
           <strong>{formatLiveMinute(match.minute)}</strong>
         </div>
-        <span className="live-pulse">Ao vivo</span>
+        <div className="live-status-stack">
+          <span className="live-decision-badge">{decision.label}</span>
+          <span className="live-pulse">Ao vivo</span>
+        </div>
       </div>
 
       <div className="live-score">
@@ -84,12 +102,12 @@ function LiveMatchCard({ match }) {
       <div className="live-alert">
         <span>{match.alert}</span>
         <strong>{match.signal}</strong>
-        <small>{match.market ?? 'Mercado em monitoramento'}</small>
+        <small>{match.market ?? 'Mercado em monitoramento'} | escanteios {match.corners ?? '--'}</small>
       </div>
 
       <div className="live-actions">
         <Link to={analysisPath}>Abrir análise</Link>
-        <a href={BETSLIP_URL} rel="noreferrer" target="_blank">
+        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
           Bilhete pronto
         </a>
       </div>

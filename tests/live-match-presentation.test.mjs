@@ -22,9 +22,9 @@ assert.equal(formatLivePressure(84), '84%', 'Valid pressure should include its u
 assert.equal(formatLivePressure(undefined), '--', 'Unavailable pressure should have a neutral display');
 assert.equal(getLiveMatchStage(75), 'Reta final', 'Minute seventy-five should enter the final stage');
 assert.equal(getLiveMatchStage(46), 'Segundo tempo', 'Minute forty-six should enter the second half');
-assert.equal(getLiveMatchStage(null), 'Tempo indisponivel', 'Missing minute should not infer a stage');
+assert.equal(getLiveMatchStage(null), 'Tempo indisponível', 'Missing minute should not infer a stage');
 assert.equal(getLivePressureTone(80), 'Zona quente', 'Pressure from eighty should enter the hot zone');
-assert.equal(getLivePressureTone(null), 'Dados indisponiveis', 'Missing pressure should not infer a tone');
+assert.equal(getLivePressureTone(null), 'Dados indisponíveis', 'Missing pressure should not infer a tone');
 
 const sourceMatch = {
   id: 1,

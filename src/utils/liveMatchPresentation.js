@@ -3,12 +3,12 @@ import { normalizeText } from './matchPresentation.js';
 
 const MAX_MATCH_MINUTE = 130;
 const LIVE_TEXT_FALLBACKS = Object.freeze({
-  alert: 'Alerta estatistico indisponivel',
+  alert: 'Alerta estatístico indisponível',
   away: 'Visitante',
   home: 'Mandante',
-  league: 'Competicao nao informada',
+  league: 'Competição não informada',
   score: '-',
-  signal: 'Sinal indisponivel',
+  signal: 'Sinal indisponível',
 });
 
 function normalizeLiveMinute(value) {
@@ -43,7 +43,7 @@ function getLiveMatchStage(value) {
   const minute = normalizeLiveMinute(value);
 
   if (minute === null) {
-    return 'Tempo indisponivel';
+    return 'Tempo indisponível';
   }
 
   if (minute >= 75) {
@@ -57,7 +57,7 @@ function getLivePressureTone(value) {
   const pressure = normalizeMatchConfidence(value);
 
   if (pressure === null) {
-    return 'Dados indisponiveis';
+    return 'Dados indisponíveis';
   }
 
   return pressure >= 80 ? 'Zona quente' : 'Monitorar';

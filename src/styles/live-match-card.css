@@ -16,6 +16,23 @@
   backdrop-filter: blur(18px);
 }
 
+.live-decision-hot {
+  border-color: rgba(32, 246, 164, 0.3);
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.2), transparent 38%),
+    radial-gradient(circle at bottom left, rgba(217, 180, 91, 0.1), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.032)),
+    rgba(12, 18, 28, 0.78);
+}
+
+.live-decision-watch {
+  border-color: rgba(217, 180, 91, 0.24);
+}
+
+.live-decision-calm {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
 .live-match-top {
   display: flex;
   justify-content: space-between;
@@ -43,9 +60,15 @@
   line-height: 1;
 }
 
+.live-status-stack {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
 .live-pulse {
   align-self: start;
-  flex: 0 0 auto;
   padding: 7px 10px;
   border: 1px solid rgba(32, 246, 164, 0.28);
   border-radius: 999px;
@@ -54,6 +77,29 @@
   box-shadow: 0 0 28px rgba(32, 246, 164, 0.15);
   font-size: 0.74rem;
   font-weight: 950;
+}
+
+.live-decision-badge {
+  padding: 7px 10px;
+  border: 1px solid rgba(217, 180, 91, 0.3);
+  border-radius: 999px;
+  color: var(--color-gold-soft);
+  background: rgba(217, 180, 91, 0.08);
+  font-size: 0.68rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.live-decision-hot .live-decision-badge {
+  border-color: rgba(32, 246, 164, 0.34);
+  color: #07111c;
+  background: linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
+}
+
+.live-decision-calm .live-decision-badge {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #aeb8c5;
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .live-score {
@@ -228,6 +274,7 @@
   margin-top: 6px;
   color: #aeb8c5;
   font-weight: 800;
+  line-height: 1.35;
 }
 
 .live-actions {
@@ -268,6 +315,20 @@
   .live-score {
     gap: 8px;
     min-height: 76px;
+  }
+
+  .live-match-top {
+    gap: 8px;
+  }
+
+  .live-status-stack {
+    gap: 5px;
+  }
+
+  .live-pulse,
+  .live-decision-badge {
+    padding: 6px 8px;
+    font-size: 0.64rem;
   }
 
   .live-score > strong {
