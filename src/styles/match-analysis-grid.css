@@ -11,12 +11,28 @@
 }
 
 .detail-card {
+  position: relative;
   min-width: 0;
+  overflow: hidden;
   padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
   border-radius: var(--radius-lg);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
     rgba(12, 18, 28, 0.66);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 16px 34px rgba(0, 0, 0, 0.14);
+}
+
+.detail-card > small {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: rgba(255, 255, 255, 0.16);
+  font-size: 1.55rem;
+  font-weight: 950;
+  line-height: 1;
 }
 
 .detail-card span {
@@ -28,7 +44,8 @@
 
 .detail-card strong {
   display: block;
-  margin-top: 24px;
+  margin-top: 22px;
+  padding-right: 34px;
   color: var(--color-white);
   font-size: clamp(1.35rem, 2.6vw, 2.15rem);
   line-height: 1;
@@ -45,7 +62,12 @@
   border-color: rgba(217, 180, 91, 0.26);
   background:
     radial-gradient(circle at top right, rgba(217, 180, 91, 0.16), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025)),
     rgba(12, 18, 28, 0.76);
+}
+
+.detail-card-highlight > small {
+  color: rgba(217, 180, 91, 0.22);
 }
 
 .detail-card-compact strong {
@@ -77,7 +99,7 @@
   }
 
   .detail-card {
-    min-height: 190px;
+    min-height: 202px;
     border-radius: 18px;
     scroll-snap-align: start;
   }
@@ -89,9 +111,15 @@
 
 @media (max-width: 520px) {
   .detail-card {
-    min-height: 176px;
+    min-height: 188px;
     padding: 16px;
     border-radius: 16px;
+  }
+
+  .detail-card > small {
+    top: 14px;
+    right: 14px;
+    font-size: 1.35rem;
   }
 
   .detail-card span {
@@ -100,6 +128,7 @@
 
   .detail-card strong {
     font-size: 1.15rem;
+    padding-right: 28px;
   }
 
   .detail-card p {

@@ -54,11 +54,12 @@ function MatchAnalysisGrid({ match }) {
         <strong>Por que esta leitura?</strong>
       </header>
       <div className="detail-grid">
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           const variantClass = card.variant ? ` detail-card-${card.variant}` : '';
 
           return (
             <article className={`detail-card${variantClass}`} key={card.key ?? card.label}>
+              <small>{String(index + 1).padStart(2, '0')}</small>
               <span>{card.label}</span>
               <strong>{card.title}</strong>
               <p>{card.text}</p>
