@@ -49,7 +49,8 @@ function MatchCard({ isActive = false, match }) {
 
       <div className="match-teams">
         <span>
-          <TeamCrest size="small" teamName={match.home} />
+          <small>Mandante</small>
+          <TeamCrest teamName={match.home} />
           <strong>{match.home}</strong>
         </span>
         <div className="match-score-node">
@@ -58,7 +59,8 @@ function MatchCard({ isActive = false, match }) {
           <small>{match.time}</small>
         </div>
         <span>
-          <TeamCrest size="small" teamName={match.away} />
+          <small>Visitante</small>
+          <TeamCrest teamName={match.away} />
           <strong>{match.away}</strong>
         </span>
       </div>
