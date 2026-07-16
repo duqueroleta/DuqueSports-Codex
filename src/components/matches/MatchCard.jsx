@@ -85,14 +85,25 @@ function MatchCard({ match }) {
       </div>
 
       <footer className="match-card-footer">
-        <Link to={`/jogos/${match.id}`}>Abrir análise</Link>
+        <Link className="match-card-primary-action" to={`/jogos/${match.id}`}>
+          <span aria-hidden="true" className="match-card-action-icon">AI</span>
+          <span>
+            <small>Estudar jogo</small>
+            <strong>Análise completa</strong>
+          </span>
+        </Link>
         <a
           aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
+          className="match-card-betslip-action"
           href={AFFILIATE_LINKS.readyBetslip}
           rel="noreferrer"
           target="_blank"
         >
-          Bilhete pronto
+          <span aria-hidden="true" className="match-card-action-icon">R$</span>
+          <span>
+            <small>Apostar agora</small>
+            <strong>Bilhete pronto</strong>
+          </span>
         </a>
       </footer>
     </article>
