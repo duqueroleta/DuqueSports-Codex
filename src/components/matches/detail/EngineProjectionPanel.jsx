@@ -2,14 +2,14 @@ import '../../../styles/engine-projection-panel.css';
 
 function getProjectionMetrics(projection) {
   return [
-    { label: 'Data Quality', value: projection.dataQualityScore },
-    { label: 'xG mandante', value: projection.expectedHomeGoals },
-    { label: 'xG visitante', value: projection.expectedAwayGoals },
-    { label: 'Over 2.5', value: `${projection.probabilities.over25}%` },
-    { label: 'Casa vence', value: `${projection.probabilities.homeWin}%` },
-    { label: 'BTTS', value: `${projection.probabilities.btts}%` },
-    { label: 'Oportunidade', value: projection.opportunityRanking.opportunityScore },
-    { label: 'Tier', value: projection.opportunityRanking.tier },
+    { helper: 'qualidade dos dados', label: 'Data Quality', value: projection.dataQualityScore },
+    { helper: 'gols esperados', label: 'xG mandante', value: projection.expectedHomeGoals },
+    { helper: 'gols esperados', label: 'xG visitante', value: projection.expectedAwayGoals },
+    { helper: 'linha de gols', label: 'Over 2.5', value: `${projection.probabilities.over25}%` },
+    { helper: 'resultado final', label: 'Casa vence', value: `${projection.probabilities.homeWin}%` },
+    { helper: 'ambas marcam', label: 'BTTS', value: `${projection.probabilities.btts}%` },
+    { helper: 'score interno', label: 'Oportunidade', value: projection.opportunityRanking.opportunityScore },
+    { helper: 'classificação', label: 'Tier', value: projection.opportunityRanking.tier },
   ];
 }
 
@@ -35,6 +35,7 @@ function EngineProjectionPanel({ projection }) {
           <article key={metric.label}>
             <span>{metric.label}</span>
             <strong>{metric.value}</strong>
+            <small>{metric.helper}</small>
           </article>
         ))}
       </div>

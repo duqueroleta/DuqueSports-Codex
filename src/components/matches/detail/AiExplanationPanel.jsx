@@ -10,7 +10,7 @@ function AiExplanationPanel({ explanation }) {
     ?? 'Nenhum risco estrutural relevante foi identificado.';
 
   return (
-    <section className="ai-explanation-panel" aria-label="Explicacao da IA">
+    <section className="ai-explanation-panel" aria-label="Explicação da IA">
       <div className="ai-explanation-main">
         <span>Explicabilidade IA</span>
         <strong>{explanation.headline}</strong>
