@@ -11,7 +11,11 @@ function MatchActionPanel({ signal, betslipUrl = AFFILIATE_LINKS.readyBetslip })
       </div>
       <small>Entrada sugerida pelo modelo</small>
       <a href={betslipUrl} rel="noreferrer" target="_blank">
-        Abrir bilhete pronto
+        <span aria-hidden="true">R$</span>
+        <span>
+          <small>Apostar agora</small>
+          <strong>Abrir bilhete pronto</strong>
+        </span>
       </a>
     </section>
   );
