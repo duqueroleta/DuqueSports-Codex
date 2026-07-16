@@ -18,22 +18,53 @@
   }
 
   .mobile-market-filters button {
+    position: relative;
     flex: 0 0 auto;
-    min-height: 32px;
-    padding: 0 10px;
+    min-height: 34px;
+    overflow: hidden;
+    padding: 0 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    border-radius: 12px;
     color: #aeb8c5;
-    background: rgba(255, 255, 255, 0.055);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.065), transparent 60%),
+      rgba(255, 255, 255, 0.055);
     font-size: 0.72rem;
     font-weight: 900;
     white-space: nowrap;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+    touch-action: manipulation;
+  }
+
+  .mobile-market-filters button::before {
+    position: absolute;
+    inset: auto 10px 5px 10px;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    content: "";
+  }
+
+  .mobile-market-filters button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.18);
   }
 
   .mobile-market-filters .mobile-market-filter-active {
     border-color: rgba(32, 246, 164, 0.38);
     color: #07111c;
-    background: linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
-    box-shadow: 0 10px 22px rgba(32, 246, 164, 0.12);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 48%),
+      linear-gradient(135deg, var(--color-neon), var(--color-gold-soft));
+    box-shadow:
+      0 10px 22px rgba(32, 246, 164, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  }
+
+  .mobile-market-filters .mobile-market-filter-active::before {
+    background: rgba(7, 17, 28, 0.28);
   }
 }
