@@ -35,6 +35,12 @@ function MobileMatchCarousel() {
     scrollToStart();
   }
 
+  function handleResetFilters() {
+    setActiveCompetition(ALL_COMPETITIONS);
+    setActiveMarket('todos');
+    scrollToStart();
+  }
+
   function moveCarousel(direction) {
     const carousel = carouselRef.current;
 
@@ -74,13 +80,16 @@ function MobileMatchCarousel() {
           {!visibleMatches.length ? (
             <article className="mobile-match-slide">
               <div className="mobile-match-empty">
-                <span>Nenhum jogo encontrado</span>
-                <strong>Troque o mercado ou campeonato</strong>
+                <span>Radar sem jogos</span>
+                <strong>Nenhuma partida encontrada</strong>
+                <p>Troque o campeonato ou volte para “Todos” para ver oportunidades disponíveis.</p>
+                <button onClick={handleResetFilters} type="button">
+                  Ver todos os jogos
+                </button>
               </div>
             </article>
           ) : null}
         </div>
-
       </div>
 
       {visibleMatches.length ? (
