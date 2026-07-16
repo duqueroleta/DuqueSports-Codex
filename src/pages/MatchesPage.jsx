@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/CompetitionRail.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
@@ -57,6 +57,7 @@ function filterMatches(match, filter) {
 function MatchesPage() {
   const [activeDay, setActiveDay] = useState(0);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [activeMatchIndex, setActiveMatchIndex] = useState(0);
   const carouselRef = useRef(null);
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.matches', 'Todos');
   const [activeCompetition, setActiveCompetition] = usePersistentState(
@@ -90,6 +91,38 @@ function MatchesPage() {
   function resetAdvancedFilters() {
     setActiveTier(ALL_TIERS);
     setActiveMarket(ALL_MARKETS);
+  }
+
+  useEffect(() => {
+    setActiveMatchIndex(0);
+    carouselRef.current?.scrollTo({ left: 0 });
+  }, [activeDay, activeCompetition, activeFilter, activeMarket, activeTier, searchTerm]);
+
+  function updateActiveMatchIndex() {
+    if (!carouselRef.current) {
+      return;
+    }
+
+    const cards = Array.from(carouselRef.current.querySelectorAll('.match-card'));
+    if (!cards.length) {
+      setActiveMatchIndex(0);
+      return;
+    }
+
+    const carouselBox = carouselRef.current.getBoundingClientRect();
+    const carouselCenter = carouselBox.left + carouselBox.width / 2;
+    const closestIndex = cards.reduce((bestIndex, card, index) => {
+      const cardBox = card.getBoundingClientRect();
+      const cardCenter = cardBox.left + cardBox.width / 2;
+      const bestBox = cards[bestIndex].getBoundingClientRect();
+      const bestCenter = bestBox.left + bestBox.width / 2;
+
+      return Math.abs(cardCenter - carouselCenter) < Math.abs(bestCenter - carouselCenter)
+        ? index
+        : bestIndex;
+    }, 0);
+
+    setActiveMatchIndex(closestIndex);
   }
 
   function scrollMatchCarousel(direction) {
@@ -175,11 +208,31 @@ function MatchesPage() {
         </div>
       </div>
 
-      <section className="matches-page-grid" ref={carouselRef} aria-label="Carrossel de jogos">
+      {visibleMatches.length > 1 ? (
+        <div className="matches-carousel-position" aria-label="Posição no carrossel">
+          {visibleMatches.map((match, index) => (
+            <span
+              aria-current={activeMatchIndex === index ? 'true' : undefined}
+              aria-label={`Jogo ${index + 1} de ${visibleMatches.length}: ${match.home} contra ${match.away}`}
+              className={activeMatchIndex === index ? 'matches-carousel-dot-active' : ''}
+              key={match.id}
+            />
+          ))}
+        </div>
+      ) : null}
+
+      <section
+        className="matches-page-grid"
+        ref={carouselRef}
+        aria-label="Carrossel de jogos"
+        onScroll={updateActiveMatchIndex}
+      >
         {isLoading ? <SkeletonGrid count={6} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error
-          ? visibleMatches.map((match) => <MatchCard key={match.id} match={match} />)
+          ? visibleMatches.map((match, index) => (
+              <MatchCard isActive={activeMatchIndex === index} key={match.id} match={match} />
+            ))
           : null}
         {!isLoading && !error && !filteredMatches.length ? (
           <div className="matches-empty-state">

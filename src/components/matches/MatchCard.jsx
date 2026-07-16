@@ -8,7 +8,7 @@ import { formatMatchOdds } from '../../utils/matchOdds.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
 
-function MatchCard({ match }) {
+function MatchCard({ isActive = false, match }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('match', match.id);
   const confidence = normalizeMatchConfidence(match.confidence);
@@ -18,7 +18,7 @@ function MatchCard({ match }) {
   return (
     <article
       aria-label={`${match.home} contra ${match.away}`}
-      className="match-card"
+      className={`match-card${isActive ? ' match-card-active' : ''}`}
       style={getMatchVisualStyle(match)}
     >
       <header className="match-card-top">
