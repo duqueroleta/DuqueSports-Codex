@@ -4,7 +4,7 @@
   width: min(1240px, 100%);
   margin: 10px auto 0;
   overflow-x: auto;
-  padding: 2px;
+  padding: 3px;
   scrollbar-width: none;
 }
 
@@ -13,18 +13,41 @@
 }
 
 .match-analysis-nav a {
+  position: relative;
   flex: 1 0 auto;
-  min-height: 38px;
-  padding: 10px 14px;
+  min-height: 40px;
+  overflow: hidden;
+  padding: 10px 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 12px;
   color: #b7c1cd;
-  background: rgba(255, 255, 255, 0.045);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), transparent 62%),
+    rgba(255, 255, 255, 0.045);
   font-size: 0.74rem;
   font-weight: 900;
   text-align: center;
   text-decoration: none;
-  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.match-analysis-nav a::after {
+  position: absolute;
+  inset: auto 12px 6px 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  content: "";
+}
+
+.match-analysis-nav a:hover,
+.match-analysis-nav a:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .match-analysis-nav a:first-child {
@@ -33,23 +56,44 @@
   background: rgba(32, 246, 164, 0.065);
 }
 
+.match-analysis-nav a:first-child::after {
+  background: rgba(32, 246, 164, 0.38);
+}
+
+.match-analysis-nav a:last-child {
+  border-color: rgba(217, 180, 91, 0.28);
+  color: var(--color-gold-soft);
+  background:
+    linear-gradient(145deg, rgba(217, 180, 91, 0.13), rgba(217, 180, 91, 0.05)),
+    rgba(255, 255, 255, 0.035);
+}
+
+.match-analysis-nav a:last-child::after {
+  background: rgba(217, 180, 91, 0.36);
+}
+
 @media (max-width: 520px) {
   .match-analysis-nav {
     position: sticky;
     top: 58px;
     z-index: 12;
     margin-top: 8px;
-    padding: 6px 2px;
+    padding: 7px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 13px;
-    background: rgba(5, 7, 11, 0.78);
+    border-radius: 16px;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+      rgba(5, 7, 11, 0.84);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 14px 30px rgba(0, 0, 0, 0.18);
     backdrop-filter: blur(16px);
   }
 
   .match-analysis-nav a {
     flex: 0 0 auto;
-    min-height: 34px;
-    padding: 8px 11px;
+    min-height: 36px;
+    padding: 8px 12px;
     font-size: 0.68rem;
   }
 }

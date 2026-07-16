@@ -3,7 +3,7 @@ import '../../../styles/match-action-panel.css';
 
 function MatchActionPanel({ signal, betslipUrl = AFFILIATE_LINKS.readyBetslip }) {
   return (
-    <section className="detail-action-panel" aria-label="Ações da análise">
+    <section className="detail-action-panel" id="bilhete" aria-label="Ações da análise">
       <div>
         <span>Decisão rápida</span>
         <strong>{signal}</strong>

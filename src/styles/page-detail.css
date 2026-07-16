@@ -30,6 +30,10 @@
   scroll-margin-top: 72px;
 }
 
+.detail-page [id] {
+  scroll-margin-top: 84px;
+}
+
 .detail-empty {
   position: relative;
   z-index: 1;

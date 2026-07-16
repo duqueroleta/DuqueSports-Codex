@@ -2,8 +2,9 @@ import '../../../styles/match-analysis-nav.css';
 
 const analysisLinks = [
   { href: '#probabilidades', label: 'Probabilidades' },
-  { href: '#projecao-engine', label: 'Projeção IA' },
+  { href: '#projecao-engine', label: 'Engine IA' },
   { href: '#fundamentos', label: 'Fundamentos' },
+  { href: '#bilhete', label: 'Bilhete' },
 ];
 
 function MatchAnalysisNav() {
