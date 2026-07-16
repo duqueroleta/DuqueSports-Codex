@@ -85,7 +85,11 @@ function MatchCard({ isActive = false, match }) {
         <div>
           <span>Leitura da IA</span>
           <strong>{match.signal}</strong>
-          <small>Odd {formatMatchOdds(match.odds)}</small>
+          <small>Mercado recomendado</small>
+        </div>
+        <div className="match-odd-pill">
+          <span>Odd</span>
+          <strong>{formatMatchOdds(match.odds)}</strong>
         </div>
         <div className="match-confidence">
           <strong>{confidenceDisplay}</strong>

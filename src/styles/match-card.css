@@ -203,11 +203,15 @@
 
 .match-signal {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
   align-items: center;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 10px;
+  border: 1px solid rgba(32, 246, 164, 0.13);
+  border-radius: 11px;
+  background:
+    radial-gradient(circle at left, rgba(32, 246, 164, 0.1), transparent 56%),
+    rgba(255, 255, 255, 0.035);
 }
 
 .match-signal > div:first-child > span,
@@ -218,7 +222,7 @@
 
 .match-signal > div:first-child > span {
   color: var(--color-neon);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 950;
   text-transform: uppercase;
 }
@@ -226,35 +230,54 @@
 .match-signal > div:first-child > strong {
   margin-top: 3px;
   color: var(--color-white);
-  font-size: 1rem;
+  font-size: 0.96rem;
+  line-height: 1.05;
 }
 
 .match-signal > div:first-child > small {
   margin-top: 3px;
-  color: var(--color-gold-soft);
-  font-size: 0.67rem;
+  color: #8994a2;
+  font-size: 0.6rem;
   font-weight: 850;
 }
 
+.match-odd-pill,
 .match-confidence {
+  display: grid;
+  place-items: center;
+  min-width: 54px;
+  min-height: 48px;
+  padding: 6px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 10px;
+  background: rgba(7, 17, 28, 0.44);
   text-align: right;
 }
 
+.match-odd-pill span,
+.match-odd-pill strong,
 .match-confidence strong,
 .match-confidence span {
   display: block;
 }
 
+.match-odd-pill strong,
 .match-confidence strong {
   color: var(--color-white);
-  font-size: 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 1000;
 }
 
+.match-odd-pill span,
 .match-confidence span {
-  color: #8994a2;
+  color: var(--color-gold-soft);
   font-size: 0.58rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.match-confidence strong {
+  color: var(--color-neon);
 }
 
 .match-confidence-track {
@@ -446,6 +469,10 @@
 
   .match-insight {
     display: none;
+  }
+
+  .match-signal {
+    grid-template-columns: minmax(0, 1fr) 56px 56px;
   }
 
   .match-card-footer {
