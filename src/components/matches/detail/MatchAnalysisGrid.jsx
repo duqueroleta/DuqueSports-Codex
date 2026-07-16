@@ -17,16 +17,19 @@ function getAnalysisCards(match) {
       label: 'Projeção estatística',
       title: `${confidence} de confiança operacional`,
       text: 'Score composto por forma recente, volume ofensivo, pressão territorial e preço médio do mercado.',
+      variant: 'projection',
     },
     {
       label: 'Cenário provável',
       title: match.signal,
       text: match.insight,
+      variant: 'scenario',
     },
     {
       label: 'Gestão de risco',
       title: `Odd média ${odds}`,
       text: 'Leitura indicada para estudo prévio. A entrada deve respeitar banca, limite pessoal e contexto ao vivo.',
+      variant: 'risk',
     },
   ];
   const metricCards = normalizeMatchMetrics(match.metrics).map((metric) => ({
