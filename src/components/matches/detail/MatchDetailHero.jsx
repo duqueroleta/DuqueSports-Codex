@@ -73,9 +73,19 @@ function MatchDetailHero({ match }) {
       </div>
 
       <div className="match-detail-quick-actions" aria-label="Ações rápidas da análise">
-        <a href="#fundamentos">Ver fundamentos</a>
+        <a href="#fundamentos">
+          <span aria-hidden="true">AI</span>
+          <span>
+            <small>Estudar jogo</small>
+            <strong>Ver fundamentos</strong>
+          </span>
+        </a>
         <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
-          Bilhete pronto
+          <span aria-hidden="true">R$</span>
+          <span>
+            <small>Apostar agora</small>
+            <strong>Bilhete pronto</strong>
+          </span>
         </a>
       </div>
 
