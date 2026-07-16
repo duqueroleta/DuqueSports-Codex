@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/CompetitionRail.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
@@ -57,6 +57,7 @@ function filterMatches(match, filter) {
 function MatchesPage() {
   const [activeDay, setActiveDay] = useState(0);
   const [visibleCount, setVisibleCount] = useState(6);
+  const carouselRef = useRef(null);
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.matches', 'Todos');
   const [activeCompetition, setActiveCompetition] = usePersistentState(
     'duque.filters.matches.competition',
@@ -89,6 +90,22 @@ function MatchesPage() {
   function resetAdvancedFilters() {
     setActiveTier(ALL_TIERS);
     setActiveMarket(ALL_MARKETS);
+  }
+
+  function scrollMatchCarousel(direction) {
+    if (!carouselRef.current) {
+      return;
+    }
+
+    const firstCard = carouselRef.current.querySelector('.match-card');
+    const scrollAmount = firstCard?.getBoundingClientRect().width
+      ? firstCard.getBoundingClientRect().width + 10
+      : carouselRef.current.clientWidth * 0.9;
+
+    carouselRef.current.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth',
+    });
   }
 
   return (
@@ -137,10 +154,28 @@ function MatchesPage() {
           <span>Ranking Duque Score</span>
           <strong>{activeDay === 0 ? 'Jogos de hoje' : 'Agenda selecionada'}</strong>
         </div>
-        <small>{filteredMatches.length} resultados</small>
+        <div className="matches-carousel-controls" aria-label="Navegação do carrossel de jogos">
+          <small>{filteredMatches.length} resultados</small>
+          <button
+            aria-label="Ver jogo anterior"
+            disabled={visibleMatches.length <= 1}
+            onClick={() => scrollMatchCarousel(-1)}
+            type="button"
+          >
+            ‹
+          </button>
+          <button
+            aria-label="Ver próximo jogo"
+            disabled={visibleMatches.length <= 1}
+            onClick={() => scrollMatchCarousel(1)}
+            type="button"
+          >
+            ›
+          </button>
+        </div>
       </div>
 
-      <section className="matches-page-grid" aria-label="Carrossel de jogos">
+      <section className="matches-page-grid" ref={carouselRef} aria-label="Carrossel de jogos">
         {isLoading ? <SkeletonGrid count={6} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error
