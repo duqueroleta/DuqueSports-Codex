@@ -2,13 +2,13 @@ import '../../../styles/market-detail-nav.css';
 
 const links = [
   { href: '#oportunidades-relacionadas', label: 'Oportunidades' },
-  { href: '#inteligencia-mercado', label: 'Inteligencia' },
+  { href: '#inteligencia-mercado', label: 'Inteligência' },
   { href: '#auditoria-mercado', label: 'Auditoria' },
 ];
 
 function MarketDetailNav() {
   return (
-    <nav className="market-detail-nav" aria-label="Secoes do mercado">
+    <nav className="market-detail-nav" aria-label="Seções do mercado">
       {links.map((link) => <a href={link.href} key={link.href}>{link.label}</a>)}
     </nav>
   );

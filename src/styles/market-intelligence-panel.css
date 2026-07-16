@@ -27,6 +27,15 @@
   line-height: 1.05;
 }
 
+.market-intelligence-grid small {
+  display: block;
+  margin-top: 4px;
+  color: #7f8a98;
+  font-size: 0.58rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 .market-intelligence-panel p {
   margin: 8px 0 0;
   color: #aeb8c5;
@@ -45,6 +54,10 @@
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.055);
+}
+
+.market-intelligence-grid article strong {
+  overflow-wrap: anywhere;
 }
 
 .market-intelligence-risk {

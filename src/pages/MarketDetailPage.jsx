@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import DetailPageState from '../components/detail/DetailPageState.jsx';
 import { DETAIL_PAGE_STATES, resolveDetailPageState } from '../components/detail/detailPageState.js';
 import MarketAuditPanel from '../components/markets/detail/MarketAuditPanel.jsx';
+import MarketDecisionPanel from '../components/markets/detail/MarketDecisionPanel.jsx';
 import MarketDetailHero from '../components/markets/detail/MarketDetailHero.jsx';
 import MarketDetailNav from '../components/markets/detail/MarketDetailNav.jsx';
 import MarketIntelligencePanel from '../components/markets/detail/MarketIntelligencePanel.jsx';
@@ -38,6 +39,7 @@ function MarketDetailPage() {
   return (
     <main className="detail-page market-detail-page-v2">
       <MarketDetailHero market={market} />
+      <MarketDecisionPanel market={market} />
       <MarketDetailNav />
       <MarketRelatedOpportunities intelligence={marketIntelligence} />
       <div id="inteligencia-mercado">
