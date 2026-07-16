@@ -215,7 +215,8 @@
 
 @media (max-width: 820px) {
   .matches-page {
-    padding: 10px 0 104px;
+    padding: 10px 0 calc(136px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(118px + env(safe-area-inset-bottom));
   }
 
   .matches-page-header {
@@ -301,7 +302,7 @@
     width: 100%;
     overflow-x: auto;
     margin: 0;
-    padding: 0 12px 6px;
+    padding: 0 12px calc(28px + env(safe-area-inset-bottom));
     overscroll-behavior-inline: contain;
     scroll-padding-inline: 12px;
     scroll-snap-type: x mandatory;
