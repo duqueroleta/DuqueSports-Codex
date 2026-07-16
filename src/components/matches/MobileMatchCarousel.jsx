@@ -102,8 +102,9 @@ function MobileMatchCarousel() {
           >
             &lsaquo;
           </button>
-          <span aria-hidden="true">
+          <span className="mobile-carousel-progress" aria-label={`Jogo ${activeIndex + 1} de ${visibleMatches.length}`}>
             <i style={{ width: `${((activeIndex + 1) / visibleMatches.length) * 100}%` }} />
+            <small>{activeIndex + 1} de {visibleMatches.length}</small>
           </span>
           <button
             aria-label="Próximo jogo"

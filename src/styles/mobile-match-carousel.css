@@ -31,26 +31,42 @@
 
   .mobile-carousel-controls {
     display: grid;
-    grid-template-columns: 38px minmax(80px, 180px) 38px;
+    grid-template-columns: 42px minmax(110px, 190px) 42px;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
-    min-height: 38px;
-    padding: 1px 12px 0;
+    min-height: 44px;
+    padding: 2px 12px 0;
   }
 
   .mobile-carousel-controls button {
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 50%;
     color: var(--color-white);
-    background: rgba(255, 255, 255, 0.065);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.09), transparent 58%),
+      rgba(255, 255, 255, 0.065);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 12px 24px rgba(0, 0, 0, 0.16);
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.45rem;
     line-height: 1;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+    touch-action: manipulation;
+  }
+
+  .mobile-carousel-controls button:not(:disabled):hover {
+    transform: translateY(-1px);
+    border-color: rgba(32, 246, 164, 0.26);
+    color: var(--color-neon);
   }
 
   .mobile-carousel-controls button:disabled {
@@ -58,19 +74,37 @@
     cursor: default;
   }
 
-  .mobile-carousel-controls > span {
+  .mobile-carousel-progress {
+    position: relative;
+    display: grid;
+    align-items: center;
     overflow: hidden;
-    height: 4px;
+    min-height: 28px;
+    padding: 0 9px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.065), transparent 62%),
+      rgba(255, 255, 255, 0.055);
   }
 
-  .mobile-carousel-controls i {
+  .mobile-carousel-progress i {
+    position: absolute;
+    inset: auto 6px 5px 6px;
     display: block;
-    height: 100%;
+    height: 3px;
     border-radius: inherit;
     background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
     transition: width 220ms ease;
+  }
+
+  .mobile-carousel-progress small {
+    position: relative;
+    z-index: 1;
+    color: #dce5ee;
+    font-size: 0.68rem;
+    font-weight: 950;
+    text-align: center;
   }
 
   .mobile-match-empty {
