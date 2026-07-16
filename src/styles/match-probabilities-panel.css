@@ -54,7 +54,7 @@
 
 .detail-probabilities article > span {
   overflow: hidden;
-  color: #9ca7b6;
+  color: var(--color-neon);
   font-size: 0.7rem;
   font-weight: 900;
   text-overflow: ellipsis;
@@ -70,9 +70,12 @@
 
 .detail-probabilities article > small {
   grid-column: 1 / -1;
-  color: #7f8b9b;
-  font-size: 0.63rem;
-  font-weight: 850;
+  overflow: hidden;
+  color: #9ca7b6;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .detail-probabilities article > div {
@@ -89,6 +92,22 @@
   border-radius: inherit;
   background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
   box-shadow: 0 0 18px rgba(32, 246, 164, 0.25);
+}
+
+.detail-probability-strongest {
+  border-color: rgba(217, 180, 91, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(217, 180, 91, 0.18), transparent 44%),
+    linear-gradient(145deg, rgba(32, 246, 164, 0.1), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.05);
+}
+
+.detail-probability-strongest > span {
+  color: var(--color-gold-soft);
+}
+
+.detail-probability-strongest > strong {
+  text-shadow: 0 0 20px rgba(217, 180, 91, 0.22);
 }
 
 @media (max-width: 520px) {
@@ -119,13 +138,17 @@
   }
 
   .detail-probabilities article {
-    flex: 0 0 min(58vw, 214px);
+    flex: 0 0 min(64vw, 230px);
     grid-template-columns: 1fr;
     gap: 7px;
-    min-height: 126px;
+    min-height: 132px;
     padding: 13px;
     border-radius: 14px;
     scroll-snap-align: start;
+  }
+
+  .detail-probabilities article:first-child {
+    margin-left: 0;
   }
 
   .detail-probabilities article > span {
