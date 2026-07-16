@@ -285,21 +285,55 @@
 .match-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
+  gap: 7px;
 }
 
 .match-meta span {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  min-height: 48px;
+  align-content: center;
   overflow: hidden;
-  padding: 7px 5px;
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 7px;
+  padding: 8px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 9px;
   color: #aeb8c5;
-  background: rgba(255, 255, 255, 0.035);
-  font-size: 0.62rem;
-  font-weight: 800;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.035);
   text-align: center;
+}
+
+.match-meta span::before {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  left: 8px;
+  height: 2px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
+  opacity: 0.72;
+  content: "";
+}
+
+.match-meta strong,
+.match-meta small {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.match-meta strong {
+  color: var(--color-white);
+  font-size: 0.78rem;
+  font-weight: 1000;
+}
+
+.match-meta small {
+  color: #8994a2;
+  font-size: 0.56rem;
+  font-weight: 900;
 }
 
 .match-card-footer {

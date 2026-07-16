@@ -8,6 +8,22 @@ import { formatMatchOdds } from '../../utils/matchOdds.js';
 import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import '../../styles/match-card.css';
 
+function formatMetricChip(metric) {
+  const match = metric.match(/^(.+?)\s+([+\-]?\d+(?:[.,]\d+)?%?)$/);
+
+  if (!match) {
+    return {
+      label: metric,
+      value: 'IA',
+    };
+  }
+
+  return {
+    label: match[1],
+    value: match[2],
+  };
+}
+
 function MatchCard({ isActive = false, match }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('match', match.id);
@@ -84,7 +100,16 @@ function MatchCard({ isActive = false, match }) {
       <p className="match-insight">{match.insight}</p>
 
       <div className="match-meta" aria-label="Indicadores principais">
-        {metrics.map((metric) => <span key={metric}>{metric}</span>)}
+        {metrics.map((metric) => {
+          const chip = formatMetricChip(metric);
+
+          return (
+            <span key={metric}>
+              <strong>{chip.value}</strong>
+              <small>{chip.label}</small>
+            </span>
+          );
+        })}
       </div>
 
       <footer className="match-card-footer">
