@@ -5,6 +5,7 @@
 
 .profile-hero,
 .profile-metrics,
+.profile-next-step,
 .profile-preferences {
   width: min(1240px, 100%);
   margin-inline: auto;
@@ -20,6 +21,7 @@
 .profile-hero-copy,
 .profile-score-card,
 .profile-metrics article,
+.profile-next-step,
 .profile-panel {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
@@ -44,6 +46,7 @@
 .profile-hero-copy span,
 .profile-score-card span,
 .profile-metrics span,
+.profile-next-step span,
 .profile-panel-header span,
 .profile-competition-grid button span {
   color: var(--color-neon);
@@ -131,6 +134,45 @@
   color: #aeb8c5;
   font-size: 0.84rem;
   line-height: 1.45;
+}
+
+.profile-next-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(32, 246, 164, 0.14), transparent 36%),
+    radial-gradient(circle at bottom left, rgba(217, 180, 91, 0.12), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.028)),
+    rgba(12, 18, 28, 0.78);
+}
+
+.profile-next-step strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--color-white);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1.18;
+}
+
+.profile-next-step a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(32, 246, 164, 0.3);
+  border-radius: 8px;
+  color: #07111c;
+  background: var(--color-neon);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .profile-preferences {
@@ -251,6 +293,7 @@
   }
 
   .profile-hero,
+  .profile-next-step,
   .profile-preferences {
     grid-template-columns: 1fr;
   }
@@ -297,6 +340,19 @@
   .profile-metrics article {
     flex: 0 0 min(58vw, 230px);
     scroll-snap-align: start;
+  }
+
+  .profile-next-step {
+    width: calc(100% - 20px);
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 14px;
+  }
+
+  .profile-next-step a {
+    min-height: 44px;
+    border-radius: 14px;
   }
 
   .profile-preferences {

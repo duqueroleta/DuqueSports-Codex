@@ -31,7 +31,7 @@ function DevFailurePanel() {
       <div>
         <span>Dev tools</span>
         <h2 id="dev-failure-title">Simular falha de API</h2>
-        <p>Use para testar estados de erro, retry e skeleton antes da integracao real.</p>
+        <p>Use para testar estados de erro, retry e skeleton antes da integração real.</p>
       </div>
 
       <div className="dev-failure-options">

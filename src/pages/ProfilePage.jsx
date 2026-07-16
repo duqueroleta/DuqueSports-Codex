@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import DevFailurePanel from '../components/profile/DevFailurePanel.jsx';
 import ResetPreferencesPanel from '../components/profile/ResetPreferencesPanel.jsx';
 import { useFavorites } from '../context/FavoritesContext.jsx';
@@ -11,12 +12,41 @@ const MARKETS_KEY = 'duque.profile.markets';
 const COMPETITIONS_KEY = 'duque.profile.competitions';
 
 const userTypes = ['Apostador', 'Trader esportivo', 'Analista', 'Curioso'];
-const experienceLevels = ['Iniciante', 'Intermediario', 'Avancado'];
+const experienceLevels = ['Iniciante', 'Intermediário', 'Avançado'];
 const marketPreferences = ['Over gols', 'Ambas marcam', 'Escanteios', 'Resultado final', 'Dupla chance', 'Handicap'];
 const featuredCompetitions = competitions.slice(0, 8);
 
 function toggleItem(items, item) {
   return items.includes(item) ? items.filter((currentItem) => currentItem !== item) : [...items, item];
+}
+
+function getProfileNextStep({ favoriteMatches, favoriteMarkets, personalizationScore }) {
+  const totalFavorites = favoriteMatches.length + favoriteMarkets.length;
+
+  if (personalizationScore >= 80 && totalFavorites > 0) {
+    return {
+      href: '/favoritos',
+      label: 'Abrir radar pessoal',
+      status: 'Perfil ativo',
+      text: 'Seu radar já tem preferências e favoritos suficientes para leitura personalizada.',
+    };
+  }
+
+  if (personalizationScore >= 68) {
+    return {
+      href: '/lista-vip',
+      label: 'Entrar na Lista VIP',
+      status: 'Pronto para VIP',
+      text: 'Perfil configurado para receber análises gratuitas e novidades prioritárias.',
+    };
+  }
+
+  return {
+    href: '/jogos',
+    label: 'Selecionar jogos',
+    status: 'Configure seu radar',
+    text: 'Escolha mercados, campeonatos e favoritos para melhorar a personalização.',
+  };
 }
 
 function ProfilePage() {
@@ -26,7 +56,7 @@ function ProfilePage() {
   const [selectedMarkets, setSelectedMarkets] = usePersistentState(MARKETS_KEY, ['Over gols', 'Ambas marcam']);
   const [selectedCompetitions, setSelectedCompetitions] = usePersistentState(
     COMPETITIONS_KEY,
-    ['Copa do Mundo', 'Brasileirao', 'Champions League'],
+    ['Copa do Mundo', 'Brasileirão', 'Champions League'],
   );
   const personalizationScore = Math.min(
     100,
@@ -36,17 +66,17 @@ function ProfilePage() {
     {
       label: 'Perfil',
       value: userType,
-      description: `${experience} dentro do DUQUE Score`,
+      description: `${experience} dentro do Duque Score`,
     },
     {
-      label: 'Personalizacao',
+      label: 'Personalização',
       value: `${personalizationScore}%`,
-      description: 'base local para recomendacoes futuras',
+      description: 'base local para recomendações futuras',
     },
     {
       label: 'Mercados',
       value: selectedMarkets.length,
-      description: 'preferencias de leitura estatistica',
+      description: 'preferências de leitura estatística',
     },
     {
       label: 'Favoritos',
@@ -54,23 +84,24 @@ function ProfilePage() {
       description: 'jogos e mercados salvos neste navegador',
     },
   ];
+  const nextStep = getProfileNextStep({ favoriteMatches, favoriteMarkets, personalizationScore });
 
   return (
     <main className="profile-page">
       <section className="profile-hero" aria-labelledby="profile-title">
         <div className="profile-hero-copy">
           <span>Perfil gratuito</span>
-          <h1 id="profile-title">Configure sua leitura do DUQUE Score</h1>
+          <h1 id="profile-title">Configure sua leitura do Duque Score</h1>
           <p>
-            Preferencias locais para entender seus campeonatos, mercados e nivel de experiencia.
-            Esses dados ajudam a preparar uma experiencia cada vez mais personalizada.
+            Preferências locais para entender seus campeonatos, mercados e nível de experiência.
+            Esses dados ajudam a preparar uma experiência cada vez mais personalizada.
           </p>
         </div>
 
         <aside className="profile-score-card" aria-label="Resumo do perfil">
-          <span>Nivel atual</span>
+          <span>Nível atual</span>
           <strong>VIP</strong>
-          <p>Acesso gratuito habilitado para captacao e relacionamento.</p>
+          <p>Acesso gratuito habilitado para captação e relacionamento.</p>
           <small>{personalizationScore}% personalizado</small>
         </aside>
       </section>
@@ -85,14 +116,22 @@ function ProfilePage() {
         ))}
       </section>
 
-      <section className="profile-preferences" aria-label="Preferencias do usuario">
+      <section className="profile-next-step" aria-label="Próximo passo do perfil">
+        <div>
+          <span>{nextStep.status}</span>
+          <strong>{nextStep.text}</strong>
+        </div>
+        <Link to={nextStep.href}>{nextStep.label}</Link>
+      </section>
+
+      <section className="profile-preferences" aria-label="Preferências do usuário">
         <article className="profile-panel">
           <div className="profile-panel-header">
-            <span>Tipo de usuario</span>
-            <strong>Como voce usa as analises</strong>
+            <span>Tipo de usuário</span>
+            <strong>Como você usa as análises</strong>
           </div>
 
-          <div className="profile-segmented" aria-label="Tipo de usuario">
+          <div className="profile-segmented" aria-label="Tipo de usuário">
             {userTypes.map((type) => (
               <button
                 aria-pressed={userType === type}
@@ -106,7 +145,7 @@ function ProfilePage() {
             ))}
           </div>
 
-          <div className="profile-levels" aria-label="Nivel de experiencia">
+          <div className="profile-levels" aria-label="Nível de experiência">
             {experienceLevels.map((level) => (
               <button
                 aria-pressed={experience === level}

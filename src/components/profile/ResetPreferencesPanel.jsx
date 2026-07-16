@@ -33,15 +33,15 @@ function ResetPreferencesPanel() {
     clearFavorites();
     setSearchTerm('');
     setConfirming(false);
-    showToast('Preferencias limpas com sucesso.');
+    showToast('Preferências limpas com sucesso.');
   }
 
   return (
     <section className="reset-preferences" aria-labelledby="reset-preferences-title">
       <div>
-        <span>Preferencias</span>
+        <span>Preferências</span>
         <h2 id="reset-preferences-title">Limpar dados salvos</h2>
-        <p>Remove busca, filtros persistidos, favoritos e preferencias salvas neste navegador.</p>
+        <p>Remove busca, filtros persistidos, favoritos e preferências salvas neste navegador.</p>
       </div>
 
       <div className="reset-preferences-actions">
@@ -56,7 +56,7 @@ function ResetPreferencesPanel() {
           </>
         ) : (
           <button className="reset-button reset-button-primary" onClick={() => setConfirming(true)} type="button">
-            Limpar preferencias
+            Limpar preferências
           </button>
         )}
       </div>
