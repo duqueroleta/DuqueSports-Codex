@@ -20,6 +20,50 @@ function getTopMarket(markets) {
   return [...markets].sort((first, second) => (second.strength ?? 0) - (first.strength ?? 0))[0] ?? null;
 }
 
+function getFavoriteDecision(topMatch, topMarket) {
+  if (topMatch && topMarket) {
+    return {
+      href: `/jogos/${topMatch.id}`,
+      label: 'Abrir análise',
+      status: 'Prioridade completa',
+      text: 'Jogo e mercado salvos para comparação imediata.',
+      title: `${topMatch.home} x ${topMatch.away}`,
+      tone: 'complete',
+    };
+  }
+
+  if (topMatch) {
+    return {
+      href: `/jogos/${topMatch.id}`,
+      label: 'Abrir análise',
+      status: 'Jogo prioritário',
+      text: 'Melhor jogo salvo pronto para leitura completa.',
+      title: `${topMatch.home} x ${topMatch.away}`,
+      tone: 'match',
+    };
+  }
+
+  if (topMarket) {
+    return {
+      href: `/mercados/${topMarket.id}`,
+      label: 'Ver mercado',
+      status: 'Mercado prioritário',
+      text: 'Mercado salvo com melhor força no seu radar.',
+      title: topMarket.name,
+      tone: 'market',
+    };
+  }
+
+  return {
+    href: '/jogos',
+    label: 'Salvar jogos',
+    status: 'Radar vazio',
+    text: 'Salve jogos ou mercados para ativar recomendações pessoais.',
+    title: 'Nenhum favorito salvo ainda',
+    tone: 'empty',
+  };
+}
+
 function FavoritesPage() {
   const { favoriteMatches, favoriteMarkets } = useFavorites();
   const { searchTerm } = useSearch();
@@ -44,6 +88,7 @@ function FavoritesPage() {
   const topMatch = getTopMatch(allSavedMatches);
   const topMarket = getTopMarket(allSavedMarkets);
   const hasFavorites = totalFavorites > 0;
+  const favoriteDecision = getFavoriteDecision(topMatch, topMarket);
   const favoriteMetrics = [
     {
       label: 'Jogos salvos',
@@ -97,14 +142,14 @@ function FavoritesPage() {
         ))}
       </section>
 
-      <section className="favorites-command" aria-label="Ação rápida dos favoritos">
+      <section className={`favorites-command favorites-command-${favoriteDecision.tone}`} aria-label="Ação rápida dos favoritos">
         <div>
-          <span>Próxima melhor leitura</span>
-          <strong>{topMatch ? `${topMatch.home} x ${topMatch.away}` : 'Nenhum jogo salvo ainda'}</strong>
+          <span>{favoriteDecision.status}</span>
+          <strong>{favoriteDecision.title}</strong>
           <p>
             {topMatch
               ? `${topMatch.signal} com ${topMatch.confidence}% de score e odd ${topMatch.odds}.`
-              : 'Salve um jogo na página Jogos para montar seu radar pessoal.'}
+              : favoriteDecision.text}
           </p>
         </div>
 
@@ -115,8 +160,8 @@ function FavoritesPage() {
         </aside>
 
         <div className="favorites-command-actions">
-          <Link aria-disabled={!topMatch} className={!topMatch ? 'favorites-action-disabled' : ''} to={topMatch ? `/jogos/${topMatch.id}` : '#'}>
-            Abrir análise
+          <Link to={favoriteDecision.href}>
+            {favoriteDecision.label}
           </Link>
           <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
             Bilhete pronto
