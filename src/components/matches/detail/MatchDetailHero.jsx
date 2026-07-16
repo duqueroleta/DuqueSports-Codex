@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AFFILIATE_LINKS } from '../../../config/affiliateLinks.js';
 import TeamCrest from '../../teams/TeamCrest.jsx';
 import { getMatchConfidenceLabel, normalizeMatchConfidence } from '../../../utils/matchConfidence.js';
 import { formatMatchOdds } from '../../../utils/matchOdds.js';
@@ -69,6 +70,13 @@ function MatchDetailHero({ match }) {
           Odd média
           <strong>{formatMatchOdds(match.odds)}</strong>
         </small>
+      </div>
+
+      <div className="match-detail-quick-actions" aria-label="Ações rápidas da análise">
+        <a href="#fundamentos">Ver fundamentos</a>
+        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
+          Bilhete pronto
+        </a>
       </div>
 
       <div className="match-detail-kpis" aria-label="Resumo rápido da análise">
