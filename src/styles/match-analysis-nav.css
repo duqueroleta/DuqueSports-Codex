@@ -77,7 +77,10 @@
     position: sticky;
     top: 58px;
     z-index: 12;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     margin-top: 8px;
+    overflow: hidden;
     padding: 7px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -91,9 +94,16 @@
   }
 
   .match-analysis-nav a {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    min-width: 0;
     min-height: 36px;
-    padding: 8px 12px;
-    font-size: 0.68rem;
+    padding: 8px 3px;
+    font-size: 0.54rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .match-analysis-nav a::after {
+    inset-inline: 8px;
   }
 }
