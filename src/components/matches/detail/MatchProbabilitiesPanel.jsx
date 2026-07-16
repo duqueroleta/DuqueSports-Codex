@@ -19,6 +19,7 @@ function MatchProbabilitiesPanel({ probabilities = [] }) {
           <article key={probability.label}>
             <span>{probability.label}</span>
             <strong>{probability.value}%</strong>
+            <small>probabilidade estimada</small>
             <div aria-hidden="true">
               <i style={{ width: `${probability.value}%` }} />
             </div>
