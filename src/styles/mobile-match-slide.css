@@ -59,6 +59,7 @@
     justify-content: space-between;
     gap: 10px;
     align-items: center;
+    min-height: 42px;
   }
 
   .mobile-match-card-header > div {
@@ -78,8 +79,9 @@
     overflow: hidden;
     max-width: 190px;
     color: var(--color-gold-soft);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 900;
+    letter-spacing: 0.08em;
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
@@ -87,11 +89,19 @@
 
   .mobile-match-card-header strong {
     color: #aeb8c5;
-    font-size: 0.72rem;
+    font-size: 0.73rem;
+    font-weight: 850;
   }
 
   .mobile-match-card-header .mobile-live-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(32, 246, 164, 0.22);
+    border-radius: 999px;
     color: var(--color-neon);
+    background: rgba(32, 246, 164, 0.08);
   }
 
   .mobile-favorite {
@@ -153,25 +163,27 @@
 
   .mobile-matchup {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) 58px minmax(0, 1fr);
+    gap: 10px;
     align-items: center;
+    padding: 4px 0 2px;
   }
 
   .mobile-matchup > div {
     display: grid;
     justify-items: center;
-    gap: 5px;
+    gap: 6px;
     min-width: 0;
     text-align: center;
   }
 
   .mobile-matchup > div > strong {
-    max-width: 120px;
+    max-width: 128px;
     color: var(--color-white);
-    font-size: 0.94rem;
+    font-size: 1rem;
     line-height: 1.08;
     overflow-wrap: anywhere;
+    text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
   }
 
   .mobile-matchup small,
@@ -179,19 +191,23 @@
     color: #8b95a5;
     font-size: 0.62rem;
     font-weight: 850;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   .mobile-matchup-center strong {
     display: grid;
     place-items: center;
-    min-width: 48px;
-    min-height: 38px;
-    border: 1px solid rgba(217, 180, 91, 0.24);
-    border-radius: 12px;
+    min-width: 50px;
+    min-height: 42px;
+    border: 1px solid rgba(217, 180, 91, 0.28);
+    border-radius: 14px;
     color: var(--color-gold-soft);
-    background: rgba(217, 180, 91, 0.08);
-    font-size: 1rem;
+    background:
+      radial-gradient(circle at top, rgba(217, 180, 91, 0.16), transparent 58%),
+      rgba(217, 180, 91, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    font-size: 1.05rem;
   }
 
   .mobile-ai-summary {
@@ -414,7 +430,13 @@
   }
 
   .mobile-matchup {
-    grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .mobile-matchup > div > strong {
+    max-width: 108px;
+    font-size: 0.9rem;
   }
 
   .mobile-ai-summary {

@@ -49,7 +49,7 @@ function MobileMatchSlide({ match }) {
 
         <div className="mobile-matchup">
           <div>
-            <TeamCrest teamName={match.home} />
+            <TeamCrest size="large" teamName={match.home} />
             <strong>{match.home}</strong>
             <small>Mandante</small>
           </div>
@@ -61,7 +61,7 @@ function MobileMatchSlide({ match }) {
           </div>
 
           <div>
-            <TeamCrest teamName={match.away} />
+            <TeamCrest size="large" teamName={match.away} />
             <strong>{match.away}</strong>
             <small>Visitante</small>
           </div>
