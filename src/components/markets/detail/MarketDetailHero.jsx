@@ -19,17 +19,17 @@ function MarketDetailHero({ market }) {
 
       <div className="market-detail-main">
         <div>
-          <span>Leitura estatistica</span>
+          <span>Leitura estatística</span>
           <h1 id="market-detail-title">{market.name}</h1>
           <p>{market.insight}</p>
         </div>
         <div
-          aria-label={`Forca da IA ${market.strength}%`}
+          aria-label={`Força da IA ${market.strength}%`}
           className="market-detail-score"
           style={{ '--market-score-progress': `${market.strength}%` }}
         >
           <div>
-            <span>Forca IA</span>
+            <span>Força IA</span>
             <strong>{market.strength}%</strong>
             <small>{market.audit}</small>
           </div>
@@ -38,9 +38,9 @@ function MarketDetailHero({ market }) {
 
       <div className="market-detail-metrics" aria-label="Indicadores do mercado">
         <div><span>Risco</span><strong>{market.risk}</strong></div>
-        <div><span>Odd media</span><strong>{market.averageOdd}</strong></div>
+        <div><span>Odd média</span><strong>{market.averageOdd}</strong></div>
         <div><span>Auditoria</span><strong>{market.audit}</strong></div>
-        <div><span>Tendencia</span><strong>{market.trend}</strong></div>
+        <div><span>Tendência</span><strong>{market.trend}</strong></div>
       </div>
     </section>
   );

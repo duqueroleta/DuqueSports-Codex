@@ -13,7 +13,7 @@ function MarketRelatedOpportunities({ intelligence }) {
       <header>
         <div>
           <span>Jogos relacionados</span>
-          <strong id="market-related-title">Melhores aderencias</strong>
+          <strong id="market-related-title">Melhores aderências</strong>
         </div>
         <small>{opportunities.length} sinais</small>
       </header>
@@ -27,15 +27,15 @@ function MarketRelatedOpportunities({ intelligence }) {
               <div>
                 <p><b>{opportunity.opportunityScore}</b><small>Score</small></p>
                 <p><b>{opportunity.probability}%</b><small>Prob.</small></p>
-                <p><b>{opportunity.confidence}</b><small>Confianca</small></p>
+                <p><b>{opportunity.confidence}</b><small>Confiança</small></p>
               </div>
-              <Link to={`/jogos/${opportunity.matchId}`}>Abrir analise</Link>
+              <Link to={`/jogos/${opportunity.matchId}`}>Abrir análise</Link>
             </article>
           ))}
         </div>
       ) : (
         <div className="market-related-empty">
-          Nenhum jogo atingiu o corte estatistico para este mercado.
+          Nenhum jogo atingiu o corte estatístico para este mercado.
         </div>
       )}
     </section>

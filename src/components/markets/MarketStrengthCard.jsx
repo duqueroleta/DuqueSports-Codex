@@ -1,14 +1,28 @@
 import { Link } from 'react-router-dom';
+import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import { useFavorites } from '../../context/FavoritesContext.jsx';
 import '../../styles/market-strength-card.css';
+
+function getRiskTone(risk) {
+  if (risk === 'Baixo' || risk === 'Controlado') {
+    return 'safe';
+  }
+
+  if (risk === 'Alto') {
+    return 'hot';
+  }
+
+  return 'watch';
+}
 
 function MarketStrengthCard({ market, rank }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('market', market.id);
-  const recommendation = market.risk === 'Alto' ? 'Aguardar confirmacao' : 'Prioridade de analise';
+  const recommendation = market.risk === 'Alto' ? 'Aguardar confirmação' : 'Prioridade de análise';
+  const riskTone = getRiskTone(market.risk);
 
   return (
-    <article className="market-strength-card" aria-label={market.name}>
+    <article className={`market-strength-card market-risk-${riskTone}`} aria-label={market.name}>
       <header className="market-strength-top">
         <div>
           <span>#{rank} no radar</span>
@@ -27,13 +41,13 @@ function MarketStrengthCard({ market, rank }) {
 
       <div className="market-strength-score">
         <div>
-          <span>Forca IA</span>
+          <span>Força IA</span>
           <strong>{market.strength}%</strong>
         </div>
-        <small>{market.trend}</small>
+        <small>{market.trend} tendência</small>
       </div>
 
-      <div className="market-strength-bar" aria-label={`Forca ${market.strength}%`}>
+      <div className="market-strength-bar" aria-label={`Força ${market.strength}%`}>
         <span style={{ width: `${market.strength}%` }} />
       </div>
 
@@ -43,7 +57,7 @@ function MarketStrengthCard({ market, rank }) {
           <strong>{market.risk}</strong>
         </div>
         <div>
-          <span>Odd media</span>
+          <span>Odd média</span>
           <strong>{market.averageOdd}</strong>
         </div>
         <div>
@@ -59,7 +73,12 @@ function MarketStrengthCard({ market, rank }) {
           <span>Leitura Duque</span>
           <strong>{recommendation}</strong>
         </div>
-        <Link to={`/mercados/${market.id}`}>Ver mercado</Link>
+        <div className="market-strength-actions">
+          <Link to={`/mercados/${market.id}`}>Ver análise</Link>
+          <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
+            Bilhete pronto
+          </a>
+        </div>
       </footer>
     </article>
   );
