@@ -23,7 +23,7 @@ import {
 const sources = [
   {
     id: 1,
-    name: 'Partidas e calendario',
+    name: 'Partidas e calendário',
     coverage: '128 ligas',
     freshness: '5 min',
     quality: '98%',
@@ -43,13 +43,13 @@ const sources = [
     coverage: '18 casas',
     freshness: '2 min',
     quality: '94%',
-    status: 'Estavel',
+    status: 'Estável',
   },
   {
     id: 4,
-    name: 'Auditoria historica',
+    name: 'Auditoria histórica',
     coverage: '12.840 sinais',
-    freshness: 'Diario',
+    freshness: 'Diário',
     quality: '97%',
     status: 'Validado',
   },
@@ -62,19 +62,19 @@ const pipelineSteps = [
     description: 'Partidas, mercados, live e auditorias seguem contratos internos.',
   },
   {
-    label: 'Validacao',
+    label: 'Validação',
     value: 'Preflight',
-    description: 'O engine bloqueia entradas criticas antes da modelagem.',
+    description: 'O engine bloqueia entradas críticas antes da modelagem.',
   },
   {
     label: 'Modelagem',
     value: 'Score',
-    description: 'Probabilidades, oportunidades e snapshots sao calculados em lote.',
+    description: 'Probabilidades, oportunidades e snapshots são calculados em lote.',
   },
   {
     label: 'Entrega',
     value: 'UI/API',
-    description: 'Dados sao exibidos na interface e preparados para contratos HTTP.',
+    description: 'Dados são exibidos na interface e preparados para contratos HTTP.',
   },
 ];
 
@@ -86,19 +86,39 @@ function getDataHealthCards({ dataSource, executiveDashboard, executionStatus })
       description: dataSource ? `${dataSource.totals.markets} mercados monitorados` : 'carregando engine',
     },
     {
-      label: 'Qualidade media',
+      label: 'Qualidade média',
       value: executiveDashboard ? `${executiveDashboard.quality.averageAuditHitRate}%` : '96%',
-      description: 'hit rate medio das auditorias e leituras internas',
+      description: 'hit rate médio das auditorias e leituras internas',
     },
     {
       label: 'Status do motor',
       value: executionStatus?.status ?? 'Sincronizando',
-      description: executionStatus?.isTerminal ? 'execucao finalizada' : 'pipeline em avaliacao',
+      description: executionStatus?.isTerminal ? 'execução finalizada' : 'pipeline em avaliação',
     },
     {
       label: 'Modo de dados',
       value: dataSource?.provider ?? 'Mock',
       description: 'sem API externa conectada nesta fase',
+    },
+  ];
+}
+
+function getDataReadinessCards({ apiResponse, dataSource, preflight }) {
+  return [
+    {
+      label: 'Base atual',
+      value: dataSource?.provider ?? 'Mock',
+      description: 'Dados oficiais do projeto até a conexão com APIs externas.',
+    },
+    {
+      label: 'Validação',
+      value: preflight?.status ?? 'Em checagem',
+      description: dataSource?.validation?.valid ? 'Contratos internos aprovados.' : 'Aguardando validação do engine.',
+    },
+    {
+      label: 'Entrega API',
+      value: apiResponse ? `${apiResponse.statusCode}` : '--',
+      description: apiResponse ? apiResponse.endpoint : 'Contrato HTTP preparado para próxima fase.',
     },
   ];
 }
@@ -136,6 +156,7 @@ function DataPage() {
   const apiResponse = engineExecution?.apiResponse ?? null;
   const dataSource = engineExecution?.dataSource ?? null;
   const healthCards = getDataHealthCards({ dataSource, executiveDashboard, executionStatus });
+  const readinessCards = getDataReadinessCards({ apiResponse, dataSource, preflight });
   const filteredSources = sources.filter((source) => itemMatchesSearch(source, searchTerm));
 
   return (
@@ -143,18 +164,18 @@ function DataPage() {
       <section className="data-page-hero" aria-labelledby="data-page-title">
         <div className="data-page-hero-copy">
           <span>Data command center</span>
-          <h1 id="data-page-title">Qualidade, cobertura e rastreabilidade do DUQUE Score</h1>
+          <h1 id="data-page-title">Qualidade, cobertura e rastreabilidade do Duque Score</h1>
           <p>
-            Uma visao executiva das bases que alimentam o motor estatistico, separando o que ja
-            esta validado, o que e mockado e o que esta pronto para evoluir para producao.
+            Uma visão executiva das bases que alimentam o motor estatístico, separando o que já
+            está validado, o que é mockado e o que está pronto para evoluir para produção.
           </p>
         </div>
 
         <aside className="data-page-summary" aria-label="Resumo de integridade dos dados">
-          <span>Integridade media</span>
+          <span>Integridade média</span>
           <strong>96%</strong>
-          <p>bases principais em estado saudavel</p>
-          <small>Mocks oficiais ate a integracao de APIs</small>
+          <p>bases principais em estado saudável</p>
+          <small>Mocks oficiais até a integração de APIs</small>
         </aside>
       </section>
 
@@ -168,10 +189,31 @@ function DataPage() {
         ))}
       </section>
 
+      <section className="data-readiness-panel" aria-label="Prontidão executiva da camada de dados">
+        <div>
+          <span>Prontidão de dados</span>
+          <strong>Mock controlado, contratos ativos e engine rastreável</strong>
+          <p>
+            Esta camada mostra o que já pode sustentar a experiência gratuita hoje e o que será
+            trocado por integrações reais nas próximas fases.
+          </p>
+        </div>
+
+        <div className="data-readiness-grid">
+          {readinessCards.map((card) => (
+            <article key={card.label}>
+              <span>{card.label}</span>
+              <strong>{card.value}</strong>
+              <p>{card.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="data-pipeline" aria-label="Pipeline de processamento dos dados">
         <div className="data-pipeline-header">
           <span>Pipeline operacional</span>
-          <strong>Do dado bruto ao sinal estatistico</strong>
+          <strong>Do dado bruto ao sinal estatístico</strong>
         </div>
 
         <div className="data-pipeline-steps">
@@ -190,12 +232,12 @@ function DataPage() {
 
       {executiveReport ? (
         <TechnicalPanel
-          ariaLabel="Relatorio executivo do pipeline"
+          ariaLabel="Relatório executivo do pipeline"
           variant="gold"
           eyebrow="Executive Report"
           title={executiveReport.status}
           description={executiveReport.headline}
-          asideEyebrow="Saude"
+          asideEyebrow="Saúde"
           asideTitle={executiveReport.health}
           asideDescription={executiveReport.generatedAt}
           items={getExecutiveReportItems(executiveReport)}
@@ -223,7 +265,7 @@ function DataPage() {
           eyebrow="Preflight"
           title={preflight.status}
           description={preflight.model}
-          asideEyebrow="Politica"
+          asideEyebrow="Política"
           asideTitle={preflight.severityPolicy.model}
           asideDescription={preflight.severityPolicy.toleratesWarnings ? 'avisos tolerados' : 'avisos bloqueantes'}
           items={getPreflightItems(preflight)}
@@ -246,14 +288,14 @@ function DataPage() {
 
       {executionStatus ? (
         <TechnicalPanel
-          ariaLabel="Status padronizado da execucao do engine"
+          ariaLabel="Status padronizado da execução do engine"
           variant="neon"
           eyebrow="Execution Status"
           title={executionStatus.status}
           description={executionStatus.model}
           asideEyebrow="Mensagens"
           asideTitle={executionStatus.messages.length}
-          asideDescription={executionStatus.isTerminal ? 'execucao finalizada' : 'execucao em andamento'}
+          asideDescription={executionStatus.isTerminal ? 'execução finalizada' : 'execução em andamento'}
           items={getExecutionStatusItems(executionStatus)}
         />
       ) : null}
@@ -267,7 +309,7 @@ function DataPage() {
           description={`${executiveDashboard.totals.eliteOpportunities} oportunidades elite, ${executiveDashboard.totals.rankedMarkets} mercados ranqueados e ${executiveDashboard.totals.auditedMarkets} auditorias consolidadas.`}
           asideEyebrow="Engine v1"
           asideTitle={executiveDashboard.quality.averageOpportunityScore}
-          asideDescription="score medio das melhores oportunidades"
+          asideDescription="score médio das melhores oportunidades"
           items={getExecutiveDashboardItems(executiveDashboard)}
         />
       ) : null}
@@ -288,13 +330,13 @@ function DataPage() {
 
       {persistedSnapshot ? (
         <TechnicalPanel
-          ariaLabel="Persistencia local de snapshots"
+          ariaLabel="Persistência local de snapshots"
           variant="neon"
-          eyebrow="Persistencia local"
+          eyebrow="Persistência local"
           title={`${snapshotHistory.length} snapshot salvo`}
-          description="Historico em memoria pronto para futura troca por banco de dados."
-          asideEyebrow="Recuperacao por ID"
-          asideTitle={recoveredSnapshot ? 'Ativa' : 'Indisponivel'}
+          description="Histórico em memória pronto para futura troca por banco de dados."
+          asideEyebrow="Recuperação por ID"
+          asideTitle={recoveredSnapshot ? 'Ativa' : 'Indisponível'}
           asideDescription={persistedSnapshot.snapshotId}
           items={getPersistedSnapshotItems(persistedSnapshot, snapshotHistory, recoveredSnapshot)}
         />
@@ -302,10 +344,10 @@ function DataPage() {
 
       {importedSnapshotEnvelope ? (
         <TechnicalPanel
-          ariaLabel="Exportacao e importacao JSON de snapshots"
+          ariaLabel="Exportação e importação JSON de snapshots"
           variant="gold"
           eyebrow="Snapshot JSON"
-          title="Exportacao/importacao ativa"
+          title="Exportação/importação ativa"
           description={importedSnapshotEnvelope.format}
           asideEyebrow="Payload"
           asideTitle={exportedSnapshotJson.length}

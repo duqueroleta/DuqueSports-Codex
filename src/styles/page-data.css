@@ -5,6 +5,7 @@
 
 .data-page-hero,
 .data-health-grid,
+.data-readiness-panel,
 .data-pipeline,
 .data-source-grid {
   width: min(1240px, 100%);
@@ -21,6 +22,7 @@
 .data-page-hero-copy,
 .data-page-summary,
 .data-health-grid article,
+.data-readiness-panel,
 .data-pipeline {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);
@@ -45,6 +47,7 @@
 .data-page-hero-copy span,
 .data-page-summary span,
 .data-health-grid span,
+.data-readiness-panel span,
 .data-pipeline span {
   color: var(--color-neon);
   font-size: 0.72rem;
@@ -130,6 +133,65 @@
   color: #aeb8c5;
   font-size: 0.84rem;
   line-height: 1.45;
+}
+
+.data-readiness-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 14px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(217, 180, 91, 0.14), transparent 36%),
+    radial-gradient(circle at bottom left, rgba(32, 246, 164, 0.12), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.028)),
+    rgba(12, 18, 28, 0.78);
+}
+
+.data-readiness-panel > div:first-child {
+  min-width: 0;
+}
+
+.data-readiness-panel > div:first-child strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-white);
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.data-readiness-panel > div:first-child p,
+.data-readiness-grid p {
+  margin: 8px 0 0;
+  color: #aeb8c5;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.data-readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.data-readiness-grid article {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.data-readiness-grid strong {
+  display: block;
+  margin-top: 7px;
+  overflow: hidden;
+  color: var(--color-gold-soft);
+  font-size: 1.1rem;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .data-pipeline {
@@ -220,6 +282,7 @@
   }
 
   .data-page-hero,
+  .data-readiness-panel,
   .data-pipeline {
     grid-template-columns: 1fr;
   }
@@ -266,6 +329,32 @@
   .data-health-grid article {
     flex: 0 0 min(62vw, 240px);
     min-height: 112px;
+    scroll-snap-align: start;
+  }
+
+  .data-readiness-panel {
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    padding: 14px;
+  }
+
+  .data-readiness-grid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .data-readiness-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .data-readiness-grid article {
+    flex: 0 0 min(72vw, 280px);
     scroll-snap-align: start;
   }
 

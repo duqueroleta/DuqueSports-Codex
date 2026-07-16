@@ -16,7 +16,7 @@ function DataSourceCard({ source }) {
           <strong>{source.coverage}</strong>
         </div>
         <div>
-          <span>Atualizacao</span>
+          <span>Atualização</span>
           <strong>{source.freshness}</strong>
         </div>
         <div>
