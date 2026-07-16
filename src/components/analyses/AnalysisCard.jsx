@@ -1,16 +1,34 @@
 import { Link } from 'react-router-dom';
+import { AFFILIATE_LINKS } from '../../config/affiliateLinks.js';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import '../../styles/analysis-card.css';
 
+function getAnalysisDecision(opportunity) {
+  if (opportunity.opportunityScore >= 88 && opportunity.confidence >= 85) {
+    return { label: 'Prioridade máxima', tone: 'hot' };
+  }
+
+  if (opportunity.risk.startsWith('Nenhum risco')) {
+    return { label: 'Entrada limpa', tone: 'safe' };
+  }
+
+  return { label: 'Validar contexto', tone: 'watch' };
+}
+
 function AnalysisCard({ opportunity, rank }) {
+  const decision = getAnalysisDecision(opportunity);
+
   return (
-    <article className="analysis-library-card" aria-label={`${opportunity.home} contra ${opportunity.away}`}>
+    <article className={`analysis-library-card analysis-decision-${decision.tone}`} aria-label={`${opportunity.home} contra ${opportunity.away}`}>
       <header>
         <div>
           <span>#{rank} {opportunity.tier}</span>
           <small>{opportunity.league} - Hoje, {opportunity.time}</small>
         </div>
-        <strong>{opportunity.opportunityScore}</strong>
+        <div className="analysis-score-stack">
+          <strong>{opportunity.opportunityScore}</strong>
+          <small>{decision.label}</small>
+        </div>
       </header>
 
       <div className="analysis-library-matchup">
@@ -35,7 +53,12 @@ function AnalysisCard({ opportunity, rank }) {
 
       <p className="analysis-library-risk">{opportunity.risk}</p>
 
-      <Link to={`/jogos/${opportunity.matchId}`}>Abrir relatório completo</Link>
+      <div className="analysis-library-actions">
+        <Link to={`/jogos/${opportunity.matchId}`}>Abrir relatório</Link>
+        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
+          Bilhete pronto
+        </a>
+      </div>
     </article>
   );
 }
