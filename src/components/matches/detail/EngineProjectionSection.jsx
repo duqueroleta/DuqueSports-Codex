@@ -18,7 +18,7 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
         className="engine-projection-state engine-projection-state-loading"
       >
         <div>
-          <span>DUQUE Score Engine</span>
+          <span>Duque Score Engine</span>
           <strong>Processando projeção estatística</strong>
           <p>Calibrando probabilidades, confiança e ranking de oportunidade.</p>
         </div>
@@ -39,7 +39,7 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
         role="alert"
       >
         <div>
-          <span>DUQUE Score Engine</span>
+          <span>Duque Score Engine</span>
           <strong>Projeção temporariamente indisponível</strong>
           <p>Os dados principais da partida continuam disponíveis para consulta.</p>
         </div>

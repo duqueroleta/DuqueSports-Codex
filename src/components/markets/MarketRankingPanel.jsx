@@ -14,7 +14,7 @@ function MarketRankingPanel({
         <div>
           <span>Batch Ranking</span>
           <strong>Mercados por oportunidade real</strong>
-          <p>Leitura agregada dos jogos analisados pelo DUQUE Score Engine.</p>
+          <p>Leitura agregada dos jogos analisados pelo Duque Score Engine.</p>
         </div>
         <label className="market-ranking-filter">
           <span>Campeonato</span>
@@ -37,7 +37,7 @@ function MarketRankingPanel({
             <div>
               <p>
                 <b>{ranking.averageScore}</b>
-                <em>score medio</em>
+                <em>score médio</em>
               </p>
               <p>
                 <b>{ranking.averageProbability}%</b>

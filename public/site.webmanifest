@@ -1,7 +1,7 @@
 {
   "name": "Duque Score",
   "short_name": "Duque Score",
-  "description": "Analise estatistica gratuita de futebol com inteligencia artificial, auditoria de sinais e radar de mercados.",
+  "description": "Análise estatística gratuita de futebol com inteligência artificial, auditoria de sinais e radar de mercados.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#05070b",

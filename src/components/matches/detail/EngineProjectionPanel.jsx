@@ -20,10 +20,10 @@ function EngineProjectionPanel({ projection }) {
 
   const metrics = getProjectionMetrics(projection);
   const rankingExplanation = projection.explanation?.[7]
-    ?? 'Ranking calculado pelo pipeline estatístico do DUQUE Score.';
+    ?? 'Ranking calculado pelo pipeline estatístico do Duque Score.';
 
   return (
-    <section className="engine-projection-panel" id="projecao-engine" aria-label="DUQUE Score Engine">
+    <section className="engine-projection-panel" id="projecao-engine" aria-label="Duque Score Engine">
       <div>
         <span>Engine v1</span>
         <strong>Ranking de oportunidade ativo</strong>

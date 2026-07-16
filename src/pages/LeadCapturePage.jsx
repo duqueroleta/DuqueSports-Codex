@@ -19,7 +19,7 @@ const valueItems = [
   {
     label: '03',
     title: 'Evolução antecipada',
-    description: 'Participe da validação do DUQUE Score antes da abertura completa.',
+    description: 'Participe da validação do Duque Score antes da abertura completa.',
   },
 ];
 
@@ -62,7 +62,7 @@ function LeadCapturePage() {
       <section className="lead-hero" aria-labelledby="lead-title">
         <div className="lead-hero-copy">
           <span>Lista VIP gratuita</span>
-          <h1 id="lead-title">Receba as melhores leituras do DUQUE Score</h1>
+          <h1 id="lead-title">Receba as melhores leituras do Duque Score</h1>
           <p>
             Entre no radar gratuito para receber análises, mercados fortes e novidades do produto
             antes das próximas liberações públicas.
@@ -105,7 +105,7 @@ function LeadCapturePage() {
             <div className="lead-success">
               <span>Cadastro confirmado</span>
               <strong>Você está na lista VIP.</strong>
-              <p>Em breve você receberá novidades e análises gratuitas do DUQUE Score.</p>
+              <p>Em breve você receberá novidades e análises gratuitas do Duque Score.</p>
               <small>Se este e-mail já estava cadastrado, mantivemos apenas uma inscrição ativa.</small>
             </div>
           ) : (

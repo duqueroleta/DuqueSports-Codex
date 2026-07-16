@@ -20,9 +20,9 @@ function LatestAudits() {
     <section className="latest-audits" aria-labelledby="latest-audits-title">
       <div className="latest-audits-header">
         <div className="section-heading latest-audits-heading">
-          <span>Transparencia</span>
-          <h2 id="latest-audits-title">Ultimas Auditorias</h2>
-          <p>Historico recente de sinais avaliados pelo modelo, com resultado e grau de confiabilidade.</p>
+          <span>Transparência</span>
+          <h2 id="latest-audits-title">Últimas Auditorias</h2>
+          <p>Histórico recente de sinais avaliados pelo modelo, com resultado e grau de confiabilidade.</p>
         </div>
 
         <div className="latest-audits-metrics" aria-label="Resumo das auditorias recentes">
@@ -36,7 +36,7 @@ function LatestAudits() {
           </div>
           <div>
             <strong>{averageAccuracy}%</strong>
-            <span>precisao media</span>
+            <span>precisão média</span>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ function LatestAudits() {
           <span>Mercado</span>
           <span>Odd</span>
           <span>Resultado</span>
-          <span>Precisao</span>
+          <span>Precisão</span>
           <span>Selo</span>
         </div>
 

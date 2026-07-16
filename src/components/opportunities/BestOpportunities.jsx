@@ -14,7 +14,7 @@ function BestOpportunities() {
         <div className="section-heading">
           <span>Ranking Engine</span>
           <h2 id="best-opportunities-title">Melhores oportunidades do dia</h2>
-          <p>Jogos ordenados pelo DUQUE Score Engine com probabilidade calibrada, confianca, qualidade dos dados e risco.</p>
+          <p>Jogos ordenados pelo Duque Score Engine com probabilidade calibrada, confiança, qualidade dos dados e risco.</p>
         </div>
 
         <aside className="best-opportunities-summary" aria-label="Resumo do ranking">
@@ -22,7 +22,7 @@ function BestOpportunities() {
           <strong>{leader ? `${leader.home} x ${leader.away}` : 'Calculando ranking'}</strong>
           <div>
             <p>{batchAnalysis?.analyzedMatches ?? 0} jogos analisados</p>
-            <p>{batchAnalysis?.averageOpportunityScore ?? 0}/100 media top 5</p>
+            <p>{batchAnalysis?.averageOpportunityScore ?? 0}/100 média top 5</p>
           </div>
         </aside>
       </div>
@@ -44,7 +44,7 @@ function BestOpportunities() {
               </p>
               <p>
                 <b>{opportunity.confidence}</b>
-                <span>confianca</span>
+                <span>confiança</span>
               </p>
             </div>
           </Link>

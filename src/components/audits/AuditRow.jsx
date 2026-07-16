@@ -9,7 +9,7 @@ function AuditRow({ audit }) {
       <div className="audit-match">
         <span className="audit-mobile-label">Partida</span>
         <strong>{audit.match}</strong>
-        <small>Validador estatistico ativo</small>
+        <small>Validador estatístico ativo</small>
       </div>
       <div>
         <span className="audit-mobile-label">Mercado</span>
@@ -24,9 +24,9 @@ function AuditRow({ audit }) {
         <span className={`audit-result audit-result-${resultClass}`}>{audit.result}</span>
       </div>
       <div className="audit-accuracy">
-        <span className="audit-mobile-label">Precisao</span>
+        <span className="audit-mobile-label">Precisão</span>
         <strong>{audit.accuracy}</strong>
-        <div className="audit-accuracy-track" aria-label={`Precisao ${audit.accuracy}`}>
+        <div className="audit-accuracy-track" aria-label={`Precisão ${audit.accuracy}`}>
           <span style={{ width: `${accuracyValue}%` }} />
         </div>
       </div>

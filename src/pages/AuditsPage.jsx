@@ -18,7 +18,7 @@ const filters = [
   { label: 'Green', value: 'Green' },
   { label: 'Red', value: 'Red' },
   { label: 'Pendente', value: 'Pendente' },
-  { label: 'Alta precisao', value: 'Alta precisao' },
+  { label: 'Alta precisão', value: 'Alta precisao' },
   { label: 'Revisar', value: 'Revisar' },
 ];
 
@@ -78,7 +78,7 @@ function AuditsPage() {
 
       <div className="audits-results-heading">
         <div>
-          <span>Registro auditavel</span>
+          <span>Registro auditável</span>
           <strong>Sinais recentes</strong>
         </div>
         <small>{filteredAudits.length} resultados</small>
@@ -90,7 +90,7 @@ function AuditsPage() {
           <span>Mercado</span>
           <span>Odd</span>
           <span>Resultado</span>
-          <span>Precisao</span>
+          <span>Precisão</span>
           <span>Selo</span>
         </div>
 

@@ -13,11 +13,11 @@ function AuditsHero({ audits = [] }) {
   return (
     <header className="audits-page-hero" aria-labelledby="audits-page-title">
       <div>
-        <span>Transparencia estatistica</span>
+        <span>Transparência estatística</span>
         <h1 id="audits-page-title">Auditorias claras em segundos</h1>
       </div>
       <div className="audits-page-summary">
-        <span>Precisao media</span>
+        <span>Precisão média</span>
         <strong>{averageAccuracy}%</strong>
         <small>{audits.length} sinais</small>
       </div>

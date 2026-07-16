@@ -9,7 +9,7 @@ function GlobalStats() {
       id: 1,
       label: 'Taxa de acerto',
       value: '78.4%',
-      detail: '+6.2% nos ultimos 30 dias',
+      detail: '+6.2% nos últimos 30 dias',
       tone: 'neon',
       progress: 78,
       trend: 'alta controlada',
@@ -18,7 +18,7 @@ function GlobalStats() {
       id: 2,
       label: 'ROI projetado',
       value: '+18.7%',
-      detail: 'baseado em gestao de stake padrao',
+      detail: 'baseado em gestão de stake padrão',
       tone: 'gold',
       progress: 64,
       trend: 'modelo validado',
@@ -36,10 +36,10 @@ function GlobalStats() {
       id: 4,
       label: 'Lista VIP',
       value: `${leadCount}+`,
-      detail: 'usuarios acompanhando o acesso gratuito',
+      detail: 'usuários acompanhando o acesso gratuito',
       tone: 'neon',
       progress: 72,
-      trend: 'captacao aberta',
+      trend: 'captação aberta',
     },
   ];
 
@@ -47,15 +47,15 @@ function GlobalStats() {
     <section className="global-stats" aria-labelledby="global-stats-title">
       <div className="global-stats-header">
         <div className="section-heading global-stats-heading">
-          <span>Inteligencia do sistema</span>
-          <h2 id="global-stats-title">Estatisticas Globais</h2>
-          <p>Indicadores consolidados para acompanhar desempenho, escala e precisao do motor Duque Score.</p>
+          <span>Inteligência do sistema</span>
+          <h2 id="global-stats-title">Estatísticas Globais</h2>
+          <p>Indicadores consolidados para acompanhar desempenho, escala e precisão do motor Duque Score.</p>
         </div>
 
         <aside className="global-stats-summary" aria-label="Resumo do motor Duque Score">
           <span>Motor Duque Score</span>
           <strong>12.840 sinais auditados</strong>
-          <p>Modelo gratuito em fase de captacao, com leitura estatistica, auditoria e ranking de mercados.</p>
+          <p>Modelo gratuito em fase de captação, com leitura estatística, auditoria e ranking de mercados.</p>
         </aside>
       </div>
 

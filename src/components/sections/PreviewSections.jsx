@@ -4,14 +4,14 @@ import '../../styles/sections-preview.css';
 const sections = [
   { label: 'Jogos do Dia', path: '/jogos', status: 'ativo' },
   { label: 'Mercados Fortes', path: '/mercados', status: 'ativo' },
-  { label: 'Ultimas Auditorias', path: '/auditorias', status: 'ativo' },
-  { label: 'Analises', path: '/analises', status: 'gratuito' },
+  { label: 'Últimas Auditorias', path: '/auditorias', status: 'ativo' },
+  { label: 'Análises', path: '/analises', status: 'gratuito' },
   { label: 'Ao Vivo', path: '/ao-vivo', status: 'gratuito' },
   { label: 'Dados', path: '/dados', status: 'mockado' },
   { label: 'Favoritos', path: '/favoritos', status: 'personalizar' },
   { label: 'Perfil', path: '/perfil', status: 'local' },
   { label: 'Lista VIP', path: '/lista-vip', status: 'aberta' },
-  { label: 'Novas funcoes', path: '/lista-vip', status: 'em breve' },
+  { label: 'Novas funções', path: '/lista-vip', status: 'em breve' },
 ];
 
 function PreviewSections() {
