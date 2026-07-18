@@ -48,7 +48,7 @@ function filterAudits(audit, filter) {
 
 function AuditsPage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.audits', 'Todos');
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const { data: audits, error, isLoading, retry } = useAsyncData(getAudits, []);
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
   const marketAuditDashboard = batchAnalysis
@@ -57,6 +57,11 @@ function AuditsPage() {
   const filteredAudits = audits.filter(
     (audit) => filterAudits(audit, activeFilter) && itemMatchesSearch(audit, searchTerm),
   );
+
+  function resetAuditsView() {
+    setActiveFilter('Todos');
+    setSearchTerm('');
+  }
 
   return (
     <main className="audits-page">
@@ -100,7 +105,19 @@ function AuditsPage() {
           ? filteredAudits.map((audit) => <AuditRow audit={audit} key={audit.id} />)
           : null}
         {!isLoading && !error && !filteredAudits.length ? (
-          <p className="search-empty search-empty-panel">Nenhuma auditoria encontrada.</p>
+          <div className="audits-empty-state">
+            <span>Registro filtrado</span>
+            <strong>Nenhuma auditoria encontrada</strong>
+            <p>Os critérios atuais ocultaram os sinais auditados. Volte para o registro completo para acompanhar greens, reds e pendências.</p>
+            <div className="audits-empty-tags" aria-label="Critérios que podem impactar a busca">
+              <small>Busca</small>
+              <small>Resultado</small>
+              <small>Precisão</small>
+            </div>
+            <button onClick={resetAuditsView} type="button">
+              Ver registro completo
+            </button>
+          </div>
         ) : null}
       </section>
 
