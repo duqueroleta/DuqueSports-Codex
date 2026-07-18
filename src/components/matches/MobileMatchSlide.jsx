@@ -89,14 +89,24 @@ function MobileMatchSlide({ match }) {
         </div>
 
         <div className="mobile-match-actions-v2">
-          <Link to={`/jogos/${match.id}`}>Abrir análise completa</Link>
+          <Link to={`/jogos/${match.id}`}>
+            <span aria-hidden="true">AI</span>
+            <span>
+              <small>Estudar jogo</small>
+              <strong>Análise completa</strong>
+            </span>
+          </Link>
           <a
             aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
             href={AFFILIATE_LINKS.readyBetslip}
             rel="noreferrer"
             target="_blank"
           >
-            Bilhete pronto
+            <span aria-hidden="true">R$</span>
+            <span>
+              <small>Apostar agora</small>
+              <strong>Bilhete pronto</strong>
+            </span>
           </a>
         </div>
       </div>
