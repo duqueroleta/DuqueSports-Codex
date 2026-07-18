@@ -11,6 +11,10 @@ function CompetitionRail({ activeCompetition = ALL_COMPETITIONS, onSelect }) {
 
   return (
     <section className="competition-rail" aria-label="Campeonatos disponíveis">
+      <div className="competition-rail-label" aria-hidden="true">
+        <span>Campeonatos</span>
+        <small>arraste</small>
+      </div>
       <div className="competition-rail-track">
         {items.map((competition) => {
           const isActive = activeCompetition === competition.label;
