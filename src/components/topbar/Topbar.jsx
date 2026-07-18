@@ -6,6 +6,10 @@ function Topbar() {
 
   return (
     <header className="topbar">
+      <div className="topbar-mobile-status" aria-hidden="true">
+        <span>Duque Score</span>
+        <strong>AI ativa</strong>
+      </div>
       <div className="topbar-search">
         <span aria-hidden="true">/</span>
         <input
