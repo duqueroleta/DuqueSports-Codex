@@ -507,3 +507,61 @@
     flex-basis: calc(100vw - 24px);
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .matches-page {
+    padding-top: 6px;
+  }
+
+  .matches-page-header {
+    padding-bottom: 6px;
+  }
+
+  .matches-page-header h1 {
+    font-size: 1.16rem;
+  }
+
+  .matches-page-summary {
+    min-width: 92px;
+  }
+
+  .matches-page-summary strong {
+    font-size: 1.18rem;
+  }
+
+  .matches-page-summary small {
+    font-size: 0.62rem;
+  }
+
+  .matches-page > .competition-rail,
+  .matches-toolbar,
+  .matches-advanced-filters {
+    margin-top: 5px;
+  }
+
+  .matches-toolbar button {
+    min-height: 30px;
+  }
+
+  .matches-advanced-filters {
+    padding: 5px;
+  }
+
+  .matches-advanced-filters select,
+  .matches-advanced-filters button {
+    min-height: 31px;
+  }
+
+  .matches-results-heading {
+    margin-top: 7px;
+    margin-bottom: 5px;
+  }
+
+  .matches-carousel-position {
+    margin-bottom: 6px;
+  }
+
+  .matches-page-grid > .match-card {
+    min-height: 500px;
+  }
+}

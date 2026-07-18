@@ -75,3 +75,24 @@
     font-size: 0.78rem;
   }
 }
+
+@media (max-width: 520px) and (max-height: 760px) {
+  .matches-date-rail {
+    grid-template-columns: repeat(5, 58px);
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  .matches-date-rail button {
+    min-height: 34px;
+    padding: 3px 6px;
+  }
+
+  .matches-date-rail span {
+    font-size: 0.58rem;
+  }
+
+  .matches-date-rail strong {
+    font-size: 0.72rem;
+  }
+}
