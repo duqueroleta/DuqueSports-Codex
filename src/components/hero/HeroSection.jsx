@@ -34,10 +34,10 @@ function HeroSection() {
         <div className="hero-kicker">Duque Score</div>
         <div className="hero-heading-row">
           <div>
-            <h1 id="hero-title">Análise preditiva de elite para futebol</h1>
+            <h1 id="hero-title">Decida jogos com leitura estatística de elite</h1>
             <p>
-              Leitura estatística em tempo real, inteligência artificial e sinais de mercado
-              em uma experiência premium.
+              Compare partidas, entenda probabilidades e receba sinais gratuitos com uma
+              experiência premium orientada por dados.
             </p>
           </div>
           <div className="hero-live-pill">

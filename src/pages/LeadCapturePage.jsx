@@ -5,22 +5,22 @@ import { getLeadCount, submitLead } from '../services/leadsService.js';
 import '../styles/page-lead-capture.css';
 
 const profileOptions = ['Apostador', 'Trader esportivo', 'Analista', 'Curioso'];
-const leadTrustItems = ['Grátis nesta fase', 'Sem assinatura', 'Atualizações prioritárias'];
+const leadTrustItems = ['Grátis nesta fase', 'Sem assinatura', 'Alertas prioritários'];
 const valueItems = [
   {
     label: '01',
-    title: 'Jogos com maior potencial',
-    description: 'Receba leituras priorizadas por score, mercado e contexto estatístico.',
+    title: 'Jogos que merecem atenção',
+    description: 'Receba partidas priorizadas por score, mercado e contexto estatístico.',
   },
   {
     label: '02',
     title: 'Mercados fortes',
-    description: 'Acompanhe sinais de gols, ambas marcam, escanteios e favoritos técnicos.',
+    description: 'Acompanhe sinais de gols, ambas marcam, escanteios e favoritos técnicos sem pagar assinatura.',
   },
   {
     label: '03',
-    title: 'Evolução antecipada',
-    description: 'Participe da validação do Duque Score antes da abertura completa.',
+    title: 'Acesso antecipado',
+    description: 'Participe da evolução do Duque Score antes das próximas liberações públicas.',
   },
 ];
 
@@ -63,10 +63,10 @@ function LeadCapturePage() {
       <section className="lead-hero" aria-labelledby="lead-title">
         <div className="lead-hero-copy">
           <span>Lista VIP gratuita</span>
-          <h1 id="lead-title">Receba as melhores leituras do Duque Score</h1>
+          <h1 id="lead-title">Receba alertas gratuitos dos melhores jogos</h1>
           <p>
-            Entre no radar gratuito para receber análises, mercados fortes e novidades do produto
-            antes das próximas liberações públicas.
+            Entre no radar gratuito para receber jogos em destaque, mercados fortes e novidades
+            do Duque Score antes das próximas liberações.
           </p>
           <div className="lead-trust-list" aria-label="Diferenciais da lista VIP">
             {leadTrustItems.map((item) => (
@@ -87,7 +87,7 @@ function LeadCapturePage() {
         <div className="lead-value-panel">
           <div className="lead-value-header">
             <span>O que você recebe</span>
-            <strong>Uma lista curta do que importa para apostar melhor</strong>
+            <strong>Menos rolagem, mais clareza sobre onde olhar primeiro</strong>
           </div>
 
           <div className="lead-benefits">
@@ -106,7 +106,7 @@ function LeadCapturePage() {
             <div className="lead-success">
               <span>Cadastro confirmado</span>
               <strong>Você está na lista VIP.</strong>
-              <p>Em breve você receberá novidades e análises gratuitas do Duque Score.</p>
+              <p>Em breve você receberá alertas, novidades e análises gratuitas do Duque Score.</p>
               <small>Se este e-mail já estava cadastrado, mantivemos apenas uma inscrição ativa.</small>
               <div className="lead-success-actions" aria-label="Próximos passos">
                 <Link to="/jogos">Ver jogos de hoje</Link>
@@ -117,8 +117,8 @@ function LeadCapturePage() {
             <>
               <div className="lead-form-intro">
                 <span>Entrada rápida</span>
-                <strong>Cadastre-se gratuitamente</strong>
-                <p>Use um e-mail real para receber as próximas atualizações.</p>
+                <strong>Receba os alertas gratuitos</strong>
+                <p>Use um e-mail real para receber as próximas leituras.</p>
                 <div className="lead-form-speed" aria-label="Resumo do cadastro">
                   <small>30 segundos</small>
                   <small>Sem cartão</small>
@@ -177,7 +177,7 @@ function LeadCapturePage() {
               </div>
 
               <button disabled={isSubmitting} type="submit">
-                {isSubmitting ? 'Enviando cadastro...' : 'Entrar grátis na Lista VIP'}
+                {isSubmitting ? 'Enviando cadastro...' : 'Receber alertas grátis'}
               </button>
               <p className="lead-form-note">Gratuito. Sem promessa de lucro. Análises estatísticas para estudo.</p>
               <div className="lead-mobile-proof" aria-label="Garantias da lista VIP">

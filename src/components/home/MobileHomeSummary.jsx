@@ -20,7 +20,7 @@ function MobileHomeSummary() {
       <div className="mobile-home-summary-heading">
         <div>
           <span>Duque Score</span>
-          <h1>Jogos e sinais em segundos</h1>
+          <h1>Escolha o jogo certo em segundos</h1>
         </div>
         <strong>{formatMatchConfidence(averageConfidence)}</strong>
       </div>
@@ -55,25 +55,25 @@ function MobileHomeSummary() {
       <nav className="mobile-home-shortcuts" aria-label="Acesso rápido">
         <Link to="/jogos">
           <small>Jogos</small>
-          <strong>Carrossel</strong>
+          <strong>Hoje</strong>
         </Link>
         <Link to="/analises">
           <small>Análises</small>
-          <strong>IA completa</strong>
+          <strong>Relatórios</strong>
         </Link>
         <Link to="/mercados">
           <small>Mercados</small>
-          <strong>Força</strong>
+          <strong>Ranking</strong>
         </Link>
         <Link to="/ao-vivo">
           <small>Ao vivo</small>
-          <strong>Sinais</strong>
+          <strong>Agora</strong>
         </Link>
       </nav>
 
       <div className="mobile-home-actions">
-        <Link to="/jogos">Abrir jogos de hoje</Link>
-        <Link to="/lista-vip">Lista VIP grátis</Link>
+        <Link to="/jogos">Ver jogos de hoje</Link>
+        <Link to="/lista-vip">Receber alertas grátis</Link>
       </div>
     </section>
   );
