@@ -1,5 +1,12 @@
 import '../../../styles/engine-projection-panel.css';
 
+const engineSteps = [
+  'Dados',
+  'Simulação',
+  'Calibração',
+  'Ranking',
+];
+
 function getProjectionMetrics(projection) {
   return [
     { helper: 'qualidade dos dados', label: 'Data Quality', value: projection.dataQualityScore },
@@ -28,6 +35,12 @@ function EngineProjectionPanel({ projection }) {
         <span>Engine v1</span>
         <strong>Ranking de oportunidade ativo</strong>
         <p>{rankingExplanation}</p>
+      </div>
+
+      <div className="engine-projection-flow" aria-label="Fluxo de processamento do motor">
+        {engineSteps.map((step) => (
+          <span key={step}>{step}</span>
+        ))}
       </div>
 
       <div className="engine-projection-metrics">
