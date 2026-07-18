@@ -113,26 +113,32 @@ function MobileMatchSlide({ match }) {
           })}
         </div>
 
-        <div className="mobile-match-actions-v2">
-          <Link to={`/jogos/${match.id}`}>
-            <span aria-hidden="true">AI</span>
-            <span>
-              <small>Estudar jogo</small>
-              <strong>Análise completa</strong>
-            </span>
-          </Link>
-          <a
-            aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
-            href={AFFILIATE_LINKS.readyBetslip}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span aria-hidden="true">R$</span>
-            <span>
-              <small>Apostar agora</small>
-              <strong>Bilhete pronto</strong>
-            </span>
-          </a>
+        <div className="mobile-match-actions-v2" aria-label="Ações principais do jogo">
+          <div className="mobile-match-actions-label">
+            <span>Escolha seu fluxo</span>
+            <small>Estudar ou abrir bilhete</small>
+          </div>
+          <div className="mobile-match-actions-buttons">
+            <Link to={`/jogos/${match.id}`}>
+              <span aria-hidden="true">AI</span>
+              <span>
+                <small>Estudar jogo</small>
+                <strong>Análise completa</strong>
+              </span>
+            </Link>
+            <a
+              aria-label={`Abrir bilhete pronto para ${match.home} contra ${match.away}`}
+              href={AFFILIATE_LINKS.readyBetslip}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span aria-hidden="true">R$</span>
+              <span>
+                <small>Apostar agora</small>
+                <strong>Bilhete pronto</strong>
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     </article>
