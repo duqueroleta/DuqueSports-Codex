@@ -114,20 +114,50 @@ function LeadCapturePage() {
                 <span>Entrada rápida</span>
                 <strong>Cadastre-se gratuitamente</strong>
                 <p>Use um e-mail real para receber as próximas atualizações.</p>
+                <div className="lead-form-speed" aria-label="Resumo do cadastro">
+                  <small>30 segundos</small>
+                  <small>Sem cartão</small>
+                  <small>Acesso grátis</small>
+                </div>
               </div>
 
               <div className="lead-fields">
                 <label>
                   Nome
-                  <input name="name" onChange={updateField} required type="text" value={formData.name} />
+                  <input
+                    autoComplete="name"
+                    name="name"
+                    onChange={updateField}
+                    placeholder="Seu nome"
+                    required
+                    type="text"
+                    value={formData.name}
+                  />
                 </label>
                 <label>
                   E-mail
-                  <input name="email" onChange={updateField} required type="email" value={formData.email} />
+                  <input
+                    autoComplete="email"
+                    inputMode="email"
+                    name="email"
+                    onChange={updateField}
+                    placeholder="seuemail@exemplo.com"
+                    required
+                    type="email"
+                    value={formData.email}
+                  />
                 </label>
                 <label>
                   WhatsApp opcional
-                  <input name="whatsapp" onChange={updateField} type="tel" value={formData.whatsapp} />
+                  <input
+                    autoComplete="tel"
+                    inputMode="tel"
+                    name="whatsapp"
+                    onChange={updateField}
+                    placeholder="(00) 00000-0000"
+                    type="tel"
+                    value={formData.whatsapp}
+                  />
                 </label>
                 <label>
                   Perfil
@@ -142,7 +172,7 @@ function LeadCapturePage() {
               </div>
 
               <button disabled={isSubmitting} type="submit">
-                {isSubmitting ? 'Enviando cadastro...' : 'Entrar na lista VIP'}
+                {isSubmitting ? 'Enviando cadastro...' : 'Entrar grátis na Lista VIP'}
               </button>
               <p className="lead-form-note">Gratuito. Sem promessa de lucro. Análises estatísticas para estudo.</p>
               <div className="lead-mobile-proof" aria-label="Garantias da lista VIP">

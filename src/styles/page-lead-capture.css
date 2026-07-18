@@ -204,6 +204,27 @@
   font-size: 0.92rem;
 }
 
+.lead-form-speed {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 13px;
+}
+
+.lead-form-speed small {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  padding: 5px;
+  border: 1px solid rgba(217, 180, 91, 0.18);
+  border-radius: 10px;
+  color: var(--color-gold-soft);
+  background: rgba(217, 180, 91, 0.07);
+  font-size: 0.64rem;
+  font-weight: 950;
+  text-align: center;
+}
+
 .lead-fields {
   display: grid;
   gap: 11px;
@@ -239,6 +260,10 @@
   border-color: rgba(32, 246, 164, 0.42);
   background: rgba(255, 255, 255, 0.085);
   box-shadow: var(--focus-ring);
+}
+
+.lead-form input::placeholder {
+  color: #768292;
 }
 
 .lead-form select {
@@ -358,6 +383,11 @@
 
   .lead-form-intro p {
     font-size: 0.82rem;
+  }
+
+  .lead-form-speed small {
+    min-height: 30px;
+    font-size: 0.58rem;
   }
 
   .lead-fields {
