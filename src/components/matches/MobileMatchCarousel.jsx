@@ -74,8 +74,8 @@ function MobileMatchCarousel() {
 
       <div className="mobile-carousel-shell">
         <div className="mobile-carousel-track" onScroll={handleCarouselScroll} ref={carouselRef}>
-          {visibleMatches.map((match) => (
-            <MobileMatchSlide key={match.id} match={match} />
+          {visibleMatches.map((match, index) => (
+            <MobileMatchSlide isActive={activeIndex === index} key={match.id} match={match} />
           ))}
           {!visibleMatches.length ? (
             <article className="mobile-match-slide">

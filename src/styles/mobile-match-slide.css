@@ -26,6 +26,24 @@
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       0 18px 44px rgba(0, 0, 0, 0.24);
+    opacity: 0.78;
+    transform: scale(0.982);
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+    will-change: transform, opacity;
+  }
+
+  .mobile-match-slide-active .mobile-match-card-v2 {
+    border-color: color-mix(in srgb, var(--match-accent) 42%, rgba(255, 255, 255, 0.12));
+    opacity: 1;
+    transform: scale(1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 22px 54px rgba(0, 0, 0, 0.28),
+      0 0 34px color-mix(in srgb, var(--match-accent) 16%, transparent);
   }
 
   .mobile-match-card-v2::before {

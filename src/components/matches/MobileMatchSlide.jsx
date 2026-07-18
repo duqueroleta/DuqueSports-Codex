@@ -24,14 +24,17 @@ function formatMobileMetric(metric) {
   };
 }
 
-function MobileMatchSlide({ match }) {
+function MobileMatchSlide({ isActive = false, match }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('match', match.id);
   const confidence = normalizeMatchConfidence(match.confidence);
   const metrics = normalizeMatchMetrics(match.metrics).slice(0, 3);
 
   return (
-    <article className="mobile-match-slide" aria-label={`${match.home} contra ${match.away}`}>
+    <article
+      className={isActive ? 'mobile-match-slide mobile-match-slide-active' : 'mobile-match-slide'}
+      aria-label={`${match.home} contra ${match.away}`}
+    >
       <div
         className="mobile-match-card-v2"
         style={{
