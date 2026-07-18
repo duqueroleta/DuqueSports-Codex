@@ -9,14 +9,14 @@ const engineSteps = [
 
 function getProjectionMetrics(projection) {
   return [
-    { helper: 'qualidade dos dados', label: 'Data Quality', value: projection.dataQualityScore },
+    { helper: 'qualidade dos dados', label: 'Data Quality', tone: 'quality', value: projection.dataQualityScore },
     { helper: 'gols esperados', label: 'xG mandante', value: projection.expectedHomeGoals },
     { helper: 'gols esperados', label: 'xG visitante', value: projection.expectedAwayGoals },
-    { helper: 'linha de gols', label: 'Over 2.5', value: `${projection.probabilities.over25}%` },
-    { helper: 'resultado final', label: 'Casa vence', value: `${projection.probabilities.homeWin}%` },
-    { helper: 'ambas marcam', label: 'BTTS', value: `${projection.probabilities.btts}%` },
-    { helper: 'score interno', label: 'Oportunidade', value: projection.opportunityRanking.opportunityScore },
-    { helper: 'classificação', label: 'Tier', value: projection.opportunityRanking.tier },
+    { helper: 'linha de gols', label: 'Over 2.5', tone: 'probability', value: `${projection.probabilities.over25}%` },
+    { helper: 'resultado final', label: 'Casa vence', tone: 'probability', value: `${projection.probabilities.homeWin}%` },
+    { helper: 'ambas marcam', label: 'BTTS', tone: 'probability', value: `${projection.probabilities.btts}%` },
+    { helper: 'score interno', label: 'Oportunidade', tone: 'ranking', value: projection.opportunityRanking.opportunityScore },
+    { helper: 'classificação', label: 'Tier', tone: 'ranking', value: projection.opportunityRanking.tier },
   ];
 }
 
@@ -45,7 +45,7 @@ function EngineProjectionPanel({ projection }) {
 
       <div className="engine-projection-metrics">
         {metrics.map((metric) => (
-          <article key={metric.label}>
+          <article className={metric.tone ? `engine-metric-${metric.tone}` : ''} key={metric.label}>
             <span>{metric.label}</span>
             <strong>{metric.value}</strong>
             <small>{metric.helper}</small>
