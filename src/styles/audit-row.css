@@ -165,3 +165,38 @@
     flex-basis: calc(100vw - 24px);
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .audit-row {
+    gap: 7px;
+    padding: 10px;
+  }
+
+  .audit-match {
+    padding-bottom: 6px;
+  }
+
+  .audit-match small {
+    font-size: 0.6rem;
+  }
+
+  .audit-row strong {
+    font-size: 0.86rem;
+  }
+
+  .audit-row span {
+    font-size: 0.68rem;
+  }
+
+  .audit-mobile-label {
+    margin-bottom: 2px;
+    font-size: 0.5rem;
+  }
+
+  .audit-result,
+  .audit-trust {
+    min-height: 25px;
+    padding: 0 7px;
+    font-size: 0.62rem;
+  }
+}

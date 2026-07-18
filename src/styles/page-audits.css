@@ -219,3 +219,47 @@
     backdrop-filter: blur(18px);
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .audits-page {
+    padding-top: 8px;
+  }
+
+  .audits-toolbar {
+    margin-top: 8px;
+    padding-bottom: 3px;
+  }
+
+  .audits-toolbar button {
+    min-height: 31px;
+    padding: 0 10px;
+    font-size: 0.66rem;
+  }
+
+  .audits-results-heading {
+    margin-top: 12px;
+    margin-bottom: 7px;
+  }
+
+  .audits-results-heading span {
+    font-size: 0.58rem;
+  }
+
+  .audits-results-heading strong {
+    margin-top: 2px;
+    font-size: 0.98rem;
+  }
+
+  .audits-results-heading small {
+    font-size: 0.62rem;
+  }
+
+  .audits-page-panel {
+    padding-bottom: 4px;
+  }
+
+  .audits-page-panel > .audit-row {
+    flex-basis: min(84vw, 354px);
+    min-height: 220px;
+  }
+}
