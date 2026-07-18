@@ -25,7 +25,7 @@ function MobileCarouselHeader({ activeIndex, match, matchCount }) {
       <div className="mobile-carousel-header-actions">
         <strong>{currentPosition}/{matchCount}</strong>
         <span>Arraste</span>
-        <Link to="/lista-vip">VIP</Link>
+        <Link to="/jogos">Todos</Link>
       </div>
     </header>
   );

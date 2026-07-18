@@ -105,8 +105,26 @@
     color: var(--color-neon);
   }
 
+  .mobile-carousel-header-actions span::before,
+  .mobile-carousel-header-actions span::after {
+    opacity: 0.72;
+  }
+
+  .mobile-carousel-header-actions span::before {
+    content: "‹";
+    margin-right: 4px;
+  }
+
+  .mobile-carousel-header-actions span::after {
+    content: "›";
+    margin-left: 4px;
+  }
+
   .mobile-carousel-header-actions a {
     border-color: rgba(217, 180, 91, 0.28);
-    color: var(--color-gold-soft);
+    color: #07111c;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent 54%),
+      var(--color-gold-soft);
   }
 }
