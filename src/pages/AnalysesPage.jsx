@@ -42,7 +42,7 @@ function AnalysesPage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.analyses', 'all');
   const [sortBy, setSortBy] = usePersistentState('duque.sort.analyses', 'score');
   const [visibleCount, setVisibleCount] = useState(6);
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const { data: analysis, error, isLoading, retry } = useAsyncData(getBatchAnalysis, [], null);
   const opportunities = analysis?.opportunities ?? [];
   const filteredOpportunities = sortOpportunities(
@@ -53,6 +53,13 @@ function AnalysesPage() {
     sortBy,
   );
   const visibleOpportunities = filteredOpportunities.slice(0, visibleCount);
+
+  function resetAnalysesView() {
+    setActiveFilter('all');
+    setSortBy('score');
+    setVisibleCount(6);
+    setSearchTerm('');
+  }
 
   return (
     <main className="analyses-page">
@@ -82,8 +89,17 @@ function AnalysesPage() {
           : null}
         {!isLoading && !error && !visibleOpportunities.length ? (
           <div className="analyses-empty">
+            <span>Biblioteca filtrada</span>
             <strong>Nenhuma análise encontrada</strong>
-            <p>Ajuste os filtros ou a busca para consultar outros relatórios.</p>
+            <p>Os critérios atuais ocultaram os relatórios disponíveis. Volte para o ranking completo para revisar as melhores oportunidades.</p>
+            <div className="analyses-empty-tags" aria-label="Critérios ativos que podem impactar a busca">
+              <small>Busca</small>
+              <small>Filtro IA</small>
+              <small>Ordenação</small>
+            </div>
+            <button onClick={resetAnalysesView} type="button">
+              Ver ranking completo
+            </button>
           </div>
         ) : null}
       </section>
