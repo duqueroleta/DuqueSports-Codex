@@ -377,3 +377,108 @@
     font-size: 0.94rem;
   }
 }
+
+@media (max-width: 520px) and (max-height: 760px) {
+  .live-match-card {
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .live-match-top div span {
+    font-size: 0.68rem;
+  }
+
+  .live-match-top div strong {
+    font-size: 1.18rem;
+  }
+
+  .live-pulse,
+  .live-decision-badge {
+    padding: 5px 7px;
+    font-size: 0.58rem;
+  }
+
+  .live-score {
+    min-height: 64px;
+  }
+
+  .live-score > strong {
+    min-width: 66px;
+    min-height: 44px;
+    font-size: 1.38rem;
+  }
+
+  .live-score > strong i {
+    margin: 0 5px;
+  }
+
+  .live-team {
+    gap: 6px;
+  }
+
+  .live-team span {
+    font-size: 0.82rem;
+  }
+
+  .live-context {
+    gap: 6px;
+  }
+
+  .live-context span {
+    padding: 6px 8px;
+    font-size: 0.64rem;
+  }
+
+  .live-pressure {
+    gap: 7px;
+  }
+
+  .live-pressure span {
+    font-size: 0.68rem;
+  }
+
+  .live-pressure-bar {
+    height: 8px;
+  }
+
+  .live-stats div {
+    padding: 7px 5px;
+  }
+
+  .live-stats span {
+    font-size: 0.58rem;
+  }
+
+  .live-stats strong {
+    margin-top: 4px;
+    font-size: 0.82rem;
+  }
+
+  .live-alert {
+    padding: 10px;
+  }
+
+  .live-alert span {
+    font-size: 0.64rem;
+  }
+
+  .live-alert strong {
+    margin-top: 4px;
+    font-size: 0.9rem;
+  }
+
+  .live-alert small {
+    margin-top: 4px;
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .live-actions {
+    gap: 7px;
+  }
+
+  .live-actions a {
+    min-height: 40px;
+    font-size: 0.68rem;
+  }
+}

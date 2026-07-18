@@ -333,3 +333,80 @@
     border-radius: 22px;
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .live-page {
+    padding-top: 8px;
+  }
+
+  .live-page-hero {
+    gap: 8px;
+  }
+
+  .live-page-hero-copy {
+    padding: 14px;
+  }
+
+  .live-page-hero-copy span,
+  .live-page-summary span {
+    font-size: 0.62rem;
+  }
+
+  .live-page-hero-copy h1 {
+    margin-top: 8px;
+    font-size: 1.62rem;
+    line-height: 1;
+  }
+
+  .live-page-hero-copy p {
+    margin-top: 9px;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .live-page-summary {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .live-page-summary div {
+    min-height: 74px;
+    padding: 9px 7px;
+  }
+
+  .live-page-summary strong {
+    margin-top: 5px;
+    font-size: 1.1rem;
+  }
+
+  .live-page-summary small {
+    margin-top: 5px;
+    font-size: 0.58rem;
+  }
+
+  .live-toolbar {
+    margin-top: 8px;
+    padding-bottom: 3px;
+  }
+
+  .live-toolbar button,
+  .live-toolbar span {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 0.66rem;
+  }
+
+  .live-grid {
+    margin-top: 8px;
+    padding-bottom: 4px;
+  }
+
+  .live-grid > .live-match-card {
+    flex-basis: min(84vw, 360px);
+    min-height: 500px;
+  }
+
+  .live-empty-state {
+    min-height: 320px;
+  }
+}
