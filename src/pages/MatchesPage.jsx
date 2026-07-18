@@ -66,7 +66,7 @@ function MatchesPage() {
   );
   const [activeTier, setActiveTier] = usePersistentState('duque.filters.matches.tier', ALL_TIERS);
   const [activeMarket, setActiveMarket] = usePersistentState('duque.filters.matches.market', ALL_MARKETS);
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const { data: matches, error, isLoading, retry } = useAsyncData(getMatches, []);
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
   const opportunities = batchAnalysis?.opportunities ?? [];
@@ -91,6 +91,15 @@ function MatchesPage() {
   function resetAdvancedFilters() {
     setActiveTier(ALL_TIERS);
     setActiveMarket(ALL_MARKETS);
+  }
+
+  function resetMatchesView() {
+    setActiveDay(0);
+    setActiveCompetition(ALL_COMPETITIONS);
+    setActiveFilter('Todos');
+    setVisibleCount(6);
+    setSearchTerm('');
+    resetAdvancedFilters();
   }
 
   useEffect(() => {
@@ -236,8 +245,17 @@ function MatchesPage() {
           : null}
         {!isLoading && !error && !filteredMatches.length ? (
           <div className="matches-empty-state">
-            <strong>Nenhum jogo nesta seleção</strong>
-            <p>Escolha Hoje ou ajuste os filtros para visualizar as partidas mockadas.</p>
+            <span>Sem partidas na seleção</span>
+            <strong>Nenhum jogo encontrado agora</strong>
+            <p>Os filtros ativos não retornaram partidas mockadas. Volte para a visão principal para continuar navegando pelo carrossel.</p>
+            <div className="matches-empty-reasons" aria-label="Possíveis motivos">
+              <small>Data</small>
+              <small>Campeonato</small>
+              <small>Mercado</small>
+            </div>
+            <button onClick={resetMatchesView} type="button">
+              Ver todos os jogos
+            </button>
           </div>
         ) : null}
       </section>
