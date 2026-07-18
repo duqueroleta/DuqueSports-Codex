@@ -19,6 +19,8 @@ function MobileMatchCarousel() {
     : matches.filter((match) => match.league === activeCompetition);
   const visibleMatches = competitionMatches.filter((match) => matchMarketFilter(match, activeMarket));
   const activeMatch = visibleMatches[activeIndex] ?? visibleMatches[0] ?? null;
+  const hasPreviousMatch = activeIndex > 0;
+  const hasNextMatch = activeIndex < visibleMatches.length - 1;
 
   function scrollToStart() {
     carouselRef.current?.scrollTo({ behavior: 'smooth', left: 0 });
@@ -73,6 +75,11 @@ function MobileMatchCarousel() {
       <MobileMarketFilters activeMarket={activeMarket} onSelect={handleMarketSelect} />
 
       <div className="mobile-carousel-shell">
+        {visibleMatches.length > 1 ? (
+          <div className="mobile-carousel-hint" aria-hidden="true">
+            <span>Arraste para trocar de jogo</span>
+          </div>
+        ) : null}
         <div className="mobile-carousel-track" onScroll={handleCarouselScroll} ref={carouselRef}>
           {visibleMatches.map((match, index) => (
             <MobileMatchSlide isActive={activeIndex === index} key={match.id} match={match} />
@@ -90,13 +97,33 @@ function MobileMatchCarousel() {
             </article>
           ) : null}
         </div>
+        {visibleMatches.length > 1 ? (
+          <div className="mobile-carousel-floating-controls" aria-label="Navegacao rapida entre jogos">
+            <button
+              aria-label="Jogo anterior"
+              disabled={!hasPreviousMatch}
+              onClick={() => moveCarousel(-1)}
+              type="button"
+            >
+              &lsaquo;
+            </button>
+            <button
+              aria-label="Proximo jogo"
+              disabled={!hasNextMatch}
+              onClick={() => moveCarousel(1)}
+              type="button"
+            >
+              &rsaquo;
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {visibleMatches.length ? (
         <div className="mobile-carousel-controls">
           <button
             aria-label="Jogo anterior"
-            disabled={activeIndex === 0}
+            disabled={!hasPreviousMatch}
             onClick={() => moveCarousel(-1)}
             type="button"
           >
@@ -108,7 +135,7 @@ function MobileMatchCarousel() {
           </span>
           <button
             aria-label="Próximo jogo"
-            disabled={activeIndex >= visibleMatches.length - 1}
+            disabled={!hasNextMatch}
             onClick={() => moveCarousel(1)}
             type="button"
           >
