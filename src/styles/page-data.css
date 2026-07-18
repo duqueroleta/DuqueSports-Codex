@@ -416,3 +416,144 @@
     scroll-snap-align: center;
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .data-page {
+    padding-top: 8px;
+  }
+
+  .data-page-hero {
+    gap: 8px;
+  }
+
+  .data-page-hero-copy {
+    padding: 14px;
+  }
+
+  .data-page-hero-copy span,
+  .data-page-summary span,
+  .data-health-grid span,
+  .data-readiness-panel span,
+  .data-pipeline span {
+    font-size: 0.62rem;
+  }
+
+  .data-page-hero-copy h1 {
+    margin-top: 8px;
+    font-size: 1.58rem;
+    line-height: 1;
+  }
+
+  .data-page-hero-copy p {
+    margin-top: 9px;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .data-page-summary {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .data-page-summary strong {
+    margin-top: 0;
+    font-size: 2.05rem;
+  }
+
+  .data-page-summary p {
+    margin-top: 0;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .data-page-summary small {
+    margin-top: 0;
+    padding: 6px 8px;
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+
+  .data-health-grid {
+    margin-top: 8px;
+    padding-bottom: 3px;
+  }
+
+  .data-health-grid article {
+    flex-basis: min(52vw, 204px);
+    min-height: 96px;
+    padding: 11px;
+  }
+
+  .data-health-grid strong {
+    margin-top: 5px;
+    font-size: 1.05rem;
+  }
+
+  .data-health-grid p {
+    margin-top: 6px;
+    font-size: 0.72rem;
+    line-height: 1.32;
+  }
+
+  .data-readiness-panel,
+  .data-pipeline {
+    margin-top: 8px;
+    padding: 11px;
+  }
+
+  .data-readiness-panel {
+    gap: 10px;
+  }
+
+  .data-readiness-panel > div:first-child strong {
+    margin-top: 5px;
+    font-size: 1rem;
+  }
+
+  .data-readiness-panel > div:first-child p,
+  .data-readiness-grid p,
+  .data-pipeline-steps p {
+    margin-top: 6px;
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .data-readiness-grid article,
+  .data-pipeline-steps article {
+    flex-basis: min(64vw, 246px);
+    padding: 10px;
+  }
+
+  .data-readiness-grid strong,
+  .data-pipeline-steps strong {
+    margin-top: 5px;
+    font-size: 0.92rem;
+  }
+
+  .data-pipeline-header {
+    margin-bottom: 9px;
+  }
+
+  .data-pipeline-header strong {
+    font-size: 0.9rem;
+  }
+
+  .data-pipeline-steps i {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 8px;
+    font-size: 0.76rem;
+  }
+
+  .data-source-grid {
+    margin-top: 10px;
+    padding-bottom: 4px;
+  }
+
+  .data-source-grid > .data-source-card,
+  .data-source-grid > .search-empty {
+    flex-basis: min(80vw, 322px);
+  }
+}

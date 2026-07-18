@@ -75,3 +75,41 @@
     font-size: 1.15rem;
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .data-source-card {
+    padding: 12px;
+  }
+
+  .data-source-top {
+    gap: 8px;
+  }
+
+  .data-source-top span,
+  .data-source-top strong {
+    font-size: 0.64rem;
+  }
+
+  .data-source-top strong {
+    padding: 6px 8px;
+  }
+
+  .data-source-card h2 {
+    margin: 16px 0 12px;
+    font-size: 0.98rem;
+  }
+
+  .data-source-metrics {
+    gap: 8px;
+  }
+
+  .data-source-metrics div {
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .data-source-metrics span,
+  .data-source-metrics strong {
+    font-size: 0.74rem;
+  }
+}
