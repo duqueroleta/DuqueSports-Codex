@@ -1,0 +1,210 @@
+.match-decision-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr) auto;
+  gap: 12px;
+  align-items: stretch;
+  width: min(1240px, 100%);
+  margin: 12px auto 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.105);
+  border-radius: 18px;
+  background:
+    linear-gradient(90deg, rgba(32, 246, 164, 0.085), rgba(217, 180, 91, 0.08)),
+    rgba(10, 17, 27, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 18px 42px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(18px);
+}
+
+.match-decision-copy,
+.match-decision-metrics,
+.match-decision-summary > a {
+  min-width: 0;
+}
+
+.match-decision-copy {
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  padding: 4px 6px;
+}
+
+.match-decision-copy span {
+  color: var(--color-neon);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.match-decision-copy strong {
+  overflow: hidden;
+  color: var(--color-white);
+  font-size: 1.12rem;
+  font-weight: 1000;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-decision-copy p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: #a8b3c1;
+  font-size: 0.78rem;
+  font-weight: 720;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.match-decision-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.match-decision-metrics span {
+  display: grid;
+  gap: 3px;
+  align-content: center;
+  min-width: 0;
+  min-height: 68px;
+  padding: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 13px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.04);
+}
+
+.match-decision-metrics span:first-child {
+  border-color: rgba(32, 246, 164, 0.2);
+  background:
+    linear-gradient(180deg, rgba(32, 246, 164, 0.115), rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.04);
+}
+
+.match-decision-metrics small,
+.match-decision-metrics strong,
+.match-decision-metrics em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-decision-metrics small {
+  color: #8793a3;
+  font-size: 0.55rem;
+  font-style: normal;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.match-decision-metrics strong {
+  color: var(--color-white);
+  font-size: 1.02rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.match-decision-metrics em {
+  color: var(--color-gold-soft);
+  font-size: 0.56rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.match-decision-summary > a {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 68px;
+  padding: 0 16px;
+  border: 1px solid rgba(217, 180, 91, 0.36);
+  border-radius: 14px;
+  color: #07111c;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 48%),
+    linear-gradient(135deg, var(--color-gold-soft), var(--color-gold));
+  box-shadow:
+    0 16px 30px rgba(217, 180, 91, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  font-size: 0.82rem;
+  font-weight: 1000;
+  text-decoration: none;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+.match-decision-summary > a span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  color: var(--color-gold-soft);
+  background: rgba(7, 17, 28, 0.92);
+  font-size: 0.66rem;
+}
+
+.match-decision-summary > a strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 860px) {
+  .match-decision-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .match-decision-summary > a {
+    min-height: 54px;
+  }
+}
+
+@media (max-width: 520px) {
+  .match-decision-summary {
+    gap: 9px;
+    margin-top: 9px;
+    padding: 9px;
+    border-radius: 16px;
+  }
+
+  .match-decision-copy {
+    padding: 2px 3px;
+  }
+
+  .match-decision-copy strong {
+    font-size: 0.98rem;
+  }
+
+  .match-decision-copy p {
+    font-size: 0.7rem;
+    -webkit-line-clamp: 1;
+  }
+
+  .match-decision-metrics {
+    gap: 6px;
+  }
+
+  .match-decision-metrics span {
+    min-height: 58px;
+    padding: 8px 7px;
+    border-radius: 11px;
+  }
+
+  .match-decision-metrics strong {
+    font-size: 0.88rem;
+  }
+
+  .match-decision-summary > a {
+    min-height: 50px;
+    border-radius: 13px;
+  }
+}

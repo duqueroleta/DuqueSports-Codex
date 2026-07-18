@@ -5,6 +5,7 @@ import EngineProjectionSection from '../components/matches/detail/EngineProjecti
 import MatchActionPanel from '../components/matches/detail/MatchActionPanel.jsx';
 import MatchAnalysisNav from '../components/matches/detail/MatchAnalysisNav.jsx';
 import MatchAnalysisGrid from '../components/matches/detail/MatchAnalysisGrid.jsx';
+import MatchDecisionSummary from '../components/matches/detail/MatchDecisionSummary.jsx';
 import MatchDetailHero from '../components/matches/detail/MatchDetailHero.jsx';
 import MatchProbabilitiesPanel from '../components/matches/detail/MatchProbabilitiesPanel.jsx';
 import { useMatchDetailData } from '../hooks/useMatchDetailData.js';
@@ -39,6 +40,7 @@ function MatchDetailPage() {
   return (
     <main className="detail-page">
       <MatchDetailHero match={match} />
+      <MatchDecisionSummary match={match} />
       <MatchAnalysisNav />
       <MatchProbabilitiesPanel probabilities={match.probabilities} />
       <EngineProjectionSection
