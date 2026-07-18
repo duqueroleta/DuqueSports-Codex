@@ -87,3 +87,41 @@
     scroll-snap-align: start;
   }
 }
+
+@media (max-width: 820px) and (max-height: 760px) {
+  .detail-page .market-intelligence-panel {
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    scroll-margin-top: 60px;
+  }
+
+  .market-intelligence-panel span {
+    font-size: 0.6rem;
+  }
+
+  .market-intelligence-panel strong {
+    margin-top: 5px;
+    font-size: 1rem;
+  }
+
+  .market-intelligence-panel p {
+    margin-top: 6px;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .market-intelligence-grid {
+    grid-auto-columns: min(64vw, 238px);
+    gap: 7px;
+    padding-bottom: 3px;
+  }
+
+  .market-intelligence-grid article {
+    padding: 10px;
+  }
+
+  .market-intelligence-grid small {
+    font-size: 0.5rem;
+  }
+}
