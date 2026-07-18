@@ -264,13 +264,79 @@
 
 .favorites-empty {
   grid-column: 1 / -1;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 12px;
   min-height: 120px;
   margin: 0;
-  padding: 22px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(217, 180, 91, 0.14), transparent 38%),
+    radial-gradient(circle at bottom left, rgba(32, 246, 164, 0.11), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.03)),
+    rgba(10, 16, 25, 0.76);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 18px 44px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(18px);
+}
+
+.favorites-empty span {
+  color: var(--color-neon);
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.favorites-empty strong {
+  color: var(--color-white);
+  font-size: clamp(1.25rem, 3vw, 1.85rem);
+  line-height: 1.06;
+}
+
+.favorites-empty p {
+  max-width: 560px;
+  margin: 0;
   color: #aeb8c5;
-  background: rgba(255, 255, 255, 0.045);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.favorites-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.favorites-empty-actions a,
+.favorites-empty-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(217, 180, 91, 0.3);
+  border-radius: 12px;
+  color: #10161f;
+  background: linear-gradient(135deg, #ffe69a, var(--color-gold-soft));
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: 0 12px 26px rgba(217, 180, 91, 0.16);
+}
+
+.favorites-empty-actions button {
+  color: #dffdf3;
+  background: rgba(32, 246, 164, 0.08);
+  border-color: rgba(32, 246, 164, 0.22);
+  box-shadow: none;
 }
 
 @media (max-width: 1180px) {
@@ -403,7 +469,10 @@
   }
 
   .favorites-empty {
+    align-content: center;
     grid-column: auto;
+    min-height: 300px;
+    border-radius: 22px;
   }
 }
 

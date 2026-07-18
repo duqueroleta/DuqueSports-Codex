@@ -64,9 +64,33 @@ function getFavoriteDecision(topMatch, topMarket) {
   };
 }
 
+function FavoriteEmptyState({ hasSavedItems, label, onClearSearch, to }) {
+  return (
+    <div className="favorites-empty">
+      <span>Radar pessoal</span>
+      <strong>{hasSavedItems ? `${label} ocultos pela busca` : `Nenhum ${label.toLowerCase()} salvo ainda`}</strong>
+      <p>
+        {hasSavedItems
+          ? 'A busca atual não encontrou itens salvos nesta seção. Limpe a busca para voltar ao seu radar completo.'
+          : 'Explore as oportunidades do Duque Score e salve os itens mais importantes para acompanhar depois.'}
+      </p>
+      <div className="favorites-empty-actions">
+        {hasSavedItems ? (
+          <button onClick={onClearSearch} type="button">
+            Limpar busca
+          </button>
+        ) : null}
+        <Link to={to}>
+          Explorar {label.toLowerCase()}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function FavoritesPage() {
   const { favoriteMatches, favoriteMarkets } = useFavorites();
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const {
     data: matches,
     error: matchesError,
@@ -181,7 +205,12 @@ function FavoritesPage() {
             <MatchCard key={match.id} match={match} />
           ))}
           {!isLoadingMatches && !matchesError && !savedMatches.length ? (
-            <p className="favorites-empty">Nenhum jogo favorito encontrado.</p>
+            <FavoriteEmptyState
+              hasSavedItems={allSavedMatches.length > 0}
+              label="Jogos"
+              onClearSearch={() => setSearchTerm('')}
+              to="/jogos"
+            />
           ) : null}
         </div>
       </section>
@@ -198,7 +227,12 @@ function FavoritesPage() {
             <MarketStrengthCard key={market.id} market={market} rank={index + 1} />
           ))}
           {!isLoadingMarkets && !marketsError && !savedMarkets.length ? (
-            <p className="favorites-empty">Nenhum mercado favorito encontrado.</p>
+            <FavoriteEmptyState
+              hasSavedItems={allSavedMarkets.length > 0}
+              label="Mercados"
+              onClearSearch={() => setSearchTerm('')}
+              to="/mercados"
+            />
           ) : null}
         </div>
       </section>
