@@ -29,6 +29,7 @@ function MobileMatchSlide({ isActive = false, match }) {
   const favorite = isFavorite('match', match.id);
   const confidence = normalizeMatchConfidence(match.confidence);
   const metrics = normalizeMatchMetrics(match.metrics).slice(0, 3);
+  const mainProbability = match.probabilities?.[1] ?? match.probabilities?.[0] ?? null;
 
   return (
     <article
@@ -101,6 +102,15 @@ function MobileMatchSlide({ isActive = false, match }) {
             <p>{match.insight}</p>
             <small>Odd média <b>{formatMatchOdds(match.odds)}</b></small>
           </div>
+        </div>
+
+        <div className="mobile-market-focus" aria-label="Mercado recomendado">
+          <span>Mercado recomendado</span>
+          <strong>{match.signal}</strong>
+          <small>
+            {mainProbability ? `${mainProbability.value}% modelo` : `${confidence ?? '--'}% modelo`}
+            <b>Odd {formatMatchOdds(match.odds)}</b>
+          </small>
         </div>
 
         <div className="mobile-key-metrics" aria-label="Indicadores principais">
