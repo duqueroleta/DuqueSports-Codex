@@ -18,8 +18,8 @@ const mobileNavItems = [
   { label: 'Home', path: '/', code: 'HM' },
   { label: 'Jogos', path: '/jogos', code: 'JG' },
   { label: 'VIP', path: '/lista-vip', code: 'VIP', featured: true },
+  { label: 'Mercados', path: '/mercados', code: 'MK' },
   { label: 'Ao vivo', path: '/ao-vivo', code: 'LV' },
-  { label: 'Perfil', path: '/perfil', code: 'PF' },
 ];
 
 function Sidebar() {
