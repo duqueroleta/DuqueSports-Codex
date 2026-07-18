@@ -21,7 +21,7 @@ function MarketsPage() {
     'duque.filters.markets.competition',
     ALL_MARKET_COMPETITIONS,
   );
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const { data: markets, error, isLoading, retry } = useAsyncData(getMarkets, []);
   const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
   const bestMarket = getStrongestMarket(markets);
@@ -31,6 +31,13 @@ function MarketsPage() {
     (market) => matchMarketListFilter(market, activeFilter) && itemMatchesSearch(market, searchTerm),
   );
   const visibleMarkets = filteredMarkets.slice(0, visibleCount);
+
+  function resetMarketsView() {
+    setActiveCompetition(ALL_MARKET_COMPETITIONS);
+    setActiveFilter('Todos');
+    setVisibleCount(4);
+    setSearchTerm('');
+  }
 
   return (
     <main className="markets-page">
@@ -58,6 +65,7 @@ function MarketsPage() {
         isLoading={isLoading}
         markets={visibleMarkets}
         onRetry={retry}
+        onReset={resetMarketsView}
       />
 
       {visibleCount < filteredMarkets.length ? (

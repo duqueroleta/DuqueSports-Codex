@@ -3,7 +3,7 @@ import SkeletonGrid from '../loading/SkeletonGrid.jsx';
 import MarketStrengthCard from './MarketStrengthCard.jsx';
 import '../../styles/markets-grid.css';
 
-function MarketsGrid({ error, isLoading, markets, onRetry }) {
+function MarketsGrid({ error, isLoading, markets, onReset, onRetry }) {
   return (
     <>
       <div className="markets-results-heading">
@@ -22,7 +22,19 @@ function MarketsGrid({ error, isLoading, markets, onRetry }) {
           ))
           : null}
         {!isLoading && !error && !markets.length ? (
-          <p className="search-empty">Nenhum mercado encontrado.</p>
+          <div className="markets-empty-state">
+            <span>Sem mercado compatível</span>
+            <strong>Nenhum mercado encontrado</strong>
+            <p>Os filtros atuais ocultaram os mercados monitorados. Volte para a seleção principal para comparar as melhores leituras.</p>
+            <div className="markets-empty-tags" aria-label="Filtros que podem impactar a busca">
+              <small>Busca</small>
+              <small>Tipo</small>
+              <small>Confiança</small>
+            </div>
+            <button onClick={onReset} type="button">
+              Ver mercados principais
+            </button>
+          </div>
         ) : null}
       </section>
     </>
