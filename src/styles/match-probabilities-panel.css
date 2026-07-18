@@ -167,3 +167,49 @@
     grid-column: auto;
   }
 }
+
+@media (max-width: 520px) and (max-height: 760px) {
+  .detail-probabilities {
+    margin-top: 9px;
+    scroll-margin-top: 60px;
+  }
+
+  .detail-probabilities > header,
+  .detail-analysis > header {
+    margin-bottom: 7px;
+  }
+
+  .detail-probabilities > header span,
+  .detail-analysis > header span {
+    font-size: 0.58rem;
+  }
+
+  .detail-probabilities > header strong,
+  .detail-analysis > header strong {
+    font-size: 0.88rem;
+  }
+
+  .detail-probabilities-grid {
+    gap: 7px;
+    padding-bottom: 4px;
+  }
+
+  .detail-probabilities article {
+    flex-basis: min(58vw, 210px);
+    gap: 6px;
+    min-height: 112px;
+    padding: 10px;
+  }
+
+  .detail-probabilities article > span {
+    font-size: 0.56rem;
+  }
+
+  .detail-probabilities article > strong {
+    font-size: 1.42rem;
+  }
+
+  .detail-probabilities article > small {
+    font-size: 0.56rem;
+  }
+}

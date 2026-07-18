@@ -456,3 +456,143 @@
     font-size: 0.74rem;
   }
 }
+
+@media (max-width: 520px) and (max-height: 760px) {
+  .match-detail-hero-v2 {
+    padding: 10px;
+  }
+
+  .match-detail-toolbar {
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+    gap: 6px;
+  }
+
+  .match-detail-toolbar a {
+    font-size: 0.64rem;
+  }
+
+  .match-detail-toolbar a span {
+    width: 24px;
+    height: 24px;
+  }
+
+  .match-detail-toolbar div span {
+    font-size: 0.68rem;
+  }
+
+  .match-detail-toolbar div strong {
+    margin-top: 2px;
+    font-size: 0.64rem;
+  }
+
+  .match-detail-toolbar > small {
+    padding: 5px 6px;
+    font-size: 0.52rem;
+  }
+
+  .match-detail-stage {
+    grid-template-columns: minmax(0, 1fr) 94px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 11px;
+  }
+
+  .match-detail-team strong {
+    margin-top: 7px;
+    font-size: 0.78rem;
+  }
+
+  .match-detail-team > span:last-child {
+    margin-top: 4px;
+    font-size: 0.56rem;
+  }
+
+  .match-detail-score {
+    width: 94px;
+    height: 94px;
+  }
+
+  .match-detail-score > div {
+    width: 84px;
+    height: 84px;
+  }
+
+  .match-detail-score strong {
+    font-size: 1.72rem;
+  }
+
+  .match-detail-score span,
+  .match-detail-score small {
+    font-size: 0.46rem;
+  }
+
+  .match-detail-verdict {
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .match-detail-verdict div > span {
+    font-size: 0.58rem;
+  }
+
+  .match-detail-verdict div > strong {
+    margin-top: 4px;
+    font-size: 0.9rem;
+  }
+
+  .match-detail-verdict p {
+    margin-top: 4px;
+    font-size: 0.68rem;
+  }
+
+  .match-detail-verdict > small {
+    min-width: 70px;
+    font-size: 0.54rem;
+  }
+
+  .match-detail-verdict > small strong {
+    margin-top: 3px;
+    font-size: 1rem;
+  }
+
+  .match-detail-quick-actions {
+    gap: 7px;
+    margin-top: 9px;
+  }
+
+  .match-detail-quick-actions a {
+    min-height: 46px;
+    padding: 0 8px;
+  }
+
+  .match-detail-quick-actions a > span:first-child {
+    width: 25px;
+    height: 25px;
+  }
+
+  .match-detail-quick-actions small {
+    font-size: 0.48rem;
+  }
+
+  .match-detail-quick-actions strong {
+    font-size: 0.66rem;
+  }
+
+  .match-detail-kpis {
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .match-detail-kpis span {
+    min-height: 42px;
+    padding: 7px;
+  }
+
+  .match-detail-kpis small {
+    font-size: 0.48rem;
+  }
+
+  .match-detail-kpis strong {
+    font-size: 0.68rem;
+  }
+}
