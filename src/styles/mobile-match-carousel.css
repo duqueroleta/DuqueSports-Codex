@@ -180,9 +180,9 @@
 
 @media (max-width: 760px) and (max-height: 760px) {
   .mobile-match-carousel {
-    gap: 6px;
-    min-height: calc(100svh - 164px);
-    padding-top: 6px;
+    gap: 5px;
+    min-height: calc(100svh - 132px);
+    padding-top: 4px;
     padding-bottom: calc(88px + env(safe-area-inset-bottom));
   }
 

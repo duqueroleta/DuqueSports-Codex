@@ -110,3 +110,30 @@
     background: rgba(7, 17, 28, 0.28);
   }
 }
+
+@media (max-width: 760px) and (max-height: 760px) {
+  .mobile-market-filter-group {
+    gap: 4px;
+  }
+
+  .mobile-market-filter-label {
+    padding: 0 12px;
+  }
+
+  .mobile-market-filter-label span,
+  .mobile-market-filter-label small {
+    font-size: 0.54rem;
+  }
+
+  .mobile-market-filters {
+    gap: 6px;
+    padding-bottom: 1px;
+  }
+
+  .mobile-market-filters button {
+    min-height: 29px;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 0.64rem;
+  }
+}
