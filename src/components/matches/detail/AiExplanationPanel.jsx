@@ -20,11 +20,13 @@ function AiExplanationPanel({ explanation }) {
       <div className="ai-explanation-grid">
         {keyDrivers.map((driver, index) => (
           <article key={`${driver}-${index}`}>
-            <span>Fator</span>
+            <small>{String(index + 1).padStart(2, '0')}</small>
+            <span>Fator decisivo</span>
             <p>{driver}</p>
           </article>
         ))}
         <article className="ai-explanation-risk">
+          <small>!</small>
           <span>Risco</span>
           <p>{primaryRisk}</p>
         </article>
