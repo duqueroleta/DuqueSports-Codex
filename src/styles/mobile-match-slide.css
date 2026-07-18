@@ -337,17 +337,51 @@
   }
 
   .mobile-key-metrics span {
+    position: relative;
     display: grid;
-    place-items: center;
-    min-height: 38px;
-    padding: 6px;
+    gap: 3px;
+    align-content: center;
+    min-height: 46px;
+    overflow: hidden;
+    padding: 7px 6px;
     border: 1px solid rgba(255, 255, 255, 0.085);
     border-radius: 11px;
     color: #dce5ee;
-    background: rgba(255, 255, 255, 0.045);
-    font-size: 0.66rem;
-    font-weight: 850;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+      rgba(255, 255, 255, 0.045);
     text-align: center;
+  }
+
+  .mobile-key-metrics span::after {
+    position: absolute;
+    right: 8px;
+    bottom: 0;
+    left: 8px;
+    height: 2px;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(90deg, var(--color-neon), var(--color-gold-soft));
+    opacity: 0.72;
+    content: "";
+  }
+
+  .mobile-key-metrics strong,
+  .mobile-key-metrics small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-key-metrics strong {
+    color: var(--color-white);
+    font-size: 0.76rem;
+    font-weight: 1000;
+  }
+
+  .mobile-key-metrics small {
+    color: #8f9baa;
+    font-size: 0.55rem;
+    font-weight: 900;
   }
 
   .mobile-match-actions-v2 {

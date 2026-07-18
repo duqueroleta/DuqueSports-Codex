@@ -8,6 +8,22 @@ import { getMatchVisualStyle } from '../../utils/matchVisuals.js';
 import TeamCrest from '../teams/TeamCrest.jsx';
 import '../../styles/mobile-match-slide.css';
 
+function formatMobileMetric(metric) {
+  const match = metric.match(/^(.+?)\s+([+\-]?\d+(?:[.,]\d+)?%?)$/);
+
+  if (!match) {
+    return {
+      label: metric,
+      value: 'IA',
+    };
+  }
+
+  return {
+    label: match[1],
+    value: match[2],
+  };
+}
+
 function MobileMatchSlide({ match }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite('match', match.id);
@@ -85,7 +101,16 @@ function MobileMatchSlide({ match }) {
         </div>
 
         <div className="mobile-key-metrics" aria-label="Indicadores principais">
-          {metrics.map((metric) => <span key={metric}>{metric}</span>)}
+          {metrics.map((metric) => {
+            const chip = formatMobileMetric(metric);
+
+            return (
+              <span key={metric}>
+                <strong>{chip.value}</strong>
+                <small>{chip.label}</small>
+              </span>
+            );
+          })}
         </div>
 
         <div className="mobile-match-actions-v2">
