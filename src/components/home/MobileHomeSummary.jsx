@@ -52,8 +52,27 @@ function MobileHomeSummary() {
         </span>
       </div>
 
+      <nav className="mobile-home-shortcuts" aria-label="Acesso rápido">
+        <Link to="/jogos">
+          <small>Jogos</small>
+          <strong>Carrossel</strong>
+        </Link>
+        <Link to="/analises">
+          <small>Análises</small>
+          <strong>IA completa</strong>
+        </Link>
+        <Link to="/mercados">
+          <small>Mercados</small>
+          <strong>Força</strong>
+        </Link>
+        <Link to="/ao-vivo">
+          <small>Ao vivo</small>
+          <strong>Sinais</strong>
+        </Link>
+      </nav>
+
       <div className="mobile-home-actions">
-        <Link to="/jogos">Ver jogos</Link>
+        <Link to="/jogos">Abrir jogos de hoje</Link>
         <Link to="/lista-vip">Lista VIP grátis</Link>
       </div>
     </section>
