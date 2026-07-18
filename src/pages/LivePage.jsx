@@ -41,7 +41,7 @@ function getLeadMatch(matches) {
 
 function LivePage() {
   const [activeFilter, setActiveFilter] = usePersistentState('duque.filters.live', 'Todos');
-  const { searchTerm } = useSearch();
+  const { searchTerm, setSearchTerm } = useSearch();
   const { data: liveMatches, error, isLoading, retry } = useAsyncData(getLiveMatches, []);
   const filteredMatches = liveMatches.filter(
     (match) => filterLiveMatches(match, activeFilter) && itemMatchesSearch(match, searchTerm),
@@ -49,6 +49,11 @@ function LivePage() {
   const highPressureCount = liveMatches.filter((match) => match.pressure >= 78).length;
   const averagePressure = calculateAverageLivePressure(liveMatches);
   const leadMatch = getLeadMatch(filteredMatches.length ? filteredMatches : liveMatches);
+
+  function resetLiveView() {
+    setActiveFilter('Todos');
+    setSearchTerm('');
+  }
 
   return (
     <main className="live-page">
@@ -101,7 +106,19 @@ function LivePage() {
           ? filteredMatches.map((match) => <LiveMatchCard key={match.id} match={match} />)
           : null}
         {!isLoading && !error && !filteredMatches.length ? (
-          <p className="search-empty">Nenhuma partida ao vivo encontrada.</p>
+          <div className="live-empty-state">
+            <span>Monitor sem sinal</span>
+            <strong>Nenhuma partida ao vivo encontrada</strong>
+            <p>Os filtros atuais não retornaram jogos em andamento. Volte para a central completa para acompanhar todos os sinais disponíveis.</p>
+            <div className="live-empty-tags" aria-label="Filtros que podem impactar a busca">
+              <small>Busca</small>
+              <small>Pressão</small>
+              <small>Mercado</small>
+            </div>
+            <button onClick={resetLiveView} type="button">
+              Ver todos ao vivo
+            </button>
+          </div>
         ) : null}
       </section>
     </main>
