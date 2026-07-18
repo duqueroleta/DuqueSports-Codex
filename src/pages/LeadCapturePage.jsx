@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext.jsx';
 import { getLeadCount, submitLead } from '../services/leadsService.js';
 import '../styles/page-lead-capture.css';
@@ -107,6 +108,10 @@ function LeadCapturePage() {
               <strong>Você está na lista VIP.</strong>
               <p>Em breve você receberá novidades e análises gratuitas do Duque Score.</p>
               <small>Se este e-mail já estava cadastrado, mantivemos apenas uma inscrição ativa.</small>
+              <div className="lead-success-actions" aria-label="Próximos passos">
+                <Link to="/jogos">Ver jogos de hoje</Link>
+                <Link to="/analises">Abrir análises</Link>
+              </div>
             </div>
           ) : (
             <>

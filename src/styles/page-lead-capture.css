@@ -316,6 +316,51 @@
   min-height: 360px;
 }
 
+.lead-success-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.lead-success-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid rgba(32, 246, 164, 0.28);
+  border-radius: 13px;
+  color: #06140f;
+  background: linear-gradient(135deg, #7effc8, var(--color-neon));
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.lead-success-actions a:last-child {
+  border-color: rgba(217, 180, 91, 0.3);
+  color: var(--color-gold-soft);
+  background:
+    linear-gradient(145deg, rgba(217, 180, 91, 0.15), rgba(217, 180, 91, 0.055)),
+    rgba(255, 255, 255, 0.035);
+}
+
+.lead-success-actions a:hover,
+.lead-success-actions a:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(32, 246, 164, 0.14);
+}
+
+.lead-success-actions a:active {
+  transform: scale(0.98);
+}
+
 .lead-success small {
   width: auto;
   color: var(--color-gold-soft);
@@ -408,6 +453,14 @@
 
   .lead-form button {
     min-height: 50px;
+  }
+
+  .lead-success {
+    min-height: 320px;
+  }
+
+  .lead-success-actions {
+    grid-template-columns: 1fr;
   }
 
   .lead-trust-list {
