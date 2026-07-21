@@ -284,8 +284,7 @@
   font-weight: 1000;
   text-align: center;
   text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.05;
 }
 
 .home-match-card-actions a:last-child {
@@ -399,7 +398,7 @@
   .home-match-card-actions a {
     min-height: 58px;
     border-radius: 14px;
-    font-size: 0.84rem;
+    font-size: 0.78rem;
   }
 }
 

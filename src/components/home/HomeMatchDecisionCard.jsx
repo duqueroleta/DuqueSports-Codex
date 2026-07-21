@@ -129,8 +129,13 @@ function HomeMatchDecisionCard({ isLead = false, match }) {
 
       <footer className="home-match-card-actions">
         <Link to={`/jogos/${match.id}`}>Ver projecao</Link>
-        <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
-          Bilhete pronto
+        <a
+          aria-label={`Abrir bilhete pronto para ${projectionType}`}
+          href={AFFILIATE_LINKS.readyBetslip}
+          rel="noreferrer"
+          target="_blank"
+        >
+          Bilhete {projectionType.toLocaleLowerCase('pt-BR')}
         </a>
       </footer>
     </article>
