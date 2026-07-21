@@ -3,15 +3,11 @@ import '../../styles/sidebar.css';
 
 const desktopNavItems = [
   { label: 'Home', path: '/', code: 'HM' },
-  { label: 'Lista VIP', path: '/lista-vip', code: 'VIP' },
   { label: 'Jogos', path: '/jogos', code: 'JG' },
   { label: 'Mercados', path: '/mercados', code: 'MK' },
-  { label: 'Auditorias', path: '/auditorias', code: 'AU' },
-  { label: 'Análises', path: '/analises', code: 'AN' },
   { label: 'Favoritos', path: '/favoritos', code: 'FV' },
   { label: 'Ao Vivo', path: '/ao-vivo', code: 'LV' },
-  { label: 'Dados', path: '/dados', code: 'DT' },
-  { label: 'Perfil', path: '/perfil', code: 'PF' },
+  { label: 'Lista VIP', path: '/lista-vip', code: 'VIP' },
 ];
 
 const mobileNavItems = [
@@ -24,7 +20,7 @@ const mobileNavItems = [
 
 function Sidebar() {
   return (
-    <aside className="sidebar" aria-label="Navegação principal">
+    <aside className="sidebar" aria-label="Navegacao principal">
       <div className="sidebar-brand">
         <div className="sidebar-logo" aria-hidden="true">
           D
@@ -35,7 +31,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <nav className="sidebar-nav sidebar-nav-desktop" aria-label="Navegação principal desktop">
+      <nav className="sidebar-nav sidebar-nav-desktop" aria-label="Navegacao principal desktop">
         {desktopNavItems.map((item) => (
           <NavLink
             className={({ isActive }) => `sidebar-link${isActive ? ' sidebar-link-active' : ''}`}
@@ -48,7 +44,7 @@ function Sidebar() {
         ))}
       </nav>
 
-      <nav className="sidebar-nav-mobile" aria-label="Navegação principal mobile">
+      <nav className="sidebar-nav-mobile" aria-label="Navegacao principal mobile">
         {mobileNavItems.map((item) => (
           <NavLink
             className={({ isActive }) => {
@@ -69,7 +65,7 @@ function Sidebar() {
       <div className="sidebar-pro">
         <span>LISTA VIP</span>
         <strong>Acesso gratuito</strong>
-        <p>Receba novidades, auditorias e novas leituras estatísticas do Duque Score.</p>
+        <p>Receba novidades e novas leituras estatisticas do Duque Score.</p>
       </div>
     </aside>
   );
