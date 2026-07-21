@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout.jsx';
+import AdminPage from './pages/AdminPage.jsx';
 import AnalysesPage from './pages/AnalysesPage.jsx';
 import AuditsPage from './pages/AuditsPage.jsx';
 import DataPage from './pages/DataPage.jsx';
@@ -19,6 +20,7 @@ function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/lista-vip" element={<LeadCapturePage />} />
         <Route path="/jogos" element={<MatchesPage />} />
         <Route path="/jogos/:matchId" element={<MatchDetailPage />} />
