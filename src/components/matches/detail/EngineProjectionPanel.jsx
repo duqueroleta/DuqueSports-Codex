@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../../../styles/engine-projection-panel.css';
 
 function clamp(value, min, max) {
@@ -73,6 +74,7 @@ function EngineProjectionPanel({ match, projection }) {
     <section className="engine-projection-panel" id="projecao-engine" aria-label="Projecao estatistica do jogo">
       <header className="projection-match-header">
         <div>
+          <Link to="/jogos">Voltar aos jogos</Link>
           <span>{match?.league ?? 'Jogo'}</span>
           <strong>{match?.home ?? 'Mandante'} x {match?.away ?? 'Visitante'}</strong>
         </div>

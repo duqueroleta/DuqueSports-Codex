@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import AppFooter from './AppFooter.jsx';
 import FloatingLeadCta from '../lead/FloatingLeadCta.jsx';
 import Sidebar from '../sidebar/Sidebar.jsx';
@@ -6,6 +6,9 @@ import Topbar from '../topbar/Topbar.jsx';
 import '../../styles/layout-app.css';
 
 function AppLayout() {
+  const location = useLocation();
+  const isMatchProjectionRoute = /^\/jogos\/[^/]+$/.test(location.pathname);
+
   return (
     <div className="app-layout">
       <a className="skip-link" href="#main-content">
@@ -15,9 +18,9 @@ function AppLayout() {
       <div className="app-content" id="main-content">
         <Topbar />
         <Outlet />
-        <AppFooter />
+        {!isMatchProjectionRoute && <AppFooter />}
       </div>
-      <FloatingLeadCta />
+      {!isMatchProjectionRoute && <FloatingLeadCta />}
     </div>
   );
 }

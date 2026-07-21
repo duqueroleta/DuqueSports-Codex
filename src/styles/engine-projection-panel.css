@@ -24,6 +24,22 @@
   padding: 4px 2px 12px;
 }
 
+.projection-match-header a {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 10px;
+  color: var(--color-gold-soft);
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.projection-match-header a::before {
+  margin-right: 6px;
+  content: "<";
+}
+
 .projection-match-header span,
 .future-projection-board span {
   color: var(--color-neon);
@@ -261,11 +277,22 @@
 
   .projection-match-header {
     grid-template-columns: 1fr;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .projection-match-header a {
+    margin-bottom: 8px;
+    font-size: 0.66rem;
+  }
+
+  .projection-match-header strong {
+    font-size: 1.28rem;
   }
 
   .projection-match-header small {
     width: fit-content;
+    padding: 7px 9px;
+    font-size: 0.66rem;
   }
 
   .future-projection-board {
