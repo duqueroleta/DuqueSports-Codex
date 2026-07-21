@@ -91,54 +91,6 @@
   background: var(--color-neon);
 }
 
-.matches-advanced-filters {
-  display: grid;
-  grid-template-columns: minmax(150px, 220px) minmax(180px, 260px) auto;
-  gap: 10px;
-  align-items: end;
-  width: min(1240px, 100%);
-  margin: 10px auto 0;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.matches-advanced-filters label {
-  display: grid;
-  gap: 5px;
-}
-
-.matches-advanced-filters label > span {
-  color: #929dab;
-  font-size: 0.62rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.matches-advanced-filters select,
-.matches-advanced-filters button {
-  min-height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 8px;
-  color: var(--color-white);
-  background: #17202c;
-  font: inherit;
-  font-size: 0.76rem;
-  font-weight: 850;
-}
-
-.matches-advanced-filters select {
-  width: 100%;
-  padding: 0 10px;
-}
-
-.matches-advanced-filters button {
-  padding: 0 14px;
-  color: var(--color-gold-soft);
-  cursor: pointer;
-}
-
 .matches-results-heading {
   display: flex;
   justify-content: space-between;
@@ -396,32 +348,8 @@
     white-space: nowrap;
   }
 
-  .matches-advanced-filters {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    gap: 6px;
-    width: calc(100% - 24px);
-    margin-top: 7px;
-    padding: 6px;
-    border-radius: 12px;
-  }
-
-  .matches-advanced-filters label > span {
-    display: none;
-  }
-
-  .matches-advanced-filters button {
-    padding: 0 9px;
-  }
-
-  .matches-advanced-filters select,
-  .matches-advanced-filters button {
-    min-height: 34px;
-    border-radius: 10px;
-    font-size: 0.68rem;
-  }
-
   .matches-results-heading {
-    margin-top: 10px;
+    margin-top: 8px;
     margin-bottom: 7px;
   }
 
@@ -501,11 +429,6 @@
     font-size: 1.25rem;
   }
 
-  .matches-advanced-filters select,
-  .matches-advanced-filters button {
-    font-size: 0.68rem;
-  }
-
   .matches-page-grid > .home-match-decision-card {
     flex-basis: calc(100vw - 24px);
   }
@@ -537,22 +460,12 @@
   }
 
   .matches-page > .competition-rail,
-  .matches-toolbar,
-  .matches-advanced-filters {
+  .matches-toolbar {
     margin-top: 5px;
   }
 
   .matches-toolbar button {
     min-height: 30px;
-  }
-
-  .matches-advanced-filters {
-    padding: 5px;
-  }
-
-  .matches-advanced-filters select,
-  .matches-advanced-filters button {
-    min-height: 31px;
   }
 
   .matches-results-heading {

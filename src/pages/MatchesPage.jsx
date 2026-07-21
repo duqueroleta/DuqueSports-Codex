@@ -3,13 +3,10 @@ import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/Co
 import ErrorState from '../components/error/ErrorState.jsx';
 import HomeMatchDecisionCard from '../components/home/HomeMatchDecisionCard.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
-import MatchesAdvancedFilters from '../components/matches/MatchesAdvancedFilters.jsx';
 import MatchesDateRail from '../components/matches/MatchesDateRail.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
-import { ALL_MARKETS, ALL_TIERS, filterBatchOpportunities, getBatchFilterOptions } from '../engine/batch/BatchFilters.js';
 import { useAsyncData } from '../hooks/useAsyncData.js';
 import { usePersistentState } from '../hooks/usePersistentState.js';
-import { getBatchAnalysis } from '../services/batchAnalysisService.js';
 import { getMatches } from '../services/matchesService.js';
 import {
   calculateAverageMatchConfidence,
@@ -64,34 +61,18 @@ function MatchesPage() {
     'duque.filters.matches.competition',
     ALL_COMPETITIONS,
   );
-  const [activeTier, setActiveTier] = usePersistentState('duque.filters.matches.tier', ALL_TIERS);
-  const [activeMarket, setActiveMarket] = usePersistentState('duque.filters.matches.market', ALL_MARKETS);
   const { searchTerm, setSearchTerm } = useSearch();
   const { data: matches, error, isLoading, retry } = useAsyncData(getMatches, []);
-  const { data: batchAnalysis } = useAsyncData(getBatchAnalysis, [], null);
-  const opportunities = batchAnalysis?.opportunities ?? [];
-  const batchOptions = getBatchFilterOptions(opportunities);
-  const filteredOpportunityIds = new Set(
-    filterBatchOpportunities(opportunities, { tier: activeTier, market: activeMarket })
-      .map((opportunity) => opportunity.matchId),
-  );
   const filteredMatches = matches.filter((match) => {
     const matchesCompetition = activeCompetition === ALL_COMPETITIONS || match.league === activeCompetition;
-    const matchesRanking = opportunities.length === 0 || filteredOpportunityIds.has(match.id);
 
     return activeDay === 0
       && matchesCompetition
-      && matchesRanking
       && filterMatches(match, activeFilter)
       && itemMatchesSearch(match, searchTerm);
   });
   const averageConfidence = calculateAverageMatchConfidence(filteredMatches);
   const visibleMatches = filteredMatches.slice(0, visibleCount);
-
-  function resetAdvancedFilters() {
-    setActiveTier(ALL_TIERS);
-    setActiveMarket(ALL_MARKETS);
-  }
 
   function resetMatchesView() {
     setActiveDay(0);
@@ -99,13 +80,12 @@ function MatchesPage() {
     setActiveFilter('Todos');
     setVisibleCount(6);
     setSearchTerm('');
-    resetAdvancedFilters();
   }
 
   useEffect(() => {
     setActiveMatchIndex(0);
     carouselRef.current?.scrollTo({ left: 0 });
-  }, [activeDay, activeCompetition, activeFilter, activeMarket, activeTier, searchTerm]);
+  }, [activeDay, activeCompetition, activeFilter, searchTerm]);
 
   function updateActiveMatchIndex() {
     if (!carouselRef.current) {
@@ -180,16 +160,6 @@ function MatchesPage() {
           </button>
         ))}
       </section>
-
-      <MatchesAdvancedFilters
-        activeMarket={activeMarket}
-        activeTier={activeTier}
-        markets={batchOptions.markets}
-        onMarketChange={setActiveMarket}
-        onReset={resetAdvancedFilters}
-        onTierChange={setActiveTier}
-        tiers={batchOptions.tiers}
-      />
 
       <div className="matches-results-heading">
         <div>
