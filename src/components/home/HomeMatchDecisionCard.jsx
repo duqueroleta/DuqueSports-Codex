@@ -23,11 +23,28 @@ function formatDecisionMetric(metric) {
   };
 }
 
+function buildProjectedCardMetrics(match) {
+  const confidence = Number.isFinite(match.confidence) ? match.confidence : 72;
+  const homeXg = 1.05 + (confidence / 100);
+  const awayXg = 0.82 + ((100 - confidence) / 130);
+  const totalXg = homeXg + awayXg;
+  const shots = Math.round(14 + (totalXg * 2.2));
+  const shotsOnTarget = Math.round(4 + (totalXg * 1.1));
+  const corners = Math.round(5 + (totalXg * 1.25));
+
+  return [
+    `xG ${totalXg.toFixed(2)}`,
+    `Finaliz. ${shots}`,
+    `Alvo ${shotsOnTarget}`,
+    `Escant. ${corners}`,
+  ];
+}
+
 function HomeMatchDecisionCard({ isLead = false, match }) {
   const confidence = normalizeMatchConfidence(match.confidence);
   const confidenceDisplay = formatMatchConfidence(match.confidence);
   const confidenceLabel = getMatchConfidenceLabel(confidence);
-  const metrics = normalizeMatchMetrics(match.metrics).slice(0, 3);
+  const metrics = normalizeMatchMetrics(buildProjectedCardMetrics(match)).slice(0, 4);
 
   return (
     <article
