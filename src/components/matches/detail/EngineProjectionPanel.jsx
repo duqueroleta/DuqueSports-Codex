@@ -62,6 +62,37 @@ function buildFutureProjectionRows(projection, match) {
   ];
 }
 
+function groupProjectionRows(rows) {
+  return [
+    {
+      rows: rows.filter((row) => [
+        'xG',
+        'Gols',
+        'Finalizacoes no alvo',
+        'Grandes chances',
+        'Finalizacoes',
+        'xGOT',
+        'Finalizacoes na area',
+      ].includes(row.label)),
+      title: 'Ataque',
+    },
+    {
+      rows: rows.filter((row) => [
+        'Posse de bola',
+        'Escanteios',
+        'Desarmes',
+        'Defesas do goleiro',
+        'Total xG do jogo',
+      ].includes(row.label)),
+      title: 'Controle',
+    },
+    {
+      rows: rows.filter((row) => row.label === 'Cartoes amarelos'),
+      title: 'Disciplina',
+    },
+  ].filter((group) => group.rows.length);
+}
+
 function EngineProjectionPanel({ match, projection }) {
   if (!projection || projection.blocked) {
     return null;
@@ -69,6 +100,7 @@ function EngineProjectionPanel({ match, projection }) {
 
   const projectionRows = buildFutureProjectionRows(projection, match);
   const featuredRows = projectionRows.slice(0, 4);
+  const projectionGroups = groupProjectionRows(projectionRows);
 
   return (
     <section className="engine-projection-panel" id="projecao-engine" aria-label="Projecao estatistica do jogo">
@@ -109,25 +141,31 @@ function EngineProjectionPanel({ match, projection }) {
             <strong>{match?.away ?? 'Visitante'}</strong>
           </div>
 
-          {projectionRows.map((row) => (
-            <div className="future-projection-row" key={row.label}>
-              <span>{row.label}</span>
-              <b>
-                <small>{match?.home ?? 'Mandante'}</small>
-                <em>{row.home}</em>
-              </b>
-              <b>
-                <small>{match?.away ?? 'Visitante'}</small>
-                <em>{row.away}</em>
-              </b>
-              <i
-                aria-hidden="true"
-                className="future-projection-balance"
-                style={{
-                  '--away-share': `${row.awayShare}%`,
-                  '--home-share': `${row.homeShare}%`,
-                }}
-              />
+          {projectionGroups.map((group) => (
+            <div className="future-projection-group" key={group.title}>
+              <h3>{group.title}</h3>
+
+              {group.rows.map((row) => (
+                <div className="future-projection-row" key={row.label}>
+                  <span>{row.label}</span>
+                  <b>
+                    <small>{match?.home ?? 'Mandante'}</small>
+                    <em>{row.home}</em>
+                  </b>
+                  <b>
+                    <small>{match?.away ?? 'Visitante'}</small>
+                    <em>{row.away}</em>
+                  </b>
+                  <i
+                    aria-hidden="true"
+                    className="future-projection-balance"
+                    style={{
+                      '--away-share': `${row.awayShare}%`,
+                      '--home-share': `${row.homeShare}%`,
+                    }}
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>

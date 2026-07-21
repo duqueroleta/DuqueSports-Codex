@@ -167,6 +167,21 @@
   min-width: 0;
 }
 
+.future-projection-group {
+  display: grid;
+}
+
+.future-projection-group h3 {
+  margin: 0;
+  padding: 12px 18px 8px;
+  color: var(--color-neon);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .future-projection-row {
   display: grid;
   grid-template-columns: minmax(138px, 1.35fr) repeat(2, minmax(94px, 0.82fr));
@@ -319,6 +334,11 @@
   .future-projection-featured article {
     padding: 10px;
     border-radius: 12px;
+  }
+
+  .future-projection-group h3 {
+    padding: 11px 14px 7px;
+    font-size: 0.6rem;
   }
 
   .future-projection-featured strong,
