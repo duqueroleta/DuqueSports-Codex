@@ -85,6 +85,67 @@
   line-height: 1.45;
 }
 
+.future-projection-featured {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(90deg, rgba(32, 246, 164, 0.07), rgba(217, 180, 91, 0.05)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.future-projection-featured article {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.future-projection-featured span {
+  display: block;
+  overflow: hidden;
+  color: var(--color-neon);
+  font-size: 0.62rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.future-projection-featured strong,
+.future-projection-featured b {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--color-white);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 950;
+  line-height: 1.05;
+}
+
+.future-projection-featured strong {
+  margin-top: 9px;
+}
+
+.future-projection-featured b {
+  margin-top: 8px;
+  color: var(--color-gold-soft);
+}
+
+.future-projection-featured small,
+.future-projection-featured em {
+  display: block;
+  overflow: hidden;
+  color: #8f9baa;
+  font-size: 0.56rem;
+  font-style: normal;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .future-projection-table {
   display: grid;
   min-width: 0;
@@ -175,6 +236,11 @@
     gap: 8px;
   }
 
+  .future-projection-featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px 14px;
+  }
+
   .future-projection-table {
     overflow: visible;
   }
@@ -216,6 +282,21 @@
 
   .future-projection-board header p {
     font-size: 0.76rem;
+  }
+
+  .future-projection-featured {
+    gap: 7px;
+    padding: 9px;
+  }
+
+  .future-projection-featured article {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .future-projection-featured strong,
+  .future-projection-featured b {
+    font-size: 0.88rem;
   }
 
   .future-projection-head {

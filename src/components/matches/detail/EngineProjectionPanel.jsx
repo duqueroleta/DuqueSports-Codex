@@ -45,14 +45,14 @@ function buildFutureProjectionRows(projection, match) {
   const awayCards = homeCards + (awayGoals > homeGoals ? 0.1 : 0.4);
 
   return [
-    buildProjectionRow('Gols', homeGoals, awayGoals, (value) => formatRange(value, 0.45)),
     buildProjectionRow('xG', homeGoals, awayGoals, (value) => formatRange(value, 0.28, 2)),
+    buildProjectionRow('Gols', homeGoals, awayGoals, (value) => formatRange(value, 0.45)),
+    buildProjectionRow('Finalizacoes no alvo', homeOnTarget, awayOnTarget, (value) => formatRange(value, 1)),
+    buildProjectionRow('Grandes chances', homeGoals * 1.35, awayGoals * 1.35, (value) => formatRange(value, 1)),
+    buildProjectionRow('Finalizacoes', homeShots, awayShots, (value) => formatRange(value, 2)),
     buildProjectionRow('xGOT', homeGoals * 0.9, awayGoals * 0.9, (value) => formatRange(value, 0.3, 2)),
     buildProjectionRow('Posse de bola', homePossession, awayPossession, (value) => formatPercentRange(value, 3)),
-    buildProjectionRow('Finalizacoes', homeShots, awayShots, (value) => formatRange(value, 2)),
-    buildProjectionRow('Finalizacoes no alvo', homeOnTarget, awayOnTarget, (value) => formatRange(value, 1)),
     buildProjectionRow('Finalizacoes na area', homeShots * 0.58, awayShots * 0.58, (value) => formatRange(value, 1)),
-    buildProjectionRow('Grandes chances', homeGoals * 1.35, awayGoals * 1.35, (value) => formatRange(value, 1)),
     buildProjectionRow('Escanteios', homeCorners, awayCorners, (value) => formatRange(value, 1)),
     buildProjectionRow('Cartoes amarelos', homeCards, awayCards, (value) => formatRange(value, 1)),
     buildProjectionRow('Desarmes', 13 + (awayPossession / 10), 13 + (homePossession / 10), (value) => formatRange(value, 2)),
@@ -67,6 +67,7 @@ function EngineProjectionPanel({ match, projection }) {
   }
 
   const projectionRows = buildFutureProjectionRows(projection, match);
+  const featuredRows = projectionRows.slice(0, 4);
 
   return (
     <section className="engine-projection-panel" id="projecao-engine" aria-label="Projecao estatistica do jogo">
@@ -86,6 +87,18 @@ function EngineProjectionPanel({ match, projection }) {
           </div>
           <p>Estimativa de desempenho para cada time antes da bola rolar.</p>
         </header>
+
+        <div className="future-projection-featured" aria-label="Principais projecoes do jogo">
+          {featuredRows.map((row) => (
+            <article key={row.label}>
+              <span>{row.label}</span>
+              <strong>{row.home}</strong>
+              <small>{match?.home ?? 'Mandante'}</small>
+              <b>{row.away}</b>
+              <em>{match?.away ?? 'Visitante'}</em>
+            </article>
+          ))}
+        </div>
 
         <div className="future-projection-table">
           <div className="future-projection-row future-projection-head">
