@@ -22,6 +22,15 @@ assert.equal(projection.trace.recency.home.sampleSize, 5, 'Recency Engine should
 assert.equal(FEATURE_CATALOG.length, 6, 'Feature catalog should expose six phase-two features');
 assert.equal(projection.trace.featureStore.valid, true, 'Feature Store snapshot should be valid');
 assert.equal(projection.trace.featureStore.catalogSize, 6, 'Projection trace should include the Feature Store catalog size');
+assert.equal(
+  projection.trace.competitiveContext.model,
+  'competitive-context-engine-v1',
+  'Projection should use the Competitive Context Engine',
+);
+assert.ok(
+  projection.trace.competitiveContext.tags.length >= 2,
+  'Competitive Context Engine should expose explainable context tags',
+);
 assert.ok(
   projection.trace.featureStore.features.home.some((feature) => feature.featureId === 'adjusted_xg'),
   'Feature Store should register home adjusted_xg',
@@ -51,7 +60,7 @@ assert.ok(
   'Probable statistics should include advanced attacking indicators',
 );
 assert.equal(projection.trace.moduleCatalog.totalModules, 160, 'Scientific module catalog should track 160 official module slots');
-assert.ok(projection.trace.moduleCatalog.implementedCount >= 10, 'Catalog should expose implemented modules honestly');
+assert.ok(projection.trace.moduleCatalog.implementedCount >= 11, 'Catalog should expose implemented modules honestly');
 assert.equal(projection.trace.calibration.model, 'probability-calibration-v1', 'Projection should use probability calibration');
 assert.ok(
   projection.trace.calibration.reliability >= 0.35 && projection.trace.calibration.reliability <= 0.92,
@@ -69,6 +78,10 @@ assert.ok(
 assert.ok(
   projection.confidence <= 94,
   'Published Duque Score should avoid extreme values before stronger validation',
+);
+assert.ok(
+  Object.hasOwn(projection.trace.scoreCalibration.penalties, 'competitiveContext'),
+  'Score calibration should include the competitive context penalty',
 );
 assert.equal(projection.trace.explainability.model, 'explanation-engine-v1', 'Projection should use the Explanation Engine');
 assert.equal(projection.aiExplanation.model, 'explanation-engine-v1', 'Projection should expose AI explanation');

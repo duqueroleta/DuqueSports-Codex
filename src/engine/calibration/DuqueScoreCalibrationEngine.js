@@ -52,6 +52,10 @@ function calculateContextPenalty(matchInput) {
   return penalty;
 }
 
+function calculateCompetitiveContextPenalty(competitiveContext) {
+  return Math.min(10, Math.max(0, competitiveContext?.riskPenalty ?? 0));
+}
+
 function calculateProbabilityPenalty(probabilities) {
   const strongestOutcome = Math.max(
     probabilities?.homeWin ?? 0,
@@ -80,10 +84,12 @@ function runDuqueScoreCalibrationEngine({
   expectedAwayGoals,
   expectedHomeGoals,
   matchInput,
+  competitiveContext,
 }) {
   const penalties = {
     balance: calculateBalancePenalty(expectedHomeGoals, expectedAwayGoals),
     context: calculateContextPenalty(matchInput),
+    competitiveContext: calculateCompetitiveContextPenalty(competitiveContext),
     probability: calculateProbabilityPenalty(calibration?.probabilities),
     reliability: calculateReliabilityPenalty(calibration),
   };

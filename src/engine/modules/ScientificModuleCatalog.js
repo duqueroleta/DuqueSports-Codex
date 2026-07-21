@@ -59,6 +59,12 @@ const IMPLEMENTED_MODULES = Object.freeze([
     status: 'implemented',
     layer: 'calibration',
   },
+  {
+    id: 'DSM-011',
+    name: 'Competitive Context Engine',
+    status: 'implemented',
+    layer: 'context',
+  },
 ]);
 
 function buildPendingModule(index) {

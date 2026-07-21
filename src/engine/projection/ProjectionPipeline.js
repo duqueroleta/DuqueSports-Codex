@@ -1,6 +1,7 @@
 import { ENGINE_VERSION } from '../core/contracts.js';
 import { runDuqueScoreCalibrationEngine } from '../calibration/DuqueScoreCalibrationEngine.js';
 import { runProbabilityCalibrationEngine } from '../calibration/ProbabilityCalibrationEngine.js';
+import { runCompetitiveContextEngine } from '../context/CompetitiveContextEngine.js';
 import { runDataQuality } from '../data-quality/DataQualityEngine.js';
 import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
@@ -46,13 +47,11 @@ function runProjectionPipeline(matchInput) {
     homeAdjusted,
     awayAdjusted,
   });
-  const knockoutModifier = matchInput.context.isKnockout ? 0.94 : 1;
-  const venueHomeModifier = matchInput.context.isNeutralVenue ? 1 : 1.06;
-  const venueAwayModifier = matchInput.context.isNeutralVenue ? 1 : 0.97;
+  const competitiveContext = runCompetitiveContextEngine(matchInput);
   const homeAdjustedXg = getTeamFeatureValue(featureStore, 'home', 'adjusted_xg');
   const awayAdjustedXg = getTeamFeatureValue(featureStore, 'away', 'adjusted_xg');
-  const expectedHomeGoals = Number((homeAdjustedXg * venueHomeModifier * knockoutModifier).toFixed(2));
-  const expectedAwayGoals = Number((awayAdjustedXg * venueAwayModifier * knockoutModifier).toFixed(2));
+  const expectedHomeGoals = Number((homeAdjustedXg * competitiveContext.homeModifier * competitiveContext.goalModifier).toFixed(2));
+  const expectedAwayGoals = Number((awayAdjustedXg * competitiveContext.awayModifier * competitiveContext.goalModifier).toFixed(2));
   const poisson = runPoissonEngine({
     homeLambda: expectedHomeGoals,
     awayLambda: expectedAwayGoals,
@@ -77,6 +76,7 @@ function runProjectionPipeline(matchInput) {
     expectedHomeGoals,
     matchInput,
     rawConfidence,
+    competitiveContext,
   });
   const confidence = scoreCalibration.duqueScore;
   const aiExplanation = runExplanationEngine({
@@ -112,6 +112,7 @@ function runProjectionPipeline(matchInput) {
       `${matchInput.homeTeam.name} adjusted xG stored as ${homeAdjustedXg}.`,
       `${matchInput.awayTeam.name} adjusted xG stored as ${awayAdjustedXg}.`,
       `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
+      `Competitive Context classified the match as ${competitiveContext.family}.`,
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
       `Probable Statistics Engine generated ${probableStatistics.rows.length} projected statistic ranges.`,
       `Scientific module catalog tracks ${moduleCatalog.implementedCount}/${moduleCatalog.totalModules} implemented modules.`,
@@ -123,6 +124,7 @@ function runProjectionPipeline(matchInput) {
     trace: {
       dataQuality,
       featureStore,
+      competitiveContext,
       moduleCatalog,
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
