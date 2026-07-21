@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
 import ErrorState from '../error/ErrorState.jsx';
+import HomeMatchDecisionCard from './HomeMatchDecisionCard.jsx';
 import SkeletonGrid from '../loading/SkeletonGrid.jsx';
-import MatchCard from '../matches/MatchCard.jsx';
 import { useSearch } from '../../context/SearchContext.jsx';
 import { useAsyncData } from '../../hooks/useAsyncData.js';
 import { getMatches } from '../../services/matchesService.js';
@@ -71,7 +71,7 @@ function HomeDecisionFeed() {
         {isLoading ? <SkeletonGrid count={4} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error ? filteredMatches.map((match, index) => (
-          <MatchCard isActive={index === 0} key={match.id} match={match} />
+          <HomeMatchDecisionCard isLead={index === 0} key={match.id} match={match} />
         )) : null}
       </div>
 
