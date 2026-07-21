@@ -83,17 +83,6 @@ function HomeDecisionFeed() {
         </div>
       </header>
 
-      <label className="home-decision-search">
-        <span>Buscar</span>
-        <input
-          aria-label="Buscar times, mercados ou auditorias"
-          onChange={(event) => setSearchTerm(event.target.value)}
-          placeholder="Buscar times, mercados ou auditorias"
-          type="search"
-          value={searchTerm}
-        />
-      </label>
-
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
       <div className="home-decision-carousel-shell">
