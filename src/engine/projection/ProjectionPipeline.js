@@ -1,4 +1,5 @@
 import { ENGINE_VERSION } from '../core/contracts.js';
+import { runDuqueScoreCalibrationEngine } from '../calibration/DuqueScoreCalibrationEngine.js';
 import { runProbabilityCalibrationEngine } from '../calibration/ProbabilityCalibrationEngine.js';
 import { runDataQuality } from '../data-quality/DataQualityEngine.js';
 import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
@@ -64,12 +65,20 @@ function runProjectionPipeline(matchInput) {
     matchInput,
   });
   const moduleCatalog = getScientificModuleCatalogSnapshot();
-  const confidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
+  const rawConfidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
   const calibration = runProbabilityCalibrationEngine({
     probabilities: poisson.probabilities,
     dataQualityScore: dataQuality.score,
-    confidence,
+    confidence: rawConfidence,
   });
+  const scoreCalibration = runDuqueScoreCalibrationEngine({
+    calibration,
+    expectedAwayGoals,
+    expectedHomeGoals,
+    matchInput,
+    rawConfidence,
+  });
+  const confidence = scoreCalibration.duqueScore;
   const aiExplanation = runExplanationEngine({
     matchInput,
     expectedHomeGoals,
@@ -106,6 +115,7 @@ function runProjectionPipeline(matchInput) {
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
       `Probable Statistics Engine generated ${probableStatistics.rows.length} projected statistic ranges.`,
       `Scientific module catalog tracks ${moduleCatalog.implementedCount}/${moduleCatalog.totalModules} implemented modules.`,
+      `Duque Score Calibration adjusted raw confidence ${rawConfidence} to ${confidence}.`,
       `Calibration reliability set to ${Math.round(calibration.reliability * 100)}%.`,
       `Opportunity ranking classified the match as ${opportunityRanking.rankSignal}.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
@@ -118,6 +128,7 @@ function runProjectionPipeline(matchInput) {
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
       statistical: { poisson, probableStatistics },
       calibration,
+      scoreCalibration,
       explainability: aiExplanation,
       ranking: opportunityRanking,
     },

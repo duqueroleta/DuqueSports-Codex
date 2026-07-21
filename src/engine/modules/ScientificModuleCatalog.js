@@ -53,6 +53,12 @@ const IMPLEMENTED_MODULES = Object.freeze([
     status: 'implemented',
     layer: 'statistical',
   },
+  {
+    id: 'DSM-010',
+    name: 'Duque Score Calibration Engine',
+    status: 'implemented',
+    layer: 'calibration',
+  },
 ]);
 
 function buildPendingModule(index) {

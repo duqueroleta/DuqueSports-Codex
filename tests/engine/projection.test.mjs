@@ -51,11 +51,24 @@ assert.ok(
   'Probable statistics should include advanced attacking indicators',
 );
 assert.equal(projection.trace.moduleCatalog.totalModules, 160, 'Scientific module catalog should track 160 official module slots');
-assert.ok(projection.trace.moduleCatalog.implementedCount >= 9, 'Catalog should expose implemented modules honestly');
+assert.ok(projection.trace.moduleCatalog.implementedCount >= 10, 'Catalog should expose implemented modules honestly');
 assert.equal(projection.trace.calibration.model, 'probability-calibration-v1', 'Projection should use probability calibration');
 assert.ok(
   projection.trace.calibration.reliability >= 0.35 && projection.trace.calibration.reliability <= 0.92,
   'Calibration reliability should stay within defined bounds',
+);
+assert.equal(
+  projection.trace.scoreCalibration.model,
+  'duque-score-calibration-engine-v1',
+  'Projection should calibrate the published Duque Score separately from raw confidence',
+);
+assert.ok(
+  projection.trace.scoreCalibration.rawConfidence >= projection.confidence,
+  'Published Duque Score should not exceed raw confidence after conservative calibration',
+);
+assert.ok(
+  projection.confidence <= 94,
+  'Published Duque Score should avoid extreme values before stronger validation',
 );
 assert.equal(projection.trace.explainability.model, 'explanation-engine-v1', 'Projection should use the Explanation Engine');
 assert.equal(projection.aiExplanation.model, 'explanation-engine-v1', 'Projection should expose AI explanation');
