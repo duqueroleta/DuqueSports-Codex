@@ -36,6 +36,22 @@ assert.ok(
   projection.trace.statistical.poisson.correctScore.probability > 0,
   'Poisson Engine should expose the most likely scoreline',
 );
+assert.equal(
+  projection.trace.statistical.probableStatistics.model,
+  'probable-statistics-engine-v1',
+  'Projection should use the Probable Statistics Engine',
+);
+assert.equal(
+  projection.trace.statistical.probableStatistics.rows.length,
+  15,
+  'Probable Statistics Engine should expose the full user-facing statistic board',
+);
+assert.ok(
+  projection.trace.statistical.probableStatistics.rows.some((row) => row.label === 'Chances claras'),
+  'Probable statistics should include advanced attacking indicators',
+);
+assert.equal(projection.trace.moduleCatalog.totalModules, 160, 'Scientific module catalog should track 160 official module slots');
+assert.ok(projection.trace.moduleCatalog.implementedCount >= 9, 'Catalog should expose implemented modules honestly');
 assert.equal(projection.trace.calibration.model, 'probability-calibration-v1', 'Projection should use probability calibration');
 assert.ok(
   projection.trace.calibration.reliability >= 0.35 && projection.trace.calibration.reliability <= 0.92,

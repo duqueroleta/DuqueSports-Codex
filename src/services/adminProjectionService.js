@@ -108,6 +108,7 @@ function buildProjectedStats(projection) {
     return null;
   }
 
+  const probableStatistics = projection.trace?.statistical?.probableStatistics;
   const homeGoals = projection.expectedHomeGoals;
   const awayGoals = projection.expectedAwayGoals;
   const homeShots = 7 + (homeGoals * 4.3);
@@ -128,6 +129,7 @@ function buildProjectedStats(projection) {
     homeShots,
     homeShotsOnTarget: 2 + (homeGoals * 1.7),
     homeXgot: homeGoals * 0.9,
+    rows: probableStatistics?.rows ?? [],
   };
 }
 

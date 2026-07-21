@@ -4,10 +4,12 @@ import { runDataQuality } from '../data-quality/DataQualityEngine.js';
 import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
+import { getScientificModuleCatalogSnapshot } from '../modules/ScientificModuleCatalog.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
 import { runOpportunityRankingEngine } from '../ranking/OpportunityRankingEngine.js';
 import { runRecencyEngine } from '../preprocessing/RecencyEngine.js';
 import { runPoissonEngine } from '../statistical/PoissonEngine.js';
+import { runProbableStatisticsEngine } from '../statistical/ProbableStatisticsEngine.js';
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -54,6 +56,14 @@ function runProjectionPipeline(matchInput) {
     homeLambda: expectedHomeGoals,
     awayLambda: expectedAwayGoals,
   });
+  const probableStatistics = runProbableStatisticsEngine({
+    awayAdjusted,
+    expectedAwayGoals,
+    expectedHomeGoals,
+    homeAdjusted,
+    matchInput,
+  });
+  const moduleCatalog = getScientificModuleCatalogSnapshot();
   const confidence = calculateConfidence(dataQuality.score, homeAdjusted, awayAdjusted);
   const calibration = runProbabilityCalibrationEngine({
     probabilities: poisson.probabilities,
@@ -94,6 +104,8 @@ function runProjectionPipeline(matchInput) {
       `${matchInput.awayTeam.name} adjusted xG stored as ${awayAdjustedXg}.`,
       `xG differential stored as ${getMatchFeatureValue(featureStore, 'xg_differential')}.`,
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
+      `Probable Statistics Engine generated ${probableStatistics.rows.length} projected statistic ranges.`,
+      `Scientific module catalog tracks ${moduleCatalog.implementedCount}/${moduleCatalog.totalModules} implemented modules.`,
       `Calibration reliability set to ${Math.round(calibration.reliability * 100)}%.`,
       `Opportunity ranking classified the match as ${opportunityRanking.rankSignal}.`,
       matchInput.context.isKnockout ? 'Knockout context reduced goal expectation.' : 'Standard competition context preserved goal expectation.',
@@ -101,9 +113,10 @@ function runProjectionPipeline(matchInput) {
     trace: {
       dataQuality,
       featureStore,
+      moduleCatalog,
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
-      statistical: { poisson },
+      statistical: { poisson, probableStatistics },
       calibration,
       explainability: aiExplanation,
       ranking: opportunityRanking,

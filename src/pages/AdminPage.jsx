@@ -56,12 +56,13 @@ function buildProjection(form) {
 
   const stats = buildProjectedStats(engineProjection);
   const recommendedMarket = engineProjection.aiExplanation?.recommendedMarket?.market ?? form.homeName;
+  const probableRows = stats.rows?.length ? stats.rows : null;
 
   return {
     confidence: engineProjection.confidence,
     engineVersion: engineProjection.engineVersion,
     leader: recommendedMarket,
-    rows: [
+    rows: probableRows ?? [
       { label: 'xG', away: range(stats.awayGoals, 0.28, 2), home: range(stats.homeGoals, 0.28, 2) },
       { label: 'Gols', away: range(stats.awayGoals, 0.45), home: range(stats.homeGoals, 0.45) },
       { label: 'xGOT', away: range(stats.awayXgot, 0.25, 2), home: range(stats.homeXgot, 0.25, 2) },

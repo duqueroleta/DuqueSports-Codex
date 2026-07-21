@@ -29,7 +29,23 @@ function buildProjectionRow(label, homeValue, awayValue, formatter) {
   };
 }
 
+function buildProjectionRowFromRange(row) {
+  return {
+    away: row.away,
+    awayShare: 50,
+    home: row.home,
+    homeShare: 50,
+    label: row.label,
+  };
+}
+
 function buildFutureProjectionRows(projection, match) {
+  const probableRows = projection.trace?.statistical?.probableStatistics?.rows;
+
+  if (Array.isArray(probableRows) && probableRows.length) {
+    return probableRows.map((row) => buildProjectionRowFromRange(row));
+  }
+
   const homeGoals = projection.expectedHomeGoals;
   const awayGoals = projection.expectedAwayGoals;
   const totalXg = homeGoals + awayGoals;

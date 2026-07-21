@@ -68,7 +68,7 @@ function createPublishedProjectionRecord(form, projection, now = () => new Date(
         { label: form.homeName, value: projection.probabilities?.homeWin ?? 0 },
         { label: '+1.5 gols', value: projection.probabilities?.over15 ?? projection.probabilities?.over25 ?? 0 },
       ],
-      projectionRows: [
+      projectionRows: stats.rows?.length ? stats.rows : [
         { label: 'xG', away: range(stats.awayGoals, 0.28, 2), home: range(stats.homeGoals, 0.28, 2) },
         { label: 'Gols', away: range(stats.awayGoals, 0.45), home: range(stats.homeGoals, 0.45) },
         { label: 'Finalizacoes', away: range(stats.awayShots, 2), home: range(stats.homeShots, 2) },
