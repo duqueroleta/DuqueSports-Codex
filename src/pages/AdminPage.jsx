@@ -6,6 +6,7 @@ const initialForm = {
   awayCorners: 4.8,
   awayName: 'Gana',
   awayPossession: 48,
+  awayRecentMatches: [],
   awayShots: 11,
   awayShotsOnTarget: 4,
   awayXg: 1.05,
@@ -14,6 +15,7 @@ const initialForm = {
   homeCorners: 6.2,
   homeName: 'Colombia',
   homePossession: 52,
+  homeRecentMatches: [],
   homeShots: 15,
   homeShotsOnTarget: 5,
   homeXg: 1.96,
@@ -58,6 +60,65 @@ function readMetric(block, aliases, fallback, blockedTerms = []) {
 
   const value = foundLine?.match(/(\d+(?:[,.]\d+)?)/)?.[1];
   return value ? parseNumericValue(value) ?? fallback : fallback;
+}
+
+function readInlineMetric(line, aliases) {
+  const normalizedLine = normalizeText(line).replace(',', '.');
+
+  for (const alias of aliases) {
+    const normalizedAlias = normalizeText(alias);
+    const value = normalizedLine.match(new RegExp(`${normalizedAlias}\\s*[:=]?\\s*(\\d+(?:\\.\\d+)?)`))?.[1];
+
+    if (value) {
+      return parseNumericValue(value);
+    }
+  }
+
+  return null;
+}
+
+function parseRecentMatches(block) {
+  return String(block)
+    .split(/\r?\n/)
+    .map((line) => {
+      const normalizedLine = normalizeText(line);
+      const isMatchLine = normalizedLine.includes('xg')
+        && (normalizedLine.includes('finalizacoes') || normalizedLine.includes('chutes'));
+
+      if (!isMatchLine) {
+        return null;
+      }
+
+      const xg = readInlineMetric(line, ['xg']);
+      const shots = readInlineMetric(line, ['finalizacoes', 'chutes']);
+
+      if (xg === null || shots === null) {
+        return null;
+      }
+
+      const shotsOnTarget = readInlineMetric(line, ['no alvo', 'chutes no alvo']);
+      const xgot = readInlineMetric(line, ['xgot']);
+      const goals = readInlineMetric(line, ['gols', 'goals']);
+
+      return {
+        goals: goals ?? Math.max(0, Math.round(xg - 0.25)),
+        shots,
+        shotsOnTarget: shotsOnTarget ?? Math.max(1, Math.round(shots * 0.38)),
+        xg,
+        xgot: xgot ?? Number((xg * 0.9).toFixed(2)),
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 5);
+}
+
+function averageRecentMatches(matches, field, fallback, decimals = 2) {
+  if (!Array.isArray(matches) || matches.length === 0) {
+    return fallback;
+  }
+
+  const total = matches.reduce((sum, match) => sum + toNumber(match[field]), 0);
+  return Number((total / matches.length).toFixed(decimals));
 }
 
 function readTextValue(text, aliases, fallback) {
@@ -111,6 +172,8 @@ function getSection(text, startAliases, endAliases) {
 function parseSmartInput(text, currentForm) {
   const homeBlock = getSection(text, ['mandante', 'casa', 'home'], ['visitante', 'fora', 'away']);
   const awayBlock = getSection(text, ['visitante', 'fora', 'away'], ['mandante', 'casa', 'home']);
+  const homeRecentMatches = parseRecentMatches(homeBlock);
+  const awayRecentMatches = parseRecentMatches(awayBlock);
   const odds = readMetric(text, ['odd', 'odds', 'odd media'], currentForm.odds);
 
   return {
@@ -118,17 +181,19 @@ function parseSmartInput(text, currentForm) {
     awayCorners: readMetric(awayBlock, ['escanteios', 'corners'], currentForm.awayCorners),
     awayName: readTextValue(text, ['visitante', 'fora', 'away'], currentForm.awayName),
     awayPossession: readMetric(awayBlock, ['posse'], currentForm.awayPossession),
-    awayShots: readMetric(awayBlock, ['finalizacoes', 'chutes'], currentForm.awayShots, ['alvo']),
-    awayShotsOnTarget: readMetric(awayBlock, ['no alvo', 'chutes no alvo'], currentForm.awayShotsOnTarget),
-    awayXg: readMetric(awayBlock, ['xg', 'expected goals'], currentForm.awayXg),
+    awayRecentMatches,
+    awayShots: averageRecentMatches(awayRecentMatches, 'shots', readMetric(awayBlock, ['finalizacoes', 'chutes'], currentForm.awayShots, ['alvo']), 0),
+    awayShotsOnTarget: averageRecentMatches(awayRecentMatches, 'shotsOnTarget', readMetric(awayBlock, ['no alvo', 'chutes no alvo'], currentForm.awayShotsOnTarget), 0),
+    awayXg: averageRecentMatches(awayRecentMatches, 'xg', readMetric(awayBlock, ['xg', 'expected goals'], currentForm.awayXg)),
     competition: readTextValue(text, ['campeonato', 'competicao', 'competição'], currentForm.competition),
     date: readDateValue(text, currentForm.date),
     homeCorners: readMetric(homeBlock, ['escanteios', 'corners'], currentForm.homeCorners),
     homeName: readTextValue(text, ['mandante', 'casa', 'home'], currentForm.homeName),
     homePossession: readMetric(homeBlock, ['posse'], currentForm.homePossession),
-    homeShots: readMetric(homeBlock, ['finalizacoes', 'chutes'], currentForm.homeShots, ['alvo']),
-    homeShotsOnTarget: readMetric(homeBlock, ['no alvo', 'chutes no alvo'], currentForm.homeShotsOnTarget),
-    homeXg: readMetric(homeBlock, ['xg', 'expected goals'], currentForm.homeXg),
+    homeRecentMatches,
+    homeShots: averageRecentMatches(homeRecentMatches, 'shots', readMetric(homeBlock, ['finalizacoes', 'chutes'], currentForm.homeShots, ['alvo']), 0),
+    homeShotsOnTarget: averageRecentMatches(homeRecentMatches, 'shotsOnTarget', readMetric(homeBlock, ['no alvo', 'chutes no alvo'], currentForm.homeShotsOnTarget), 0),
+    homeXg: averageRecentMatches(homeRecentMatches, 'xg', readMetric(homeBlock, ['xg', 'expected goals'], currentForm.homeXg)),
     odds,
     time: readTimeValue(text, currentForm.time),
   };
@@ -195,8 +260,16 @@ function AdminPage() {
       return;
     }
 
-    setForm((current) => parseSmartInput(smartInput, current));
-    setSmartStatus('Dados interpretados. Revise a previa antes de publicar a projecao.');
+    const parsedForm = parseSmartInput(smartInput, form);
+    const homeCount = parsedForm.homeRecentMatches.length;
+    const awayCount = parsedForm.awayRecentMatches.length;
+
+    setForm(parsedForm);
+    setSmartStatus(
+      homeCount >= 3 && awayCount >= 3
+        ? `Dados interpretados com historico recente: ${homeCount} jogos do mandante e ${awayCount} do visitante.`
+        : 'Dados interpretados. Para maior precisao, cole pelo menos 3 jogos recentes de cada time.',
+    );
   }
 
   function renderTeamFields(prefix, teamLabel) {
@@ -270,13 +343,19 @@ Finalizacoes: 15
 No alvo: 5
 Escanteios: 6.2
 Posse: 52
+Jogo 1: xG 2.10 | xGOT 1.80 | Finalizacoes 16 | No alvo 6 | Gols 2
+Jogo 2: xG 1.72 | xGOT 1.44 | Finalizacoes 14 | No alvo 5 | Gols 1
+Jogo 3: xG 2.04 | xGOT 1.70 | Finalizacoes 15 | No alvo 5 | Gols 2
 
 Visitante: Gana
 xG: 1.05
 Finalizacoes: 11
 No alvo: 4
 Escanteios: 4.8
-Posse: 48`}
+Posse: 48
+Jogo 1: xG 1.18 | xGOT 0.98 | Finalizacoes 12 | No alvo 4 | Gols 1
+Jogo 2: xG 0.92 | xGOT 0.76 | Finalizacoes 10 | No alvo 3 | Gols 0
+Jogo 3: xG 1.04 | xGOT 0.86 | Finalizacoes 11 | No alvo 4 | Gols 1`}
               value={smartInput}
             />
 

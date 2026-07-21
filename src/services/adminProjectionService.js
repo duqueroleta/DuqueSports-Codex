@@ -57,10 +57,24 @@ function buildRecentMatchesFromAverages({ shots, shotsOnTarget, xg }) {
   });
 }
 
+function getRecentMatches(formMatches, fallback) {
+  return Array.isArray(formMatches) && formMatches.length >= 3 ? formMatches.slice(0, 5) : fallback;
+}
+
 function buildAdminEngineInput(form) {
   const homeXg = toNumber(form.homeXg, 1);
   const awayXg = toNumber(form.awayXg, 1);
   const matchId = `admin:${slugify(form.homeName)}-${slugify(form.awayName)}:${form.date}:${form.time}`;
+  const homeFallbackMatches = buildRecentMatchesFromAverages({
+    shots: form.homeShots,
+    shotsOnTarget: form.homeShotsOnTarget,
+    xg: homeXg,
+  });
+  const awayFallbackMatches = buildRecentMatchesFromAverages({
+    shots: form.awayShots,
+    shotsOnTarget: form.awayShotsOnTarget,
+    xg: awayXg,
+  });
 
   return {
     id: matchId,
@@ -69,21 +83,13 @@ function buildAdminEngineInput(form) {
       id: `${matchId}:home`,
       name: form.homeName,
       opponentTier: inferOpponentTier(awayXg, homeXg),
-      recentMatches: buildRecentMatchesFromAverages({
-        shots: form.homeShots,
-        shotsOnTarget: form.homeShotsOnTarget,
-        xg: homeXg,
-      }),
+      recentMatches: getRecentMatches(form.homeRecentMatches, homeFallbackMatches),
     },
     awayTeam: {
       id: `${matchId}:away`,
       name: form.awayName,
       opponentTier: inferOpponentTier(homeXg, awayXg),
-      recentMatches: buildRecentMatchesFromAverages({
-        shots: form.awayShots,
-        shotsOnTarget: form.awayShotsOnTarget,
-        xg: awayXg,
-      }),
+      recentMatches: getRecentMatches(form.awayRecentMatches, awayFallbackMatches),
     },
     context: {
       dataFreshnessHours: 2,
