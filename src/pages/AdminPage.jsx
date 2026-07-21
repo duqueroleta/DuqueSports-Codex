@@ -33,6 +33,106 @@ function toNumber(value) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function normalizeText(value) {
+  return String(value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
+function parseNumericValue(value) {
+  const parsed = Number(String(value).replace(',', '.'));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function readMetric(block, aliases, fallback, blockedTerms = []) {
+  const lines = String(block).split(/\r?\n|;/);
+  const foundLine = lines.find((line) => {
+    const normalizedLine = normalizeText(line);
+    const hasAlias = aliases.some((alias) => normalizedLine.includes(alias));
+    const hasBlockedTerm = blockedTerms.some((term) => normalizedLine.includes(term));
+
+    return hasAlias && !hasBlockedTerm;
+  });
+
+  const value = foundLine?.match(/(\d+(?:[,.]\d+)?)/)?.[1];
+  return value ? parseNumericValue(value) ?? fallback : fallback;
+}
+
+function readTextValue(text, aliases, fallback) {
+  const lines = String(text).split(/\r?\n|;/);
+  const foundLine = lines.find((line) => {
+    const normalizedLine = normalizeText(line);
+    return aliases.some((alias) => normalizedLine.startsWith(alias));
+  });
+
+  if (!foundLine) {
+    return fallback;
+  }
+
+  const [, value] = foundLine.split(/[:=-]/);
+  return value?.trim() || fallback;
+}
+
+function readDateValue(text, fallback) {
+  const isoDate = String(text).match(/\b\d{4}-\d{2}-\d{2}\b/)?.[0];
+  if (isoDate) {
+    return isoDate;
+  }
+
+  const brDate = String(text).match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
+  return brDate ? `${brDate[3]}-${brDate[2]}-${brDate[1]}` : fallback;
+}
+
+function readTimeValue(text, fallback) {
+  return String(text).match(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/)?.[0] || fallback;
+}
+
+function getSection(text, startAliases, endAliases) {
+  const lines = String(text).split(/\r?\n/);
+  const startIndex = lines.findIndex((line) => {
+    const normalizedLine = normalizeText(line);
+    return startAliases.some((alias) => normalizedLine.startsWith(alias));
+  });
+
+  if (startIndex === -1) {
+    return text;
+  }
+
+  const endIndex = lines.findIndex((line, index) => {
+    const normalizedLine = normalizeText(line);
+    return index > startIndex && endAliases.some((alias) => normalizedLine.startsWith(alias));
+  });
+
+  return lines.slice(startIndex, endIndex === -1 ? undefined : endIndex).join('\n');
+}
+
+function parseSmartInput(text, currentForm) {
+  const homeBlock = getSection(text, ['mandante', 'casa', 'home'], ['visitante', 'fora', 'away']);
+  const awayBlock = getSection(text, ['visitante', 'fora', 'away'], ['mandante', 'casa', 'home']);
+  const odds = readMetric(text, ['odd', 'odds', 'odd media'], currentForm.odds);
+
+  return {
+    ...currentForm,
+    awayCorners: readMetric(awayBlock, ['escanteios', 'corners'], currentForm.awayCorners),
+    awayName: readTextValue(text, ['visitante', 'fora', 'away'], currentForm.awayName),
+    awayPossession: readMetric(awayBlock, ['posse'], currentForm.awayPossession),
+    awayShots: readMetric(awayBlock, ['finalizacoes', 'chutes'], currentForm.awayShots, ['alvo']),
+    awayShotsOnTarget: readMetric(awayBlock, ['no alvo', 'chutes no alvo'], currentForm.awayShotsOnTarget),
+    awayXg: readMetric(awayBlock, ['xg', 'expected goals'], currentForm.awayXg),
+    competition: readTextValue(text, ['campeonato', 'competicao', 'competição'], currentForm.competition),
+    date: readDateValue(text, currentForm.date),
+    homeCorners: readMetric(homeBlock, ['escanteios', 'corners'], currentForm.homeCorners),
+    homeName: readTextValue(text, ['mandante', 'casa', 'home'], currentForm.homeName),
+    homePossession: readMetric(homeBlock, ['posse'], currentForm.homePossession),
+    homeShots: readMetric(homeBlock, ['finalizacoes', 'chutes'], currentForm.homeShots, ['alvo']),
+    homeShotsOnTarget: readMetric(homeBlock, ['no alvo', 'chutes no alvo'], currentForm.homeShotsOnTarget),
+    homeXg: readMetric(homeBlock, ['xg', 'expected goals'], currentForm.homeXg),
+    odds,
+    time: readTimeValue(text, currentForm.time),
+  };
+}
+
 function range(value, spread, decimals = 0) {
   const start = Math.max(0, value - spread);
   const end = value + spread;
@@ -62,6 +162,8 @@ function buildProjection(form) {
 
 function AdminPage() {
   const [form, setForm] = useState(initialForm);
+  const [smartInput, setSmartInput] = useState('');
+  const [smartStatus, setSmartStatus] = useState('Cole os dados do confronto para a IA estruturar a primeira projecao.');
   const projection = useMemo(() => buildProjection(form), [form]);
 
   function updateField(field, value) {
@@ -69,6 +171,16 @@ function AdminPage() {
       ...current,
       [field]: value,
     }));
+  }
+
+  function applySmartInput() {
+    if (!smartInput.trim()) {
+      setSmartStatus('Cole primeiro os dados recentes dos dois times.');
+      return;
+    }
+
+    setForm((current) => parseSmartInput(smartInput, current));
+    setSmartStatus('Dados interpretados. Revise a previa antes de publicar a projecao.');
   }
 
   function renderTeamFields(prefix, teamLabel) {
@@ -119,6 +231,45 @@ function AdminPage() {
 
       <section className="admin-layout">
         <form className="admin-form">
+          <section className="admin-smart-panel" aria-label="Entrada inteligente de dados">
+            <div>
+              <span>Entrada inteligente</span>
+              <h2>Colar dados do confronto</h2>
+              <p>
+                Cole aqui os dados que hoje voce envia no ChatGPT. O sistema interpreta os principais
+                campos e monta a previa estatistica automaticamente.
+              </p>
+            </div>
+
+            <textarea
+              onChange={(event) => setSmartInput(event.target.value)}
+              placeholder={`Campeonato: Copa do Mundo
+Data: 21/07/2026
+Horario: 18:30
+Odd media: 1.82
+
+Mandante: Colombia
+xG: 1.96
+Finalizacoes: 15
+No alvo: 5
+Escanteios: 6.2
+Posse: 52
+
+Visitante: Gana
+xG: 1.05
+Finalizacoes: 11
+No alvo: 4
+Escanteios: 4.8
+Posse: 48`}
+              value={smartInput}
+            />
+
+            <div className="admin-smart-actions">
+              <button onClick={applySmartInput} type="button">Interpretar dados</button>
+              <p>{smartStatus}</p>
+            </div>
+          </section>
+
           <fieldset className="admin-match-panel">
             <legend>Dados do jogo</legend>
             <div className="admin-field-grid">

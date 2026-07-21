@@ -6,6 +6,7 @@
 }
 
 .admin-hero,
+.admin-smart-panel,
 .admin-form fieldset,
 .admin-preview {
   border: 1px solid rgba(255, 255, 255, 0.105);
@@ -29,6 +30,7 @@
 }
 
 .admin-hero span,
+.admin-smart-panel span,
 .admin-preview > span {
   color: var(--color-neon);
   font-size: 0.7rem;
@@ -45,11 +47,75 @@
 }
 
 .admin-hero p,
+.admin-smart-panel p,
 .admin-preview p {
   max-width: 660px;
   margin: 10px 0 0;
   color: #a8b3c1;
   line-height: 1.5;
+}
+
+.admin-smart-panel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border-radius: 18px;
+}
+
+.admin-smart-panel h2 {
+  margin: 8px 0 0;
+  color: var(--color-white);
+  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+  line-height: 1.05;
+}
+
+.admin-smart-panel textarea {
+  width: 100%;
+  min-height: 250px;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 14px;
+  color: var(--color-white);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    rgba(7, 17, 28, 0.84);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.48;
+  outline: none;
+}
+
+.admin-smart-panel textarea:focus,
+.admin-form input:focus {
+  border-color: rgba(32, 246, 164, 0.48);
+  box-shadow: 0 0 0 3px rgba(32, 246, 164, 0.08);
+}
+
+.admin-smart-actions {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-smart-actions button {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 14px;
+  color: #05110d;
+  background: linear-gradient(135deg, var(--color-neon), #b9ff98);
+  box-shadow: 0 18px 34px rgba(32, 246, 164, 0.18);
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.admin-smart-actions p {
+  margin: 0;
+  color: #b8c3d0;
+  font-size: 0.82rem;
 }
 
 .admin-hero > strong {
@@ -248,8 +314,17 @@
   }
 
   .admin-form fieldset,
+  .admin-smart-panel,
   .admin-preview {
     padding: 14px;
     border-radius: 16px;
+  }
+
+  .admin-smart-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-smart-actions button {
+    width: 100%;
   }
 }
