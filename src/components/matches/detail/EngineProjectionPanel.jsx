@@ -16,6 +16,18 @@ function formatPercentRange(center, spread) {
   return `${Math.round(clamp(center - spread, 30, 70))}-${Math.round(clamp(center + spread, 30, 70))}%`;
 }
 
+function buildProjectionRow(label, homeValue, awayValue, formatter) {
+  const total = Math.max(homeValue + awayValue, 0.01);
+
+  return {
+    away: formatter(awayValue),
+    awayShare: Math.round((awayValue / total) * 100),
+    home: formatter(homeValue),
+    homeShare: Math.round((homeValue / total) * 100),
+    label,
+  };
+}
+
 function buildFutureProjectionRows(projection, match) {
   const homeGoals = projection.expectedHomeGoals;
   const awayGoals = projection.expectedAwayGoals;
@@ -33,19 +45,19 @@ function buildFutureProjectionRows(projection, match) {
   const awayCards = homeCards + (awayGoals > homeGoals ? 0.1 : 0.4);
 
   return [
-    { label: 'Gols', home: formatRange(homeGoals, 0.45), away: formatRange(awayGoals, 0.45) },
-    { label: 'xG', home: formatRange(homeGoals, 0.28, 2), away: formatRange(awayGoals, 0.28, 2) },
-    { label: 'xGOT', home: formatRange(homeGoals * 0.9, 0.3, 2), away: formatRange(awayGoals * 0.9, 0.3, 2) },
-    { label: 'Posse de bola', home: formatPercentRange(homePossession, 3), away: formatPercentRange(awayPossession, 3) },
-    { label: 'Finalizacoes', home: formatRange(homeShots, 2), away: formatRange(awayShots, 2) },
-    { label: 'Finalizacoes no alvo', home: formatRange(homeOnTarget, 1), away: formatRange(awayOnTarget, 1) },
-    { label: 'Finalizacoes na area', home: formatRange(homeShots * 0.58, 1), away: formatRange(awayShots * 0.58, 1) },
-    { label: 'Grandes chances', home: formatRange(homeGoals * 1.35, 1), away: formatRange(awayGoals * 1.35, 1) },
-    { label: 'Escanteios', home: formatRange(homeCorners, 1), away: formatRange(awayCorners, 1) },
-    { label: 'Cartoes amarelos', home: formatRange(homeCards, 1), away: formatRange(awayCards, 1) },
-    { label: 'Desarmes', home: formatRange(13 + (awayPossession / 10), 2), away: formatRange(13 + (homePossession / 10), 2) },
-    { label: 'Defesas do goleiro', home: formatRange(awayOnTarget * 0.65, 1), away: formatRange(homeOnTarget * 0.65, 1) },
-    { label: 'Total xG do jogo', home: formatRange(totalXg, 0.35, 2), away: formatRange(totalXg, 0.35, 2) },
+    buildProjectionRow('Gols', homeGoals, awayGoals, (value) => formatRange(value, 0.45)),
+    buildProjectionRow('xG', homeGoals, awayGoals, (value) => formatRange(value, 0.28, 2)),
+    buildProjectionRow('xGOT', homeGoals * 0.9, awayGoals * 0.9, (value) => formatRange(value, 0.3, 2)),
+    buildProjectionRow('Posse de bola', homePossession, awayPossession, (value) => formatPercentRange(value, 3)),
+    buildProjectionRow('Finalizacoes', homeShots, awayShots, (value) => formatRange(value, 2)),
+    buildProjectionRow('Finalizacoes no alvo', homeOnTarget, awayOnTarget, (value) => formatRange(value, 1)),
+    buildProjectionRow('Finalizacoes na area', homeShots * 0.58, awayShots * 0.58, (value) => formatRange(value, 1)),
+    buildProjectionRow('Grandes chances', homeGoals * 1.35, awayGoals * 1.35, (value) => formatRange(value, 1)),
+    buildProjectionRow('Escanteios', homeCorners, awayCorners, (value) => formatRange(value, 1)),
+    buildProjectionRow('Cartoes amarelos', homeCards, awayCards, (value) => formatRange(value, 1)),
+    buildProjectionRow('Desarmes', 13 + (awayPossession / 10), 13 + (homePossession / 10), (value) => formatRange(value, 2)),
+    buildProjectionRow('Defesas do goleiro', awayOnTarget * 0.65, homeOnTarget * 0.65, (value) => formatRange(value, 1)),
+    buildProjectionRow('Total xG do jogo', totalXg, totalXg, (value) => formatRange(value, 0.35, 2)),
   ];
 }
 
@@ -93,6 +105,14 @@ function EngineProjectionPanel({ match, projection }) {
                 <small>{match?.away ?? 'Visitante'}</small>
                 <em>{row.away}</em>
               </b>
+              <i
+                aria-hidden="true"
+                className="future-projection-balance"
+                style={{
+                  '--away-share': `${row.awayShare}%`,
+                  '--home-share': `${row.homeShare}%`,
+                }}
+              />
             </div>
           ))}
         </div>

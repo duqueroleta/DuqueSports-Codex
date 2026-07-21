@@ -134,6 +134,23 @@
   font-style: normal;
 }
 
+.future-projection-balance {
+  grid-column: 1 / -1;
+  display: block;
+  height: 3px;
+  margin-top: -7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-neon) 0 var(--home-share),
+      rgba(255, 255, 255, 0.11) var(--home-share) calc(100% - var(--away-share)),
+      var(--color-gold-soft) calc(100% - var(--away-share)) 100%
+    );
+  opacity: 0.84;
+}
+
 .future-projection-head {
   min-height: 48px;
   background:
@@ -245,5 +262,10 @@
     max-width: 100%;
     overflow-wrap: anywhere;
     font-size: 0.78rem;
+  }
+
+  .future-projection-balance {
+    height: 4px;
+    margin-top: 0;
   }
 }
