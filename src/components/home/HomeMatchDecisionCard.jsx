@@ -65,12 +65,13 @@ function HomeMatchDecisionCard({ isLead = false, match }) {
       </div>
 
       <div className="home-match-card-decision">
-        <span>IA projeta</span>
+        <span>Projecao futura</span>
         <strong>{match.signal}</strong>
-        <small>Melhor mercado futuro | odd media {formatMatchOdds(match.odds)}</small>
+        <small>Cenario mais forte | odd media {formatMatchOdds(match.odds)}</small>
       </div>
 
       <div className="home-match-card-metrics" aria-label="Indicadores resumidos">
+        <p>Estatisticas provaveis</p>
         {metrics.map((metric) => {
           const chip = formatDecisionMetric(metric);
 
