@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { buildAdminEngineProjection, buildProjectedStats } from '../services/adminProjectionService.js';
 import '../styles/page-admin.css';
 
 const initialForm = {
@@ -141,22 +142,37 @@ function range(value, spread, decimals = 0) {
 }
 
 function buildProjection(form) {
-  const homeXg = toNumber(form.homeXg);
-  const awayXg = toNumber(form.awayXg);
-  const confidence = Math.round(Math.min(94, Math.max(55, 64 + ((homeXg - awayXg) * 10))));
-  const leader = homeXg >= awayXg ? form.homeName : form.awayName;
+  const engineProjection = buildAdminEngineProjection(form);
+
+  if (engineProjection.blocked) {
+    return {
+      confidence: engineProjection.dataQualityScore,
+      engineVersion: engineProjection.engineVersion,
+      leader: 'Projecao bloqueada por qualidade insuficiente dos dados',
+      rows: [],
+      status: 'blocked',
+      summary: engineProjection.issues?.[0] ?? 'Revise os dados informados antes de gerar a projecao.',
+    };
+  }
+
+  const stats = buildProjectedStats(engineProjection);
+  const recommendedMarket = engineProjection.aiExplanation?.recommendedMarket?.market ?? form.homeName;
 
   return {
-    confidence,
-    leader,
+    confidence: engineProjection.confidence,
+    engineVersion: engineProjection.engineVersion,
+    leader: recommendedMarket,
     rows: [
-      { label: 'xG', away: range(toNumber(form.awayXg), 0.28, 2), home: range(toNumber(form.homeXg), 0.28, 2) },
-      { label: 'Gols', away: range(toNumber(form.awayXg), 0.45), home: range(toNumber(form.homeXg), 0.45) },
-      { label: 'Finalizacoes', away: range(toNumber(form.awayShots), 2), home: range(toNumber(form.homeShots), 2) },
-      { label: 'No alvo', away: range(toNumber(form.awayShotsOnTarget), 1), home: range(toNumber(form.homeShotsOnTarget), 1) },
-      { label: 'Escanteios', away: range(toNumber(form.awayCorners), 1), home: range(toNumber(form.homeCorners), 1) },
-      { label: 'Posse', away: range(toNumber(form.awayPossession), 3), home: range(toNumber(form.homePossession), 3) },
+      { label: 'xG', away: range(stats.awayGoals, 0.28, 2), home: range(stats.homeGoals, 0.28, 2) },
+      { label: 'Gols', away: range(stats.awayGoals, 0.45), home: range(stats.homeGoals, 0.45) },
+      { label: 'xGOT', away: range(stats.awayXgot, 0.25, 2), home: range(stats.homeXgot, 0.25, 2) },
+      { label: 'Finalizacoes', away: range(stats.awayShots, 2), home: range(stats.homeShots, 2) },
+      { label: 'No alvo', away: range(stats.awayShotsOnTarget, 1), home: range(stats.homeShotsOnTarget, 1) },
+      { label: 'Escanteios', away: range(stats.awayCorners, 1), home: range(stats.homeCorners, 1) },
+      { label: 'Posse', away: `${Math.round(stats.awayPossession - 3)}-${Math.round(stats.awayPossession + 3)}%`, home: `${Math.round(stats.homePossession - 3)}-${Math.round(stats.homePossession + 3)}%` },
     ],
+    status: 'completed',
+    summary: engineProjection.aiExplanation?.headline ?? 'Projecao estatistica gerada pelo engine.',
   };
 }
 
@@ -317,7 +333,7 @@ Posse: 48`}
         <aside className="admin-preview" aria-label="Previa da projecao">
           <span>Previa gerada</span>
           <h2>{form.homeName} x {form.awayName}</h2>
-          <p>{projection.leader} aparece como lado mais forte da projecao inicial.</p>
+          <p>{projection.summary}</p>
 
           <div className="admin-score-preview">
             <strong>{projection.confidence}</strong>
