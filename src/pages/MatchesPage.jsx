@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import CompetitionRail, { ALL_COMPETITIONS } from '../components/competitions/CompetitionRail.jsx';
 import ErrorState from '../components/error/ErrorState.jsx';
+import HomeMatchDecisionCard from '../components/home/HomeMatchDecisionCard.jsx';
 import SkeletonGrid from '../components/loading/SkeletonGrid.jsx';
-import MatchCard from '../components/matches/MatchCard.jsx';
 import MatchesAdvancedFilters from '../components/matches/MatchesAdvancedFilters.jsx';
 import MatchesDateRail from '../components/matches/MatchesDateRail.jsx';
 import { useSearch } from '../context/SearchContext.jsx';
@@ -112,7 +112,7 @@ function MatchesPage() {
       return;
     }
 
-    const cards = Array.from(carouselRef.current.querySelectorAll('.match-card'));
+    const cards = Array.from(carouselRef.current.querySelectorAll('.home-match-decision-card'));
     if (!cards.length) {
       setActiveMatchIndex(0);
       return;
@@ -139,7 +139,7 @@ function MatchesPage() {
       return;
     }
 
-    const firstCard = carouselRef.current.querySelector('.match-card');
+    const firstCard = carouselRef.current.querySelector('.home-match-decision-card');
     const scrollAmount = firstCard?.getBoundingClientRect().width
       ? firstCard.getBoundingClientRect().width + 10
       : carouselRef.current.clientWidth * 0.9;
@@ -240,7 +240,7 @@ function MatchesPage() {
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error
           ? visibleMatches.map((match, index) => (
-              <MatchCard isActive={activeMatchIndex === index} key={match.id} match={match} />
+              <HomeMatchDecisionCard isLead={activeMatchIndex === index} key={match.id} match={match} />
             ))
           : null}
         {!isLoading && !error && !filteredMatches.length ? (

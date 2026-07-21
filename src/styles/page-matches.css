@@ -233,6 +233,10 @@
   margin: 0 auto;
 }
 
+.matches-page-grid > .home-match-decision-card {
+  min-height: 100%;
+}
+
 .matches-empty-state {
   grid-column: 1 / -1;
   display: grid;
@@ -467,9 +471,8 @@
     display: none;
   }
 
-  .matches-page-grid > .match-card {
+  .matches-page-grid > .home-match-decision-card {
     flex: 0 0 min(91vw, 390px);
-    min-height: 524px;
     scroll-snap-align: center;
   }
 
@@ -503,7 +506,7 @@
     font-size: 0.68rem;
   }
 
-  .matches-page-grid > .match-card {
+  .matches-page-grid > .home-match-decision-card {
     flex-basis: calc(100vw - 24px);
   }
 }
@@ -561,7 +564,7 @@
     margin-bottom: 6px;
   }
 
-  .matches-page-grid > .match-card {
-    min-height: 500px;
+  .matches-page-grid > .home-match-decision-card {
+    min-height: 0;
   }
 }
