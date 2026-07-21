@@ -40,13 +40,17 @@ function HomeDecisionFeed() {
   }
 
   function moveCarousel(direction) {
+    goToMatch(activeIndex + direction);
+  }
+
+  function goToMatch(index) {
     const carousel = carouselRef.current;
 
     if (!carousel) {
       return;
     }
 
-    const nextIndex = Math.min(Math.max(activeIndex + direction, 0), filteredMatches.length - 1);
+    const nextIndex = Math.min(Math.max(index, 0), filteredMatches.length - 1);
     setActiveIndex(nextIndex);
     carousel.scrollTo({
       behavior: 'smooth',
@@ -113,11 +117,11 @@ function HomeDecisionFeed() {
           onScroll={handleCarouselScroll}
           ref={carouselRef}
         >
-        {isLoading ? <SkeletonGrid count={4} /> : null}
-        {error ? <ErrorState onRetry={retry} /> : null}
-        {!isLoading && !error ? filteredMatches.map((match, index) => (
-          <HomeMatchDecisionCard isLead={index === activeIndex} key={match.id} match={match} />
-        )) : null}
+          {isLoading ? <SkeletonGrid count={4} /> : null}
+          {error ? <ErrorState onRetry={retry} /> : null}
+          {!isLoading && !error ? filteredMatches.map((match, index) => (
+            <HomeMatchDecisionCard isLead={index === activeIndex} key={match.id} match={match} />
+          )) : null}
         </div>
 
         {filteredMatches.length > 1 ? (
@@ -142,6 +146,21 @@ function HomeDecisionFeed() {
             >
               &rsaquo;
             </button>
+          </div>
+        ) : null}
+
+        {filteredMatches.length > 1 ? (
+          <div className="home-decision-carousel-dots" aria-label="Selecionar jogo no carrossel">
+            {filteredMatches.map((match, index) => (
+              <button
+                aria-current={activeIndex === index ? 'true' : undefined}
+                aria-label={`Abrir ${match.home} contra ${match.away}`}
+                className={activeIndex === index ? 'home-decision-dot-active' : ''}
+                key={match.id}
+                onClick={() => goToMatch(index)}
+                type="button"
+              />
+            ))}
           </div>
         ) : null}
       </div>
