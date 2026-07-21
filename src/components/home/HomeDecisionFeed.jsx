@@ -25,7 +25,7 @@ function HomeDecisionFeed() {
   ), [activeCompetition, matches, searchTerm]);
 
   const averageConfidence = calculateAverageMatchConfidence(filteredMatches);
-  const leadMatch = filteredMatches[0] ?? null;
+  const activeMatch = filteredMatches[activeIndex] ?? filteredMatches[0] ?? null;
   const hasPreviousMatch = activeIndex > 0;
   const hasNextMatch = activeIndex < filteredMatches.length - 1;
 
@@ -93,11 +93,11 @@ function HomeDecisionFeed() {
 
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
 
-      {leadMatch ? (
-        <div className="home-decision-lead" aria-label="Melhor oportunidade no topo">
-          <span>Melhor leitura agora</span>
-          <strong>{leadMatch.home} x {leadMatch.away}</strong>
-          <small>{leadMatch.signal} com Duque Score {formatMatchConfidence(leadMatch.confidence)}</small>
+      {activeMatch ? (
+        <div className="home-decision-lead" aria-label="Resumo do jogo ativo">
+          <span>Jogo em foco</span>
+          <strong>{activeMatch.home} x {activeMatch.away}</strong>
+          <small>{activeMatch.signal} com Duque Score {formatMatchConfidence(activeMatch.confidence)}</small>
         </div>
       ) : null}
 
@@ -116,7 +116,7 @@ function HomeDecisionFeed() {
         {isLoading ? <SkeletonGrid count={4} /> : null}
         {error ? <ErrorState onRetry={retry} /> : null}
         {!isLoading && !error ? filteredMatches.map((match, index) => (
-          <HomeMatchDecisionCard isLead={index === 0} key={match.id} match={match} />
+          <HomeMatchDecisionCard isLead={index === activeIndex} key={match.id} match={match} />
         )) : null}
         </div>
 
