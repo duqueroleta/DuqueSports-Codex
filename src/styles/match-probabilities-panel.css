@@ -13,6 +13,12 @@
   margin-bottom: 10px;
 }
 
+.detail-probabilities > header div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
 .detail-probabilities > header span,
 .detail-analysis > header span {
   color: var(--color-neon);
@@ -25,6 +31,25 @@
 .detail-analysis > header strong {
   color: var(--color-white);
   font-size: 1rem;
+}
+
+.detail-probabilities > header > small {
+  flex: 0 0 auto;
+  max-width: 42%;
+  padding: 7px 10px;
+  overflow: hidden;
+  border: 1px solid rgba(217, 180, 91, 0.18);
+  border-radius: 999px;
+  color: #9ca7b6;
+  background: rgba(217, 180, 91, 0.065);
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-probabilities > header > small b {
+  color: var(--color-gold-soft);
 }
 
 .detail-probabilities-grid {
@@ -78,6 +103,15 @@
   white-space: nowrap;
 }
 
+.detail-probabilities article > em {
+  grid-column: 1 / -1;
+  color: var(--color-gold-soft);
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .detail-probabilities article > div {
   grid-column: 1 / -1;
   overflow: hidden;
@@ -122,6 +156,14 @@
     gap: 3px;
   }
 
+  .detail-probabilities > header > small {
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 0.62rem;
+  }
+
   .detail-probabilities-grid {
     display: flex;
     gap: 8px;
@@ -161,6 +203,10 @@
 
   .detail-probabilities article > small {
     font-size: 0.62rem;
+  }
+
+  .detail-probabilities article > em {
+    font-size: 0.56rem;
   }
 
   .detail-probabilities article > div {
@@ -211,5 +257,9 @@
 
   .detail-probabilities article > small {
     font-size: 0.56rem;
+  }
+
+  .detail-probabilities article > em {
+    font-size: 0.5rem;
   }
 }
