@@ -65,9 +65,9 @@ function HomeMatchDecisionCard({ isLead = false, match }) {
       </div>
 
       <div className="home-match-card-decision">
-        <span>IA recomenda</span>
+        <span>IA projeta</span>
         <strong>{match.signal}</strong>
-        <small>Odd media {formatMatchOdds(match.odds)}</small>
+        <small>Melhor mercado futuro | odd media {formatMatchOdds(match.odds)}</small>
       </div>
 
       <div className="home-match-card-metrics" aria-label="Indicadores resumidos">
@@ -84,7 +84,7 @@ function HomeMatchDecisionCard({ isLead = false, match }) {
       </div>
 
       <footer className="home-match-card-actions">
-        <Link to={`/jogos/${match.id}`}>Analise completa</Link>
+        <Link to={`/jogos/${match.id}`}>Ver projecao</Link>
         <a href={AFFILIATE_LINKS.readyBetslip} rel="noreferrer" target="_blank">
           Bilhete pronto
         </a>

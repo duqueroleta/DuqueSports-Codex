@@ -46,6 +46,7 @@ function MatchDetailPage() {
       <EngineProjectionSection
         error={projectionError}
         isLoading={isProjectionLoading}
+        match={match}
         onRetry={retryProjection}
         projection={engineProjection}
       />

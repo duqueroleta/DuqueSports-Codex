@@ -6,7 +6,7 @@ import {
   resolveEngineProjectionSectionState,
 } from './engineProjectionSectionState.js';
 
-function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
+function EngineProjectionSection({ error, isLoading, match, onRetry, projection }) {
   const state = resolveEngineProjectionSectionState({ error, isLoading });
 
   if (state === ENGINE_PROJECTION_SECTION_STATES.LOADING) {
@@ -50,7 +50,7 @@ function EngineProjectionSection({ error, isLoading, onRetry, projection }) {
 
   return (
     <>
-      <EngineProjectionPanel projection={projection} />
+      <EngineProjectionPanel match={match} projection={projection} />
       <AiExplanationPanel explanation={projection?.aiExplanation} />
     </>
   );
