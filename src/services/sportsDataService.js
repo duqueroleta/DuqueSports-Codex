@@ -2,6 +2,7 @@ import { competitions } from '../data/competitions.js';
 import { matches } from '../data/matches.js';
 import { normalizeMatchPresentation, normalizeMatchesPresentation } from '../utils/matchPresentation.js';
 import { mockRequest } from './mockApi.js';
+import { getPublishedMatchById, getPublishedMatches } from './publishedProjectionService.js';
 import { createSportsApiClient, DEFAULT_API_BASE_URL } from './sportsApiClient.js';
 import { createSportsDataGateway } from './sportsDataGateway.js';
 import { createSportsDataSourceStore } from './sportsDataSourceStore.js';
@@ -26,12 +27,21 @@ function getCompetitions() {
 }
 
 async function getMatchById(id) {
+  const publishedMatch = getPublishedMatchById(id);
+
+  if (publishedMatch) {
+    return normalizeMatchPresentation(publishedMatch);
+  }
+
   const match = await gateway.getMatchById(id);
   return normalizeMatchPresentation(match);
 }
 
 async function getMatches() {
-  return normalizeMatchesPresentation(await gateway.getMatches());
+  const publishedMatches = getPublishedMatches();
+  const matches = await gateway.getMatches();
+
+  return normalizeMatchesPresentation([...publishedMatches, ...matches]);
 }
 
 export { getCompetitions, getMatchById, getMatches, sportsApiEnabled, sportsDataSourceStore };

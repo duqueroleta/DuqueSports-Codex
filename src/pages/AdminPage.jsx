@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { buildAdminEngineProjection, buildProjectedStats } from '../services/adminProjectionService.js';
+import { publishAdminProjection } from '../services/publishedProjectionService.js';
 import '../styles/page-admin.css';
 
 const initialForm = {
@@ -243,6 +244,7 @@ function buildProjection(form) {
 
 function AdminPage() {
   const [form, setForm] = useState(initialForm);
+  const [publishStatus, setPublishStatus] = useState('Apos revisar, publique para exibir na Home e em Jogos.');
   const [smartInput, setSmartInput] = useState('');
   const [smartStatus, setSmartStatus] = useState('Cole os dados do confronto para a IA estruturar a primeira projecao.');
   const projection = useMemo(() => buildProjection(form), [form]);
@@ -269,6 +271,16 @@ function AdminPage() {
       homeCount >= 3 && awayCount >= 3
         ? `Dados interpretados com historico recente: ${homeCount} jogos do mandante e ${awayCount} do visitante.`
         : 'Dados interpretados. Para maior precisao, cole pelo menos 3 jogos recentes de cada time.',
+    );
+  }
+
+  function publishProjection() {
+    const result = publishAdminProjection(form);
+
+    setPublishStatus(
+      result.ok
+        ? `${result.match.home} x ${result.match.away} publicado na Home e em Jogos.`
+        : `Nao foi possivel publicar: ${result.reason}`,
     );
   }
 
@@ -432,6 +444,11 @@ Jogo 3: xG 1.04 | xGOT 0.86 | Finalizacoes 11 | No alvo 4 | Gols 1`}
                 <b>{row.away}</b>
               </div>
             ))}
+          </div>
+
+          <div className="admin-publish-actions">
+            <button onClick={publishProjection} type="button">Publicar projecao</button>
+            <p>{publishStatus}</p>
           </div>
         </aside>
       </section>
