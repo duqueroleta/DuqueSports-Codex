@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import CompetitionRail, { ALL_COMPETITIONS } from '../competitions/CompetitionRail.jsx';
 import ErrorState from '../error/ErrorState.jsx';
 import HomeMatchDecisionCard from './HomeMatchDecisionCard.jsx';
@@ -25,6 +26,7 @@ function HomeDecisionFeed() {
   ), [activeCompetition, matches, searchTerm]);
 
   const averageConfidence = calculateAverageMatchConfidence(filteredMatches);
+  const strongestMatch = filteredMatches[0] ?? null;
   const hasPreviousMatch = activeIndex > 0;
   const hasNextMatch = activeIndex < filteredMatches.length - 1;
 
@@ -84,6 +86,14 @@ function HomeDecisionFeed() {
       </header>
 
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
+
+      {!isLoading && !error && strongestMatch ? (
+        <Link className="home-strongest-projection" to={`/jogos/${strongestMatch.id}`}>
+          <span>Projecao mais forte</span>
+          <strong>{strongestMatch.home} x {strongestMatch.away}</strong>
+          <small>{strongestMatch.signal} | {formatMatchConfidence(strongestMatch.confidence)} de confianca</small>
+        </Link>
+      ) : null}
 
       <div className="home-decision-carousel-shell">
         {filteredMatches.length > 1 ? (
