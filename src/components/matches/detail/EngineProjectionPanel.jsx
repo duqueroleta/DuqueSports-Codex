@@ -85,8 +85,14 @@ function EngineProjectionPanel({ match, projection }) {
           {projectionRows.map((row) => (
             <div className="future-projection-row" key={row.label}>
               <span>{row.label}</span>
-              <b>{row.home}</b>
-              <b>{row.away}</b>
+              <b>
+                <small>{match?.home ?? 'Mandante'}</small>
+                <em>{row.home}</em>
+              </b>
+              <b>
+                <small>{match?.away ?? 'Visitante'}</small>
+                <em>{row.away}</em>
+              </b>
             </div>
           ))}
         </div>
