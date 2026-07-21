@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { parseSmartInput } from '../../src/services/adminSmartInputParser.js';
 import { buildAdminEngineInput, buildAdminEngineProjection } from '../../src/services/adminProjectionService.js';
 import { createPublishedProjectionRecord } from '../../src/services/publishedProjectionService.js';
 
@@ -45,5 +46,64 @@ assert.equal(publishedRecord.match.status, 'Pre-jogo');
 assert.equal(publishedRecord.match.confidence, projection.confidence);
 assert.ok(publishedRecord.match.metrics.some((metric) => metric.startsWith('xG ')));
 assert.equal(publishedRecord.projection, projection, 'Published record should preserve the engine projection for detail pages');
+
+const flashscoreText = `Confronto Criciuma x Vila Nova
+Brasileirao Serie B - Rodada 16
+04.07.2026 16:00
+Criciuma
+1-0
+Encerrado
+Sport
+1-0
+Encerrado
+Destaques
+1.34
+Gols esperados (xG)
+1.00
+45%
+Posse de bola
+55%
+10
+Total de finalizacoes
+14
+5
+Finalizacoes no alvo
+4
+2
+Escanteios
+4
+11.07.2026 18:30
+Vila Nova
+2-1
+Encerrado
+Goias
+2-1
+Encerrado
+Destaques
+1.82
+Gols esperados (xG)
+0.91
+53%
+Posse de bola
+47%
+13
+Total de finalizacoes
+8
+6
+Finalizacoes no alvo
+3
+5
+Escanteios
+2`;
+const parsed = parseSmartInput(flashscoreText, form);
+
+assert.equal(parsed.homeName, 'Criciuma');
+assert.equal(parsed.awayName, 'Vila Nova');
+assert.equal(parsed.homeRecentMatches.length, 1);
+assert.equal(parsed.awayRecentMatches.length, 1);
+assert.equal(parsed.homeXg, 1.34);
+assert.equal(parsed.awayXg, 1.82);
+assert.equal(parsed.homeShots, 10);
+assert.equal(parsed.awayShotsOnTarget, 6);
 
 console.log('Admin projection service tests passed');

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { parseSmartInput } from '../services/adminSmartInputParser.js';
 import { buildAdminEngineProjection, buildProjectedStats } from '../services/adminProjectionService.js';
 import { publishAdminProjection } from '../services/publishedProjectionService.js';
 import '../styles/page-admin.css';
@@ -31,174 +32,6 @@ const teamFields = [
   { key: 'Corners', label: 'Escanteios' },
   { key: 'Possession', label: 'Posse media' },
 ];
-
-function toNumber(value) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function normalizeText(value) {
-  return String(value)
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
-}
-
-function parseNumericValue(value) {
-  const parsed = Number(String(value).replace(',', '.'));
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function readMetric(block, aliases, fallback, blockedTerms = []) {
-  const lines = String(block).split(/\r?\n|;/);
-  const foundLine = lines.find((line) => {
-    const normalizedLine = normalizeText(line);
-    const hasAlias = aliases.some((alias) => normalizedLine.includes(alias));
-    const hasBlockedTerm = blockedTerms.some((term) => normalizedLine.includes(term));
-
-    return hasAlias && !hasBlockedTerm;
-  });
-
-  const value = foundLine?.match(/(\d+(?:[,.]\d+)?)/)?.[1];
-  return value ? parseNumericValue(value) ?? fallback : fallback;
-}
-
-function readInlineMetric(line, aliases) {
-  const normalizedLine = normalizeText(line).replace(',', '.');
-
-  for (const alias of aliases) {
-    const normalizedAlias = normalizeText(alias);
-    const value = normalizedLine.match(new RegExp(`${normalizedAlias}\\s*[:=]?\\s*(\\d+(?:\\.\\d+)?)`))?.[1];
-
-    if (value) {
-      return parseNumericValue(value);
-    }
-  }
-
-  return null;
-}
-
-function parseRecentMatches(block) {
-  return String(block)
-    .split(/\r?\n/)
-    .map((line) => {
-      const normalizedLine = normalizeText(line);
-      const isMatchLine = normalizedLine.includes('xg')
-        && (normalizedLine.includes('finalizacoes') || normalizedLine.includes('chutes'));
-
-      if (!isMatchLine) {
-        return null;
-      }
-
-      const xg = readInlineMetric(line, ['xg']);
-      const shots = readInlineMetric(line, ['finalizacoes', 'chutes']);
-
-      if (xg === null || shots === null) {
-        return null;
-      }
-
-      const shotsOnTarget = readInlineMetric(line, ['no alvo', 'chutes no alvo']);
-      const xgot = readInlineMetric(line, ['xgot']);
-      const goals = readInlineMetric(line, ['gols', 'goals']);
-
-      return {
-        goals: goals ?? Math.max(0, Math.round(xg - 0.25)),
-        shots,
-        shotsOnTarget: shotsOnTarget ?? Math.max(1, Math.round(shots * 0.38)),
-        xg,
-        xgot: xgot ?? Number((xg * 0.9).toFixed(2)),
-      };
-    })
-    .filter(Boolean)
-    .slice(0, 5);
-}
-
-function averageRecentMatches(matches, field, fallback, decimals = 2) {
-  if (!Array.isArray(matches) || matches.length === 0) {
-    return fallback;
-  }
-
-  const total = matches.reduce((sum, match) => sum + toNumber(match[field]), 0);
-  return Number((total / matches.length).toFixed(decimals));
-}
-
-function readTextValue(text, aliases, fallback) {
-  const lines = String(text).split(/\r?\n|;/);
-  const foundLine = lines.find((line) => {
-    const normalizedLine = normalizeText(line);
-    return aliases.some((alias) => normalizedLine.startsWith(alias));
-  });
-
-  if (!foundLine) {
-    return fallback;
-  }
-
-  const [, value] = foundLine.split(/[:=-]/);
-  return value?.trim() || fallback;
-}
-
-function readDateValue(text, fallback) {
-  const isoDate = String(text).match(/\b\d{4}-\d{2}-\d{2}\b/)?.[0];
-  if (isoDate) {
-    return isoDate;
-  }
-
-  const brDate = String(text).match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
-  return brDate ? `${brDate[3]}-${brDate[2]}-${brDate[1]}` : fallback;
-}
-
-function readTimeValue(text, fallback) {
-  return String(text).match(/\b(?:[01]?\d|2[0-3]):[0-5]\d\b/)?.[0] || fallback;
-}
-
-function getSection(text, startAliases, endAliases) {
-  const lines = String(text).split(/\r?\n/);
-  const startIndex = lines.findIndex((line) => {
-    const normalizedLine = normalizeText(line);
-    return startAliases.some((alias) => normalizedLine.startsWith(alias));
-  });
-
-  if (startIndex === -1) {
-    return text;
-  }
-
-  const endIndex = lines.findIndex((line, index) => {
-    const normalizedLine = normalizeText(line);
-    return index > startIndex && endAliases.some((alias) => normalizedLine.startsWith(alias));
-  });
-
-  return lines.slice(startIndex, endIndex === -1 ? undefined : endIndex).join('\n');
-}
-
-function parseSmartInput(text, currentForm) {
-  const homeBlock = getSection(text, ['mandante', 'casa', 'home'], ['visitante', 'fora', 'away']);
-  const awayBlock = getSection(text, ['visitante', 'fora', 'away'], ['mandante', 'casa', 'home']);
-  const homeRecentMatches = parseRecentMatches(homeBlock);
-  const awayRecentMatches = parseRecentMatches(awayBlock);
-  const odds = readMetric(text, ['odd', 'odds', 'odd media'], currentForm.odds);
-
-  return {
-    ...currentForm,
-    awayCorners: readMetric(awayBlock, ['escanteios', 'corners'], currentForm.awayCorners),
-    awayName: readTextValue(text, ['visitante', 'fora', 'away'], currentForm.awayName),
-    awayPossession: readMetric(awayBlock, ['posse'], currentForm.awayPossession),
-    awayRecentMatches,
-    awayShots: averageRecentMatches(awayRecentMatches, 'shots', readMetric(awayBlock, ['finalizacoes', 'chutes'], currentForm.awayShots, ['alvo']), 0),
-    awayShotsOnTarget: averageRecentMatches(awayRecentMatches, 'shotsOnTarget', readMetric(awayBlock, ['no alvo', 'chutes no alvo'], currentForm.awayShotsOnTarget), 0),
-    awayXg: averageRecentMatches(awayRecentMatches, 'xg', readMetric(awayBlock, ['xg', 'expected goals'], currentForm.awayXg)),
-    competition: readTextValue(text, ['campeonato', 'competicao', 'competição'], currentForm.competition),
-    date: readDateValue(text, currentForm.date),
-    homeCorners: readMetric(homeBlock, ['escanteios', 'corners'], currentForm.homeCorners),
-    homeName: readTextValue(text, ['mandante', 'casa', 'home'], currentForm.homeName),
-    homePossession: readMetric(homeBlock, ['posse'], currentForm.homePossession),
-    homeRecentMatches,
-    homeShots: averageRecentMatches(homeRecentMatches, 'shots', readMetric(homeBlock, ['finalizacoes', 'chutes'], currentForm.homeShots, ['alvo']), 0),
-    homeShotsOnTarget: averageRecentMatches(homeRecentMatches, 'shotsOnTarget', readMetric(homeBlock, ['no alvo', 'chutes no alvo'], currentForm.homeShotsOnTarget), 0),
-    homeXg: averageRecentMatches(homeRecentMatches, 'xg', readMetric(homeBlock, ['xg', 'expected goals'], currentForm.homeXg)),
-    odds,
-    time: readTimeValue(text, currentForm.time),
-  };
-}
 
 function range(value, spread, decimals = 0) {
   const start = Math.max(0, value - spread);
@@ -337,14 +170,15 @@ function AdminPage() {
               <span>Entrada inteligente</span>
               <h2>Colar dados do confronto</h2>
               <p>
-                Cole aqui os dados que hoje voce envia no ChatGPT. O sistema interpreta os principais
-                campos e monta a previa estatistica automaticamente.
+                Cole aqui os dados que hoje voce envia no ChatGPT. O sistema interpreta texto do
+                Flashscore, blocos de ultimos jogos e campos manuais.
               </p>
             </div>
 
             <textarea
               onChange={(event) => setSmartInput(event.target.value)}
-              placeholder={`Campeonato: Copa do Mundo
+              placeholder={`Confronto Colombia x Gana
+Campeonato: Copa do Mundo
 Data: 21/07/2026
 Horario: 18:30
 Odd media: 1.82
