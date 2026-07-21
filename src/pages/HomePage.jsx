@@ -1,30 +1,10 @@
-import LatestAudits from '../components/audits/LatestAudits.jsx';
-import HeroSection from '../components/hero/HeroSection.jsx';
-import StrongMarkets from '../components/markets/StrongMarkets.jsx';
-import MobileHomeSummary from '../components/home/MobileHomeSummary.jsx';
-import MobileMatchCarousel from '../components/matches/MobileMatchCarousel.jsx';
-import TodayMatches from '../components/matches/TodayMatches.jsx';
-import BestOpportunities from '../components/opportunities/BestOpportunities.jsx';
-import DuquePro from '../components/pro/DuquePro.jsx';
-import PreviewSections from '../components/sections/PreviewSections.jsx';
-import GlobalStats from '../components/stats/GlobalStats.jsx';
-import SystemStatus from '../components/system/SystemStatus.jsx';
+import HomeDecisionFeed from '../components/home/HomeDecisionFeed.jsx';
 import '../styles/page-home.css';
 
 function HomePage() {
   return (
     <main className="home-page">
-      <MobileHomeSummary />
-      <MobileMatchCarousel />
-      <BestOpportunities />
-      <HeroSection />
-      <TodayMatches />
-      <StrongMarkets />
-      <LatestAudits />
-      <GlobalStats />
-      <SystemStatus />
-      <DuquePro />
-      <PreviewSections />
+      <HomeDecisionFeed />
     </main>
   );
 }
