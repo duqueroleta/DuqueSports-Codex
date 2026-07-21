@@ -1,5 +1,4 @@
 import '../../../styles/engine-projection-section.css';
-import AiExplanationPanel from './AiExplanationPanel.jsx';
 import EngineProjectionPanel from './EngineProjectionPanel.jsx';
 import {
   ENGINE_PROJECTION_SECTION_STATES,
@@ -49,10 +48,7 @@ function EngineProjectionSection({ error, isLoading, match, onRetry, projection 
   }
 
   return (
-    <>
-      <EngineProjectionPanel match={match} projection={projection} />
-      <AiExplanationPanel explanation={projection?.aiExplanation} />
-    </>
+    <EngineProjectionPanel match={match} projection={projection} />
   );
 }
 

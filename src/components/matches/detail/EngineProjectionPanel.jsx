@@ -1,12 +1,5 @@
 import '../../../styles/engine-projection-panel.css';
 
-const engineSteps = [
-  'Dados',
-  'Simulacao',
-  'Calibracao',
-  'Ranking',
-];
-
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -40,13 +33,13 @@ function buildFutureProjectionRows(projection, match) {
   const awayCards = homeCards + (awayGoals > homeGoals ? 0.1 : 0.4);
 
   return [
-    { label: 'Gols projetados', home: formatRange(homeGoals, 0.45), away: formatRange(awayGoals, 0.45) },
-    { label: 'xG esperado', home: formatRange(homeGoals, 0.28, 2), away: formatRange(awayGoals, 0.28, 2) },
-    { label: 'xGOT provavel', home: formatRange(homeGoals * 0.9, 0.3, 2), away: formatRange(awayGoals * 0.9, 0.3, 2) },
+    { label: 'Gols', home: formatRange(homeGoals, 0.45), away: formatRange(awayGoals, 0.45) },
+    { label: 'xG', home: formatRange(homeGoals, 0.28, 2), away: formatRange(awayGoals, 0.28, 2) },
+    { label: 'xGOT', home: formatRange(homeGoals * 0.9, 0.3, 2), away: formatRange(awayGoals * 0.9, 0.3, 2) },
     { label: 'Posse de bola', home: formatPercentRange(homePossession, 3), away: formatPercentRange(awayPossession, 3) },
     { label: 'Finalizacoes', home: formatRange(homeShots, 2), away: formatRange(awayShots, 2) },
     { label: 'Finalizacoes no alvo', home: formatRange(homeOnTarget, 1), away: formatRange(awayOnTarget, 1) },
-    { label: 'Finalizacoes dentro da area', home: formatRange(homeShots * 0.58, 1), away: formatRange(awayShots * 0.58, 1) },
+    { label: 'Finalizacoes na area', home: formatRange(homeShots * 0.58, 1), away: formatRange(awayShots * 0.58, 1) },
     { label: 'Grandes chances', home: formatRange(homeGoals * 1.35, 1), away: formatRange(awayGoals * 1.35, 1) },
     { label: 'Escanteios', home: formatRange(homeCorners, 1), away: formatRange(awayCorners, 1) },
     { label: 'Cartoes amarelos', home: formatRange(homeCards, 1), away: formatRange(awayCards, 1) },
@@ -56,63 +49,30 @@ function buildFutureProjectionRows(projection, match) {
   ];
 }
 
-function getProjectionMetrics(projection) {
-  return [
-    { helper: 'qualidade dos dados', label: 'Data Quality', tone: 'quality', value: projection.dataQualityScore },
-    { helper: 'gols esperados', label: 'xG mandante', value: projection.expectedHomeGoals },
-    { helper: 'gols esperados', label: 'xG visitante', value: projection.expectedAwayGoals },
-    { helper: 'linha de gols', label: 'Over 2.5', tone: 'probability', value: `${projection.probabilities.over25}%` },
-    { helper: 'resultado final', label: 'Casa vence', tone: 'probability', value: `${projection.probabilities.homeWin}%` },
-    { helper: 'ambas marcam', label: 'BTTS', tone: 'probability', value: `${projection.probabilities.btts}%` },
-    { helper: 'score interno', label: 'Oportunidade', tone: 'ranking', value: projection.opportunityRanking.opportunityScore },
-    { helper: 'classificacao', label: 'Tier', tone: 'ranking', value: projection.opportunityRanking.tier },
-  ];
-}
-
 function EngineProjectionPanel({ match, projection }) {
   if (!projection || projection.blocked) {
     return null;
   }
 
-  const metrics = getProjectionMetrics(projection);
   const projectionRows = buildFutureProjectionRows(projection, match);
-  const rankingExplanation = projection.explanation?.[7]
-    ?? 'Ranking calculado pelo pipeline estatistico do Duque Score.';
 
   return (
-    <section className="engine-projection-panel" id="projecao-engine" aria-label="Duque Score Engine">
-      <div>
-        <span>Engine v1</span>
-        <strong>Ranking de oportunidade ativo</strong>
-        <p>{rankingExplanation}</p>
-      </div>
-
-      <div className="engine-projection-flow" aria-label="Fluxo de processamento do motor">
-        {engineSteps.map((step) => (
-          <span key={step}>{step}</span>
-        ))}
-      </div>
-
-      <div className="engine-projection-metrics">
-        {metrics.map((metric) => (
-          <article className={metric.tone ? `engine-metric-${metric.tone}` : ''} key={metric.label}>
-            <span>{metric.label}</span>
-            <strong>{metric.value}</strong>
-            <small>{metric.helper}</small>
-          </article>
-        ))}
-      </div>
+    <section className="engine-projection-panel" id="projecao-engine" aria-label="Projecao estatistica do jogo">
+      <header className="projection-match-header">
+        <div>
+          <span>{match?.league ?? 'Jogo'}</span>
+          <strong>{match?.home ?? 'Mandante'} x {match?.away ?? 'Visitante'}</strong>
+        </div>
+        <small>Hoje, {match?.time ?? '--:--'}</small>
+      </header>
 
       <div className="future-projection-board" aria-label="Projecao estatistica futura da partida">
         <header>
           <div>
-            <span>Antes do jogo</span>
-            <strong>Projecao Estatistica Futura</strong>
+            <span>Projecao pre-jogo</span>
+            <strong>Estatisticas provaveis da partida</strong>
           </div>
-          <p>
-            Leitura provavel da partida antes da bola rolar. O Duque Score estima o cenario que normalmente
-            so aparece em sites estatisticos depois do apito final.
-          </p>
+          <p>Estimativa de desempenho para cada time antes da bola rolar.</p>
         </header>
 
         <div className="future-projection-table">
