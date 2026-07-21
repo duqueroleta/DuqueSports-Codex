@@ -25,7 +25,6 @@ function HomeDecisionFeed() {
   ), [activeCompetition, matches, searchTerm]);
 
   const averageConfidence = calculateAverageMatchConfidence(filteredMatches);
-  const activeMatch = filteredMatches[activeIndex] ?? filteredMatches[0] ?? null;
   const hasPreviousMatch = activeIndex > 0;
   const hasNextMatch = activeIndex < filteredMatches.length - 1;
 
@@ -96,14 +95,6 @@ function HomeDecisionFeed() {
       </label>
 
       <CompetitionRail activeCompetition={activeCompetition} onSelect={setActiveCompetition} />
-
-      {activeMatch ? (
-        <div className="home-decision-lead" aria-label="Resumo do jogo ativo">
-          <span>Jogo em foco</span>
-          <strong>{activeMatch.home} x {activeMatch.away}</strong>
-          <small>{activeMatch.signal} com Duque Score {formatMatchConfidence(activeMatch.confidence)}</small>
-        </div>
-      ) : null}
 
       <div className="home-decision-carousel-shell">
         {filteredMatches.length > 1 ? (
