@@ -172,11 +172,30 @@
 
 .home-match-card-decision span {
   grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
   color: var(--color-neon);
   font-size: 0.58rem;
   font-weight: 950;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.home-match-card-decision span em {
+  flex: 0 1 auto;
+  max-width: 46%;
+  overflow: hidden;
+  padding: 4px 7px;
+  border: 1px solid rgba(217, 180, 91, 0.22);
+  border-radius: 999px;
+  color: var(--color-gold-soft);
+  background: rgba(217, 180, 91, 0.07);
+  font-size: 0.54rem;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .home-match-card-decision strong {
@@ -337,6 +356,10 @@
 
   .home-match-card-decision span {
     font-size: 0.6rem;
+  }
+
+  .home-match-card-decision span em {
+    font-size: 0.52rem;
   }
 
   .home-match-card-decision strong {

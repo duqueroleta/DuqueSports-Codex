@@ -40,11 +40,34 @@ function buildProjectedCardMetrics(match) {
   ];
 }
 
+function getProjectionType(signal = '') {
+  const normalizedSignal = signal.toLocaleLowerCase('pt-BR');
+
+  if (normalizedSignal.includes('escanteio')) {
+    return 'Escanteios';
+  }
+
+  if (normalizedSignal.includes('cart')) {
+    return 'Cartoes';
+  }
+
+  if (normalizedSignal.includes('over') || normalizedSignal.includes('under') || normalizedSignal.includes('gol')) {
+    return 'Gols';
+  }
+
+  if (normalizedSignal.includes('ambas')) {
+    return 'Ambas marcam';
+  }
+
+  return 'Resultado';
+}
+
 function HomeMatchDecisionCard({ isLead = false, match }) {
   const confidence = normalizeMatchConfidence(match.confidence);
   const confidenceDisplay = formatMatchConfidence(match.confidence);
   const confidenceLabel = getMatchConfidenceLabel(confidence);
   const metrics = normalizeMatchMetrics(buildProjectedCardMetrics(match)).slice(0, 4);
+  const projectionType = getProjectionType(match.signal);
 
   return (
     <article
@@ -82,7 +105,10 @@ function HomeMatchDecisionCard({ isLead = false, match }) {
       </div>
 
       <div className="home-match-card-decision">
-        <span>Projecao futura</span>
+        <span>
+          Projecao futura
+          <em>{projectionType}</em>
+        </span>
         <strong>{match.signal}</strong>
         <small>Cenario mais forte | odd media {formatMatchOdds(match.odds)}</small>
       </div>
