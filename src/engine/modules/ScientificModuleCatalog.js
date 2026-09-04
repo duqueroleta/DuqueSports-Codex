@@ -95,6 +95,12 @@ const IMPLEMENTED_MODULES = Object.freeze([
     status: 'implemented',
     layer: 'forecasting',
   },
+  {
+    id: 'DSM-017',
+    name: 'Forecast Distribution Audit Engine',
+    status: 'implemented',
+    layer: 'audit',
+  },
 ]);
 
 function buildPendingModule(index) {
