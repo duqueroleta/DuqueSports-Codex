@@ -17,6 +17,7 @@ const ENGINE_TEST_SUITES = Object.freeze([
   'engine/model-comparison-service.test.mjs',
   'engine/projection.test.mjs',
   'engine/forecast-intelligence.test.mjs',
+  'engine/forecast-distribution-audit.test.mjs',
   'engine/market-domain.test.mjs',
   'engine/data-source.test.mjs',
   'engine/snapshot.test.mjs',
