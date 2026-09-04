@@ -10,7 +10,7 @@ function clamp(value, min, max) {
 
 function finiteValues(matches, field) {
   return Array.isArray(matches)
-    ? matches.map((match) => Number(match?.[field])).filter(Number.isFinite)
+    ? matches.map((match) => match?.[field]).filter(Number.isFinite)
     : [];
 }
 
@@ -71,6 +71,8 @@ function buildForecastSignals({ expectedGoals, metric, teamAdjusted, matches, co
     Math.max(adjustedMean, metric === 'corners' ? adjustedMean * 1.45 : adjustedMean * 1.2),
   );
   const limitedCoverage = rawValues.length < 3;
+  const sampleTarget = Math.max(matches?.length || 5, 1);
+  const coverage = Number((rawValues.length / sampleTarget).toFixed(2));
   const reliability = limitedCoverage ? 0.55 : clamp(0.68 + (rawValues.length * 0.05), 0.68, 0.95);
 
   return {
@@ -107,7 +109,9 @@ function buildForecastSignals({ expectedGoals, metric, teamAdjusted, matches, co
     evidence: {
       observedValues: rawValues.length,
       requestedMetric: metric,
-      coverage: Number((rawValues.length / Math.max(matches?.length || 5, 1)).toFixed(2)),
+      coverage,
+      qualityScore: Math.round(clamp(coverage * 100, 0, 100)),
+      status: coverage >= 0.6 ? 'supported' : 'limited',
       limitations: limitedCoverage
         ? [`Insufficient direct ${metric} history; uncertainty was widened and fallback signals were down-weighted.`]
         : [],
@@ -150,12 +154,16 @@ function buildTeamMetricForecast({
     iterations: 10000,
     seed: `${matchId}:${side}:${metric}`,
   });
+  const operationalStatus = signals.evidence.coverage >= 0.6
+    ? 'validation-eligible'
+    : 'research-only';
 
   return {
     metric,
     side,
     teamId: team.id,
     teamName: team.name,
+    operationalStatus,
     ensemble,
     distribution: scenario.distribution,
     scenarios: scenario.scenarios,
@@ -209,6 +217,7 @@ function runForecastIntelligenceLayer({
 
   return {
     model: 'forecast-intelligence-layer-v1',
+    matchId: matchInput.id,
     additive: true,
     replacesLegacyProjection: false,
     focusMetrics: [...FOCUS_METRICS],
@@ -217,6 +226,7 @@ function runForecastIntelligenceLayer({
       exactCounts: 'mode-from-distribution-not-rounded-mean',
       uncertainty: 'explicit-distribution-and-intervals',
       missingEvidence: 'down-weight-and-widen-uncertainty',
+      operationalGate: 'low-direct-evidence-remains-research-only',
     },
     markets,
   };
