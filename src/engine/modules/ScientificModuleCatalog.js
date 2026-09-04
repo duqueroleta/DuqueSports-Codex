@@ -65,6 +65,42 @@ const IMPLEMENTED_MODULES = Object.freeze([
     status: 'implemented',
     layer: 'context',
   },
+  {
+    id: 'DSM-012',
+    name: 'Discrete Distribution Engine',
+    status: 'implemented',
+    layer: 'forecasting',
+  },
+  {
+    id: 'DSM-013',
+    name: 'Forecast Ensemble Engine',
+    status: 'implemented',
+    layer: 'forecasting',
+  },
+  {
+    id: 'DSM-014',
+    name: 'Game State Forecast Scenario Engine',
+    status: 'implemented',
+    layer: 'forecasting',
+  },
+  {
+    id: 'DSM-015',
+    name: 'Monte Carlo Forecast Engine',
+    status: 'implemented',
+    layer: 'forecasting',
+  },
+  {
+    id: 'DSM-016',
+    name: 'Forecast Intelligence Layer',
+    status: 'implemented',
+    layer: 'forecasting',
+  },
+  {
+    id: 'DSM-017',
+    name: 'Forecast Distribution Audit Engine',
+    status: 'implemented',
+    layer: 'audit',
+  },
 ]);
 
 function buildPendingModule(index) {

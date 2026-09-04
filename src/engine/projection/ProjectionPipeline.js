@@ -6,6 +6,7 @@ import { runDataQuality } from '../data-quality/DataQualityEngine.js';
 import { runExplanationEngine } from '../explainability/ExplanationEngine.js';
 import { buildFeatureStoreSnapshot } from '../feature-store/FeatureStore.js';
 import { getMatchFeatureValue, getTeamFeatureValue } from '../feature-store/FeatureSelectors.js';
+import { runForecastIntelligenceLayer } from '../forecasting/ForecastIntelligenceLayer.js';
 import { getScientificModuleCatalogSnapshot } from '../modules/ScientificModuleCatalog.js';
 import { runOpponentStrengthEngine } from '../preprocessing/OpponentStrengthEngine.js';
 import { runOpportunityRankingEngine } from '../ranking/OpportunityRankingEngine.js';
@@ -70,6 +71,15 @@ function runProjectionPipeline(matchInput) {
     dataQualityScore: dataQuality.score,
     confidence: rawConfidence,
   });
+  const forecastIntelligence = runForecastIntelligenceLayer({
+    awayAdjusted,
+    competitiveContext,
+    expectedAwayGoals,
+    expectedHomeGoals,
+    homeAdjusted,
+    matchInput,
+    probabilities: calibration.probabilities,
+  });
   const scoreCalibration = runDuqueScoreCalibrationEngine({
     calibration,
     expectedAwayGoals,
@@ -104,6 +114,7 @@ function runProjectionPipeline(matchInput) {
     expectedAwayGoals,
     confidence,
     probabilities: calibration.probabilities,
+    forecastIntelligence,
     aiExplanation,
     opportunityRanking,
     explanation: [
@@ -115,6 +126,7 @@ function runProjectionPipeline(matchInput) {
       `Competitive Context classified the match as ${competitiveContext.family}.`,
       `Poisson model projects ${poisson.correctScore.homeGoals}-${poisson.correctScore.awayGoals} as the modal scoreline.`,
       `Probable Statistics Engine generated ${probableStatistics.rows.length} projected statistic ranges.`,
+      `Forecast Intelligence Layer added distributions, model consensus and Game State scenarios for ${forecastIntelligence.focusMetrics.length} focus metrics without replacing legacy projections.`,
       `Scientific module catalog tracks ${moduleCatalog.implementedCount}/${moduleCatalog.totalModules} implemented modules.`,
       `Duque Score Calibration adjusted raw confidence ${rawConfidence} to ${confidence}.`,
       `Calibration reliability set to ${Math.round(calibration.reliability * 100)}%.`,
@@ -129,6 +141,7 @@ function runProjectionPipeline(matchInput) {
       recency: { home: homeRecency, away: awayRecency },
       opponentStrength: { home: homeAdjusted, away: awayAdjusted },
       statistical: { poisson, probableStatistics },
+      forecasting: forecastIntelligence,
       calibration,
       scoreCalibration,
       explainability: aiExplanation,
